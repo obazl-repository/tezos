@@ -1,0 +1,21 @@
+workspace(name = "tezos")
+
+load("//bzl:deps.bzl", "tezos_deps")
+tezos_deps()
+
+load("@data-encoding//bzl:deps.bzl", "data_encoding_deps")
+data_encoding_deps()
+
+load("@data-encoding//bzl:transitive.bzl", "data_encoding_transitive_deps")
+data_encoding_transitive_deps()
+
+load("@data-encoding//bzl:setup.bzl", "data_encoding_setup")
+data_encoding_setup()
+
+load("@obazl_rules_ocaml//ocaml:bootstrap.bzl", "ocaml_configure")
+load("//bzl:opam.bzl", "opam")
+
+ocaml_configure(
+    build = "4.10",
+    opam = opam,
+)

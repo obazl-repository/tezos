@@ -1,0 +1,14 @@
+load("//bzl:library.bzl", "lib", "mod")
+
+lib(
+    name = "traced-functor-outputs",
+    deps_opam = ["lwt"],
+    modules = dict(
+        hashtbl = mod(),
+        map = mod(),
+        set = mod(),
+    ),
+    deps = [
+        "//src/lib_lwt_result_stdlib/bare/functor_outputs:#Bare_functor_outputs",
+    ],
+)

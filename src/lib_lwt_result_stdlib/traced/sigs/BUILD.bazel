@@ -1,0 +1,26 @@
+load("//bzl:library.bzl", "lib", "mod")
+
+lib(
+    name = "traced-sigs",
+    deps_opam = [],
+    modules = dict(
+        hashtbl = mod(),
+        list = mod(),
+        map = mod(),
+        monad = mod(),
+        option = mod(),
+        result = mod(),
+        seq = mod(),
+        seq_e = mod(),
+        seq_es = mod(),
+        seq_s = mod(),
+        set = mod(),
+        trace = mod(),
+        withExceptions = mod(),
+    ),
+    deps = [
+        "//src/lib_lwt_result_stdlib/bare/functor_outputs:#Bare_functor_outputs",
+        "//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
+    ],
+)

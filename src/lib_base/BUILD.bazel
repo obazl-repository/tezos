@@ -1,0 +1,9 @@
+load("//bzl:library.bzl", "lib", "sig")
+
+lib(
+    name = "lib-base",
+    deps_opam = [],
+    modules = dict(
+        block_header = sig(),
+    ),
+)

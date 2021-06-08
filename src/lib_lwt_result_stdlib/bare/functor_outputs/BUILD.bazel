@@ -1,0 +1,11 @@
+load("//bzl:library.bzl", "lib", "mod")
+
+lib(
+    name = "bare-functor-outputs",
+    deps_opam = ["lwt"],
+    modules = dict(
+        hashtbl = mod(),
+        map = mod(),
+        set = mod(),
+    ),
+)

@@ -68,3 +68,10 @@ __pycache__
 
 # Output of the update_opam_repo script
 opam_repo.patch
+
+/bazel/
+/bazel-bin
+/bazel-out
+/bazel-testlogs
+/bazel-tezos
+/bazel-tezos-build

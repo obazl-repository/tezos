@@ -1,0 +1,77 @@
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load(
+    "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_module",
+    "ocaml_signature",
+    "ppx_executable",
+    "ppx_module",
+)
+load("//bzl:library.bzl", "copy_interface", "lib", "sig")
+
+ppx_module(
+    name = "driver",
+    deps_opam = ["ppxlib"],
+    struct = ":driver.ml",
+)
+
+write_file(
+    name = "gendriver",
+    out = "driver.ml",
+    content = ["let () = Ppxlib.Driver.standalone ()"],
+)
+
+ppx_executable(
+    name = "test_preprocessor",
+    deps_opam = ["ppx_inline_test"],
+    main = ":driver",
+)
+
+copy_interface(
+    name = "bloomer",
+    out = "Bloomer",
+)
+
+ocaml_signature(
+    name = "bloomer_sig",
+    src = "bloomer_mli",
+    deps_opam = [],
+    deps = [],
+)
+
+ocaml_module(
+    name = "bloomer",
+    deps_opam = ["ppx_inline_test"],
+    ppx = ":test_preprocessor",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["nothing"],
+    sig = ":bloomer_sig",
+    struct = "bloomer.ml",
+    deps = [],
+)
+
+lib(
+    name = "stdlib",
+    deps_opam = [
+        "hex",
+        "lwt",
+        "zarith",
+    ],
+    modules = dict(
+        bits = sig(),
+        bounded_heap = sig(),
+        circular_buffer = sig(),
+        compare = sig(),
+        fallbackArray = sig(),
+        lwt_dropbox = sig(),
+        lwt_idle_waiter = sig(),
+        lwt_pipe = sig(),
+        lwt_utils = sig(),
+        memory = sig(),
+        tag = sig(),
+        tzEndian = sig(),
+        tzFilename = sig(),
+        tzList = sig(":bounded_heap"),
+        tzString = sig(),
+        utils = sig(),
+    ),
+)

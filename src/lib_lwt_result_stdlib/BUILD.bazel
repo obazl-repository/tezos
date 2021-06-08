@@ -1,0 +1,12 @@
+load("//bzl:library.bzl", "lib", "sig")
+
+lib(
+    name = "tezos-lwt-result-stdlib",
+    deps_opam = [],
+    modules = dict(
+        lwtreslib = sig(),
+    ),
+    deps = [
+        "//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)

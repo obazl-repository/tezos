@@ -1,0 +1,28 @@
+load("//bzl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "error-monad",
+    deps_opam = [
+        "lwt",
+    ],
+    modules = dict(
+        TzCore = sig(":sig", ":core_maker"),
+        TzLwtreslib = sig(":TzTrace"),
+        TzMonad = sig(":TzCore"),
+        TzTrace = sig(":sig"),
+        core_maker = sig(":sig"),
+        error_monad = sig(":TzCore"),
+        monad_ext_maker = sig(":sig"),
+        monad_maker = sig(":sig"),
+        sig = mod(),
+    ),
+    opts = [
+        "-open",
+        "Data_encoding",
+    ],
+    deps = [
+        "//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
+        "//src/lib_stdlib:lib-stdlib",
+        "@data-encoding//src:#Data_encoding",
+    ],
+)
