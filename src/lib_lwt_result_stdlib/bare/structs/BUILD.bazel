@@ -1,0 +1,23 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "bare-structs",
+    deps_opam = ["lwt"],
+    modules = dict(
+        hashtbl = sig(":seq"),
+        list = sig(":monad"),
+        map = sig(":seq"),
+        monad = sig(),
+        option = sig(":monad", ":result"),
+        result = sig(),
+        seq = sig(":monad"),
+        seq_e = sig(":result", ":monad"),
+        seq_es = sig(":seq_e", ":seq_s"),
+        seq_s = sig(":monad", ":result"),
+        set = sig(":seq"),
+        withExceptions = sig(),
+    ),
+    deps = [
+        "//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)

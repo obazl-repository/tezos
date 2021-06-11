@@ -1,4 +1,4 @@
-load("//bzl:library.bzl", "lib", "mod")
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
 
 lib(
     name = "traced-sigs",
@@ -21,6 +21,7 @@ lib(
     deps = [
         "//src/lib_lwt_result_stdlib/bare/functor_outputs:#Bare_functor_outputs",
         "//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
         "//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
     ],
 )

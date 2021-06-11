@@ -6,51 +6,10 @@ load(
     "ppx_executable",
     "ppx_module",
 )
-load("//bzl:library.bzl", "copy_interface", "lib", "sig")
-
-ppx_module(
-    name = "driver",
-    deps_opam = ["ppxlib"],
-    struct = ":driver.ml",
-)
-
-write_file(
-    name = "gendriver",
-    out = "driver.ml",
-    content = ["let () = Ppxlib.Driver.standalone ()"],
-)
-
-ppx_executable(
-    name = "test_preprocessor",
-    deps_opam = ["ppx_inline_test"],
-    main = ":driver",
-)
-
-copy_interface(
-    name = "bloomer",
-    out = "Bloomer",
-)
-
-ocaml_signature(
-    name = "bloomer_sig",
-    src = "bloomer_mli",
-    deps_opam = [],
-    deps = [],
-)
-
-ocaml_module(
-    name = "bloomer",
-    deps_opam = ["ppx_inline_test"],
-    ppx = ":test_preprocessor",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["nothing"],
-    sig = ":bloomer_sig",
-    struct = "bloomer.ml",
-    deps = [],
-)
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig", "copy_interface", "ppx_exe", "ppx_args")
 
 lib(
-    name = "stdlib",
+    name = "tezos-stdlib",
     deps_opam = [
         "hex",
         "lwt",
@@ -74,4 +33,5 @@ lib(
         tzString = sig(),
         utils = sig(),
     ),
+    ppx = ["ppx_inline_test"],
 )

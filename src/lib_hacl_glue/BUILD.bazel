@@ -1,0 +1,58 @@
+load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
+load(
+    "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_library",
+    "ocaml_module",
+    "ocaml_ns_library",
+    "ocaml_signature",
+    "ppx_library",
+    "ppx_module",
+    "ppx_ns_library",
+)
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-hacl-glue",
+    modules = dict(hacl = sig()),
+    deps_opam = ["hacl", "hacl-star", "hacl-star-raw"],
+)
+
+# copy_file(
+#     name = "hacl_unix_sig_src",
+#     src = ":virtual/hacl.mli",
+#     out = "__obazl/unix/hacl.mli",
+#     visibility = ["//visibility:public"],
+# )
+
+# ocaml_signature(
+#     name = "hacl_unix_sig",
+#     src = ":hacl_unix_sig_src",
+#     visibility = ["//visibility:public"],
+# )
+
+# copy_file(
+#     name = "hacl_unix_src",
+#     src = ":unix/hacl.ml",
+#     out = "__obazl/unix/hacl.ml",
+#     visibility = ["//visibility:public"],
+# )
+
+# ocaml_module(
+#     name = "hacl",
+#     struct = ":hacl_unix_src",
+#     sig = ":hacl_unix_sig",
+#     deps_opam = ["hacl", "hacl-star", "hacl-star-raw"],
+#     visibility = ["//visibility:public"],
+# )
+
+# ocaml_library(
+#     name = "lib-tezos-hacl-glue",
+#     modules = [":hacl"],
+#     visibility = ["//visibility:public"],
+# )
+
+# ocaml_ns_library(
+#     name = "#Tezos_hacl_glue",
+#     submodules = [":hacl"],
+#     visibility = ["//visibility:public"],
+# )

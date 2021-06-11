@@ -1,16 +1,27 @@
 workspace(name = "tezos")
 
+local_repository(
+    name = "obazl_rules_ocaml",
+    path = "../../bazel/rules_ocaml",
+)
+
 load("//bzl:deps.bzl", "tezos_deps")
 tezos_deps()
 
-load("@data-encoding//bzl:deps.bzl", "data_encoding_deps")
-data_encoding_deps()
+load("@resto//bzl:deps.bzl", "resto_deps")
+resto_deps()
 
-load("@data-encoding//bzl:transitive.bzl", "data_encoding_transitive_deps")
-data_encoding_transitive_deps()
+load("@resto//bzl:transitive.bzl", "resto_transitive_deps")
+resto_transitive_deps()
 
-load("@data-encoding//bzl:setup.bzl", "data_encoding_setup")
-data_encoding_setup()
+load("@resto//bzl:transitive2.bzl", "resto_transitive_deps_2")
+resto_transitive_deps_2()
+
+load("@resto//bzl:transitive3.bzl", "resto_transitive_deps_3")
+resto_transitive_deps_3()
+
+load("@resto//bzl:setup.bzl", "resto_setup")
+resto_setup()
 
 load("@obazl_rules_ocaml//ocaml:bootstrap.bzl", "ocaml_configure")
 load("//bzl:opam.bzl", "opam")

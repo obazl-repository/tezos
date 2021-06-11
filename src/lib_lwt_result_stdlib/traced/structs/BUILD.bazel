@@ -1,0 +1,21 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "traced-structs",
+    deps_opam = ["lwt"],
+    modules = dict(
+        hashtbl = sig(":seq"),
+        list = sig(":monad"),
+        map = sig(":seq"),
+        monad = sig(),
+        seq = sig(":monad"),
+        seq_e = sig(":monad"),
+        seq_es = sig(":seq_e", ":seq_s"),
+        seq_s = sig(":monad"),
+        set = sig(":seq"),
+        structs = mod(":hashtbl", ":list", ":map", ":monad", ":seq", ":seq_es", ":seq_s", ":set"),
+    ),
+    deps = [
+        "//src/lib_lwt_result_stdlib/traced/sigs:#Traced_sigs",
+    ],
+)

@@ -1,4 +1,4 @@
-load("//bzl:library.bzl", "lib", "sig")
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
 
 lib(
     name = "tezos-lwt-result-stdlib",
@@ -8,5 +8,7 @@ lib(
     ),
     deps = [
         "//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "//src/lib_lwt_result_stdlib/traced/sigs:#Traced_sigs",
+        "//src/lib_lwt_result_stdlib/traced/structs:#Traced_structs",
     ],
 )

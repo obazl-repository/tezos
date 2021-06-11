@@ -1,17 +1,18 @@
-load("//bzl:library.bzl", "lib", "mod", "sig")
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
 
 lib(
-    name = "error-monad",
+    name = "tezos-error-monad",
     deps_opam = [
         "lwt",
+        "lwt-canceler",
     ],
     modules = dict(
         TzCore = sig(":sig", ":core_maker"),
         TzLwtreslib = sig(":TzTrace"),
-        TzMonad = sig(":TzCore"),
+        TzMonad = sig(":TzCore", ":TzTrace", ":monad_maker", ":monad_ext_maker"),
         TzTrace = sig(":sig"),
         core_maker = sig(":sig"),
-        error_monad = sig(":TzCore"),
+        error_monad = sig(":TzCore", ":TzMonad"),
         monad_ext_maker = sig(":sig"),
         monad_maker = sig(":sig"),
         sig = mod(),
@@ -22,7 +23,8 @@ lib(
     ],
     deps = [
         "//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "//src/lib_stdlib:lib-stdlib",
-        "@data-encoding//src:#Data_encoding",
+        "//src/lib_stdlib:lib-tezos-stdlib",
+        "@data-encoding//src:lib-data-encoding",
     ],
+    ppx_deps = True,
 )
