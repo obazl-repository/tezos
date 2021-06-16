@@ -1,11 +1,4 @@
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
-load(
-    "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_module",
-    "ocaml_signature",
-    "ppx_executable",
-    "ppx_module",
-)
 load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig", "copy_interface", "ppx_exe", "ppx_args")
 
 lib(

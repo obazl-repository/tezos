@@ -16,10 +16,10 @@ lib(
         RPC_service = sig(":RPC_encoding", ":RPC_query", ":RPC_path"),
     ),
     deps = [
-        "@data-encoding//src:lib-data-encoding",
+        "@data-encoding//src:#Data_encoding",
         "//src/lib_error_monad:lib-tezos-error-monad",
-        "@resto//src:#Resto",
-        "@resto//src:#Resto_directory",
+        "@resto//src:lib-resto",
+        "@resto//src:lib-resto-directory",
     ],
     ppx_deps = True,
 )

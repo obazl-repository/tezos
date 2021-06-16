@@ -24,7 +24,7 @@ lib(
     deps = [
         "//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
         "//src/lib_stdlib:lib-tezos-stdlib",
-        "@data-encoding//src:lib-data-encoding",
+        "@data-encoding//src:#Data_encoding",
     ],
     ppx_deps = True,
 )
