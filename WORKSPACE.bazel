@@ -4,11 +4,9 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "obazl_rules_ocaml",
-    strip_prefix = "rules_ocaml-f1d88dc26fe16fefa0aaeb3f0d9f036b1d31f05c",
-    urls = [
-        "https://github.com/tek/rules_ocaml/archive/f1d88dc26fe16fefa0aaeb3f0d9f036b1d31f05c.tar.gz"
-    ],
-    sha256 = "ef837ef285792a9166e1e7476a1cddc9c300e18b3fcff7fe7d4fec4e727b780f",
+    strip_prefix = "rules_ocaml-b7f9595d723aa46834c3d99eb3f810a05806688c",
+    urls = ["https://github.com/tek/rules_ocaml/archive/b7f9595d723aa46834c3d99eb3f810a05806688c.tar.gz"],
+    sha256 = "6446f2fdbfb867ed02319070f2b26ffa122685c688f7975757da3229ff7170a0",
 )
 
 load("//bzl:deps.bzl", "tezos_deps")

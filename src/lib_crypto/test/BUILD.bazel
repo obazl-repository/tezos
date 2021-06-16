@@ -40,7 +40,6 @@ lib(
         test_signature = mod(),
         test_timelock = mod(),
         vectors_p256 = mod(),
-
     ),
     deps = [
         "@data-encoding//src:#Data_encoding",

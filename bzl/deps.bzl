@@ -5,9 +5,9 @@ def tezos_deps():
     maybe(
         http_archive,
         "resto",
-        sha256 = "1fa037fc7428233ade2000be16ba3d85e333781aa9e0591c3777e5169a7d76d6",
-        strip_prefix = "resto-bazel-cb07fc0a51c929cd1589935eb8be241ae779623a",
+        sha256 = "f2a10fa9d92ec416d499d1e685bda70d96297b4e26941623272eed47507c133b",
+        strip_prefix = "resto-bazel-395e81a9727eee4109cd89f372e0268bb1e03524",
         urls = [
-            "https://gitlab.com/tryptoxin/resto/-/archive/bazel/cb07fc0a51c929cd1589935eb8be241ae779623a.tar.gz",
+            "https://gitlab.com/tryptoxin/resto/-/archive/bazel/395e81a9727eee4109cd89f372e0268bb1e03524.tar.gz",
         ],
     )

@@ -1,5 +1,4 @@
-load("@bazel_skylib//rules:write_file.bzl", "write_file")
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig", "copy_interface", "ppx_exe", "ppx_args")
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "sig")
 
 lib(
     name = "tezos-stdlib",
