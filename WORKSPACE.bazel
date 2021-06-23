@@ -2,13 +2,6 @@ workspace(name = "tezos")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-http_archive(
-    name = "obazl_rules_ocaml",
-    strip_prefix = "rules_ocaml-b7f9595d723aa46834c3d99eb3f810a05806688c",
-    urls = ["https://github.com/tek/rules_ocaml/archive/b7f9595d723aa46834c3d99eb3f810a05806688c.tar.gz"],
-    sha256 = "6446f2fdbfb867ed02319070f2b26ffa122685c688f7975757da3229ff7170a0",
-)
-
 load("//bzl:deps.bzl", "tezos_deps")
 tezos_deps()
 
@@ -28,9 +21,10 @@ load("@resto//bzl:setup.bzl", "resto_setup")
 resto_setup()
 
 load("@obazl_rules_ocaml//ocaml:bootstrap.bzl", "ocaml_configure")
-load("//bzl:opam.bzl", "opam")
+load("//bzl:opam.bzl", "opam", "opam_repo")
 
 ocaml_configure(
     build = "4.10",
     opam = opam,
 )
+opam_repo("4.10")

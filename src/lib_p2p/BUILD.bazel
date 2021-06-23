@@ -1,0 +1,56 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-p2p",
+    modules = dict(
+        p2p = sig(
+            ":p2p_point_state",
+            ":p2p_pool",
+            ":p2p_connect_handler",
+            ":p2p_discovery",
+            ":p2p_maintenance",
+            ":p2p_welcome",
+            ":p2p_protocol",
+        ),
+        p2p_acl = sig(),
+        p2p_answerer = mod(),
+        p2p_conn = sig(":p2p_socket", ":p2p_message", ":p2p_point_state", ":p2p_peer_state", ":p2p_answerer"),
+        p2p_connect_handler = sig(":p2p_point_state", ":p2p_pool"),
+        p2p_directory = sig(":p2p"),
+        p2p_discovery = sig(":p2p_pool"),
+        p2p_events = mod(),
+        p2p_fd = sig(":p2p_events"),
+        p2p_io_scheduler = sig(":p2p_fd"),
+        p2p_maintenance = sig(":p2p_discovery", ":p2p_connect_handler"),
+        p2p_message = sig(":p2p_params"),
+        p2p_params = mod(),
+        p2p_peer_state = sig(),
+        p2p_point_state = sig(),
+        p2p_pool = sig(":p2p_point_state", ":p2p_params", ":p2p_trigger", ":p2p_conn", ":p2p_acl"),
+        p2p_protocol = sig(":p2p_pool"),
+        p2p_socket = sig(":p2p_io_scheduler", ":p2p_params"),
+        p2p_trigger = sig(),
+        p2p_welcome = sig(":p2p_connect_handler"),
+    ),
+    deps = [
+        "//src/lib_base:#Tezos_base",
+        "//src/lib_stdlib:#Tezos_stdlib",
+        "//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "//src/lib_p2p_services:#Tezos_p2p_services",
+    ],
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ]
+)

@@ -3,6 +3,7 @@ load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
 lib(
     name = "tezos-error-monad",
     deps_opam = [
+        "data-encoding",
         "lwt",
         "lwt-canceler",
     ],
@@ -20,11 +21,13 @@ lib(
     opts = [
         "-open",
         "Data_encoding",
+        "-open",
+        "Tezos_stdlib",
     ],
     deps = [
         "//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "//src/lib_stdlib:lib-tezos-stdlib",
-        "@data-encoding//src:#Data_encoding",
+        "//src/lib_stdlib:#Tezos_stdlib",
+        # "@data-encoding//src:#Data_encoding",
     ],
     ppx_deps = True,
 )

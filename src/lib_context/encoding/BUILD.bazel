@@ -1,0 +1,21 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-context-encoding",
+    modules = dict(
+        context = mod(),
+    ),
+    deps_opam = [
+        "irmin",
+        "irmin.mem",
+    ],
+    deps = [
+        "//src/lib_base:#Tezos_base",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib",
+    ]
+)

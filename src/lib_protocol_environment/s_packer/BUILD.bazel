@@ -1,0 +1,13 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable")
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-protocol-environment-packer",
+    modules = dict(s_packer = mod()),
+)
+
+ocaml_executable(
+    name = "exe",
+    main = "s_packer",
+    visibility = ["//visibility:public"],
+)

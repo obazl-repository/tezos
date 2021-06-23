@@ -1,0 +1,21 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-version",
+    modules = dict(
+        bin_version = sig(":current_git_info", ":version"),
+        current_git_info = sig(":generated_git_info"),
+        generated_git_info = mod(),
+        node_version = sig(":version"),
+        version = sig(),
+    ),
+    deps = [
+        "//src/lib_base:#Tezos_base",
+    ],
+    deps_opam = [
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ]
+)

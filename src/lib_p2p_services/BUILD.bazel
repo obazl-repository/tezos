@@ -1,0 +1,21 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-p2p-services",
+    modules = dict(
+        connection_metadata = sig(),
+        p2p_errors = sig(),
+        p2p_services = sig(":connection_metadata", ":peer_metadata"),
+        peer_metadata = sig(),
+    ),
+    deps = [
+        "//src/lib_base:#Tezos_base",
+    ],
+    deps_opam = [
+    ],
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+    ]
+)

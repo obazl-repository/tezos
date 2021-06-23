@@ -1,0 +1,35 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-context",
+    modules = dict(
+        context_dump_intf = mod(),
+        context_dump = sig(":context_dump_intf"),
+        context = sig(":context_dump"),
+    ),
+    deps = [
+        "//src/lib_base:#Tezos_base",
+        "//src/lib_shell_services:#Tezos_shell_services",
+        "//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "//src/lib_stdlib:#Tezos_stdlib",
+        "//src/lib_context/sigs:#Tezos_context_sigs",
+        "//src/lib_context/encoding:#Tezos_context_encoding",
+        "//src/lib_context/helpers:#Tezos_context_helpers",
+    ],
+    deps_opam = [
+        "logs.fmt",
+        "digestif.c",
+        "irmin",
+        "irmin-pack",
+    ],
+    opts = [
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+    ]
+)

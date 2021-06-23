@@ -1,0 +1,36 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-base-unix",
+    deps_opam = [
+        "data-encoding",
+        "bls12-381-unix",
+    ],
+    modules = dict(
+        protocol_files = sig(),
+        socket = sig(),
+    ),
+    deps = [
+        # "@data-encoding//src:#Data_encoding",
+        "//src/lib_crypto:#Tezos_crypto",
+        "//src/lib_hacl_glue:#Tezos_hacl_glue",
+        "//src/lib_base:#Tezos_base",
+        "//src/lib_stdlib:#Tezos_stdlib",
+        "//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "//src/lib_error_monad:#Tezos_error_monad",
+    ],
+    opts = [
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Tezos_crypto",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Data_encoding",
+    ]
+)

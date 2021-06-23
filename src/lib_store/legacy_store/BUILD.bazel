@@ -1,0 +1,89 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-legacy-store",
+    modules = dict(
+        legacy_chain = sig(":legacy_state", ":legacy_chain_traversal"),
+        legacy_chain_traversal = sig(":legacy_state"),
+        legacy_snapshots = sig(":legacy_store", ":legacy_state"),
+        legacy_state = sig(":legacy_store"),
+        legacy_store = sig(":store_sigs", ":raw_store", ":store_helpers"),
+        raw_store = sig(":store_sigs"),
+        store_events = mod(),
+        store_helpers = sig(":store_sigs", ":store_events"),
+        store_sigs = mod(),
+    ),
+    deps = [
+        "//src/lib_base:#Tezos_base",
+        "//src/lib_context:#Tezos_context",
+        "//src/lib_shell_services:#Tezos_shell_services",
+        "//src/lib_stdlib:#Tezos_stdlib",
+        "//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "//src/lib_protocol_updater:#Tezos_protocol_updater",
+        "//vendors/ocaml-lmdb/src:#Tezos_lmdb",
+        "//src/lib_validation:#Tezos_validation",
+    ],
+    deps_opam = [
+        "lwt-watcher",
+    ],
+    opts = [
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_validation",
+        "-open",
+        "Tezos_context",
+        "-open",
+        "Tezos_protocol_updater",
+        "-open",
+        "Tezos_lmdb",
+    ]
+)
+
+lib(
+    name = "tezos-legacy-store-builder",
+    modules = dict(
+        legacy_store_builder = mod(),
+    ),
+    deps = [
+        "//src/lib_base:#Tezos_base",
+        "//src/lib_context:#Tezos_context",
+        "//src/lib_shell_services:#Tezos_shell_services",
+        "//src/lib_stdlib:#Tezos_stdlib",
+        "//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "//src/lib_protocol_updater:#Tezos_protocol_updater",
+        "//src/lib_lmdb:#Tezos_lmdb",
+        "//src/lib_validation:#Tezos_validation",
+        ":#Tezos_legacy_store",
+        # tezos-embedded-protocol-alpha
+        # tezos-embedded-protocol-genesis
+    ],
+    opts = [
+        "-open",
+        "Tezos_legacy_store",
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_validation",
+        "-open",
+        "Tezos_context",
+        "-open",
+        "Tezos_protocol_updater",
+    ]
+)

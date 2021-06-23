@@ -1,0 +1,23 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-workers",
+    modules = dict(
+        worker = sig(),
+    ),
+    deps = [
+        "//src/lib_base:#Tezos_base",
+        "//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+    deps_opam = [
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+    ]
+)

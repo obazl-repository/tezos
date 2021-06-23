@@ -6,9 +6,11 @@ lib(
         "hex",
         "lwt",
         "zarith",
+        "ppx_inline_test",
     ],
     modules = dict(
         bits = sig(),
+        bloomer = sig(),
         bounded_heap = sig(),
         circular_buffer = sig(),
         compare = sig(),
@@ -26,4 +28,5 @@ lib(
         utils = sig(),
     ),
     ppx = ["ppx_inline_test"],
+    ppx_tags = ["nothing"],
 )

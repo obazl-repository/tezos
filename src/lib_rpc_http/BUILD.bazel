@@ -1,0 +1,45 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-rpc-http",
+    modules = dict(
+        RPC_client_errors = sig(),
+        media_type = sig(),
+    ),
+    deps = [
+        "//src/lib_base:#Tezos_base",
+    ],
+    deps_opam = [
+        "resto-cohttp",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ]
+)
+
+
+lib(
+    name = "tezos-rpc-http-server",
+    modules = dict(
+        RPC_server = sig(":RPC_logging"),
+        RPC_logging = sig(),
+    ),
+    deps = [
+        "//src/lib_base:#Tezos_base",
+        ":#Tezos_rpc_http",
+    ],
+    deps_opam = [
+        "resto-acl",
+        "resto-cohttp-server",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_rpc",
+        "-open",
+        "Tezos_rpc_http",
+    ]
+)
+

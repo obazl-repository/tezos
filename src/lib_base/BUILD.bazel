@@ -1,9 +1,97 @@
 load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_lex", "ocaml_module")
+
+ocaml_lex(name = "point_parser_src", src = "point_parser.mll")
+
+# If this module is declared in the library, compilation fails with the inability to find the generated
+# Tezos_base__Point_parser.cmi.
+# The commands used for compilation are identical, so it must have to do with the transition build directories.
+ocaml_module(
+    name = "point_parser",
+    struct = ":point_parser_src",
+    deps = [":p2p_peer_id"],
+    opts = [
+        "-w",
+        "-39",
+    ],
+)
 
 lib(
-    name = "lib-base",
-    deps_opam = [],
+    name = "tezos-base",
+    deps_opam = [
+        "data-encoding",
+        "ptime",
+        "ezjsonm",
+        "lwt",
+        "ipaddr",
+    ],
     modules = dict(
-        block_header = sig(),
+        block_header = sig(":time", ":fitness", ":user_activated"),
+        block_locator = sig(":block_header", ":p2p_peer_id", ":p2p_peer"),
+        data_encoding_wrapper = sig(),
+        distributed_db_version = sig(),
+        fitness = sig(":s"),
+        genesis = sig(":time"),
+        mempool = sig(),
+        network_version = sig(":distributed_db_version", ":p2p_version", ":p2p_rejection"),
+        operation = sig(":s"),
+        p2p_addr = sig(),
+        p2p_connection = sig(":p2p_addr", ":p2p_point", ":network_version"),
+        p2p_identity = sig(":p2p_peer"),
+        p2p_peer_id = sig(),
+        p2p_peer = sig(":p2p_peer_id", ":p2p_connection", ":p2p_stat"),
+        p2p_point = sig(":p2p_addr", ":p2p_peer_id", ":time", ":point_parser"),
+        p2p_rejection = sig(),
+        p2p_stat = sig(),
+        p2p_version = sig(),
+        preapply_result = sig(":operation"),
+        protocol = sig(":s"),
+        s = mod(),
+        test_chain_status = sig(":time"),
+        time = sig(),
+        tzPervasives = sig(
+            ":time",
+            ":block_locator",
+            ":genesis",
+            ":operation",
+            ":test_chain_status",
+            ":p2p_point",
+            ":p2p_connection",
+        ),
+        user_activated = sig(),
+        worker_intf = mod(":worker_types"),
+        worker_types = sig(":time"),
     ),
+    deps = [
+        "//src/lib_stdlib:#Tezos_stdlib",
+        "//src/lib_crypto:#Tezos_crypto",
+        # "@data-encoding//src:#Data_encoding",
+        "//src/lib_error_monad:#Tezos_error_monad",
+        "//src/lib_event_logging:#Tezos_event_logging",
+        "//src/lib_rpc:#Tezos_rpc",
+        "//src/lib_clic:#Tezos_clic",
+        "//src/lib_micheline:#Tezos_micheline",
+    ],
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_crypto",
+        "-open",
+        "Data_encoding",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Tezos_error_monad.TzLwtreslib",
+        "-open",
+        "Tezos_rpc",
+        "-open",
+        "Tezos_clic",
+        "-open",
+        "Tezos_micheline",
+        "-open",
+        "Tezos_event_logging",
+        "-w",
+        "-39",
+    ]
 )

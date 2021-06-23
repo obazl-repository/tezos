@@ -1,0 +1,31 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-micheline",
+    deps_opam = [
+        "data-encoding",
+        "uutf",
+        "zarith",
+        "ppx_inline_test",
+    ],
+    modules = dict(
+        micheline = sig(),
+        micheline_parser = sig(":micheline"),
+        micheline_printer = sig(":micheline"),
+    ),
+    deps = [
+        "//src/lib_stdlib:#Tezos_stdlib",
+        "//src/lib_error_monad:#Tezos_error_monad",
+        # "@data-encoding//src:#Data_encoding",
+    ],
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Data_encoding",
+    ],
+    ppx = ["ppx_inline_test"],
+    ppx_tags = ["nothing"],
+)

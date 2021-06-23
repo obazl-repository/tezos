@@ -1,0 +1,36 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-protocol-updater",
+    modules = dict(
+        registered_protocol = sig(),
+        updater_events = mod(),
+        updater = sig(":updater_events"),
+    ),
+    deps = [
+        "//src/lib_base:#Tezos_base",
+        "//src/lib_base/unix:#Tezos_base_unix",
+        "//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "//src/lib_shell_services:#Tezos_shell_services",
+        "//src/lib_context:#Tezos_context",
+        "//src/lib_micheline:#Tezos_micheline",
+        "//src/lib_protocol_environment:lib-tezos-protocol-environment",
+        "//src/lib_protocol_compiler:#Tezos_protocol_registerer",
+    ],
+    deps_opam = [
+        "lwt-exit",
+        "dynlink",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_micheline",
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_context",
+    ]
+)

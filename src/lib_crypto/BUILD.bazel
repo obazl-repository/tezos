@@ -1,33 +1,5 @@
 load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
 
-# lib(
-#     name = "crypto-common",
-#     deps_opam = [
-#         "ringo",
-#         "bls12-381",
-#     ],
-#     modules = dict(
-#         base58 = sig(":hacl"),
-#         blake2B = sig(":s", ":helpers"),
-#         hacl = sig(),
-#         helpers = mod(":base58"),
-#         s = mod(":base58"),
-#     ),
-#     opts = [
-#         "-open",
-#         "Tezos_error_monad",
-#         "-open",
-#         "Tezos_error_monad.TzLwtreslib",
-#         "-open",
-#         "Tezos_rpc",
-#     ],
-#     deps = [
-#         "//src/lib_error_monad:#Tezos_error_monad",
-#         "//src/lib_hacl_glue:#Tezos_hacl_glue",
-#         "//src/lib_rpc:#Tezos_rpc",
-#     ],
-# )
-
 lib(
     name = "tezos-crypto",
     deps_opam = [
@@ -36,6 +8,8 @@ lib(
         "secp256k1-internal",
     ],
     opts = [
+        "-open",
+        "Tezos_stdlib",
         "-open",
         "Tezos_error_monad",
         "-open",
@@ -82,3 +56,85 @@ lib(
         "//src/lib_rpc:#Tezos_rpc",
     ],
 )
+
+# split variant that avoids some duplication but causes include path pollution
+
+# lib(
+#     name = "crypto-common",
+#     ns = False,
+#     deps_opam = [
+#         "ringo",
+#         "bls12-381",
+#     ],
+#     modules = dict(
+#         base58 = sig(":hacl"),
+#         hacl = sig(),
+#         s = mod(":base58"),
+#     ),
+#     opts = [
+#         "-open",
+#         "Tezos_error_monad",
+#         "-open",
+#         "Tezos_error_monad.TzLwtreslib",
+#         "-open",
+#         "Tezos_rpc",
+#     ],
+#     deps = [
+#         "//src/lib_error_monad:#Tezos_error_monad",
+#         "//src/lib_hacl_glue:#Tezos_hacl_glue",
+#         "//src/lib_rpc:#Tezos_rpc",
+#     ],
+# )
+
+# lib(
+#     name = "tezos-crypto",
+#     deps_opam = [
+#         "ringo",
+#         "bls12-381",
+#         "secp256k1-internal",
+#     ],
+#     opts = [
+#         "-open",
+#         "Tezos_error_monad",
+#         "-open",
+#         "Tezos_error_monad.TzLwtreslib",
+#         "-open",
+#         "Data_encoding",
+#         "-open",
+#         "Tezos_rpc",
+#     ],
+#     modules = dict(
+#         blake2B = sig(":helpers"),
+#         helpers = mod(),
+#         BLS12_381 = sig(),
+#         block_hash = sig(":blake2B"),
+#         block_metadata_hash = sig(":blake2B"),
+#         chain_id = sig(":block_hash"),
+#         context_hash = sig(":blake2B"),
+#         crypto_box = sig(":blake2B"),
+#         ed25519 = sig(":blake2B"),
+#         operation_hash = sig(":blake2B"),
+#         operation_list_hash = sig(":operation_hash"),
+#         operation_list_list_hash = sig(":operation_list_hash"),
+#         operation_metadata_hash = sig(":blake2B"),
+#         operation_metadata_list_hash = sig(":operation_metadata_hash"),
+#         operation_metadata_list_list_hash = sig(":operation_metadata_list_hash"),
+#         p256 = sig(":blake2B"),
+#         protocol_hash = sig(":blake2B"),
+#         pvss = sig(":znz", ":blake2B"),
+#         pvss_secp256k1 = sig(":pvss", ":secp256k1_group"),
+#         rand = sig(),
+#         secp256k1 = sig(":blake2B"),
+#         secp256k1_group = sig(":blake2B"),
+#         signature = sig(":ed25519", ":secp256k1", ":p256", ":chain_id"),
+#         timelock = sig(":crypto_box"),
+#         znz = sig(":zplus", ":helpers"),
+#         zplus = sig(),
+#     ),
+#     deps = [
+#         ":lib-crypto-common",
+#         "//src/lib_error_monad:#Tezos_error_monad",
+#         "//src/lib_hacl_glue:#Tezos_hacl_glue",
+#         "//src/lib_rpc:#Tezos_rpc",
+#     ],
+# )

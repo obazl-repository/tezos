@@ -1,0 +1,47 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-shell-services",
+    modules = dict(
+        block_services = sig(),
+        block_validator_errors = sig(),
+        block_validator_worker_state = sig(),
+        chain_services = sig(":history_mode", ":block_services", ":chain_validator_worker_state"),
+        chain_validator_worker_state = sig(),
+        config_services = sig(),
+        history_mode = sig(),
+        injection_services = sig(":chain_services"),
+        monitor_services = sig(":chain_services"),
+        peer_validator_worker_state = sig(),
+        prevalidator_worker_state = sig(),
+        protocol_services = sig(),
+        shell_services = sig(":chain_services"),
+        stat_services = sig(),
+        state_events = mod(),
+        store_errors = mod(":history_mode"),
+        validation_errors = sig(),
+        version_services = sig(),
+        worker_services = sig(
+            ":chain_services",
+            ":prevalidator_worker_state",
+            ":block_validator_worker_state",
+            ":peer_validator_worker_state",
+        ),
+    ),
+    deps = [
+        "//src/lib_base:#Tezos_base",
+        "//src/lib_version:#Tezos_version",
+        "//src/lib_p2p_services:#Tezos_p2p_services",
+    ],
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_p2p_services",
+        "-open",
+        "Tezos_version",
+    ]
+)

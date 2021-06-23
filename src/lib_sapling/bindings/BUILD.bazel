@@ -1,0 +1,54 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod")
+load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable")
+
+lib(
+    name = "rustzcash-bindings",
+    wrapped = False,
+    modules = dict(
+        rustzcash_ctypes_gen = mod(":rustzcash_ctypes_bindings"),
+        rustzcash_ctypes_bindings = mod(),
+    ),
+    deps_opam = [
+        "ctypes",
+        "ctypes.stubs",
+    ],
+)
+
+ocaml_executable(
+    name = "gen",
+    main = ":rustzcash_ctypes_gen",
+)
+
+genrule(
+    name = "gen_stubs",
+    outs = ["rustzcash_ctypes_stubs.ml", "rustzcash_ctypes_c_stubs.c"],
+    srcs = [],
+    tools = [":gen"],
+    cmd = "$(execpath :gen) $(OUTS)",
+)
+
+cc_library(
+    name = "rustzcash_ctypes",
+    srcs = [
+        ":rustzcash_ctypes_c_stubs.c",
+    ],
+    deps = [
+        "@opam_libs//:librustzcash",
+        "@opam_libs//:ctypes",
+        "@opam_libs//:ocaml",
+    ],
+)
+
+lib(
+    "rustzcash-c",
+    wrapped = False,
+    modules = dict(
+        rustzcash_ctypes_stubs = mod(),
+    ),
+    cc_deps = { ":rustzcash_ctypes": "default" },
+    deps_opam = [
+        "ctypes",
+        "ctypes.stubs",
+    ],
+)

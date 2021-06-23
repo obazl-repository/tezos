@@ -1,0 +1,63 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-protocol-environment",
+    wrapped = False,
+    modules = dict(
+        dummy_context = sig(":tezos_protocol_environment"),
+        environment_V0 = sig(":environment_context", ":environment_protocol_T"),
+        environment_V1 = sig(":environment_context", ":environment_protocol_T", ":environment_protocol_T_V1"),
+        environment_V2 = sig(":environment_context", ":environment_protocol_T", ":environment_protocol_T_V2"),
+        environment_V3 = sig(":environment_context", ":environment_protocol_T", ":environment_protocol_T_V3"),
+        environment_context = sig(":environment_context_intf"),
+        environment_context_intf = mod(),
+        environment_protocol_T = mod(":environment_protocol_T_V0", ":environment_context"),
+        environment_protocol_T_V0 = mod(),
+        environment_protocol_T_V1 = mod(":environment_protocol_T_V0"),
+        environment_protocol_T_V2 = mod(":environment_protocol_T_V1"),
+        environment_protocol_T_V3 = mod(":environment_protocol_T_V2"),
+        memory_context = sig(":tezos_protocol_environment"),
+        proxy_context = sig(":tezos_protocol_environment"),
+        tezos_protocol_environment = sig(
+            ":environment_context",
+            ":environment_protocol_T",
+            ":environment_V0",
+            ":environment_V1",
+            ":environment_V2",
+            ":environment_V3",
+            ),
+    ),
+    deps = [
+        "//src/lib_base:#Tezos_base",
+        "//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "//src/lib_shell_services:#Tezos_shell_services",
+        "//src/lib_context:#Tezos_context",
+        "//src/lib_context/memory:#Tezos_context_memory",
+        "//src/lib_context/sigs:#Tezos_context_sigs",
+        "//src/lib_micheline:#Tezos_micheline",
+        "//src/lib_sapling:#Tezos_sapling",
+        "//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
+    ],
+    deps_opam = [
+        "lwt-dllist",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_micheline",
+    ]
+)
+
+lib(
+    name = "tezos-shell-context",
+    modules = dict(
+        shell_context = sig(),
+    ),
+    deps = [
+        "//src/lib_base:#Tezos_base",
+        ":lib-tezos-protocol-environment",
+        "//src/lib_context:#Tezos_context"
+    ]
+)

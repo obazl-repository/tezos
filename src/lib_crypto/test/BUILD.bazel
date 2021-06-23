@@ -6,6 +6,7 @@ lib(
     ns = False,
     deps_opam = [
         "bls12-381-unix",
+        "data-encoding",
         "hacl",
         "zarith",
         "alcotest",
@@ -42,7 +43,7 @@ lib(
         vectors_p256 = mod(),
     ),
     deps = [
-        "@data-encoding//src:#Data_encoding",
+        # "@data-encoding//src:#Data_encoding",
         "//src/lib_error_monad:#Tezos_error_monad",
         "//src/lib_rpc:#Tezos_rpc",
         "//src/lib_stdlib:#Tezos_stdlib",

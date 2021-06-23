@@ -1,0 +1,39 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-sapling",
+    modules = dict(
+        core = mod(":core_sig", ":rustzcash"),
+        core_sig = mod(),
+        forge = sig(":core", ":storage"),
+        rustzcash = sig(":rustzcash_sig"),
+        rustzcash_sig = mod(),
+        storage = mod(":storage_sig"),
+        storage_sig = mod(":core"),
+    ),
+    deps = [
+        "//src/lib_crypto:#Tezos_crypto",
+        "//src/lib_stdlib:#Tezos_stdlib",
+        "//src/lib_error_monad:#Tezos_error_monad",
+        "//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
+        "//src/lib_sapling/bindings:lib-rustzcash-c",
+        "//src/lib_sapling/bindings:lib-rustzcash-bindings",
+    ],
+    deps_opam = [
+        "ctypes",
+        "ctypes.foreign",
+        "ctypes.stubs",
+        "hex",
+        "data-encoding",
+    ],
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_crypto",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Tezos_error_monad.TzLwtreslib",
+    ]
+)

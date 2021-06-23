@@ -2,7 +2,11 @@ load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
 
 lib(
     name = "tezos-rpc",
-    deps_opam = [],
+    deps_opam = [
+        "data-encoding",
+        "resto",
+        "resto-directory",
+    ],
     modules = dict(
         RPC_answer = sig(":RPC_service"),
         RPC_arg = sig(),
@@ -16,10 +20,16 @@ lib(
         RPC_service = sig(":RPC_encoding", ":RPC_query", ":RPC_path"),
     ),
     deps = [
-        "@data-encoding//src:#Data_encoding",
-        "//src/lib_error_monad:lib-tezos-error-monad",
-        "@resto//src:lib-resto",
-        "@resto//src:lib-resto-directory",
+        # "@data-encoding//src:#Data_encoding",
+        "//src/lib_error_monad:#Tezos_error_monad",
+        # "@resto//src:#Resto",
+        # "@resto//src:#Resto_directory",
     ],
     ppx_deps = True,
+    opts = [
+        "-open",
+        "Data_encoding",
+        "-open",
+        "Tezos_error_monad",
+    ],
 )

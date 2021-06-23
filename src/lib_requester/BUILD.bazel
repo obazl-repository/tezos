@@ -1,0 +1,22 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-requester",
+    modules = dict(
+        requester = sig(":requester_event"),
+        requester_event = mod(),
+    ),
+    deps = [
+        "//src/lib_base:#Tezos_base",
+        "//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+    deps_opam = [
+        "lwt-watcher",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+    ]
+)

@@ -1,0 +1,24 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-clic",
+    deps_opam = [
+        "lwt",
+        "re",
+    ],
+    modules = dict(
+        clic = sig(),
+    ),
+    deps = [
+        "//src/lib_stdlib:#Tezos_stdlib",
+        "//src/lib_error_monad:#Tezos_error_monad",
+    ],
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Tezos_error_monad.TzLwtreslib",
+    ]
+)

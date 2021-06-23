@@ -1,0 +1,39 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+lib(
+    name = "tezos-validator",
+    modules = dict(
+        validator = mod(),
+    ),
+    deps = [
+        "//src/lib_base:#Tezos_base",
+        "//src/lib_base/unix:#Tezos_base_unix",
+        "//src/lib_context:#Tezos_context",
+        "//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "//src/lib_protocol_environment:lib-tezos-protocol-environment",
+        "//src/lib_protocol_updater:#Tezos_protocol_updater",
+        "//src/lib_shell:#Tezos_shell",
+        "//src/lib_protocol_environment:#Tezos_shell_context",
+        "//src/lib_validation:#Tezos_validation",
+    ],
+    deps_opam = [
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_context",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_shell",
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_validation",
+        "-open",
+        "Tezos_protocol_updater",
+        "-open",
+        "Tezos_shell_context",
+    ],
+)

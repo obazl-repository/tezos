@@ -1,0 +1,29 @@
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load("//src/lib_protocol_environment/s_packer:pack.bzl", "pack")
+load("//src/lib_protocol_environment/structs:srcs.bzl", "v0_srcs", "v1_srcs", "v2_srcs", "v3_srcs")
+
+pack("structs", 0, v0_srcs)
+pack("structs", 1, v1_srcs)
+pack("structs", 2, v2_srcs)
+pack("structs", 3, v3_srcs)
+
+lib(
+    name = "tezos-protocol-environment-structs",
+    modules = dict(
+        v0 = mod(),
+        v1 = mod(),
+        v2 = mod(),
+        v3 = mod(),
+    ),
+    deps = [
+        # "@data-encoding//src:#Data_encoding",
+        "//src/lib_stdlib:#Tezos_stdlib",
+        "//src/lib_crypto:#Tezos_crypto",
+        "//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
+    ],
+    deps_opam = [
+        "data-encoding",
+    ],
+    opts = [
+    ]
+)
