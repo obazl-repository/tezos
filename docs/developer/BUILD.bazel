@@ -1,0 +1,12 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
+
+ocaml_module(
+    name = "LICENSE",
+    struct = ":LICENSE.ml",
+)
+
+ocaml_ns_library(
+    name = "#A",
+    submodules = [":LICENSE"],
+    visibility = ["//visibility:public"],
+)

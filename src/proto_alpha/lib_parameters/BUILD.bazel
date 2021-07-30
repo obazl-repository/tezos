@@ -1,0 +1,51 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
+
+ocaml_module(
+    name = "\\",
+    deps_opam = [
+        "tezos-base.unix",
+        "tezos-protocol-alpha",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_protocol_alpha",
+        "-linkall",
+    ],
+    struct = ":\\.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
+    ],
+)
+
+ocaml_module(
+    name = "gen",
+    deps_opam = [
+        "tezos-base.unix",
+        "tezos-protocol-alpha",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_protocol_alpha",
+        "-linkall",
+    ],
+    struct = ":gen.ml",
+    deps = [
+        ":default_parameters",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
+    ],
+)
+
+ocaml_ns_library(
+    name = "#Tezos_protocol_alpha_parameters",
+    submodules = [
+        ":\\",
+        ":gen",
+    ],
+    visibility = ["//visibility:public"],
+)

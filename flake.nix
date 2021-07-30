@@ -46,6 +46,7 @@
       "magic-mime"
       "ppx_deriving"
       "ppx_sexp_conv"
+      { name = "ppx_inline_test"; version = "v0.14.1"; }
       "ppxlib"
       "re"
       { name = "resto-cohttp"; version = "0.6"; }

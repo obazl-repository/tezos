@@ -1,14 +1,37 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
 
-lib(
-    name = "traced-functor-outputs",
+ocaml_module(
+    name = "hashtbl",
     deps_opam = ["lwt"],
-    modules = dict(
-        hashtbl = mod(),
-        map = mod(),
-        set = mod(),
-    ),
-    deps = [
-        "//src/lib_lwt_result_stdlib/bare/functor_outputs:#Bare_functor_outputs",
+    opts = [],
+    struct = ":hashtbl.ml",
+    deps = ["@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs"],
+)
+
+ocaml_module(
+    name = "map",
+    deps_opam = ["lwt"],
+    opts = [],
+    struct = ":map.ml",
+    deps = ["@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs"],
+)
+
+ocaml_module(
+    name = "set",
+    deps_opam = ["lwt"],
+    opts = [],
+    struct = ":set.ml",
+    deps = ["@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs"],
+)
+
+# okapi:auto
+# okapi:public_name tezos-lwt-result-stdlib.traced.functor-outputs
+ocaml_ns_library(
+    name = "#Traced_functor_outputs",
+    submodules = [
+        ":hashtbl",
+        ":map",
+        ":set",
     ],
+    visibility = ["//visibility:public"],
 )

@@ -1,0 +1,24 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
+
+ocaml_module(
+    name = "latex_pp",
+    opts = [],
+    struct = ":latex_pp.ml",
+    deps = [":syntax"],
+)
+
+ocaml_module(
+    name = "syntax",
+    opts = [],
+    struct = ":syntax.ml",
+)
+
+# okapi:auto
+ocaml_ns_library(
+    name = "#Latex",
+    submodules = [
+        ":latex_pp",
+        ":syntax",
+    ],
+    visibility = ["//visibility:public"],
+)

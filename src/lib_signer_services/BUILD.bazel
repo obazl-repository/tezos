@@ -1,0 +1,89 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+
+ocaml_signature(
+    name = "signer_messages_sig",
+    src = ":signer_messages.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_rpc",
+        "-open",
+        "Tezos_client_base",
+        "-linkall",
+    ],
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+    ],
+)
+
+ocaml_module(
+    name = "signer_messages",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_rpc",
+        "-open",
+        "Tezos_client_base",
+        "-linkall",
+    ],
+    sig = ":signer_messages_sig",
+    struct = ":signer_messages.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+    ],
+)
+
+ocaml_signature(
+    name = "signer_services_sig",
+    src = ":signer_services.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_rpc",
+        "-open",
+        "Tezos_client_base",
+        "-linkall",
+    ],
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+    ],
+)
+
+ocaml_module(
+    name = "signer_services",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_rpc",
+        "-open",
+        "Tezos_client_base",
+        "-linkall",
+    ],
+    sig = ":signer_services_sig",
+    struct = ":signer_services.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+    ],
+)
+
+# okapi:auto
+ocaml_ns_library(
+    name = "#Tezos_signer_services",
+    submodules = [
+        ":signer_messages",
+        ":signer_services",
+    ],
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+
+if [[ -z $1 ]]
+then
+  rm -f src/**/BUILD.bazel
+  ./nix-bazel run //:gazelle
+  ./nix-bazel build src/bin_node
+else
+  rm -f "src/$1/BUILD.bazel"
+  ./nix-bazel run //:gazelle -- "src/$1"
+  lib_name=${2-#Tezos_${1/lib_/}}
+  ./nix-bazel build "//src/$1:$lib_name"
+fi

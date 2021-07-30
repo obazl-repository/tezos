@@ -1,23 +1,45 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
-lib(
-    name = "tezos-workers",
-    modules = dict(
-        worker = sig(),
-    ),
-    deps = [
-        "//src/lib_base:#Tezos_base",
-        "//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-    deps_opam = [
-        "ringo",
-    ],
+ocaml_signature(
+    name = "worker_sig",
+    src = ":worker.mli",
+    deps_opam = ["ringo"],
     opts = [
-        "-open",
-        "Tezos_base",
         "-open",
         "Tezos_base__TzPervasives",
         "-open",
+        "Tezos_base",
+        "-open",
         "Tezos_stdlib_unix",
-    ]
+    ],
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "worker",
+    deps_opam = ["ringo"],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_stdlib_unix",
+    ],
+    sig = ":worker_sig",
+    struct = ":worker.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+# okapi:auto
+ocaml_ns_library(
+    name = "#Tezos_workers",
+    submodules = [":worker"],
+    visibility = ["//visibility:public"],
 )

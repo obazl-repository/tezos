@@ -1,6 +1,15 @@
 workspace(name = "tezos")
 
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+local_repository(
+    name = "okapi",
+    path = "../../bazel/okapi",
+)
+
+load("@okapi//bzl:deps.bzl", "okapi_deps")
+okapi_deps()
+
+load("@okapi//bzl:setup.bzl", "okapi_setup_nix")
+okapi_setup_nix()
 
 load("//bzl:deps.bzl", "tezos_deps")
 tezos_deps()

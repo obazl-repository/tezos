@@ -1,21 +1,113 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
-lib(
-    name = "tezos-p2p-services",
-    modules = dict(
-        connection_metadata = sig(),
-        p2p_errors = sig(),
-        p2p_services = sig(":connection_metadata", ":peer_metadata"),
-        peer_metadata = sig(),
-    ),
-    deps = [
-        "//src/lib_base:#Tezos_base",
-    ],
-    deps_opam = [
-    ],
+ocaml_signature(
+    name = "peer_metadata_sig",
+    src = ":peer_metadata.mli",
     opts = [
         "-linkall",
         "-open",
         "Tezos_base__TzPervasives",
-    ]
+    ],
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+ocaml_module(
+    name = "peer_metadata",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":peer_metadata_sig",
+    struct = ":peer_metadata.ml",
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+ocaml_signature(
+    name = "connection_metadata_sig",
+    src = ":connection_metadata.mli",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+ocaml_module(
+    name = "connection_metadata",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":connection_metadata_sig",
+    struct = ":connection_metadata.ml",
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+ocaml_signature(
+    name = "p2p_errors_sig",
+    src = ":p2p_errors.mli",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+ocaml_module(
+    name = "p2p_errors",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":p2p_errors_sig",
+    struct = ":p2p_errors.ml",
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+ocaml_signature(
+    name = "p2p_services_sig",
+    src = ":p2p_services.mli",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = [
+        ":connection_metadata",
+        ":peer_metadata",
+        "@tezos//src/lib_base:#Tezos_base",
+    ],
+)
+
+ocaml_module(
+    name = "p2p_services",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":p2p_services_sig",
+    struct = ":p2p_services.ml",
+    deps = [
+        ":connection_metadata",
+        ":peer_metadata",
+        "@tezos//src/lib_base:#Tezos_base",
+    ],
+)
+
+# okapi:auto
+ocaml_ns_library(
+    name = "#Tezos_p2p_services",
+    submodules = [
+        ":connection_metadata",
+        ":p2p_errors",
+        ":p2p_services",
+        ":peer_metadata",
+    ],
+    visibility = ["//visibility:public"],
 )

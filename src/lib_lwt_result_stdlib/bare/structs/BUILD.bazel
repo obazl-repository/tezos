@@ -1,23 +1,292 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
-lib(
-    name = "bare-structs",
+ocaml_signature(
+    name = "seq_es_sig",
+    src = ":seq_es.mli",
     deps_opam = ["lwt"],
-    modules = dict(
-        hashtbl = sig(":seq"),
-        list = sig(":monad"),
-        map = sig(":seq"),
-        monad = sig(),
-        option = sig(":monad", ":result"),
-        result = sig(),
-        seq = sig(":monad"),
-        seq_e = sig(":result", ":monad"),
-        seq_es = sig(":seq_e", ":seq_s"),
-        seq_s = sig(":monad", ":result"),
-        set = sig(":seq"),
-        withExceptions = sig(),
-    ),
+    opts = [],
     deps = [
-        "//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        ":monad",
+        ":seq_e",
+        ":seq_s",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
     ],
+)
+
+ocaml_module(
+    name = "seq_es",
+    deps_opam = ["lwt"],
+    opts = [],
+    sig = ":seq_es_sig",
+    struct = ":seq_es.ml",
+    deps = [
+        ":monad",
+        ":seq_e",
+        ":seq_s",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)
+
+ocaml_signature(
+    name = "seq_s_sig",
+    src = ":seq_s.mli",
+    deps_opam = ["lwt"],
+    opts = [],
+    deps = [
+        ":monad",
+        ":result",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)
+
+ocaml_module(
+    name = "seq_s",
+    deps_opam = ["lwt"],
+    opts = [],
+    sig = ":seq_s_sig",
+    struct = ":seq_s.ml",
+    deps = [
+        ":monad",
+        ":result",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)
+
+ocaml_signature(
+    name = "withExceptions_sig",
+    src = ":withExceptions.mli",
+    deps_opam = ["lwt"],
+    opts = [],
+    deps = ["@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs"],
+)
+
+ocaml_module(
+    name = "withExceptions",
+    deps_opam = ["lwt"],
+    opts = [],
+    sig = ":withExceptions_sig",
+    struct = ":withExceptions.ml",
+    deps = ["@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs"],
+)
+
+ocaml_signature(
+    name = "list_sig",
+    src = ":list.mli",
+    deps_opam = ["lwt"],
+    opts = [],
+    deps = [
+        ":monad",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)
+
+ocaml_module(
+    name = "list",
+    deps_opam = ["lwt"],
+    opts = [],
+    sig = ":list_sig",
+    struct = ":list.ml",
+    deps = [
+        ":monad",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)
+
+ocaml_signature(
+    name = "seq_e_sig",
+    src = ":seq_e.mli",
+    deps_opam = ["lwt"],
+    opts = [],
+    deps = [
+        ":monad",
+        ":result",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)
+
+ocaml_module(
+    name = "seq_e",
+    deps_opam = ["lwt"],
+    opts = [],
+    sig = ":seq_e_sig",
+    struct = ":seq_e.ml",
+    deps = [
+        ":monad",
+        ":result",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)
+
+ocaml_signature(
+    name = "map_sig",
+    src = ":map.mli",
+    deps_opam = ["lwt"],
+    opts = [],
+    deps = [
+        ":seq",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)
+
+ocaml_module(
+    name = "map",
+    deps_opam = ["lwt"],
+    opts = [],
+    sig = ":map_sig",
+    struct = ":map.ml",
+    deps = [
+        ":seq",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)
+
+ocaml_signature(
+    name = "monad_sig",
+    src = ":monad.mli",
+    deps_opam = ["lwt"],
+    opts = [],
+    deps = ["@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs"],
+)
+
+ocaml_module(
+    name = "monad",
+    deps_opam = ["lwt"],
+    opts = [],
+    sig = ":monad_sig",
+    struct = ":monad.ml",
+    deps = ["@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs"],
+)
+
+ocaml_signature(
+    name = "seq_sig",
+    src = ":seq.mli",
+    deps_opam = ["lwt"],
+    opts = [],
+    deps = [
+        ":monad",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)
+
+ocaml_module(
+    name = "seq",
+    deps_opam = ["lwt"],
+    opts = [],
+    sig = ":seq_sig",
+    struct = ":seq.ml",
+    deps = [
+        ":monad",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)
+
+ocaml_signature(
+    name = "hashtbl_sig",
+    src = ":hashtbl.mli",
+    deps_opam = ["lwt"],
+    opts = [],
+    deps = [
+        ":monad",
+        ":seq",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)
+
+ocaml_module(
+    name = "hashtbl",
+    deps_opam = ["lwt"],
+    opts = [],
+    sig = ":hashtbl_sig",
+    struct = ":hashtbl.ml",
+    deps = [
+        ":monad",
+        ":seq",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)
+
+ocaml_signature(
+    name = "option_sig",
+    src = ":option.mli",
+    deps_opam = ["lwt"],
+    opts = [],
+    deps = [
+        ":monad",
+        ":result",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)
+
+ocaml_module(
+    name = "option",
+    deps_opam = ["lwt"],
+    opts = [],
+    sig = ":option_sig",
+    struct = ":option.ml",
+    deps = [
+        ":monad",
+        ":result",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)
+
+ocaml_signature(
+    name = "result_sig",
+    src = ":result.mli",
+    deps_opam = ["lwt"],
+    opts = [],
+    deps = ["@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs"],
+)
+
+ocaml_module(
+    name = "result",
+    deps_opam = ["lwt"],
+    opts = [],
+    sig = ":result_sig",
+    struct = ":result.ml",
+    deps = ["@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs"],
+)
+
+ocaml_signature(
+    name = "set_sig",
+    src = ":set.mli",
+    deps_opam = ["lwt"],
+    opts = [],
+    deps = [
+        ":seq",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)
+
+ocaml_module(
+    name = "set",
+    deps_opam = ["lwt"],
+    opts = [],
+    sig = ":set_sig",
+    struct = ":set.ml",
+    deps = [
+        ":seq",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
+)
+
+# okapi:auto
+# okapi:public_name tezos-lwt-result-stdlib.bare.structs
+ocaml_ns_library(
+    name = "#Bare_structs",
+    submodules = [
+        ":hashtbl",
+        ":list",
+        ":map",
+        ":monad",
+        ":option",
+        ":result",
+        ":seq",
+        ":seq_e",
+        ":seq_es",
+        ":seq_s",
+        ":set",
+        ":withExceptions",
+    ],
+    visibility = ["//visibility:public"],
 )

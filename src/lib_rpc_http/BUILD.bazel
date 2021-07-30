@@ -1,37 +1,158 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
-lib(
-    name = "tezos-rpc-http",
-    modules = dict(
-        RPC_client_errors = sig(),
-        media_type = sig(),
-    ),
-    deps = [
-        "//src/lib_base:#Tezos_base",
+ocaml_signature(
+    name = "RPC_client_errors_sig",
+    src = ":RPC_client_errors.mli",
+    deps_opam = ["resto-cohttp"],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
     ],
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+ocaml_module(
+    name = "RPC_client_errors",
+    deps_opam = ["resto-cohttp"],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":RPC_client_errors_sig",
+    struct = ":RPC_client_errors.ml",
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+ocaml_signature(
+    name = "media_type_sig",
+    src = ":media_type.mli",
+    deps_opam = ["resto-cohttp"],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+ocaml_module(
+    name = "media_type",
+    deps_opam = ["resto-cohttp"],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":media_type_sig",
+    struct = ":media_type.ml",
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+ocaml_ns_library(
+    name = "#Tezos_rpc_http",
+    submodules = [
+        ":RPC_client_errors",
+        ":media_type",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+ocaml_signature(
+    name = "RPC_client_sig",
+    src = ":RPC_client.mli",
+    deps_opam = ["resto-cohttp-client"],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_rpc_http",
+    ],
+    deps = [
+        ":RPC_client_errors",
+        ":media_type",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_rpc_http:#Tezos_rpc_http",
+    ],
+)
+
+ocaml_module(
+    name = "RPC_client",
+    deps_opam = ["resto-cohttp-client"],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_rpc_http",
+    ],
+    sig = ":RPC_client_sig",
+    struct = ":RPC_client.ml",
+    deps = [
+        ":RPC_client_errors",
+        ":media_type",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_rpc_http:#Tezos_rpc_http",
+    ],
+)
+
+ocaml_ns_library(
+    name = "#Tezos_rpc_http_client",
+    submodules = [":RPC_client"],
+    visibility = ["//visibility:public"],
+)
+
+ocaml_signature(
+    name = "RPC_client_unix_sig",
+    src = ":RPC_client_unix.mli",
     deps_opam = [
-        "resto-cohttp",
+        "cohttp-lwt-unix",
+        "resto-cohttp-client",
     ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
-    ]
+        "-open",
+        "Tezos_rpc_http_client",
+    ],
+    deps = [
+        ":RPC_client",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
 )
 
-
-lib(
-    name = "tezos-rpc-http-server",
-    modules = dict(
-        RPC_server = sig(":RPC_logging"),
-        RPC_logging = sig(),
-    ),
-    deps = [
-        "//src/lib_base:#Tezos_base",
-        ":#Tezos_rpc_http",
-    ],
+ocaml_module(
+    name = "RPC_client_unix",
     deps_opam = [
-        "resto-acl",
+        "cohttp-lwt-unix",
+        "resto-cohttp-client",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_rpc_http_client",
+    ],
+    sig = ":RPC_client_unix_sig",
+    struct = ":RPC_client_unix.ml",
+    deps = [
+        ":RPC_client",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_ns_library(
+    name = "#Tezos_rpc_http_client_unix",
+    submodules = [":RPC_client_unix"],
+    visibility = ["//visibility:public"],
+)
+
+ocaml_signature(
+    name = "RPC_server_sig",
+    src = ":RPC_server.mli",
+    deps_opam = [
         "resto-cohttp-server",
+        "resto-acl",
     ],
     opts = [
         "-open",
@@ -40,6 +161,85 @@ lib(
         "Tezos_rpc",
         "-open",
         "Tezos_rpc_http",
-    ]
+    ],
+    deps = [
+        ":RPC_logging",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_rpc_http:#Tezos_rpc_http",
+    ],
 )
 
+ocaml_module(
+    name = "RPC_server",
+    deps_opam = [
+        "resto-cohttp-server",
+        "resto-acl",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_rpc",
+        "-open",
+        "Tezos_rpc_http",
+    ],
+    sig = ":RPC_server_sig",
+    struct = ":RPC_server.ml",
+    deps = [
+        ":RPC_logging",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_rpc_http:#Tezos_rpc_http",
+    ],
+)
+
+ocaml_signature(
+    name = "RPC_logging_sig",
+    src = ":RPC_logging.mli",
+    deps_opam = [
+        "resto-cohttp-server",
+        "resto-acl",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_rpc",
+        "-open",
+        "Tezos_rpc_http",
+    ],
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_rpc_http:#Tezos_rpc_http",
+    ],
+)
+
+ocaml_module(
+    name = "RPC_logging",
+    deps_opam = [
+        "resto-cohttp-server",
+        "resto-acl",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_rpc",
+        "-open",
+        "Tezos_rpc_http",
+    ],
+    sig = ":RPC_logging_sig",
+    struct = ":RPC_logging.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_rpc_http:#Tezos_rpc_http",
+    ],
+)
+
+ocaml_ns_library(
+    name = "#Tezos_rpc_http_server",
+    submodules = [
+        ":RPC_logging",
+        ":RPC_server",
+    ],
+    visibility = ["//visibility:public"],
+)

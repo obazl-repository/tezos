@@ -1,14 +1,36 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
-lib(
-    name = "tezos-lwt-result-stdlib",
-    deps_opam = [],
-    modules = dict(
-        lwtreslib = sig(),
-    ),
+ocaml_signature(
+    name = "lwtreslib_sig",
+    src = ":lwtreslib.mli",
+    deps_opam = ["lwt"],
+    opts = [],
     deps = [
-        "//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
-        "//src/lib_lwt_result_stdlib/traced/sigs:#Traced_sigs",
-        "//src/lib_lwt_result_stdlib/traced/structs:#Traced_structs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/sigs:#Traced_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/structs:#Traced_structs",
     ],
+)
+
+ocaml_module(
+    name = "lwtreslib",
+    deps_opam = ["lwt"],
+    opts = [],
+    sig = ":lwtreslib_sig",
+    struct = ":lwtreslib.ml",
+    deps = [
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/sigs:#Traced_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/structs:#Traced_structs",
+    ],
+)
+
+# okapi:auto
+# okapi:public_name tezos-lwt-result-stdlib
+ocaml_ns_library(
+    name = "#Tezos_lwt_result_stdlib",
+    submodules = [":lwtreslib"],
+    visibility = ["//visibility:public"],
 )

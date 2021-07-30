@@ -1,32 +1,528 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "sig")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_signature", "ppx_executable", "ppx_module", "ppx_ns_library")
 
-lib(
-    name = "tezos-stdlib",
+ppx_executable(
+    name = "ppx_tezos_stdlib",
+    deps_opam = ["ppx_inline_test"],
+    main = "@obazl_rules_ocaml//dsl:ppx_driver",
+)
+
+ocaml_signature(
+    name = "tag_sig",
+    src = ":tag.mli",
     deps_opam = [
         "hex",
-        "lwt",
         "zarith",
+        "lwt",
         "ppx_inline_test",
     ],
-    modules = dict(
-        bits = sig(),
-        bloomer = sig(),
-        bounded_heap = sig(),
-        circular_buffer = sig(),
-        compare = sig(),
-        fallbackArray = sig(),
-        lwt_dropbox = sig(),
-        lwt_idle_waiter = sig(),
-        lwt_pipe = sig(),
-        lwt_utils = sig(),
-        memory = sig(),
-        tag = sig(),
-        tzEndian = sig(),
-        tzFilename = sig(),
-        tzList = sig(":bounded_heap"),
-        tzString = sig(),
-        utils = sig(),
-    ),
-    ppx = ["ppx_inline_test"],
-    ppx_tags = ["nothing"],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+)
+
+ppx_module(
+    name = "tag",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":tag_sig",
+    struct = ":tag.ml",
+)
+
+ocaml_signature(
+    name = "tzFilename_sig",
+    src = ":tzFilename.mli",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+)
+
+ppx_module(
+    name = "tzFilename",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":tzFilename_sig",
+    struct = ":tzFilename.ml",
+)
+
+ocaml_signature(
+    name = "bits_sig",
+    src = ":bits.mli",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+)
+
+ppx_module(
+    name = "bits",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":bits_sig",
+    struct = ":bits.ml",
+)
+
+ocaml_signature(
+    name = "bounded_heap_sig",
+    src = ":bounded_heap.mli",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+)
+
+ppx_module(
+    name = "bounded_heap",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":bounded_heap_sig",
+    struct = ":bounded_heap.ml",
+)
+
+ocaml_signature(
+    name = "tzList_sig",
+    src = ":tzList.mli",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    deps = [":bounded_heap"],
+)
+
+ppx_module(
+    name = "tzList",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":tzList_sig",
+    struct = ":tzList.ml",
+    deps = [":bounded_heap"],
+)
+
+ocaml_signature(
+    name = "lwt_idle_waiter_sig",
+    src = ":lwt_idle_waiter.mli",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+)
+
+ppx_module(
+    name = "lwt_idle_waiter",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":lwt_idle_waiter_sig",
+    struct = ":lwt_idle_waiter.ml",
+)
+
+ocaml_signature(
+    name = "fallbackArray_sig",
+    src = ":fallbackArray.mli",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+)
+
+ppx_module(
+    name = "fallbackArray",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":fallbackArray_sig",
+    struct = ":fallbackArray.ml",
+)
+
+ocaml_signature(
+    name = "lwt_utils_sig",
+    src = ":lwt_utils.mli",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+)
+
+ppx_module(
+    name = "lwt_utils",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":lwt_utils_sig",
+    struct = ":lwt_utils.ml",
+)
+
+ocaml_signature(
+    name = "circular_buffer_sig",
+    src = ":circular_buffer.mli",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+)
+
+ppx_module(
+    name = "circular_buffer",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":circular_buffer_sig",
+    struct = ":circular_buffer.ml",
+)
+
+ocaml_signature(
+    name = "compare_sig",
+    src = ":compare.mli",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+)
+
+ppx_module(
+    name = "compare",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":compare_sig",
+    struct = ":compare.ml",
+)
+
+ocaml_signature(
+    name = "lwt_dropbox_sig",
+    src = ":lwt_dropbox.mli",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+)
+
+ppx_module(
+    name = "lwt_dropbox",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":lwt_dropbox_sig",
+    struct = ":lwt_dropbox.ml",
+)
+
+ocaml_signature(
+    name = "tzEndian_sig",
+    src = ":tzEndian.mli",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+)
+
+ppx_module(
+    name = "tzEndian",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":tzEndian_sig",
+    struct = ":tzEndian.ml",
+)
+
+ocaml_signature(
+    name = "bloomer_sig",
+    src = ":bloomer.mli",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+)
+
+ppx_module(
+    name = "bloomer",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":bloomer_sig",
+    struct = ":bloomer.ml",
+)
+
+ocaml_signature(
+    name = "tzString_sig",
+    src = ":tzString.mli",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+)
+
+ppx_module(
+    name = "tzString",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":tzString_sig",
+    struct = ":tzString.ml",
+)
+
+ocaml_signature(
+    name = "memory_sig",
+    src = ":memory.mli",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+)
+
+ppx_module(
+    name = "memory",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":memory_sig",
+    struct = ":memory.ml",
+)
+
+ocaml_signature(
+    name = "utils_sig",
+    src = ":utils.mli",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+)
+
+ppx_module(
+    name = "utils",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":utils_sig",
+    struct = ":utils.ml",
+)
+
+ocaml_signature(
+    name = "lwt_pipe_sig",
+    src = ":lwt_pipe.mli",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+)
+
+ppx_module(
+    name = "lwt_pipe",
+    deps_opam = [
+        "hex",
+        "zarith",
+        "lwt",
+        "ppx_inline_test",
+    ],
+    ppx = ":ppx_tezos_stdlib",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":lwt_pipe_sig",
+    struct = ":lwt_pipe.ml",
+)
+
+# okapi:auto
+# okapi:public_name tezos-stdlib
+ppx_ns_library(
+    name = "#Tezos_stdlib",
+    submodules = [
+        ":bits",
+        ":bloomer",
+        ":bounded_heap",
+        ":circular_buffer",
+        ":compare",
+        ":fallbackArray",
+        ":lwt_dropbox",
+        ":lwt_idle_waiter",
+        ":lwt_pipe",
+        ":lwt_utils",
+        ":memory",
+        ":tag",
+        ":tzEndian",
+        ":tzFilename",
+        ":tzList",
+        ":tzString",
+        ":utils",
+    ],
+    visibility = ["//visibility:public"],
 )

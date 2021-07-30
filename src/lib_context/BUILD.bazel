@@ -1,26 +1,15 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
-lib(
-    name = "tezos-context",
-    modules = dict(
-        context_dump_intf = mod(),
-        context_dump = sig(":context_dump_intf"),
-        context = sig(":context_dump"),
-    ),
-    deps = [
-        "//src/lib_base:#Tezos_base",
-        "//src/lib_shell_services:#Tezos_shell_services",
-        "//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-        "//src/lib_stdlib:#Tezos_stdlib",
-        "//src/lib_context/sigs:#Tezos_context_sigs",
-        "//src/lib_context/encoding:#Tezos_context_encoding",
-        "//src/lib_context/helpers:#Tezos_context_helpers",
-    ],
+ocaml_module(
+    name = "context_dump_intf",
     deps_opam = [
         "logs.fmt",
         "digestif.c",
         "irmin",
         "irmin-pack",
+        "tezos-context.sigs",
+        "tezos-context.helpers",
+        "tezos-context.encoding",
     ],
     opts = [
         "-open",
@@ -31,5 +20,144 @@ lib(
         "Tezos_stdlib_unix",
         "-open",
         "Tezos_stdlib",
-    ]
+    ],
+    struct = ":context_dump_intf.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_signature(
+    name = "context_sig",
+    src = ":context.mli",
+    deps_opam = [
+        "logs.fmt",
+        "digestif.c",
+        "irmin",
+        "irmin-pack",
+        "tezos-context.sigs",
+        "tezos-context.helpers",
+        "tezos-context.encoding",
+    ],
+    opts = [
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+    ],
+    deps = [
+        ":context_dump",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "context",
+    deps_opam = [
+        "logs.fmt",
+        "digestif.c",
+        "irmin",
+        "irmin-pack",
+        "tezos-context.sigs",
+        "tezos-context.helpers",
+        "tezos-context.encoding",
+    ],
+    opts = [
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+    ],
+    sig = ":context_sig",
+    struct = ":context.ml",
+    deps = [
+        ":context_dump",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_signature(
+    name = "context_dump_sig",
+    src = ":context_dump.mli",
+    deps_opam = [
+        "logs.fmt",
+        "digestif.c",
+        "irmin",
+        "irmin-pack",
+        "tezos-context.sigs",
+        "tezos-context.helpers",
+        "tezos-context.encoding",
+    ],
+    opts = [
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+    ],
+    deps = [
+        ":context_dump_intf",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "context_dump",
+    deps_opam = [
+        "logs.fmt",
+        "digestif.c",
+        "irmin",
+        "irmin-pack",
+        "tezos-context.sigs",
+        "tezos-context.helpers",
+        "tezos-context.encoding",
+    ],
+    opts = [
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+    ],
+    sig = ":context_dump_sig",
+    struct = ":context_dump.ml",
+    deps = [
+        ":context_dump_intf",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+# okapi:auto
+ocaml_ns_library(
+    name = "#Tezos_context",
+    submodules = [
+        ":context",
+        ":context_dump",
+        ":context_dump_intf",
+    ],
+    visibility = ["//visibility:public"],
 )

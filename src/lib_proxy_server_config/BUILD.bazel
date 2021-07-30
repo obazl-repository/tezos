@@ -1,0 +1,35 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+
+ocaml_signature(
+    name = "proxy_server_config_sig",
+    src = ":proxy_server_config.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "proxy_server_config",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":proxy_server_config_sig",
+    struct = ":proxy_server_config.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+# okapi:auto
+ocaml_ns_library(
+    name = "#Tezos_proxy_server_config",
+    submodules = [":proxy_server_config"],
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,15 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_ns_library", "ocaml_signature")
+
+# okapi:virt tezos-hacl-glue
+ocaml_signature(
+    name = "hacl",
+    src = ":hacl.mli",
+)
+
+# okapi:auto
+# okapi:public_name tezos-hacl-glue
+ocaml_ns_library(
+    name = "#Tezos_hacl_glue",
+    submodules = [":hacl"],
+    visibility = ["//visibility:public"],
+)

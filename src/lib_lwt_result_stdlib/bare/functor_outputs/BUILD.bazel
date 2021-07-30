@@ -1,11 +1,34 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
 
-lib(
-    name = "bare-functor-outputs",
+ocaml_module(
+    name = "map",
     deps_opam = ["lwt"],
-    modules = dict(
-        hashtbl = mod(),
-        map = mod(),
-        set = mod(),
-    ),
+    opts = [],
+    struct = ":map.ml",
+)
+
+ocaml_module(
+    name = "set",
+    deps_opam = ["lwt"],
+    opts = [],
+    struct = ":set.ml",
+)
+
+ocaml_module(
+    name = "hashtbl",
+    deps_opam = ["lwt"],
+    opts = [],
+    struct = ":hashtbl.ml",
+)
+
+# okapi:auto
+# okapi:public_name tezos-lwt-result-stdlib.bare.functor-outputs
+ocaml_ns_library(
+    name = "#Bare_functor_outputs",
+    submodules = [
+        ":hashtbl",
+        ":map",
+        ":set",
+    ],
+    visibility = ["//visibility:public"],
 )

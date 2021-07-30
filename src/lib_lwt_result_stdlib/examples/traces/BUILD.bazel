@@ -1,0 +1,31 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+
+ocaml_signature(
+    name = "traces_sig",
+    src = ":traces.mli",
+    deps_opam = [
+        "lwt",
+        "tezos-lwt-result-stdlib.bare.structs",
+        "tezos-lwt-result-stdlib.traced.sigs",
+    ],
+    opts = [],
+)
+
+ocaml_module(
+    name = "traces",
+    deps_opam = [
+        "lwt",
+        "tezos-lwt-result-stdlib.bare.structs",
+        "tezos-lwt-result-stdlib.traced.sigs",
+    ],
+    opts = [],
+    sig = ":traces_sig",
+    struct = ":traces.ml",
+)
+
+# okapi:auto
+ocaml_ns_library(
+    name = "#Traces",
+    submodules = [":traces"],
+    visibility = ["//visibility:public"],
+)

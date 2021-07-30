@@ -1,67 +1,28 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig", "copy_interface", "sig_module")
-load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
 
-lib(
-    name = "tezos-protocol-registerer",
-    modules = dict(
-        registerer = sig(),
-    ),
-    deps = [
-        "//src/lib_base:#Tezos_base",
-        "//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
-    ],
+ocaml_module(
+    name = "Registerer",
+    deps_opam = ["tezos-protocol-environment-sigs"],
     opts = [
         "-opaque",
         "-open",
         "Tezos_base__TzPervasives",
     ],
+    struct = ":Registerer.ml",
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
 )
 
-copy_file(
-    name = "embed_registerer_cmi",
-    src = ":registerer__sig",
-    out = "embed/tezos_protocol_registerer__Registerer.cmi",
+ocaml_ns_library(
+    name = "#Tezos_protocol_registerer",
+    submodules = [":Registerer"],
+    visibility = ["//visibility:public"],
 )
 
-genrule(
-    name = "embedded_cmis_ml",
-    srcs = [
-        "@opam_libs//:ocaml/camlinternalFormatBasics.cmi",
-        ":embed_registerer_cmi",
-        "//src/lib_protocol_environment/sigs:embed_v0_cmi",
-        "//src/lib_protocol_environment/sigs:embed_v1_cmi",
-        "//src/lib_protocol_environment/sigs:embed_v2_cmi",
-        "//src/lib_protocol_environment/sigs:embed_v3_cmi",
-    ],
-    outs = ["__obazl/embedded_cmis.ml"],
-    cmd = "echo $(SRCS) && $(execpath @opam_libs//:bin/ocp-ocamlres) -format ocaml -o $(@) $(SRCS)",
-    tools = ["@opam_libs//:bin/ocp-ocamlres"],
-)
-
-copy_interface(
-    name = "embedded_cmis",
-    out = "embedded_cmis",
-)
-
-sig_module(
-    "embedded_cmis",
-    dict(mod_src = ":embedded_cmis_ml", sig_src = ":embedded_cmis_mli"),
-)
-
-lib(
-    name = "tezos-protocol-compiler",
-    modules = dict(
-        compiler = mod(":embedded_cmis", ":packer"),
-        packer = sig(),
-    ),
-    deps = [
-        "//src/lib_base:#Tezos_base",
-        "//src/lib_base/unix:#Tezos_base_unix",
-        "//src/lib_version:#Tezos_version",
-        "//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
-        "//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
+ocaml_module(
+    name = "Embedded_cmis",
     deps_opam = [
+        "tezos-base.unix",
+        "tezos-protocol-environment-sigs",
         "compiler-libs.common",
         "lwt.unix",
         "ocplib-ocamlres",
@@ -75,44 +36,116 @@ lib(
         "-open",
         "Tezos_stdlib_unix",
     ],
+    struct = ":Embedded_cmis.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
 )
 
-lib(
-    name = "tezos-protocol-compiler-byte",
-    modules = dict(
-        byte = sig(),
-    ),
-    deps = [
-        "//src/lib_base:#Tezos_base",
-        ":#Tezos_protocol_compiler",
-    ],
+ocaml_module(
+    name = "Packer",
     deps_opam = [
-        "compiler-libs.bytecomp",
+        "tezos-base.unix",
+        "tezos-protocol-environment-sigs",
+        "compiler-libs.common",
+        "lwt.unix",
+        "ocplib-ocamlres",
+        "unix",
     ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base_unix",
+        "-open",
+        "Tezos_stdlib_unix",
+    ],
+    struct = ":Packer.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
+)
+
+ocaml_module(
+    name = "Compiler",
+    deps_opam = [
+        "tezos-base.unix",
+        "tezos-protocol-environment-sigs",
+        "compiler-libs.common",
+        "lwt.unix",
+        "ocplib-ocamlres",
+        "unix",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base_unix",
+        "-open",
+        "Tezos_stdlib_unix",
+    ],
+    struct = ":Compiler.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
+)
+
+ocaml_ns_library(
+    name = "#Tezos_protocol_compiler",
+    submodules = [
+        ":Compiler",
+        ":Embedded_cmis",
+        ":Packer",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+ocaml_module(
+    name = "Byte",
+    deps_opam = ["compiler-libs.bytecomp"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
         "-open",
         "Tezos_protocol_compiler",
     ],
+    struct = ":Byte.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_compiler",
+    ],
 )
 
-lib(
-    name = "tezos-protocol-compiler-native",
-    modules = dict(
-        native = sig(),
-    ),
-    deps = [
-        "//src/lib_base:#Tezos_base",
-        ":#Tezos_protocol_compiler",
-    ],
-    deps_opam = [
-        "compiler-libs.bytecomp",
-    ],
+ocaml_ns_library(
+    name = "#Tezos_protocol_compiler_byte",
+    submodules = [":Byte"],
+    visibility = ["//visibility:public"],
+)
+
+ocaml_module(
+    name = "Native",
+    deps_opam = ["compiler-libs.optcomp"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
         "-open",
         "Tezos_protocol_compiler",
     ],
+    struct = ":Native.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_compiler",
+    ],
+)
+
+ocaml_ns_library(
+    name = "#Tezos_protocol_compiler_native",
+    submodules = [":Native"],
+    visibility = ["//visibility:public"],
 )

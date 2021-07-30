@@ -1,23 +1,8 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
 
-lib(
-    name = "tezos-validator",
-    modules = dict(
-        validator = mod(),
-    ),
-    deps = [
-        "//src/lib_base:#Tezos_base",
-        "//src/lib_base/unix:#Tezos_base_unix",
-        "//src/lib_context:#Tezos_context",
-        "//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-        "//src/lib_protocol_environment:lib-tezos-protocol-environment",
-        "//src/lib_protocol_updater:#Tezos_protocol_updater",
-        "//src/lib_shell:#Tezos_shell",
-        "//src/lib_protocol_environment:#Tezos_shell_context",
-        "//src/lib_validation:#Tezos_validation",
-    ],
-    deps_opam = [
-    ],
+ocaml_module(
+    name = "Validator",
+    deps_opam = ["tezos-base.unix"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -36,4 +21,21 @@ lib(
         "-open",
         "Tezos_shell_context",
     ],
+    struct = ":Validator.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
+        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_protocol_updater:#Tezos_protocol_updater",
+        "@tezos//src/lib_shell:#Tezos_shell",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_validation:#Tezos_validation",
+    ],
+)
+
+ocaml_ns_library(
+    name = "#Tezos_validator",
+    submodules = [":Validator"],
+    visibility = ["//visibility:public"],
 )

@@ -1,21 +1,41 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
-lib(
-    name = "tezos-context-encoding",
-    modules = dict(
-        context = mod(),
-    ),
+ocaml_signature(
+    name = "context_sig",
+    src = ":context.mli",
     deps_opam = [
         "irmin",
         "irmin.mem",
-    ],
-    deps = [
-        "//src/lib_base:#Tezos_base",
     ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
         "-open",
         "Tezos_stdlib",
-    ]
+    ],
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+ocaml_module(
+    name = "context",
+    deps_opam = [
+        "irmin",
+        "irmin.mem",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib",
+    ],
+    sig = ":context_sig",
+    struct = ":context.ml",
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+# okapi:auto
+ocaml_ns_library(
+    name = "#Tezos_context_encoding",
+    submodules = [":context"],
+    visibility = ["//visibility:public"],
 )

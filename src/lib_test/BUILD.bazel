@@ -1,0 +1,33 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+
+ocaml_signature(
+    name = "qcheck_helpers_sig",
+    src = ":qcheck_helpers.mli",
+    deps_opam = [
+        "uri",
+        "qcheck-alcotest",
+        "alcotest",
+        "alcotest-lwt",
+    ],
+    opts = ["-linkall"],
+)
+
+ocaml_module(
+    name = "qcheck_helpers",
+    deps_opam = [
+        "uri",
+        "qcheck-alcotest",
+        "alcotest",
+        "alcotest-lwt",
+    ],
+    opts = ["-linkall"],
+    sig = ":qcheck_helpers_sig",
+    struct = ":qcheck_helpers.ml",
+)
+
+# okapi:auto
+ocaml_ns_library(
+    name = "#Lib_test",
+    submodules = [":qcheck_helpers"],
+    visibility = ["//visibility:public"],
+)

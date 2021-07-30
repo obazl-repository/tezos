@@ -1,27 +1,179 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
 
-lib(
-    name = "traced-sigs",
-    deps_opam = [],
-    modules = dict(
-        hashtbl = mod(),
-        list = mod(),
-        map = mod(),
-        monad = mod(),
-        option = mod(),
-        result = mod(),
-        seq = mod(),
-        seq_e = mod(),
-        seq_es = mod(),
-        seq_s = mod(),
-        set = mod(),
-        trace = mod(),
-        withExceptions = mod(),
-    ),
+ocaml_module(
+    name = "option",
+    deps_opam = ["lwt"],
+    opts = [],
+    struct = ":option.ml",
     deps = [
-        "//src/lib_lwt_result_stdlib/bare/functor_outputs:#Bare_functor_outputs",
-        "//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
-        "//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
-        "//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
     ],
+)
+
+ocaml_module(
+    name = "seq_e",
+    deps_opam = ["lwt"],
+    opts = [],
+    struct = ":seq_e.ml",
+    deps = [
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
+    ],
+)
+
+ocaml_module(
+    name = "seq_es",
+    deps_opam = ["lwt"],
+    opts = [],
+    struct = ":seq_es.ml",
+    deps = [
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
+    ],
+)
+
+ocaml_module(
+    name = "monad",
+    deps_opam = ["lwt"],
+    opts = [],
+    struct = ":monad.ml",
+    deps = [
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
+    ],
+)
+
+ocaml_module(
+    name = "trace",
+    deps_opam = ["lwt"],
+    opts = [],
+    struct = ":trace.ml",
+    deps = [
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
+    ],
+)
+
+ocaml_module(
+    name = "map",
+    deps_opam = ["lwt"],
+    opts = [],
+    struct = ":map.ml",
+    deps = [
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
+    ],
+)
+
+ocaml_module(
+    name = "list",
+    deps_opam = ["lwt"],
+    opts = [],
+    struct = ":list.ml",
+    deps = [
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
+    ],
+)
+
+ocaml_module(
+    name = "result",
+    deps_opam = ["lwt"],
+    opts = [],
+    struct = ":result.ml",
+    deps = [
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
+    ],
+)
+
+ocaml_module(
+    name = "seq_s",
+    deps_opam = ["lwt"],
+    opts = [],
+    struct = ":seq_s.ml",
+    deps = [
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
+    ],
+)
+
+ocaml_module(
+    name = "withExceptions",
+    deps_opam = ["lwt"],
+    opts = [],
+    struct = ":withExceptions.ml",
+    deps = [
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
+    ],
+)
+
+ocaml_module(
+    name = "seq",
+    deps_opam = ["lwt"],
+    opts = [],
+    struct = ":seq.ml",
+    deps = [
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
+    ],
+)
+
+ocaml_module(
+    name = "set",
+    deps_opam = ["lwt"],
+    opts = [],
+    struct = ":set.ml",
+    deps = [
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
+    ],
+)
+
+ocaml_module(
+    name = "hashtbl",
+    deps_opam = ["lwt"],
+    opts = [],
+    struct = ":hashtbl.ml",
+    deps = [
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
+    ],
+)
+
+# okapi:auto
+# okapi:public_name tezos-lwt-result-stdlib.traced.sigs
+ocaml_ns_library(
+    name = "#Traced_sigs",
+    submodules = [
+        ":hashtbl",
+        ":list",
+        ":map",
+        ":monad",
+        ":option",
+        ":result",
+        ":seq",
+        ":seq_e",
+        ":seq_es",
+        ":seq_s",
+        ":set",
+        ":trace",
+        ":withExceptions",
+    ],
+    visibility = ["//visibility:public"],
 )

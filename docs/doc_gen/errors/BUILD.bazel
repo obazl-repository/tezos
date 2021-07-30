@@ -1,0 +1,7 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_ns_library")
+
+ocaml_ns_library(
+    name = "#A",
+    submodules = [],
+    visibility = ["//visibility:public"],
+)

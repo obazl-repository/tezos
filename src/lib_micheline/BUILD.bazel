@@ -1,22 +1,20 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_signature", "ppx_executable", "ppx_module", "ppx_ns_library")
 
-lib(
-    name = "tezos-micheline",
+ppx_executable(
+    name = "ppx_tezos_micheline",
+    deps_opam = ["ppx_inline_test"],
+    main = "@obazl_rules_ocaml//dsl:ppx_driver",
+)
+
+ocaml_signature(
+    name = "micheline_printer_sig",
+    src = ":micheline_printer.mli",
     deps_opam = [
-        "data-encoding",
         "uutf",
         "zarith",
+        "data-encoding",
         "ppx_inline_test",
-    ],
-    modules = dict(
-        micheline = sig(),
-        micheline_parser = sig(":micheline"),
-        micheline_printer = sig(":micheline"),
-    ),
-    deps = [
-        "//src/lib_stdlib:#Tezos_stdlib",
-        "//src/lib_error_monad:#Tezos_error_monad",
-        # "@data-encoding//src:#Data_encoding",
+        "ppx_inline_test",
     ],
     opts = [
         "-open",
@@ -26,6 +24,165 @@ lib(
         "-open",
         "Data_encoding",
     ],
-    ppx = ["ppx_inline_test"],
-    ppx_tags = ["nothing"],
+    ppx = ":ppx_tezos_micheline",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    deps = [
+        ":micheline",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ppx_module(
+    name = "micheline_printer",
+    deps_opam = [
+        "uutf",
+        "zarith",
+        "data-encoding",
+        "ppx_inline_test",
+        "ppx_inline_test",
+    ],
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Data_encoding",
+    ],
+    ppx = ":ppx_tezos_micheline",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":micheline_printer_sig",
+    struct = ":micheline_printer.ml",
+    deps = [
+        ":micheline",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_signature(
+    name = "micheline_sig",
+    src = ":micheline.mli",
+    deps_opam = [
+        "uutf",
+        "zarith",
+        "data-encoding",
+        "ppx_inline_test",
+        "ppx_inline_test",
+    ],
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Data_encoding",
+    ],
+    ppx = ":ppx_tezos_micheline",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    deps = [
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ppx_module(
+    name = "micheline",
+    deps_opam = [
+        "uutf",
+        "zarith",
+        "data-encoding",
+        "ppx_inline_test",
+        "ppx_inline_test",
+    ],
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Data_encoding",
+    ],
+    ppx = ":ppx_tezos_micheline",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":micheline_sig",
+    struct = ":micheline.ml",
+    deps = [
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_signature(
+    name = "micheline_parser_sig",
+    src = ":micheline_parser.mli",
+    deps_opam = [
+        "uutf",
+        "zarith",
+        "data-encoding",
+        "ppx_inline_test",
+        "ppx_inline_test",
+    ],
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Data_encoding",
+    ],
+    ppx = ":ppx_tezos_micheline",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    deps = [
+        ":micheline",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ppx_module(
+    name = "micheline_parser",
+    deps_opam = [
+        "uutf",
+        "zarith",
+        "data-encoding",
+        "ppx_inline_test",
+        "ppx_inline_test",
+    ],
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Data_encoding",
+    ],
+    ppx = ":ppx_tezos_micheline",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":micheline_parser_sig",
+    struct = ":micheline_parser.ml",
+    deps = [
+        ":micheline",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+# okapi:auto
+# okapi:public_name tezos-micheline
+ppx_ns_library(
+    name = "#Tezos_micheline",
+    submodules = [
+        ":micheline",
+        ":micheline_parser",
+        ":micheline_printer",
+    ],
+    visibility = ["//visibility:public"],
 )

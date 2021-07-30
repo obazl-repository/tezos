@@ -1,0 +1,21 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+
+ocaml_signature(
+    name = "main_sig",
+    src = ":main.mli",
+    opts = [],
+)
+
+ocaml_module(
+    name = "main",
+    opts = [],
+    sig = ":main_sig",
+    struct = ":main.ml",
+)
+
+# okapi:auto
+ocaml_ns_library(
+    name = "#Proto_test_injection",
+    submodules = [":main"],
+    visibility = ["//visibility:public"],
+)

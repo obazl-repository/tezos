@@ -1,17 +1,11 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
-lib(
-    name = "tezos-clic",
+ocaml_signature(
+    name = "clic_sig",
+    src = ":clic.mli",
     deps_opam = [
         "lwt",
         "re",
-    ],
-    modules = dict(
-        clic = sig(),
-    ),
-    deps = [
-        "//src/lib_stdlib:#Tezos_stdlib",
-        "//src/lib_error_monad:#Tezos_error_monad",
     ],
     opts = [
         "-open",
@@ -20,5 +14,41 @@ lib(
         "Tezos_error_monad",
         "-open",
         "Tezos_error_monad.TzLwtreslib",
-    ]
+    ],
+    deps = [
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_module(
+    name = "clic",
+    deps_opam = [
+        "lwt",
+        "re",
+    ],
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Tezos_error_monad.TzLwtreslib",
+    ],
+    sig = ":clic_sig",
+    struct = ":clic.ml",
+    deps = [
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+# okapi:auto
+# okapi:public_name tezos-clic
+ocaml_ns_library(
+    name = "#Tezos_clic",
+    submodules = [":clic"],
+    visibility = ["//visibility:public"],
 )

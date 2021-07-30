@@ -1,19 +1,8 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
-lib(
-    name = "tezos-validation",
-    modules = dict(
-        block_validation = sig(),
-        external_validation = sig(),
-    ),
-    deps = [
-        "//src/lib_base:#Tezos_base",
-        "//src/lib_context:#Tezos_context",
-        "//src/lib_protocol_environment:#Tezos_shell_context",
-        "//src/lib_shell_services:#Tezos_shell_services",
-        "//src/lib_protocol_updater:#Tezos_protocol_updater",
-        "//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
+ocaml_signature(
+    name = "block_validation_sig",
+    src = ":block_validation.mli",
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -27,5 +16,114 @@ lib(
         "Tezos_shell_services",
         "-open",
         "Tezos_protocol_updater",
-    ]
+        "-open",
+        "Tezos_stdlib_unix",
+    ],
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_protocol_updater:#Tezos_protocol_updater",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "block_validation",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_context",
+        "-open",
+        "Tezos_shell_context",
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_protocol_updater",
+        "-open",
+        "Tezos_stdlib_unix",
+    ],
+    sig = ":block_validation_sig",
+    struct = ":block_validation.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_protocol_updater:#Tezos_protocol_updater",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_signature(
+    name = "external_validation_sig",
+    src = ":external_validation.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_context",
+        "-open",
+        "Tezos_shell_context",
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_protocol_updater",
+        "-open",
+        "Tezos_stdlib_unix",
+    ],
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_protocol_updater:#Tezos_protocol_updater",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "external_validation",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_context",
+        "-open",
+        "Tezos_shell_context",
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_protocol_updater",
+        "-open",
+        "Tezos_stdlib_unix",
+    ],
+    sig = ":external_validation_sig",
+    struct = ":external_validation.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_protocol_updater:#Tezos_protocol_updater",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+# okapi:auto
+ocaml_ns_library(
+    name = "#Tezos_validation",
+    submodules = [
+        ":block_validation",
+        ":external_validation",
+    ],
+    visibility = ["//visibility:public"],
 )

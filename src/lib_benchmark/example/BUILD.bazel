@@ -1,0 +1,23 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
+
+ocaml_module(
+    name = "blake2b",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    struct = ":blake2b.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_benchmark:#Tezos_benchmark",
+        "@tezos//src/lib_crypto:#Tezos_crypto",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+# okapi:auto
+ocaml_ns_library(
+    name = "#Tezos_benchmark_examples",
+    submodules = [":blake2b"],
+    visibility = ["//visibility:public"],
+)

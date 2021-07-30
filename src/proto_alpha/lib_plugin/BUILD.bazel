@@ -1,0 +1,63 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
+
+ocaml_module(
+    name = "\\",
+    deps_opam = ["tezos-protocol-alpha"],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_protocol_alpha",
+    ],
+    struct = ":\\.ml",
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+ocaml_module(
+    name = "Plugin_registerer",
+    deps_opam = ["tezos-protocol-alpha"],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_protocol_alpha",
+    ],
+    struct = ":Plugin_registerer.ml",
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+ocaml_ns_library(
+    name = "#Tezos_protocol_plugin_alpha",
+    submodules = [
+        ":Plugin_registerer",
+        ":\\",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+ocaml_module(
+    name = "Plugin_registerer",
+    deps_opam = ["tezos-embedded-protocol-alpha"],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_embedded_protocol_alpha",
+        "-open",
+        "Tezos_protocol_plugin_alpha",
+        "-open",
+        "Tezos_shell",
+    ],
+    struct = ":Plugin_registerer.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_shell:#Tezos_shell",
+        "@tezos//src/proto_alpha/lib_plugin:#Tezos_protocol_plugin_alpha",
+    ],
+)
+
+ocaml_ns_library(
+    name = "#Tezos_protocol_plugin_alpha_registerer",
+    submodules = [":Plugin_registerer"],
+    visibility = ["//visibility:public"],
+)
