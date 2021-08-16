@@ -1,522 +1,6 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
-    name = "p2p_welcome_sig",
-    src = ":p2p_welcome.mli",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    deps = [
-        ":p2p_connect_handler",
-        ":p2p_events",
-        ":p2p_fd",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "p2p_welcome",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    sig = ":p2p_welcome_sig",
-    struct = ":p2p_welcome.ml",
-    deps = [
-        ":p2p_connect_handler",
-        ":p2p_events",
-        ":p2p_fd",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "p2p_maintenance_sig",
-    src = ":p2p_maintenance.mli",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    deps = [
-        ":p2p_conn",
-        ":p2p_connect_handler",
-        ":p2p_discovery",
-        ":p2p_events",
-        ":p2p_peer_state",
-        ":p2p_point_state",
-        ":p2p_pool",
-        ":p2p_trigger",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "p2p_maintenance",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    sig = ":p2p_maintenance_sig",
-    struct = ":p2p_maintenance.ml",
-    deps = [
-        ":p2p_conn",
-        ":p2p_connect_handler",
-        ":p2p_discovery",
-        ":p2p_events",
-        ":p2p_peer_state",
-        ":p2p_point_state",
-        ":p2p_pool",
-        ":p2p_trigger",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "p2p_directory_sig",
-    src = ":p2p_directory.mli",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    deps = [
-        ":p2p",
-        ":p2p_conn",
-        ":p2p_connect_handler",
-        ":p2p_peer_state",
-        ":p2p_point_state",
-        ":p2p_pool",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "p2p_directory",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    sig = ":p2p_directory_sig",
-    struct = ":p2p_directory.ml",
-    deps = [
-        ":p2p",
-        ":p2p_conn",
-        ":p2p_connect_handler",
-        ":p2p_peer_state",
-        ":p2p_point_state",
-        ":p2p_pool",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "p2p_discovery_sig",
-    src = ":p2p_discovery.mli",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    deps = [
-        ":p2p_events",
-        ":p2p_pool",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "p2p_discovery",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    sig = ":p2p_discovery_sig",
-    struct = ":p2p_discovery.ml",
-    deps = [
-        ":p2p_events",
-        ":p2p_pool",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "p2p_acl_sig",
-    src = ":p2p_acl.mli",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "p2p_acl",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    sig = ":p2p_acl_sig",
-    struct = ":p2p_acl.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "p2p_answerer",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    struct = ":p2p_answerer.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "p2p_connect_handler_sig",
-    src = ":p2p_connect_handler.mli",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    deps = [
-        ":p2p_answerer",
-        ":p2p_conn",
-        ":p2p_events",
-        ":p2p_fd",
-        ":p2p_io_scheduler",
-        ":p2p_message",
-        ":p2p_params",
-        ":p2p_peer_state",
-        ":p2p_point_state",
-        ":p2p_pool",
-        ":p2p_socket",
-        ":p2p_trigger",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "p2p_connect_handler",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    sig = ":p2p_connect_handler_sig",
-    struct = ":p2p_connect_handler.ml",
-    deps = [
-        ":p2p_answerer",
-        ":p2p_conn",
-        ":p2p_events",
-        ":p2p_fd",
-        ":p2p_io_scheduler",
-        ":p2p_message",
-        ":p2p_params",
-        ":p2p_peer_state",
-        ":p2p_point_state",
-        ":p2p_pool",
-        ":p2p_socket",
-        ":p2p_trigger",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "p2p_io_scheduler_sig",
-    src = ":p2p_io_scheduler.mli",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    deps = [
-        ":p2p_events",
-        ":p2p_fd",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "p2p_io_scheduler",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    sig = ":p2p_io_scheduler_sig",
-    struct = ":p2p_io_scheduler.ml",
-    deps = [
-        ":p2p_events",
-        ":p2p_fd",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "p2p_point_state_sig",
-    src = ":p2p_point_state.mli",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "p2p_point_state",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    sig = ":p2p_point_state_sig",
-    struct = ":p2p_point_state.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
     name = "p2p_socket_sig",
     src = ":p2p_socket.mli",
     deps_opam = [
@@ -575,35 +59,9 @@ ocaml_module(
     ],
 )
 
-ocaml_module(
-    name = "p2p_events",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    struct = ":p2p_events.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
 ocaml_signature(
-    name = "p2p_conn_sig",
-    src = ":p2p_conn.mli",
+    name = "p2p_welcome_sig",
+    src = ":p2p_welcome.mli",
     deps_opam = [
         "lwt-watcher",
         "lwt-canceler",
@@ -620,12 +78,9 @@ ocaml_signature(
         "Tezos_p2p_services",
     ],
     deps = [
-        ":p2p_answerer",
+        ":p2p_connect_handler",
         ":p2p_events",
-        ":p2p_message",
-        ":p2p_peer_state",
-        ":p2p_point_state",
-        ":p2p_socket",
+        ":p2p_fd",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
@@ -634,7 +89,7 @@ ocaml_signature(
 )
 
 ocaml_module(
-    name = "p2p_conn",
+    name = "p2p_welcome",
     deps_opam = [
         "lwt-watcher",
         "lwt-canceler",
@@ -650,133 +105,12 @@ ocaml_module(
         "-open",
         "Tezos_p2p_services",
     ],
-    sig = ":p2p_conn_sig",
-    struct = ":p2p_conn.ml",
+    sig = ":p2p_welcome_sig",
+    struct = ":p2p_welcome.ml",
     deps = [
-        ":p2p_answerer",
+        ":p2p_connect_handler",
         ":p2p_events",
-        ":p2p_message",
-        ":p2p_peer_state",
-        ":p2p_point_state",
-        ":p2p_socket",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "p2p_message_sig",
-    src = ":p2p_message.mli",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    deps = [
-        ":p2p_params",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "p2p_message",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    sig = ":p2p_message_sig",
-    struct = ":p2p_message.ml",
-    deps = [
-        ":p2p_params",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "p2p_protocol_sig",
-    src = ":p2p_protocol.mli",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    deps = [
-        ":p2p_answerer",
-        ":p2p_conn",
-        ":p2p_events",
-        ":p2p_point_state",
-        ":p2p_pool",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "p2p_protocol",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    sig = ":p2p_protocol_sig",
-    struct = ":p2p_protocol.ml",
-    deps = [
-        ":p2p_answerer",
-        ":p2p_conn",
-        ":p2p_events",
-        ":p2p_point_state",
-        ":p2p_pool",
+        ":p2p_fd",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
@@ -866,8 +200,8 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "p2p_fd_sig",
-    src = ":p2p_fd.mli",
+    name = "p2p_directory_sig",
+    src = ":p2p_directory.mli",
     deps_opam = [
         "lwt-watcher",
         "lwt-canceler",
@@ -884,7 +218,12 @@ ocaml_signature(
         "Tezos_p2p_services",
     ],
     deps = [
-        ":p2p_events",
+        ":p2p",
+        ":p2p_conn",
+        ":p2p_connect_handler",
+        ":p2p_peer_state",
+        ":p2p_point_state",
+        ":p2p_pool",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
@@ -893,7 +232,7 @@ ocaml_signature(
 )
 
 ocaml_module(
-    name = "p2p_fd",
+    name = "p2p_directory",
     deps_opam = [
         "lwt-watcher",
         "lwt-canceler",
@@ -909,10 +248,638 @@ ocaml_module(
         "-open",
         "Tezos_p2p_services",
     ],
-    sig = ":p2p_fd_sig",
-    struct = ":p2p_fd.ml",
+    sig = ":p2p_directory_sig",
+    struct = ":p2p_directory.ml",
+    deps = [
+        ":p2p",
+        ":p2p_conn",
+        ":p2p_connect_handler",
+        ":p2p_peer_state",
+        ":p2p_point_state",
+        ":p2p_pool",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_signature(
+    name = "p2p_trigger_sig",
+    src = ":p2p_trigger.mli",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "p2p_trigger",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    sig = ":p2p_trigger_sig",
+    struct = ":p2p_trigger.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_signature(
+    name = "p2p_conn_sig",
+    src = ":p2p_conn.mli",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    deps = [
+        ":p2p_answerer",
+        ":p2p_events",
+        ":p2p_message",
+        ":p2p_peer_state",
+        ":p2p_point_state",
+        ":p2p_socket",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "p2p_conn",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    sig = ":p2p_conn_sig",
+    struct = ":p2p_conn.ml",
+    deps = [
+        ":p2p_answerer",
+        ":p2p_events",
+        ":p2p_message",
+        ":p2p_peer_state",
+        ":p2p_point_state",
+        ":p2p_socket",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "p2p_events",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    struct = ":p2p_events.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_signature(
+    name = "p2p_message_sig",
+    src = ":p2p_message.mli",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    deps = [
+        ":p2p_params",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "p2p_message",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    sig = ":p2p_message_sig",
+    struct = ":p2p_message.ml",
+    deps = [
+        ":p2p_params",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_signature(
+    name = "p2p_point_state_sig",
+    src = ":p2p_point_state.mli",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "p2p_point_state",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    sig = ":p2p_point_state_sig",
+    struct = ":p2p_point_state.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_signature(
+    name = "p2p_connect_handler_sig",
+    src = ":p2p_connect_handler.mli",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    deps = [
+        ":p2p_answerer",
+        ":p2p_conn",
+        ":p2p_events",
+        ":p2p_fd",
+        ":p2p_io_scheduler",
+        ":p2p_message",
+        ":p2p_params",
+        ":p2p_peer_state",
+        ":p2p_point_state",
+        ":p2p_pool",
+        ":p2p_socket",
+        ":p2p_trigger",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "p2p_connect_handler",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    sig = ":p2p_connect_handler_sig",
+    struct = ":p2p_connect_handler.ml",
+    deps = [
+        ":p2p_answerer",
+        ":p2p_conn",
+        ":p2p_events",
+        ":p2p_fd",
+        ":p2p_io_scheduler",
+        ":p2p_message",
+        ":p2p_params",
+        ":p2p_peer_state",
+        ":p2p_point_state",
+        ":p2p_pool",
+        ":p2p_socket",
+        ":p2p_trigger",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_signature(
+    name = "p2p_maintenance_sig",
+    src = ":p2p_maintenance.mli",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    deps = [
+        ":p2p_conn",
+        ":p2p_connect_handler",
+        ":p2p_discovery",
+        ":p2p_events",
+        ":p2p_peer_state",
+        ":p2p_point_state",
+        ":p2p_pool",
+        ":p2p_trigger",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "p2p_maintenance",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    sig = ":p2p_maintenance_sig",
+    struct = ":p2p_maintenance.ml",
+    deps = [
+        ":p2p_conn",
+        ":p2p_connect_handler",
+        ":p2p_discovery",
+        ":p2p_events",
+        ":p2p_peer_state",
+        ":p2p_point_state",
+        ":p2p_pool",
+        ":p2p_trigger",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "p2p_params",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    struct = ":p2p_params.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_signature(
+    name = "p2p_io_scheduler_sig",
+    src = ":p2p_io_scheduler.mli",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
     deps = [
         ":p2p_events",
+        ":p2p_fd",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "p2p_io_scheduler",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    sig = ":p2p_io_scheduler_sig",
+    struct = ":p2p_io_scheduler.ml",
+    deps = [
+        ":p2p_events",
+        ":p2p_fd",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_signature(
+    name = "p2p_protocol_sig",
+    src = ":p2p_protocol.mli",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    deps = [
+        ":p2p_answerer",
+        ":p2p_conn",
+        ":p2p_events",
+        ":p2p_point_state",
+        ":p2p_pool",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "p2p_protocol",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    sig = ":p2p_protocol_sig",
+    struct = ":p2p_protocol.ml",
+    deps = [
+        ":p2p_answerer",
+        ":p2p_conn",
+        ":p2p_events",
+        ":p2p_point_state",
+        ":p2p_pool",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "p2p_answerer",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    struct = ":p2p_answerer.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_signature(
+    name = "p2p_peer_state_sig",
+    src = ":p2p_peer_state.mli",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "p2p_peer_state",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    sig = ":p2p_peer_state_sig",
+    struct = ":p2p_peer_state.ml",
+    deps = [
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
@@ -988,8 +955,63 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "p2p_trigger_sig",
-    src = ":p2p_trigger.mli",
+    name = "p2p_fd_sig",
+    src = ":p2p_fd.mli",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    deps = [
+        ":p2p_events",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "p2p_fd",
+    deps_opam = [
+        "lwt-watcher",
+        "lwt-canceler",
+        "ringo",
+    ],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_p2p_services",
+    ],
+    sig = ":p2p_fd_sig",
+    struct = ":p2p_fd.ml",
+    deps = [
+        ":p2p_events",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_signature(
+    name = "p2p_acl_sig",
+    src = ":p2p_acl.mli",
     deps_opam = [
         "lwt-watcher",
         "lwt-canceler",
@@ -1014,7 +1036,7 @@ ocaml_signature(
 )
 
 ocaml_module(
-    name = "p2p_trigger",
+    name = "p2p_acl",
     deps_opam = [
         "lwt-watcher",
         "lwt-canceler",
@@ -1030,34 +1052,8 @@ ocaml_module(
         "-open",
         "Tezos_p2p_services",
     ],
-    sig = ":p2p_trigger_sig",
-    struct = ":p2p_trigger.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "p2p_params",
-    deps_opam = [
-        "lwt-watcher",
-        "lwt-canceler",
-        "ringo",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_p2p_services",
-    ],
-    struct = ":p2p_params.ml",
+    sig = ":p2p_acl_sig",
+    struct = ":p2p_acl.ml",
     deps = [
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
@@ -1067,8 +1063,8 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "p2p_peer_state_sig",
-    src = ":p2p_peer_state.mli",
+    name = "p2p_discovery_sig",
+    src = ":p2p_discovery.mli",
     deps_opam = [
         "lwt-watcher",
         "lwt-canceler",
@@ -1085,6 +1081,8 @@ ocaml_signature(
         "Tezos_p2p_services",
     ],
     deps = [
+        ":p2p_events",
+        ":p2p_pool",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
@@ -1093,7 +1091,7 @@ ocaml_signature(
 )
 
 ocaml_module(
-    name = "p2p_peer_state",
+    name = "p2p_discovery",
     deps_opam = [
         "lwt-watcher",
         "lwt-canceler",
@@ -1109,9 +1107,11 @@ ocaml_module(
         "-open",
         "Tezos_p2p_services",
     ],
-    sig = ":p2p_peer_state_sig",
-    struct = ":p2p_peer_state.ml",
+    sig = ":p2p_discovery_sig",
+    struct = ":p2p_discovery.ml",
     deps = [
+        ":p2p_events",
+        ":p2p_pool",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
@@ -1120,6 +1120,7 @@ ocaml_module(
 )
 
 # okapi:auto
+# okapi:public_name tezos-p2p
 ocaml_ns_library(
     name = "#Tezos_p2p",
     submodules = [

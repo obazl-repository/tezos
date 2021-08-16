@@ -1,69 +1,6 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
-    name = "protocol_files_sig",
-    src = ":protocol_files.mli",
-    deps_opam = [
-        "data-encoding",
-        "bls12-381-unix",
-        "tezos-stdlib-unix",
-    ],
-    opts = [
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_crypto:#Tezos_crypto",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue/unix:#Tezos_hacl_glue_unix",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "protocol_files",
-    deps_opam = [
-        "data-encoding",
-        "bls12-381-unix",
-        "tezos-stdlib-unix",
-    ],
-    opts = [
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":protocol_files_sig",
-    struct = ":protocol_files.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_crypto:#Tezos_crypto",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue/unix:#Tezos_hacl_glue_unix",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_signature(
     name = "socket_sig",
     src = ":socket.mli",
     deps_opam = [
@@ -117,6 +54,69 @@ ocaml_module(
     ],
     sig = ":socket_sig",
     struct = ":socket.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_crypto:#Tezos_crypto",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue/unix:#Tezos_hacl_glue_unix",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_signature(
+    name = "protocol_files_sig",
+    src = ":protocol_files.mli",
+    deps_opam = [
+        "data-encoding",
+        "bls12-381-unix",
+        "tezos-stdlib-unix",
+    ],
+    opts = [
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Tezos_crypto",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Data_encoding",
+    ],
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_crypto:#Tezos_crypto",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue/unix:#Tezos_hacl_glue_unix",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_module(
+    name = "protocol_files",
+    deps_opam = [
+        "data-encoding",
+        "bls12-381-unix",
+        "tezos-stdlib-unix",
+    ],
+    opts = [
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Tezos_crypto",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Data_encoding",
+    ],
+    sig = ":protocol_files_sig",
+    struct = ":protocol_files.ml",
     deps = [
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_crypto:#Tezos_crypto",

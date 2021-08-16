@@ -1,52 +1,6 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
-    name = "peer_metadata_sig",
-    src = ":peer_metadata.mli",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
-)
-
-ocaml_module(
-    name = "peer_metadata",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":peer_metadata_sig",
-    struct = ":peer_metadata.ml",
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
-)
-
-ocaml_signature(
-    name = "connection_metadata_sig",
-    src = ":connection_metadata.mli",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
-)
-
-ocaml_module(
-    name = "connection_metadata",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":connection_metadata_sig",
-    struct = ":connection_metadata.ml",
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
-)
-
-ocaml_signature(
     name = "p2p_errors_sig",
     src = ":p2p_errors.mli",
     opts = [
@@ -100,7 +54,54 @@ ocaml_module(
     ],
 )
 
+ocaml_signature(
+    name = "peer_metadata_sig",
+    src = ":peer_metadata.mli",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+ocaml_module(
+    name = "peer_metadata",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":peer_metadata_sig",
+    struct = ":peer_metadata.ml",
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+ocaml_signature(
+    name = "connection_metadata_sig",
+    src = ":connection_metadata.mli",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+ocaml_module(
+    name = "connection_metadata",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":connection_metadata_sig",
+    struct = ":connection_metadata.ml",
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
 # okapi:auto
+# okapi:public_name tezos-p2p-services
 ocaml_ns_library(
     name = "#Tezos_p2p_services",
     submodules = [

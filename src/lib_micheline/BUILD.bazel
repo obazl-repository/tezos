@@ -7,6 +7,63 @@ ppx_executable(
 )
 
 ocaml_signature(
+    name = "micheline_parser_sig",
+    src = ":micheline_parser.mli",
+    deps_opam = [
+        "uutf",
+        "zarith",
+        "data-encoding",
+        "ppx_inline_test",
+        "ppx_inline_test",
+    ],
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Data_encoding",
+    ],
+    ppx = ":ppx_tezos_micheline",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    deps = [
+        ":micheline",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ppx_module(
+    name = "micheline_parser",
+    deps_opam = [
+        "uutf",
+        "zarith",
+        "data-encoding",
+        "ppx_inline_test",
+        "ppx_inline_test",
+    ],
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Data_encoding",
+    ],
+    ppx = ":ppx_tezos_micheline",
+    ppx_print = "@ppx//print:text",
+    ppx_tags = ["inline-test"],
+    sig = ":micheline_parser_sig",
+    struct = ":micheline_parser.ml",
+    deps = [
+        ":micheline",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_signature(
     name = "micheline_printer_sig",
     src = ":micheline_printer.mli",
     deps_opam = [
@@ -113,63 +170,6 @@ ppx_module(
     sig = ":micheline_sig",
     struct = ":micheline.ml",
     deps = [
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_signature(
-    name = "micheline_parser_sig",
-    src = ":micheline_parser.mli",
-    deps_opam = [
-        "uutf",
-        "zarith",
-        "data-encoding",
-        "ppx_inline_test",
-        "ppx_inline_test",
-    ],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Data_encoding",
-    ],
-    ppx = ":ppx_tezos_micheline",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
-    deps = [
-        ":micheline",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ppx_module(
-    name = "micheline_parser",
-    deps_opam = [
-        "uutf",
-        "zarith",
-        "data-encoding",
-        "ppx_inline_test",
-        "ppx_inline_test",
-    ],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Data_encoding",
-    ],
-    ppx = ":ppx_tezos_micheline",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
-    sig = ":micheline_parser_sig",
-    struct = ":micheline_parser.ml",
-    deps = [
-        ":micheline",
         "@tezos//src/lib_error_monad:#Tezos_error_monad",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
     ],

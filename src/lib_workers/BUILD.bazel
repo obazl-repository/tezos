@@ -38,6 +38,7 @@ ocaml_module(
 )
 
 # okapi:auto
+# okapi:public_name tezos-workers
 ocaml_ns_library(
     name = "#Tezos_workers",
     submodules = [":worker"],
