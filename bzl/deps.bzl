@@ -5,18 +5,7 @@ def tezos_deps():
     maybe(
         http_archive,
         "obazl_rules_ocaml",
-        strip_prefix = "rules_ocaml-266fe443f8b70ab60d7a02a1fd363d632b1a67a3",
-        urls = [
-            "https://github.com/tek/rules_ocaml/archive/266fe443f8b70ab60d7a02a1fd363d632b1a67a3.tar.gz",
-        ],
-        sha256 = "47c124b0d03a087d413cd1ed7adbe0ab57cbe0ba763aadcb1d3400346f2c40eb",
-    )
-    maybe(
-        http_archive,
-        "resto",
-        sha256 = "c683e70938c5c8d7081ec85ec6b551e92995a4cdd529c693b2bd47aabca57637",
-        strip_prefix = "resto-bazel-ce626d3dedd380ebb1db7f177527ee06f327c304",
-        urls = [
-            "https://gitlab.com/tryptoxin/resto/-/archive/bazel/ce626d3dedd380ebb1db7f177527ee06f327c304.tar.gz",
-        ],
+        strip_prefix = "rules_ocaml-0eccc2bffcdd4ba02afcfffaae03b627f837f64f",
+        url = "https://github.com/tek/rules_ocaml/archive/0eccc2bffcdd4ba02afcfffaae03b627f837f64f.tar.gz",
+        sha256 = "f07d3b3b4fbf59c571c19bb86cd6faa4ba297924f4b1dc664087324a32c86501",
     )
