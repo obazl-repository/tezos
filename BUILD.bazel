@@ -8,6 +8,8 @@ generate()
 # gazelle:exclude src/lib_protocol_environment/sigs/v*/
 # gazelle:ignore src/lib_protocol_environment/sigs
 # gazelle:ignore src/lib_protocol_environment/structs
+# gazelle:ignore src/lib_sapling
+# gazelle:ignore src/lib_sapling/bindings
 # gazelle:exclude src/proto_0*
 # gazelle:exclude vendors
 # gazelle:exclude tezt
