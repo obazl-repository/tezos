@@ -4,9 +4,24 @@ generate()
 
 # gazelle:exclude bazel
 # gazelle:exclude scripts
-# gazelle:exclude src/lib_protocol_environment/structs
-# gazelle:exclude src/lib_protocol_environment/sigs
+# gazelle:exclude src/lib_protocol_environment/structs/v*/
+# gazelle:exclude src/lib_protocol_environment/sigs/v*/
+# gazelle:ignore src/lib_protocol_environment/sigs
+# gazelle:ignore src/lib_protocol_environment/structs
 # gazelle:exclude src/proto_0*
 # gazelle:exclude vendors
 # gazelle:exclude tezt
 # gazelle:exclude docs
+# gazelle:exclude _build
+
+platform(
+    name = "opam_image",
+    constraint_values = [
+        "@bazel_tools//platforms:x86_64",
+        "@bazel_tools//platforms:linux",
+    ],
+    exec_properties = {
+        "OSFamily": "Linux",
+        "container-image": "docker://ternarypulsar/tezos-buildbuddy-root:5"
+    },
+)

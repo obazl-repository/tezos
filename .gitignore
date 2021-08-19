@@ -75,3 +75,4 @@ opam_repo.patch
 /bazel-testlogs
 /bazel-tezos
 /bazel-tezos-build
+/remote.bazelrc

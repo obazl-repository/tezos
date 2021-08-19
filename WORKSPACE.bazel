@@ -1,8 +1,28 @@
 workspace(name = "tezos")
 
-local_repository(
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    name = "io_buildbuddy_buildbuddy_toolchain",
+    sha256 = "a2a5cccec251211e2221b1587af2ce43c36d32a42f5d881737db3b546a536510",
+    strip_prefix = "buildbuddy-toolchain-829c8a574f706de5c96c54ca310f139f4acda7dd",
+    url = "https://github.com/buildbuddy-io/buildbuddy-toolchain/archive/829c8a574f706de5c96c54ca310f139f4acda7dd.tar.gz",
+)
+load("@io_buildbuddy_buildbuddy_toolchain//:deps.bzl", "buildbuddy_deps")
+buildbuddy_deps()
+load("@io_buildbuddy_buildbuddy_toolchain//:rules.bzl", "buildbuddy")
+buildbuddy(name = "buildbuddy_toolchain")
+
+# local_repository(
+#     name = "okapi",
+#     path = "../../bazel/okapi",
+# )
+
+http_archive(
     name = "okapi",
-    path = "../../bazel/okapi",
+    sha256 = "17c09258271ddfce556c33e322639e165807a901dbd8ece48311208b658e4cf4",
+    strip_prefix = "okapi-f1a39b6bc64c5e38faea1db77e6fb0b684907dc2",
+    url = "https://github.com/tweag/okapi/archive/f1a39b6bc64c5e38faea1db77e6fb0b684907dc2.tar.gz",
 )
 
 load("@okapi//bzl:deps.bzl", "okapi_deps")
@@ -13,21 +33,6 @@ okapi_setup_nix()
 
 load("//bzl:deps.bzl", "tezos_deps")
 tezos_deps()
-
-load("@resto//bzl:deps.bzl", "resto_deps")
-resto_deps()
-
-load("@resto//bzl:transitive.bzl", "resto_transitive_deps")
-resto_transitive_deps()
-
-load("@resto//bzl:transitive2.bzl", "resto_transitive_deps_2")
-resto_transitive_deps_2()
-
-load("@resto//bzl:transitive3.bzl", "resto_transitive_deps_3")
-resto_transitive_deps_3()
-
-load("@resto//bzl:setup.bzl", "resto_setup")
-resto_setup()
 
 load("@obazl_rules_ocaml//ocaml:bootstrap.bzl", "ocaml_configure")
 load("//bzl:opam.bzl", "opam", "opam_repo")
