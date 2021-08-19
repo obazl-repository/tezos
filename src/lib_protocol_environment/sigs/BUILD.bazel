@@ -1,13 +1,15 @@
-load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_library", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
 load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
 load("//src/lib_protocol_environment/s_packer:pack.bzl", "pack")
 load("//src/lib_protocol_environment/sigs:srcs.bzl", "v0_srcs", "v1_srcs", "v2_srcs", "v3_srcs")
 load("//src/lib_protocol_environment/sigs:extract_sig.bzl", "extract_sig")
 
 pack("sigs", 0, v0_srcs)
+
 pack("sigs", 1, v1_srcs)
+
 pack("sigs", 2, v2_srcs)
+
 pack("sigs", 3, v3_srcs)
 
 ocaml_module(
@@ -48,28 +50,28 @@ ocaml_ns_library(
 
 extract_sig(
     name = "embed_v0_cmi",
-    mod = ":v0",
     out = "tezos_protocol_environment_sigs__V0",
+    mod = ":v0",
     visibility = ["//visibility:public"],
 )
 
 extract_sig(
     name = "embed_v1_cmi",
-    mod = ":v1",
     out = "tezos_protocol_environment_sigs__V1",
+    mod = ":v1",
     visibility = ["//visibility:public"],
 )
 
 extract_sig(
     name = "embed_v2_cmi",
-    mod = ":v2",
     out = "tezos_protocol_environment_sigs__V2",
+    mod = ":v2",
     visibility = ["//visibility:public"],
 )
 
 extract_sig(
     name = "embed_v3_cmi",
-    mod = ":v3",
     out = "tezos_protocol_environment_sigs",
+    mod = ":v3",
     visibility = ["//visibility:public"],
 )

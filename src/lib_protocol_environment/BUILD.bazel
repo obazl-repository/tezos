@@ -3,10 +3,7 @@ load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_library", "ocaml_module", "oc
 ocaml_signature(
     name = "dummy_context__sig",
     src = ":dummy_context.mli",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -17,18 +14,17 @@ ocaml_signature(
         ":environment_context",
         ":tezos_protocol_environment",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
 
 ocaml_module(
     name = "dummy_context",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -41,8 +37,10 @@ ocaml_module(
         ":environment_context",
         ":tezos_protocol_environment",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
@@ -50,10 +48,7 @@ ocaml_module(
 ocaml_signature(
     name = "environment_V0__sig",
     src = ":environment_V0.mli",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -65,18 +60,17 @@ ocaml_signature(
         ":environment_protocol_T",
         ":environment_protocol_T_V0",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
 
 ocaml_module(
     name = "environment_V0",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -90,8 +84,10 @@ ocaml_module(
         ":environment_protocol_T",
         ":environment_protocol_T_V0",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
@@ -99,10 +95,7 @@ ocaml_module(
 ocaml_signature(
     name = "environment_V1__sig",
     src = ":environment_V1.mli",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -114,18 +107,17 @@ ocaml_signature(
         ":environment_protocol_T",
         ":environment_protocol_T_V1",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
 
 ocaml_module(
     name = "environment_V1",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -139,8 +131,10 @@ ocaml_module(
         ":environment_protocol_T",
         ":environment_protocol_T_V1",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
@@ -148,10 +142,7 @@ ocaml_module(
 ocaml_signature(
     name = "environment_V2__sig",
     src = ":environment_V2.mli",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -163,18 +154,17 @@ ocaml_signature(
         ":environment_protocol_T",
         ":environment_protocol_T_V2",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
 
 ocaml_module(
     name = "environment_V2",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -188,8 +178,10 @@ ocaml_module(
         ":environment_protocol_T",
         ":environment_protocol_T_V2",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
@@ -197,10 +189,7 @@ ocaml_module(
 ocaml_signature(
     name = "environment_V3__sig",
     src = ":environment_V3.mli",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -212,18 +201,17 @@ ocaml_signature(
         ":environment_protocol_T",
         ":environment_protocol_T_V3",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
 
 ocaml_module(
     name = "environment_V3",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -237,8 +225,10 @@ ocaml_module(
         ":environment_protocol_T",
         ":environment_protocol_T_V3",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
@@ -246,10 +236,7 @@ ocaml_module(
 ocaml_signature(
     name = "environment_context__sig",
     src = ":environment_context.mli",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -259,18 +246,17 @@ ocaml_signature(
     deps = [
         ":environment_context_intf",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
 
 ocaml_module(
     name = "environment_context",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -282,18 +268,17 @@ ocaml_module(
     deps = [
         ":environment_context_intf",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
 
 ocaml_module(
     name = "environment_context_intf",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -303,18 +288,17 @@ ocaml_module(
     struct = ":environment_context_intf.ml",
     deps = [
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
 
 ocaml_module(
     name = "environment_protocol_T",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -326,18 +310,17 @@ ocaml_module(
         ":environment_context",
         ":environment_protocol_T_V0",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
 
 ocaml_module(
     name = "environment_protocol_T_V0",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -347,18 +330,17 @@ ocaml_module(
     struct = ":environment_protocol_T_V0.ml",
     deps = [
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
 
 ocaml_module(
     name = "environment_protocol_T_V1",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -369,18 +351,17 @@ ocaml_module(
     deps = [
         ":environment_protocol_T_V0",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
 
 ocaml_module(
     name = "environment_protocol_T_V2",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -391,18 +372,17 @@ ocaml_module(
     deps = [
         ":environment_protocol_T_V1",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
 
 ocaml_module(
     name = "environment_protocol_T_V3",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -413,8 +393,10 @@ ocaml_module(
     deps = [
         ":environment_protocol_T_V2",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
@@ -422,10 +404,7 @@ ocaml_module(
 ocaml_signature(
     name = "memory_context__sig",
     src = ":memory_context.mli",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -436,18 +415,17 @@ ocaml_signature(
         ":environment_context",
         ":tezos_protocol_environment",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
 
 ocaml_module(
     name = "memory_context",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -460,8 +438,10 @@ ocaml_module(
         ":environment_context",
         ":tezos_protocol_environment",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
@@ -469,10 +449,7 @@ ocaml_module(
 ocaml_signature(
     name = "proxy_context__sig",
     src = ":proxy_context.mli",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -483,18 +460,17 @@ ocaml_signature(
         ":environment_context",
         ":tezos_protocol_environment",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
 
 ocaml_module(
     name = "proxy_context",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -507,8 +483,10 @@ ocaml_module(
         ":environment_context",
         ":tezos_protocol_environment",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
@@ -516,10 +494,7 @@ ocaml_module(
 ocaml_signature(
     name = "tezos_protocol_environment__sig",
     src = ":tezos_protocol_environment.mli",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -533,18 +508,17 @@ ocaml_signature(
         ":environment_context",
         ":environment_protocol_T",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )
 
 ocaml_module(
     name = "tezos_protocol_environment",
-    deps_opam = [
-        "tezos-protocol-environment-structs",
-        "tezos-context.memory",
-    ],
+    deps_opam = ["lwt-dllist"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -560,8 +534,10 @@ ocaml_module(
         ":environment_context",
         ":environment_protocol_T",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context/memory:#Tezos_context_memory",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_protocol_environment/structs:#Tezos_protocol_environment_structs",
         "@tezos//src/lib_sapling:#Tezos_sapling",
     ],
 )

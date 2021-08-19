@@ -6,7 +6,8 @@
             tezos-protocol-environment-sigs
             tezos-protocol-environment-structs
             tezos-micheline
-            tezos-context.memory)
+            tezos-context.memory
+            lwt-dllist)
  (flags (:standard -open Tezos_base__TzPervasives
                    -open Tezos_micheline))
  (wrapped false)
