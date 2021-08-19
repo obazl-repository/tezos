@@ -9,5 +9,6 @@ else
   rm -f "src/$1/BUILD.bazel"
   ./nix-bazel run //:gazelle -- "src/$1"
   lib_name=${2-#Tezos_${1/lib_/}}
-  ./nix-bazel build "//src/$1:$lib_name"
+  lib_name1=${lib_name/\//_}
+  ./nix-bazel build "//src/$1:$lib_name1"
 fi

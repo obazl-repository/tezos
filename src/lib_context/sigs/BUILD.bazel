@@ -13,6 +13,7 @@ ocaml_module(
 )
 
 # okapi:auto
+# okapi:public_name tezos-context.sigs
 ocaml_ns_library(
     name = "#Tezos_context_sigs",
     submodules = [":context"],

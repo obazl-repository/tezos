@@ -1,14 +1,13 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable")
+load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
 
-ocaml_module(
-    name = "s_packer",
-    opts = [],
-    struct = ":s_packer.ml",
+lib(
+    name = "tezos-protocol-environment-packer",
+    modules = dict(s_packer = mod()),
 )
 
-# okapi:auto
-ocaml_ns_library(
-    name = "#Tezos_protocol_environment_packer",
-    submodules = [":s_packer"],
+ocaml_executable(
+    name = "exe",
+    main = "s_packer",
     visibility = ["//visibility:public"],
 )

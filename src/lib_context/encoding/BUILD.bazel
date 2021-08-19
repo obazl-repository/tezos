@@ -34,6 +34,7 @@ ocaml_module(
 )
 
 # okapi:auto
+# okapi:public_name tezos-context.encoding
 ocaml_ns_library(
     name = "#Tezos_context_encoding",
     submodules = [":context"],

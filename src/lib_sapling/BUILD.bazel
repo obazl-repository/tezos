@@ -1,7 +1,7 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
-    name = "rustzcash_sig",
+    name = "rustzcash__sig",
     src = ":rustzcash.mli",
     deps_opam = [
         "ctypes",
@@ -48,7 +48,7 @@ ocaml_module(
         "-open",
         "Tezos_error_monad.TzLwtreslib",
     ],
-    sig = ":rustzcash_sig",
+    sig = ":rustzcash__sig",
     struct = ":rustzcash.ml",
     deps = [
         ":rustzcash_sig",
@@ -56,6 +56,8 @@ ocaml_module(
         "@tezos//src/lib_error_monad:#Tezos_error_monad",
         "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "//src/lib_sapling/bindings:lib-rustzcash-c",
+        "//src/lib_sapling/bindings:lib-rustzcash-bindings",
     ],
 )
 
@@ -206,7 +208,7 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "forge_sig",
+    name = "forge__sig",
     src = ":forge.mli",
     deps_opam = [
         "ctypes",
@@ -254,7 +256,7 @@ ocaml_module(
         "-open",
         "Tezos_error_monad.TzLwtreslib",
     ],
-    sig = ":forge_sig",
+    sig = ":forge__sig",
     struct = ":forge.ml",
     deps = [
         ":core",
@@ -267,6 +269,7 @@ ocaml_module(
 )
 
 # okapi:auto
+# okapi:public_name tezos-sapling
 ocaml_ns_library(
     name = "#Tezos_sapling",
     submodules = [
