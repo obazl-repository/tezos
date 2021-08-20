@@ -2960,6 +2960,5 @@ ocaml_executable(
     ],
     deps = [
         ":main",
-        "@tezos//src/lib_hacl_glue/unix:#Tezos_hacl_glue_unix",
     ],
 )

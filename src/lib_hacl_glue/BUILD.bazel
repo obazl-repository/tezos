@@ -1,0 +1,27 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+
+ocaml_signature(
+    name = "hacl__sig",
+    src = ":hacl.mli",
+    deps_opam = [
+        "hacl-star",
+        "hacl-star-raw",
+    ],
+)
+
+ocaml_module(
+    name = "hacl",
+    deps_opam = [
+        "hacl-star",
+        "hacl-star-raw",
+    ],
+    sig = ":hacl__sig",
+    struct = ":hacl.ml",
+)
+
+# okapi:public_name tezos-hacl-glue
+ocaml_ns_archive(
+    name = "#Tezos_hacl_glue",
+    submodules = [":hacl"],
+    visibility = ["//visibility:public"],
+)

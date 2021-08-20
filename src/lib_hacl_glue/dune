@@ -1,0 +1,9 @@
+(library
+ (name tezos_hacl_glue)
+ (public_name tezos-hacl-glue)
+ (libraries
+   hacl-star
+   hacl-star-raw
+ )
+ (modules hacl)
+)

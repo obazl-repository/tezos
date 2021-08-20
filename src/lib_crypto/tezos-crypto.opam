@@ -15,8 +15,7 @@ depends: [
   "tezos-clic"
   "lwt"
   "bls12-381"
-  "tezos-hacl-glue"
-  "tezos-hacl-glue-unix" {with-test}
+  "tezos-hacl-glue" {with-test}
   "zarith"
   "secp256k1-internal"
   "ringo" { = "0.5" }
