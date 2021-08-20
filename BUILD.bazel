@@ -11,7 +11,12 @@ generate()
 # gazelle:ignore src/lib_sapling
 # gazelle:ignore src/lib_sapling/bindings
 # gazelle:exclude src/proto_0*
-# gazelle:exclude vendors
+# gazelle:exclude vendors/benchmark-utils
+# gazelle:exclude vendors/flextesa-lib
+# gazelle:exclude vendors/numerics
+# gazelle:exclude vendors/ocaml-ledger-wallet
+# gazelle:exclude vendors/pyml-plot
+# gazelle:exclude vendors/statz
 # gazelle:exclude tezt
 # gazelle:exclude docs
 # gazelle:exclude _build

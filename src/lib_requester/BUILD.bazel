@@ -1,23 +1,7 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
-ocaml_module(
-    name = "requester_event",
-    deps_opam = ["lwt-watcher"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    struct = ":requester_event.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
 ocaml_signature(
-    name = "requester_sig",
+    name = "requester__sig",
     src = ":requester.mli",
     deps_opam = ["lwt-watcher"],
     opts = [
@@ -42,7 +26,7 @@ ocaml_module(
         "-open",
         "Tezos_stdlib_unix",
     ],
-    sig = ":requester_sig",
+    sig = ":requester__sig",
     struct = ":requester.ml",
     deps = [
         ":requester_event",
@@ -51,7 +35,24 @@ ocaml_module(
     ],
 )
 
+ocaml_module(
+    name = "requester_event",
+    deps_opam = ["lwt-watcher"],
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+    ],
+    struct = ":requester_event.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
 # okapi:auto
+# okapi:public_name tezos-requester
 ocaml_ns_library(
     name = "#Tezos_requester",
     submodules = [

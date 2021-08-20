@@ -1,7 +1,7 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
-    name = "block_validation_sig",
+    name = "block_validation__sig",
     src = ":block_validation.mli",
     opts = [
         "-open",
@@ -47,7 +47,7 @@ ocaml_module(
         "-open",
         "Tezos_stdlib_unix",
     ],
-    sig = ":block_validation_sig",
+    sig = ":block_validation__sig",
     struct = ":block_validation.ml",
     deps = [
         "@tezos//src/lib_base:#Tezos_base",
@@ -60,7 +60,7 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "external_validation_sig",
+    name = "external_validation__sig",
     src = ":external_validation.mli",
     opts = [
         "-open",
@@ -106,7 +106,7 @@ ocaml_module(
         "-open",
         "Tezos_stdlib_unix",
     ],
-    sig = ":external_validation_sig",
+    sig = ":external_validation__sig",
     struct = ":external_validation.ml",
     deps = [
         "@tezos//src/lib_base:#Tezos_base",
@@ -119,6 +119,7 @@ ocaml_module(
 )
 
 # okapi:auto
+# okapi:public_name tezos-validation
 ocaml_ns_library(
     name = "#Tezos_validation",
     submodules = [
