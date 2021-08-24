@@ -52,12 +52,13 @@ cc_library(
 exports_files(["bin/ocp-ocamlres"] + glob(["ocaml/*.cmi"]))
 """
 
-def _opam_repo_impl(ctx):
-    ctx.symlink("/home/tek/.opam/4.10/lib/tezos-rust-libs", "tezos-rust-libs")
-    ctx.symlink("/home/tek/.opam/4.10/lib/ctypes", "ctypes")
-    ctx.symlink("/home/tek/.opam/4.10/lib/ocaml", "ocaml")
-    ctx.symlink("/home/tek/.opam/4.10/bin/ocp-ocamlres", "bin/ocp-ocamlres")
-    ctx.file("BUILD.bazel", content = librustzcash, executable = False)
+def _opam_repo_impl(repo_ctx):
+    switch = repo_ctx.os.environ["HOME"] + "/.opam/4.10"
+    repo_ctx.symlink(switch + "/lib/tezos-rust-libs", "tezos-rust-libs")
+    repo_ctx.symlink(switch + "/lib/ctypes", "ctypes")
+    repo_ctx.symlink(switch + "/lib/ocaml", "ocaml")
+    repo_ctx.symlink(switch + "/bin/ocp-ocamlres", "bin/ocp-ocamlres")
+    repo_ctx.file("BUILD.bazel", content = librustzcash, executable = False)
 
 _opam_repo = repository_rule(
     implementation = _opam_repo_impl
