@@ -20,16 +20,16 @@ buildbuddy(name = "buildbuddy_toolchain")
 
 http_archive(
     name = "okapi",
-    sha256 = "d19d12a9aacb6a3200ba58215a0602dab25a1bb79df3ca3cb0402d1209376191",
-    strip_prefix = "okapi-82b859ba254bf0c6c5868f85548e7aede7c757f9",
-    url = "https://github.com/tweag/okapi/archive/82b859ba254bf0c6c5868f85548e7aede7c757f9.tar.gz",
+    sha256 = "ade3d128577ccfd9bebe099611442f0098403e908830011686896bc01db492b7",
+    strip_prefix = "okapi-4c521109008ff697a35d5969334b3ce01408362d",
+    url = "https://github.com/tweag/okapi/archive/4c521109008ff697a35d5969334b3ce01408362d.tar.gz",
 )
 
 load("@okapi//bzl:deps.bzl", "okapi_deps")
 okapi_deps()
 
-load("@okapi//bzl:setup.bzl", "okapi_setup_nix")
-okapi_setup_nix()
+load("@okapi//bzl:setup.bzl", "okapi_setup")
+okapi_setup()
 
 load("//bzl:deps.bzl", "tezos_deps")
 tezos_deps()
