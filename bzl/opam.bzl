@@ -49,7 +49,7 @@ cc_library(
     strip_include_prefix = "ocaml",
 )
 
-exports_files(["bin/ocp-ocamlres"] + glob(["ocaml/*.cmi"]))
+exports_files(["bin/ocp-ocamlres", "digestif/digestif_c.cmxa"] + glob(["ocaml/*.cmi"]))
 """
 
 def _opam_repo_impl(repo_ctx):
@@ -58,6 +58,7 @@ def _opam_repo_impl(repo_ctx):
     repo_ctx.symlink(switch + "/lib/ctypes", "ctypes")
     repo_ctx.symlink(switch + "/lib/ocaml", "ocaml")
     repo_ctx.symlink(switch + "/bin/ocp-ocamlres", "bin/ocp-ocamlres")
+    repo_ctx.symlink(switch + "/lib/digestif/c", "digestif")
     repo_ctx.file("BUILD.bazel", content = librustzcash, executable = False)
 
 _opam_repo = repository_rule(
