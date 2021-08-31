@@ -2953,6 +2953,10 @@ ocaml_executable(
     visibility = ["//visibility:public"],
     opts = [
         "-linkall",
+        "-package",
+        "digestif",
+        "-package",
+        "digestif.c",
     ],
     deps = [
         ":main",
