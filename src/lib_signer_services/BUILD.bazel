@@ -1,7 +1,7 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
-    name = "signer_messages_sig",
+    name = "signer_messages__sig",
     src = ":signer_messages.mli",
     opts = [
         "-open",
@@ -30,7 +30,7 @@ ocaml_module(
         "Tezos_client_base",
         "-linkall",
     ],
-    sig = ":signer_messages_sig",
+    sig = ":signer_messages__sig",
     struct = ":signer_messages.ml",
     deps = [
         "@tezos//src/lib_base:#Tezos_base",
@@ -40,7 +40,7 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "signer_services_sig",
+    name = "signer_services__sig",
     src = ":signer_services.mli",
     opts = [
         "-open",
@@ -69,7 +69,7 @@ ocaml_module(
         "Tezos_client_base",
         "-linkall",
     ],
-    sig = ":signer_services_sig",
+    sig = ":signer_services__sig",
     struct = ":signer_services.ml",
     deps = [
         "@tezos//src/lib_base:#Tezos_base",
@@ -79,7 +79,8 @@ ocaml_module(
 )
 
 # okapi:auto
-ocaml_ns_library(
+# okapi:public_name tezos-signer-services
+ocaml_ns_archive(
     name = "#Tezos_signer_services",
     submodules = [
         ":signer_messages",

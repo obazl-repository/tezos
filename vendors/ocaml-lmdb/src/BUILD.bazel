@@ -1,36 +1,23 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_library", "ocaml_signature")
-
-cc_library(
-    name = "lmdb_c",
-    srcs = [
-        ":lmdb.h",
-        ":lmdb_stubs.c",
-        ":mdb.c",
-        ":midl.h",
-        ":midl.c",
-    ],
-    deps = [
-        "@opam_libs//:ocaml",
-    ],
-)
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
     name = "lmdb__sig",
     src = ":lmdb.mli",
-    deps_opam = ["rresult"],
+    deps = ["@ocaml//lib/rresult"],
 )
 
 ocaml_module(
     name = "lmdb",
-    deps_opam = ["rresult"],
-    cc_deps = { ":lmdb_c": "default" },
-    sig = "lmdb__sig",
+    sig = ":lmdb__sig",
     struct = ":lmdb.ml",
+    deps = ["@ocaml//lib/rresult"],
+    visibility = ["//visibility:public"],
 )
 
+# okapi:auto
 # okapi:public_name tezos-lmdb
-ocaml_library(
-    name = "lib-tezos-lmdb",
-    modules = [":lmdb"],
+ocaml_ns_archive(
+    name = "#Lmdb",
+    submodules = [":lmdb"],
     visibility = ["//visibility:public"],
 )

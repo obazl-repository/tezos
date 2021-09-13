@@ -1,6 +1,7 @@
 workspace(name = "tezos")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 http_archive(
     name = "io_buildbuddy_buildbuddy_toolchain",
@@ -29,16 +30,47 @@ load("@okapi//bzl:deps.bzl", "okapi_deps")
 okapi_deps()
 
 load("@okapi//bzl:setup.bzl", "okapi_setup")
-okapi_setup()
+okapi_setup(
+    nix_support = False
+)
+
+# load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+# go_rules_dependencies()
+# go_register_toolchains(version = "1.17")
+
+# load("@io_bazel_rules_go//go:deps.bzl", "go_rules_dependencies", "go_register_toolchains", "go_host_sdk")
+# load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
+# go_rules_dependencies()
+# go_host_sdk(name = "go_sdk")
+# gazelle_dependencies(go_repository_default_config = "@//:WORKSPACE.bazel",
+#                      go_sdk="go_sdk")
+
 
 load("//bzl:deps.bzl", "tezos_deps")
 tezos_deps()
 
-load("@obazl_rules_ocaml//ocaml:bootstrap.bzl", "ocaml_configure")
+# obazl version 1:
+# load("@obazl_rules_ocaml//ocaml:bootstrap.bzl", "ocaml_configure")
 load("//bzl:opam.bzl", "opam", "opam_repo")
 
-ocaml_configure(
-    build = "4.10",
-    opam = opam,
-)
+# ocaml_configure(
+#     build = "4.10",
+#     opam = opam,
+# )
 opam_repo("4.10")
+
+## obazl version 2:
+# load("@obazl_tools_opam//opam:bootstrap.bzl", opam_install = "install")
+# opam_install(bootstrap_debug=True)
+
+load("@obazl_rules_ocaml//ocaml:bootstrap.bzl", "ocaml_configure")
+ocaml_configure(switch = "4.10")
+
+################################################################
+git_repository(
+    name = "obazldeps",
+    remote = "https://github.com/obazl/obazldeps",
+    branch = "dev",
+)
+load("@obazldeps//:WORKSPACE.bzl", obazl_deps_bootstrap="cc_fetch_repos")
+obazl_deps_bootstrap()

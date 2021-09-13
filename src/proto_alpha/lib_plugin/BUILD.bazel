@@ -1,43 +1,30 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive")
 
 ocaml_module(
-    name = "\\",
-    deps_opam = ["tezos-protocol-alpha"],
+    name = "plugin",
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
         "-open",
         "Tezos_protocol_alpha",
     ],
-    struct = ":\\.ml",
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
-)
-
-ocaml_module(
-    name = "Plugin_registerer",
-    deps_opam = ["tezos-protocol-alpha"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_protocol_alpha",
+    struct = ":plugin.ml",
+    deps = [
+        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos//src/lib_base:#Tezos_base",
     ],
-    struct = ":Plugin_registerer.ml",
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
 )
 
-ocaml_ns_library(
+# okapi:auto
+# okapi:public_name tezos-protocol-plugin-alpha
+ocaml_ns_archive(
     name = "#Tezos_protocol_plugin_alpha",
-    submodules = [
-        ":Plugin_registerer",
-        ":\\",
-    ],
+    submodules = [":plugin"],
     visibility = ["//visibility:public"],
 )
 
 ocaml_module(
-    name = "Plugin_registerer",
-    deps_opam = ["tezos-embedded-protocol-alpha"],
+    name = "plugin_registerer",
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -48,16 +35,19 @@ ocaml_module(
         "-open",
         "Tezos_shell",
     ],
-    struct = ":Plugin_registerer.ml",
+    struct = ":plugin_registerer.ml",
     deps = [
+        ":plugin",
+        "@ocaml//lib/tezos-embedded-protocol-alpha",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_shell:#Tezos_shell",
         "@tezos//src/proto_alpha/lib_plugin:#Tezos_protocol_plugin_alpha",
     ],
 )
 
-ocaml_ns_library(
+# okapi:public_name tezos-protocol-plugin-alpha-registerer
+ocaml_ns_archive(
     name = "#Tezos_protocol_plugin_alpha_registerer",
-    submodules = [":Plugin_registerer"],
+    submodules = [":plugin_registerer"],
     visibility = ["//visibility:public"],
 )

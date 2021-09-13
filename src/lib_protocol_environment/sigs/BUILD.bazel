@@ -1,5 +1,6 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+
+# load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
 load("//src/lib_protocol_environment/s_packer:pack.bzl", "pack")
 load("//src/lib_protocol_environment/sigs:srcs.bzl", "v0_srcs", "v1_srcs", "v2_srcs", "v3_srcs")
 load("//src/lib_protocol_environment/sigs:extract_sig.bzl", "extract_sig")

@@ -1,4 +1,57 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive")
+
+ocaml_module(
+    name = "bloomer_benchmarks",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Tezos_benchmark",
+        "-open",
+        "Tezos_crypto",
+    ],
+    struct = ":bloomer_benchmarks.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_benchmark:#Tezos_benchmark",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_micheline:#Tezos_micheline",
+        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+    ],
+)
+
+ocaml_module(
+    name = "encoding_benchmarks",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Tezos_benchmark",
+        "-open",
+        "Tezos_crypto",
+    ],
+    struct = ":encoding_benchmarks.ml",
+    deps = [
+        ":encoding_benchmarks_helpers",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_benchmark:#Tezos_benchmark",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_micheline:#Tezos_micheline",
+        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+    ],
+)
 
 ocaml_module(
     name = "encoding_benchmarks_helpers",
@@ -159,61 +212,9 @@ ocaml_module(
     ],
 )
 
-ocaml_module(
-    name = "bloomer_benchmarks",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_crypto",
-    ],
-    struct = ":bloomer_benchmarks.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_benchmark:#Tezos_benchmark",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
-    ],
-)
-
-ocaml_module(
-    name = "encoding_benchmarks",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_crypto",
-    ],
-    struct = ":encoding_benchmarks.ml",
-    deps = [
-        ":encoding_benchmarks_helpers",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_benchmark:#Tezos_benchmark",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
-    ],
-)
-
 # okapi:auto
-ocaml_ns_library(
+# okapi:public_name tezos-shell-benchmarks
+ocaml_ns_archive(
     name = "#Tezos_shell_benchmarks",
     submodules = [
         ":bloomer_benchmarks",

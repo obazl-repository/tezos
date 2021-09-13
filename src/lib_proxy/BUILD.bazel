@@ -1,19 +1,295 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
-    name = "logger_sig",
-    src = ":logger.mli",
-    deps_opam = ["ringo-lwt"],
+    name = "RPC_client__sig",
+    src = ":RPC_client.mli",
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
     ],
     deps = [
+        ":proxy_events",
+        ":proxy_services",
+        ":registration",
+        "@ocaml//lib/ringo-lwt",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_context:#Tezos_context",
         "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_module(
+    name = "RPC_client",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":RPC_client__sig",
+    struct = ":RPC_client.ml",
+    deps = [
+        ":proxy_events",
+        ":proxy_services",
+        ":registration",
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_signature(
+    name = "light__sig",
+    src = ":light.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = [
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_module(
+    name = "light",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":light__sig",
+    struct = ":light.ml",
+    deps = [
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_signature(
+    name = "light_consensus__sig",
+    src = ":light_consensus.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = [
+        ":light_internal",
+        ":light_proto",
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_module(
+    name = "light_consensus",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":light_consensus__sig",
+    struct = ":light_consensus.ml",
+    deps = [
+        ":light_internal",
+        ":light_proto",
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_signature(
+    name = "light_core__sig",
+    src = ":light_core.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = [
+        ":light",
+        ":light_consensus",
+        ":light_internal",
+        ":light_logger",
+        ":light_proto",
+        ":proxy",
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_module(
+    name = "light_core",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":light_core__sig",
+    struct = ":light_core.ml",
+    deps = [
+        ":light",
+        ":light_consensus",
+        ":light_internal",
+        ":light_logger",
+        ":light_proto",
+        ":proxy",
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_signature(
+    name = "light_internal__sig",
+    src = ":light_internal.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = [
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_module(
+    name = "light_internal",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":light_internal__sig",
+    struct = ":light_internal.ml",
+    deps = [
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_signature(
+    name = "light_logger__sig",
+    src = ":light_logger.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = [
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_module(
+    name = "light_logger",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":light_logger__sig",
+    struct = ":light_logger.ml",
+    deps = [
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_module(
+    name = "light_proto",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    struct = ":light_proto.ml",
+    deps = [
+        ":proxy",
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_signature(
+    name = "logger__sig",
+    src = ":logger.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = [
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
         "@tezos//src/lib_rpc:#Tezos_rpc",
         "@tezos//src/lib_shell_services:#Tezos_shell_services",
     ],
@@ -21,28 +297,128 @@ ocaml_signature(
 
 ocaml_module(
     name = "logger",
-    deps_opam = ["ringo-lwt"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
     ],
-    sig = ":logger_sig",
+    sig = ":logger__sig",
     struct = ":logger.ml",
     deps = [
+        "@ocaml//lib/ringo-lwt",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_context:#Tezos_context",
         "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_module(
+    name = "proxy",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    struct = ":proxy.ml",
+    deps = [
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_module(
+    name = "proxy_events",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    struct = ":proxy_events.ml",
+    deps = [
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
         "@tezos//src/lib_rpc:#Tezos_rpc",
         "@tezos//src/lib_shell_services:#Tezos_shell_services",
     ],
 )
 
 ocaml_signature(
-    name = "proxy_services_sig",
+    name = "proxy_getter__sig",
+    src = ":proxy_getter.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = [
+        ":proxy",
+        ":proxy_proto",
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_module(
+    name = "proxy_getter",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":proxy_getter__sig",
+    struct = ":proxy_getter.ml",
+    deps = [
+        ":proxy",
+        ":proxy_proto",
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_module(
+    name = "proxy_proto",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    struct = ":proxy_proto.ml",
+    deps = [
+        ":proxy",
+        "@ocaml//lib/ringo-lwt",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_signature(
+    name = "proxy_services__sig",
     src = ":proxy_services.mli",
-    deps_opam = ["ringo-lwt"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -55,11 +431,12 @@ ocaml_signature(
         ":proxy_getter",
         ":proxy_proto",
         ":registration",
+        "@ocaml//lib/ringo-lwt",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_context:#Tezos_context",
         "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
         "@tezos//src/lib_rpc:#Tezos_rpc",
         "@tezos//src/lib_shell_services:#Tezos_shell_services",
     ],
@@ -67,12 +444,11 @@ ocaml_signature(
 
 ocaml_module(
     name = "proxy_services",
-    deps_opam = ["ringo-lwt"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
     ],
-    sig = ":proxy_services_sig",
+    sig = ":proxy_services__sig",
     struct = ":proxy_services.ml",
     deps = [
         ":light",
@@ -82,20 +458,20 @@ ocaml_module(
         ":proxy_getter",
         ":proxy_proto",
         ":registration",
+        "@ocaml//lib/ringo-lwt",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_context:#Tezos_context",
         "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
         "@tezos//src/lib_rpc:#Tezos_rpc",
         "@tezos//src/lib_shell_services:#Tezos_shell_services",
     ],
 )
 
 ocaml_signature(
-    name = "registration_sig",
+    name = "registration__sig",
     src = ":registration.mli",
-    deps_opam = ["ringo-lwt"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -105,11 +481,12 @@ ocaml_signature(
         ":proxy",
         ":proxy_getter",
         ":proxy_proto",
+        "@ocaml//lib/ringo-lwt",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_context:#Tezos_context",
         "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
         "@tezos//src/lib_rpc:#Tezos_rpc",
         "@tezos//src/lib_shell_services:#Tezos_shell_services",
     ],
@@ -117,407 +494,31 @@ ocaml_signature(
 
 ocaml_module(
     name = "registration",
-    deps_opam = ["ringo-lwt"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
     ],
-    sig = ":registration_sig",
+    sig = ":registration__sig",
     struct = ":registration.ml",
     deps = [
         ":light_proto",
         ":proxy",
         ":proxy_getter",
         ":proxy_proto",
+        "@ocaml//lib/ringo-lwt",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_context:#Tezos_context",
         "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_module(
-    name = "light_proto",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    struct = ":light_proto.ml",
-    deps = [
-        ":proxy",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_signature(
-    name = "light_core_sig",
-    src = ":light_core.mli",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = [
-        ":light",
-        ":light_consensus",
-        ":light_internal",
-        ":light_logger",
-        ":light_proto",
-        ":proxy",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_module(
-    name = "light_core",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":light_core_sig",
-    struct = ":light_core.ml",
-    deps = [
-        ":light",
-        ":light_consensus",
-        ":light_internal",
-        ":light_logger",
-        ":light_proto",
-        ":proxy",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_module(
-    name = "proxy",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    struct = ":proxy.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_signature(
-    name = "RPC_client_sig",
-    src = ":RPC_client.mli",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = [
-        ":proxy_events",
-        ":proxy_services",
-        ":registration",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_module(
-    name = "RPC_client",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":RPC_client_sig",
-    struct = ":RPC_client.ml",
-    deps = [
-        ":proxy_events",
-        ":proxy_services",
-        ":registration",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_signature(
-    name = "light_logger_sig",
-    src = ":light_logger.mli",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_module(
-    name = "light_logger",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":light_logger_sig",
-    struct = ":light_logger.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_module(
-    name = "proxy_events",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    struct = ":proxy_events.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_signature(
-    name = "light_internal_sig",
-    src = ":light_internal.mli",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_module(
-    name = "light_internal",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":light_internal_sig",
-    struct = ":light_internal.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_signature(
-    name = "light_consensus_sig",
-    src = ":light_consensus.mli",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = [
-        ":light_internal",
-        ":light_proto",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_module(
-    name = "light_consensus",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":light_consensus_sig",
-    struct = ":light_consensus.ml",
-    deps = [
-        ":light_internal",
-        ":light_proto",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_signature(
-    name = "proxy_getter_sig",
-    src = ":proxy_getter.mli",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = [
-        ":proxy",
-        ":proxy_proto",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_module(
-    name = "proxy_getter",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":proxy_getter_sig",
-    struct = ":proxy_getter.ml",
-    deps = [
-        ":proxy",
-        ":proxy_proto",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_signature(
-    name = "light_sig",
-    src = ":light.mli",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_module(
-    name = "light",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":light_sig",
-    struct = ":light.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_module(
-    name = "proxy_proto",
-    deps_opam = ["ringo-lwt"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    struct = ":proxy_proto.ml",
-    deps = [
-        ":proxy",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_mockup_proxy:#Tezos_mockup_proxy",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
         "@tezos//src/lib_rpc:#Tezos_rpc",
         "@tezos//src/lib_shell_services:#Tezos_shell_services",
     ],
 )
 
 # okapi:auto
-ocaml_ns_library(
+# okapi:public_name tezos-proxy
+ocaml_ns_archive(
     name = "#Tezos_proxy",
     submodules = [
         ":RPC_client",

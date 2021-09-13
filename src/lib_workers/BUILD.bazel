@@ -1,9 +1,8 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
-    name = "worker_sig",
+    name = "worker__sig",
     src = ":worker.mli",
-    deps_opam = ["ringo"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -13,6 +12,7 @@ ocaml_signature(
         "Tezos_stdlib_unix",
     ],
     deps = [
+        "@ocaml//lib/ringo",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
     ],
@@ -20,7 +20,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "worker",
-    deps_opam = ["ringo"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -29,9 +28,10 @@ ocaml_module(
         "-open",
         "Tezos_stdlib_unix",
     ],
-    sig = ":worker_sig",
+    sig = ":worker__sig",
     struct = ":worker.ml",
     deps = [
+        "@ocaml//lib/ringo",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
     ],
@@ -39,7 +39,7 @@ ocaml_module(
 
 # okapi:auto
 # okapi:public_name tezos-workers
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_workers",
     submodules = [":worker"],
     visibility = ["//visibility:public"],

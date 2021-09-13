@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
     name = "block_validation__sig",
@@ -120,7 +120,7 @@ ocaml_module(
 
 # okapi:auto
 # okapi:public_name tezos-validation
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_validation",
     submodules = [
         ":block_validation",

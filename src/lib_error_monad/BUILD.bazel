@@ -1,13 +1,8 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
-    name = "monad_ext_maker_sig",
-    src = ":monad_ext_maker.mli",
-    deps_opam = [
-        "data-encoding",
-        "lwt-canceler",
-        "lwt",
-    ],
+    name = "TzCore__sig",
+    src = ":TzCore.mli",
     opts = [
         "-open",
         "Tezos_stdlib",
@@ -15,42 +10,79 @@ ocaml_signature(
         "Data_encoding",
     ],
     deps = [
+        ":core_maker",
         ":sig",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/lwt-canceler",
         "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
     ],
 )
 
 ocaml_module(
-    name = "monad_ext_maker",
-    deps_opam = [
-        "data-encoding",
-        "lwt-canceler",
-        "lwt",
-    ],
+    name = "TzCore",
     opts = [
         "-open",
         "Tezos_stdlib",
         "-open",
         "Data_encoding",
     ],
-    sig = ":monad_ext_maker_sig",
-    struct = ":monad_ext_maker.ml",
+    sig = ":TzCore__sig",
+    struct = ":TzCore.ml",
     deps = [
+        ":core_maker",
         ":sig",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/lwt-canceler",
         "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
     ],
 )
 
 ocaml_signature(
-    name = "TzMonad_sig",
-    src = ":TzMonad.mli",
-    deps_opam = [
-        "data-encoding",
-        "lwt-canceler",
-        "lwt",
+    name = "TzLwtreslib__sig",
+    src = ":TzLwtreslib.mli",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Data_encoding",
     ],
+    deps = [
+        ":TzTrace",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/lwt-canceler",
+        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_module(
+    name = "TzLwtreslib",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Data_encoding",
+    ],
+    sig = ":TzLwtreslib__sig",
+    struct = ":TzLwtreslib.ml",
+    deps = [
+        ":TzTrace",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/lwt-canceler",
+        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_signature(
+    name = "TzMonad__sig",
+    src = ":TzMonad.mli",
     opts = [
         "-open",
         "Tezos_stdlib",
@@ -63,6 +95,9 @@ ocaml_signature(
         ":monad_ext_maker",
         ":monad_maker",
         ":sig",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/lwt-canceler",
         "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
     ],
@@ -70,18 +105,13 @@ ocaml_signature(
 
 ocaml_module(
     name = "TzMonad",
-    deps_opam = [
-        "data-encoding",
-        "lwt-canceler",
-        "lwt",
-    ],
     opts = [
         "-open",
         "Tezos_stdlib",
         "-open",
         "Data_encoding",
     ],
-    sig = ":TzMonad_sig",
+    sig = ":TzMonad__sig",
     struct = ":TzMonad.ml",
     deps = [
         ":TzCore",
@@ -89,19 +119,17 @@ ocaml_module(
         ":monad_ext_maker",
         ":monad_maker",
         ":sig",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/lwt-canceler",
         "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
     ],
 )
 
 ocaml_signature(
-    name = "TzTrace_sig",
+    name = "TzTrace__sig",
     src = ":TzTrace.mli",
-    deps_opam = [
-        "data-encoding",
-        "lwt-canceler",
-        "lwt",
-    ],
     opts = [
         "-open",
         "Tezos_stdlib",
@@ -110,6 +138,9 @@ ocaml_signature(
     ],
     deps = [
         ":sig",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/lwt-canceler",
         "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
     ],
@@ -117,34 +148,27 @@ ocaml_signature(
 
 ocaml_module(
     name = "TzTrace",
-    deps_opam = [
-        "data-encoding",
-        "lwt-canceler",
-        "lwt",
-    ],
     opts = [
         "-open",
         "Tezos_stdlib",
         "-open",
         "Data_encoding",
     ],
-    sig = ":TzTrace_sig",
+    sig = ":TzTrace__sig",
     struct = ":TzTrace.ml",
     deps = [
         ":sig",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/lwt-canceler",
         "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
     ],
 )
 
 ocaml_signature(
-    name = "monad_maker_sig",
-    src = ":monad_maker.mli",
-    deps_opam = [
-        "data-encoding",
-        "lwt-canceler",
-        "lwt",
-    ],
+    name = "core_maker__sig",
+    src = ":core_maker.mli",
     opts = [
         "-open",
         "Tezos_stdlib",
@@ -153,6 +177,132 @@ ocaml_signature(
     ],
     deps = [
         ":sig",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/lwt-canceler",
+        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_module(
+    name = "core_maker",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Data_encoding",
+    ],
+    sig = ":core_maker__sig",
+    struct = ":core_maker.ml",
+    deps = [
+        ":sig",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/lwt-canceler",
+        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_signature(
+    name = "error_monad__sig",
+    src = ":error_monad.mli",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Data_encoding",
+    ],
+    deps = [
+        ":TzCore",
+        ":TzMonad",
+        ":TzTrace",
+        ":sig",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/lwt-canceler",
+        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_module(
+    name = "error_monad",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Data_encoding",
+    ],
+    sig = ":error_monad__sig",
+    struct = ":error_monad.ml",
+    deps = [
+        ":TzCore",
+        ":TzMonad",
+        ":TzTrace",
+        ":sig",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/lwt-canceler",
+        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_signature(
+    name = "monad_ext_maker__sig",
+    src = ":monad_ext_maker.mli",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Data_encoding",
+    ],
+    deps = [
+        ":sig",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/lwt-canceler",
+        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_module(
+    name = "monad_ext_maker",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Data_encoding",
+    ],
+    sig = ":monad_ext_maker__sig",
+    struct = ":monad_ext_maker.ml",
+    deps = [
+        ":sig",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/lwt-canceler",
+        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_signature(
+    name = "monad_maker__sig",
+    src = ":monad_maker.mli",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Data_encoding",
+    ],
+    deps = [
+        ":sig",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/lwt-canceler",
         "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
     ],
@@ -160,21 +310,19 @@ ocaml_signature(
 
 ocaml_module(
     name = "monad_maker",
-    deps_opam = [
-        "data-encoding",
-        "lwt-canceler",
-        "lwt",
-    ],
     opts = [
         "-open",
         "Tezos_stdlib",
         "-open",
         "Data_encoding",
     ],
-    sig = ":monad_maker_sig",
+    sig = ":monad_maker__sig",
     struct = ":monad_maker.ml",
     deps = [
         ":sig",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/lwt-canceler",
         "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
     ],
@@ -182,11 +330,6 @@ ocaml_module(
 
 ocaml_module(
     name = "sig",
-    deps_opam = [
-        "data-encoding",
-        "lwt-canceler",
-        "lwt",
-    ],
     opts = [
         "-open",
         "Tezos_stdlib",
@@ -195,186 +338,9 @@ ocaml_module(
     ],
     struct = ":sig.ml",
     deps = [
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_signature(
-    name = "TzCore_sig",
-    src = ":TzCore.mli",
-    deps_opam = [
-        "data-encoding",
-        "lwt-canceler",
-        "lwt",
-    ],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        ":core_maker",
-        ":sig",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "TzCore",
-    deps_opam = [
-        "data-encoding",
-        "lwt-canceler",
-        "lwt",
-    ],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":TzCore_sig",
-    struct = ":TzCore.ml",
-    deps = [
-        ":core_maker",
-        ":sig",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_signature(
-    name = "core_maker_sig",
-    src = ":core_maker.mli",
-    deps_opam = [
-        "data-encoding",
-        "lwt-canceler",
-        "lwt",
-    ],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        ":sig",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "core_maker",
-    deps_opam = [
-        "data-encoding",
-        "lwt-canceler",
-        "lwt",
-    ],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":core_maker_sig",
-    struct = ":core_maker.ml",
-    deps = [
-        ":sig",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_signature(
-    name = "error_monad_sig",
-    src = ":error_monad.mli",
-    deps_opam = [
-        "data-encoding",
-        "lwt-canceler",
-        "lwt",
-    ],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        ":TzCore",
-        ":TzMonad",
-        ":TzTrace",
-        ":sig",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "error_monad",
-    deps_opam = [
-        "data-encoding",
-        "lwt-canceler",
-        "lwt",
-    ],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":error_monad_sig",
-    struct = ":error_monad.ml",
-    deps = [
-        ":TzCore",
-        ":TzMonad",
-        ":TzTrace",
-        ":sig",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_signature(
-    name = "TzLwtreslib_sig",
-    src = ":TzLwtreslib.mli",
-    deps_opam = [
-        "data-encoding",
-        "lwt-canceler",
-        "lwt",
-    ],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        ":TzTrace",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "TzLwtreslib",
-    deps_opam = [
-        "data-encoding",
-        "lwt-canceler",
-        "lwt",
-    ],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":TzLwtreslib_sig",
-    struct = ":TzLwtreslib.ml",
-    deps = [
-        ":TzTrace",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/lwt-canceler",
         "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
     ],
@@ -382,7 +348,7 @@ ocaml_module(
 
 # okapi:auto
 # okapi:public_name tezos-error-monad
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_error_monad",
     submodules = [
         ":TzCore",

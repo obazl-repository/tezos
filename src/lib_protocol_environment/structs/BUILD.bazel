@@ -1,5 +1,7 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module",
+     "ocaml_ns_archive", "ocaml_ns_library")
+
+# load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
 load("//src/lib_protocol_environment/s_packer:pack.bzl", "pack")
 load("//src/lib_protocol_environment/structs:srcs.bzl", "v0_srcs", "v1_srcs", "v2_srcs", "v3_srcs")
 
@@ -13,50 +15,50 @@ pack("structs", 3, v3_srcs)
 
 ocaml_module(
     name = "v0",
-    deps_opam = ["data-encoding"],
     struct = ":v0.ml",
     deps = [
         "//src/lib_crypto:#Tezos_crypto",
         "//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
         "//src/lib_stdlib:#Tezos_stdlib",
+        "@ocaml//lib/data-encoding",
     ],
 )
 
 ocaml_module(
     name = "v1",
-    deps_opam = ["data-encoding"],
     struct = ":v1.ml",
     deps = [
         "//src/lib_crypto:#Tezos_crypto",
         "//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
         "//src/lib_stdlib:#Tezos_stdlib",
+        "@ocaml//lib/data-encoding",
     ],
 )
 
 ocaml_module(
     name = "v2",
-    deps_opam = ["data-encoding"],
     struct = ":v2.ml",
     deps = [
         "//src/lib_crypto:#Tezos_crypto",
         "//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
         "//src/lib_stdlib:#Tezos_stdlib",
+        "@ocaml//lib/data-encoding",
     ],
 )
 
 ocaml_module(
     name = "v3",
-    deps_opam = ["data-encoding"],
     struct = ":v3.ml",
     deps = [
         "//src/lib_crypto:#Tezos_crypto",
         "//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
         "//src/lib_stdlib:#Tezos_stdlib",
+        "@ocaml//lib/data-encoding",
     ],
 )
 
 # okapi:public_name tezos-protocol-environment-structs
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_protocol_environment_structs",
     submodules = [
         ":v0",

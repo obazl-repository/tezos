@@ -3,20 +3,20 @@ load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", 
 ocaml_signature(
     name = "hacl__sig",
     src = ":hacl.mli",
-    deps_opam = [
-        "hacl-star",
-        "hacl-star-raw",
+    deps = [
+        "@ocaml//lib/hacl-star",
+        "@ocaml//lib/hacl-star-raw",
     ],
 )
 
 ocaml_module(
     name = "hacl",
-    deps_opam = [
-        "hacl-star",
-        "hacl-star-raw",
-    ],
     sig = ":hacl__sig",
     struct = ":hacl.ml",
+    deps = [
+        "@ocaml//lib/hacl-star",
+        "@ocaml//lib/hacl-star-raw",
+    ],
 )
 
 # okapi:public_name tezos-hacl-glue

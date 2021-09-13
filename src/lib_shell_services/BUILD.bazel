@@ -1,7 +1,7 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
-    name = "block_services_sig",
+    name = "block_services__sig",
     src = ":block_services.mli",
     opts = [
         "-linkall",
@@ -34,7 +34,7 @@ ocaml_module(
         "-open",
         "Tezos_version",
     ],
-    sig = ":block_services_sig",
+    sig = ":block_services__sig",
     struct = ":block_services.ml",
     deps = [
         "@tezos//src/lib_base:#Tezos_base",
@@ -43,8 +43,9 @@ ocaml_module(
     ],
 )
 
-ocaml_module(
-    name = "store_errors",
+ocaml_signature(
+    name = "block_validator_errors__sig",
+    src = ":block_validator_errors.mli",
     opts = [
         "-linkall",
         "-open",
@@ -56,9 +57,29 @@ ocaml_module(
         "-open",
         "Tezos_version",
     ],
-    struct = ":store_errors.ml",
     deps = [
-        ":history_mode",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
+)
+
+ocaml_module(
+    name = "block_validator_errors",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_p2p_services",
+        "-open",
+        "Tezos_version",
+    ],
+    sig = ":block_validator_errors__sig",
+    struct = ":block_validator_errors.ml",
+    deps = [
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_version:#Tezos_version",
@@ -66,7 +87,50 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "chain_services_sig",
+    name = "block_validator_worker_state__sig",
+    src = ":block_validator_worker_state.mli",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_p2p_services",
+        "-open",
+        "Tezos_version",
+    ],
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
+)
+
+ocaml_module(
+    name = "block_validator_worker_state",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_p2p_services",
+        "-open",
+        "Tezos_version",
+    ],
+    sig = ":block_validator_worker_state__sig",
+    struct = ":block_validator_worker_state.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
+)
+
+ocaml_signature(
+    name = "chain_services__sig",
     src = ":chain_services.mli",
     opts = [
         "-linkall",
@@ -102,7 +166,7 @@ ocaml_module(
         "-open",
         "Tezos_version",
     ],
-    sig = ":chain_services_sig",
+    sig = ":chain_services__sig",
     struct = ":chain_services.ml",
     deps = [
         ":block_services",
@@ -115,7 +179,50 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "config_services_sig",
+    name = "chain_validator_worker_state__sig",
+    src = ":chain_validator_worker_state.mli",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_p2p_services",
+        "-open",
+        "Tezos_version",
+    ],
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
+)
+
+ocaml_module(
+    name = "chain_validator_worker_state",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_p2p_services",
+        "-open",
+        "Tezos_version",
+    ],
+    sig = ":chain_validator_worker_state__sig",
+    struct = ":chain_validator_worker_state.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
+)
+
+ocaml_signature(
+    name = "config_services__sig",
     src = ":config_services.mli",
     opts = [
         "-linkall",
@@ -148,7 +255,7 @@ ocaml_module(
         "-open",
         "Tezos_version",
     ],
-    sig = ":config_services_sig",
+    sig = ":config_services__sig",
     struct = ":config_services.ml",
     deps = [
         "@tezos//src/lib_base:#Tezos_base",
@@ -158,8 +265,8 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "block_validator_errors_sig",
-    src = ":block_validator_errors.mli",
+    name = "history_mode__sig",
+    src = ":history_mode.mli",
     opts = [
         "-linkall",
         "-open",
@@ -179,7 +286,7 @@ ocaml_signature(
 )
 
 ocaml_module(
-    name = "block_validator_errors",
+    name = "history_mode",
     opts = [
         "-linkall",
         "-open",
@@ -191,8 +298,8 @@ ocaml_module(
         "-open",
         "Tezos_version",
     ],
-    sig = ":block_validator_errors_sig",
-    struct = ":block_validator_errors.ml",
+    sig = ":history_mode__sig",
+    struct = ":history_mode.ml",
     deps = [
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
@@ -201,7 +308,52 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "monitor_services_sig",
+    name = "injection_services__sig",
+    src = ":injection_services.mli",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_p2p_services",
+        "-open",
+        "Tezos_version",
+    ],
+    deps = [
+        ":chain_services",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
+)
+
+ocaml_module(
+    name = "injection_services",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_p2p_services",
+        "-open",
+        "Tezos_version",
+    ],
+    sig = ":injection_services__sig",
+    struct = ":injection_services.ml",
+    deps = [
+        ":chain_services",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
+)
+
+ocaml_signature(
+    name = "monitor_services__sig",
     src = ":monitor_services.mli",
     opts = [
         "-linkall",
@@ -235,7 +387,7 @@ ocaml_module(
         "-open",
         "Tezos_version",
     ],
-    sig = ":monitor_services_sig",
+    sig = ":monitor_services__sig",
     struct = ":monitor_services.ml",
     deps = [
         ":chain_services",
@@ -246,8 +398,8 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "history_mode_sig",
-    src = ":history_mode.mli",
+    name = "peer_validator_worker_state__sig",
+    src = ":peer_validator_worker_state.mli",
     opts = [
         "-linkall",
         "-open",
@@ -267,7 +419,7 @@ ocaml_signature(
 )
 
 ocaml_module(
-    name = "history_mode",
+    name = "peer_validator_worker_state",
     opts = [
         "-linkall",
         "-open",
@@ -279,8 +431,8 @@ ocaml_module(
         "-open",
         "Tezos_version",
     ],
-    sig = ":history_mode_sig",
-    struct = ":history_mode.ml",
+    sig = ":peer_validator_worker_state__sig",
+    struct = ":peer_validator_worker_state.ml",
     deps = [
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
@@ -289,7 +441,7 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "prevalidator_worker_state_sig",
+    name = "prevalidator_worker_state__sig",
     src = ":prevalidator_worker_state.mli",
     opts = [
         "-linkall",
@@ -322,7 +474,7 @@ ocaml_module(
         "-open",
         "Tezos_version",
     ],
-    sig = ":prevalidator_worker_state_sig",
+    sig = ":prevalidator_worker_state__sig",
     struct = ":prevalidator_worker_state.ml",
     deps = [
         "@tezos//src/lib_base:#Tezos_base",
@@ -332,8 +484,8 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "chain_validator_worker_state_sig",
-    src = ":chain_validator_worker_state.mli",
+    name = "protocol_services__sig",
+    src = ":protocol_services.mli",
     opts = [
         "-linkall",
         "-open",
@@ -353,7 +505,7 @@ ocaml_signature(
 )
 
 ocaml_module(
-    name = "chain_validator_worker_state",
+    name = "protocol_services",
     opts = [
         "-linkall",
         "-open",
@@ -365,8 +517,8 @@ ocaml_module(
         "-open",
         "Tezos_version",
     ],
-    sig = ":chain_validator_worker_state_sig",
-    struct = ":chain_validator_worker_state.ml",
+    sig = ":protocol_services__sig",
+    struct = ":protocol_services.ml",
     deps = [
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
@@ -375,93 +527,7 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "stat_services_sig",
-    src = ":stat_services.mli",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Tezos_version",
-    ],
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_version:#Tezos_version",
-    ],
-)
-
-ocaml_module(
-    name = "stat_services",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Tezos_version",
-    ],
-    sig = ":stat_services_sig",
-    struct = ":stat_services.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_version:#Tezos_version",
-    ],
-)
-
-ocaml_signature(
-    name = "version_services_sig",
-    src = ":version_services.mli",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Tezos_version",
-    ],
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_version:#Tezos_version",
-    ],
-)
-
-ocaml_module(
-    name = "version_services",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Tezos_version",
-    ],
-    sig = ":version_services_sig",
-    struct = ":version_services.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_version:#Tezos_version",
-    ],
-)
-
-ocaml_signature(
-    name = "shell_services_sig",
+    name = "shell_services__sig",
     src = ":shell_services.mli",
     opts = [
         "-linkall",
@@ -501,7 +567,7 @@ ocaml_module(
         "-open",
         "Tezos_version",
     ],
-    sig = ":shell_services_sig",
+    sig = ":shell_services__sig",
     struct = ":shell_services.ml",
     deps = [
         ":block_services",
@@ -518,7 +584,179 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "worker_services_sig",
+    name = "stat_services__sig",
+    src = ":stat_services.mli",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_p2p_services",
+        "-open",
+        "Tezos_version",
+    ],
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
+)
+
+ocaml_module(
+    name = "stat_services",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_p2p_services",
+        "-open",
+        "Tezos_version",
+    ],
+    sig = ":stat_services__sig",
+    struct = ":stat_services.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
+)
+
+ocaml_module(
+    name = "state_events",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_p2p_services",
+        "-open",
+        "Tezos_version",
+    ],
+    struct = ":state_events.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
+)
+
+ocaml_module(
+    name = "store_errors",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_p2p_services",
+        "-open",
+        "Tezos_version",
+    ],
+    struct = ":store_errors.ml",
+    deps = [
+        ":history_mode",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
+)
+
+ocaml_signature(
+    name = "validation_errors__sig",
+    src = ":validation_errors.mli",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_p2p_services",
+        "-open",
+        "Tezos_version",
+    ],
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
+)
+
+ocaml_module(
+    name = "validation_errors",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_p2p_services",
+        "-open",
+        "Tezos_version",
+    ],
+    sig = ":validation_errors__sig",
+    struct = ":validation_errors.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
+)
+
+ocaml_signature(
+    name = "version_services__sig",
+    src = ":version_services.mli",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_p2p_services",
+        "-open",
+        "Tezos_version",
+    ],
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
+)
+
+ocaml_module(
+    name = "version_services",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base",
+        "-open",
+        "Tezos_p2p_services",
+        "-open",
+        "Tezos_version",
+    ],
+    sig = ":version_services__sig",
+    struct = ":version_services.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
+        "@tezos//src/lib_version:#Tezos_version",
+    ],
+)
+
+ocaml_signature(
+    name = "worker_services__sig",
     src = ":worker_services.mli",
     opts = [
         "-linkall",
@@ -556,7 +794,7 @@ ocaml_module(
         "-open",
         "Tezos_version",
     ],
-    sig = ":worker_services_sig",
+    sig = ":worker_services__sig",
     struct = ":worker_services.ml",
     deps = [
         ":block_validator_worker_state",
@@ -570,247 +808,9 @@ ocaml_module(
     ],
 )
 
-ocaml_signature(
-    name = "block_validator_worker_state_sig",
-    src = ":block_validator_worker_state.mli",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Tezos_version",
-    ],
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_version:#Tezos_version",
-    ],
-)
-
-ocaml_module(
-    name = "block_validator_worker_state",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Tezos_version",
-    ],
-    sig = ":block_validator_worker_state_sig",
-    struct = ":block_validator_worker_state.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_version:#Tezos_version",
-    ],
-)
-
-ocaml_signature(
-    name = "injection_services_sig",
-    src = ":injection_services.mli",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Tezos_version",
-    ],
-    deps = [
-        ":chain_services",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_version:#Tezos_version",
-    ],
-)
-
-ocaml_module(
-    name = "injection_services",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Tezos_version",
-    ],
-    sig = ":injection_services_sig",
-    struct = ":injection_services.ml",
-    deps = [
-        ":chain_services",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_version:#Tezos_version",
-    ],
-)
-
-ocaml_signature(
-    name = "peer_validator_worker_state_sig",
-    src = ":peer_validator_worker_state.mli",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Tezos_version",
-    ],
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_version:#Tezos_version",
-    ],
-)
-
-ocaml_module(
-    name = "peer_validator_worker_state",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Tezos_version",
-    ],
-    sig = ":peer_validator_worker_state_sig",
-    struct = ":peer_validator_worker_state.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_version:#Tezos_version",
-    ],
-)
-
-ocaml_signature(
-    name = "validation_errors_sig",
-    src = ":validation_errors.mli",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Tezos_version",
-    ],
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_version:#Tezos_version",
-    ],
-)
-
-ocaml_module(
-    name = "validation_errors",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Tezos_version",
-    ],
-    sig = ":validation_errors_sig",
-    struct = ":validation_errors.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_version:#Tezos_version",
-    ],
-)
-
-ocaml_signature(
-    name = "protocol_services_sig",
-    src = ":protocol_services.mli",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Tezos_version",
-    ],
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_version:#Tezos_version",
-    ],
-)
-
-ocaml_module(
-    name = "protocol_services",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Tezos_version",
-    ],
-    sig = ":protocol_services_sig",
-    struct = ":protocol_services.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_version:#Tezos_version",
-    ],
-)
-
-ocaml_module(
-    name = "state_events",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Tezos_version",
-    ],
-    struct = ":state_events.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_version:#Tezos_version",
-    ],
-)
-
 # okapi:auto
 # okapi:public_name tezos-shell-services
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_shell_services",
     submodules = [
         ":block_services",

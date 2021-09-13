@@ -1,41 +1,41 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
-    name = "context_sig",
+    name = "context__sig",
     src = ":context.mli",
-    deps_opam = [
-        "irmin",
-        "irmin.mem",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
         "-open",
         "Tezos_stdlib",
     ],
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
+    deps = [
+        "@ocaml//lib/irmin",
+        "@ocaml//lib/irmin/mem",
+        "@tezos//src/lib_base:#Tezos_base",
+    ],
 )
 
 ocaml_module(
     name = "context",
-    deps_opam = [
-        "irmin",
-        "irmin.mem",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
         "-open",
         "Tezos_stdlib",
     ],
-    sig = ":context_sig",
+    sig = ":context__sig",
     struct = ":context.ml",
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
+    deps = [
+        "@ocaml//lib/irmin",
+        "@ocaml//lib/irmin/mem",
+        "@tezos//src/lib_base:#Tezos_base",
+    ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-context.encoding
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_context_encoding",
     submodules = [":context"],
     visibility = ["//visibility:public"],

@@ -1,11 +1,7 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_module(
     name = "client_config",
-    deps_opam = [
-        "tezos-signer-backends.unix",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -27,6 +23,7 @@ ocaml_module(
     ],
     struct = ":client_config.ml",
     deps = [
+        "@ocaml//lib/lwt-exit",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_client_commands:#Tezos_client_commands",
@@ -36,17 +33,14 @@ ocaml_module(
         "@tezos//src/lib_proxy:#Tezos_proxy",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client_unix",
         "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_signer_backends/unix:#Tezos_signer_backends_unix",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
     ],
 )
 
 ocaml_signature(
-    name = "client_context_unix_sig",
+    name = "client_context_unix__sig",
     src = ":client_context_unix.mli",
-    deps_opam = [
-        "tezos-signer-backends.unix",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -67,6 +61,7 @@ ocaml_signature(
         "-linkall",
     ],
     deps = [
+        "@ocaml//lib/lwt-exit",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_client_commands:#Tezos_client_commands",
@@ -76,16 +71,13 @@ ocaml_signature(
         "@tezos//src/lib_proxy:#Tezos_proxy",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client_unix",
         "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_signer_backends/unix:#Tezos_signer_backends_unix",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
     ],
 )
 
 ocaml_module(
     name = "client_context_unix",
-    deps_opam = [
-        "tezos-signer-backends.unix",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -105,9 +97,10 @@ ocaml_module(
         "Tezos_mockup_commands",
         "-linkall",
     ],
-    sig = ":client_context_unix_sig",
+    sig = ":client_context_unix__sig",
     struct = ":client_context_unix.ml",
     deps = [
+        "@ocaml//lib/lwt-exit",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_client_commands:#Tezos_client_commands",
@@ -117,17 +110,14 @@ ocaml_module(
         "@tezos//src/lib_proxy:#Tezos_proxy",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client_unix",
         "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_signer_backends/unix:#Tezos_signer_backends_unix",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
     ],
 )
 
 ocaml_signature(
-    name = "client_main_run_sig",
+    name = "client_main_run__sig",
     src = ":client_main_run.mli",
-    deps_opam = [
-        "tezos-signer-backends.unix",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -150,6 +140,7 @@ ocaml_signature(
     deps = [
         ":client_config",
         ":client_context_unix",
+        "@ocaml//lib/lwt-exit",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_client_commands:#Tezos_client_commands",
@@ -159,16 +150,13 @@ ocaml_signature(
         "@tezos//src/lib_proxy:#Tezos_proxy",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client_unix",
         "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_signer_backends/unix:#Tezos_signer_backends_unix",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
     ],
 )
 
 ocaml_module(
     name = "client_main_run",
-    deps_opam = [
-        "tezos-signer-backends.unix",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -188,11 +176,12 @@ ocaml_module(
         "Tezos_mockup_commands",
         "-linkall",
     ],
-    sig = ":client_main_run_sig",
+    sig = ":client_main_run__sig",
     struct = ":client_main_run.ml",
     deps = [
         ":client_config",
         ":client_context_unix",
+        "@ocaml//lib/lwt-exit",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_client_commands:#Tezos_client_commands",
@@ -202,12 +191,14 @@ ocaml_module(
         "@tezos//src/lib_proxy:#Tezos_proxy",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client_unix",
         "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_signer_backends/unix:#Tezos_signer_backends_unix",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
     ],
 )
 
 # okapi:auto
-ocaml_ns_library(
+# okapi:public_name tezos-client-base-unix
+ocaml_ns_archive(
     name = "#Tezos_client_base_unix",
     submodules = [
         ":client_config",

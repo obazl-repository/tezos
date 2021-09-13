@@ -1,26 +1,8 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_ns_archive")
 
-ocaml_module(
-    name = "bip39_english",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    struct = ":bip39_english.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_sapling:#Tezos_sapling",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_ns_library(
+# okapi:public_name tezos-client-base
+ocaml_ns_archive(
     name = "#Tezos_client_base",
-    submodules = [":bip39_english"],
+    submodules = [],
     visibility = ["//visibility:public"],
 )

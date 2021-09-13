@@ -1,27 +1,25 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_module(
     name = "attacker_main",
-    opts = [],
     struct = ":attacker_main.ml",
     deps = [":attacker_minimal"],
 )
 
 ocaml_signature(
-    name = "attacker_minimal_sig",
+    name = "attacker_minimal__sig",
     src = ":attacker_minimal.mli",
-    opts = [],
 )
 
 ocaml_module(
     name = "attacker_minimal",
-    opts = [],
-    sig = ":attacker_minimal_sig",
+    sig = ":attacker_minimal__sig",
     struct = ":attacker_minimal.ml",
 )
 
 # okapi:auto
-ocaml_ns_library(
+# okapi:public_name bin_attacker
+ocaml_ns_archive(
     name = "#Bin_attacker",
     submodules = [
         ":attacker_main",

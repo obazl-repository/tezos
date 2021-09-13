@@ -1,5 +1,9 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module", "ocaml_ns_library")
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
+load(
+    "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+    "ocaml_ns_archive",
+)
 
 ocaml_executable(
     name = "exe",
@@ -14,7 +18,7 @@ ocaml_module(
 
 # okapi:auto
 # okapi:public_name tezos-protocol-environment-packer
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_protocol_environment_packer",
     submodules = [":s_packer"],
     visibility = ["//visibility:public"],

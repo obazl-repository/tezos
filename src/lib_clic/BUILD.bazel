@@ -1,12 +1,8 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
-    name = "clic_sig",
+    name = "clic__sig",
     src = ":clic.mli",
-    deps_opam = [
-        "lwt",
-        "re",
-    ],
     opts = [
         "-open",
         "Tezos_stdlib",
@@ -16,6 +12,8 @@ ocaml_signature(
         "Tezos_error_monad.TzLwtreslib",
     ],
     deps = [
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/re",
         "@tezos//src/lib_error_monad:#Tezos_error_monad",
         "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
@@ -24,10 +22,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "clic",
-    deps_opam = [
-        "lwt",
-        "re",
-    ],
     opts = [
         "-open",
         "Tezos_stdlib",
@@ -36,9 +30,11 @@ ocaml_module(
         "-open",
         "Tezos_error_monad.TzLwtreslib",
     ],
-    sig = ":clic_sig",
+    sig = ":clic__sig",
     struct = ":clic.ml",
     deps = [
+        "@ocaml//lib/lwt",
+        "@ocaml//lib/re",
         "@tezos//src/lib_error_monad:#Tezos_error_monad",
         "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
@@ -47,7 +43,7 @@ ocaml_module(
 
 # okapi:auto
 # okapi:public_name tezos-clic
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_clic",
     submodules = [":clic"],
     visibility = ["//visibility:public"],

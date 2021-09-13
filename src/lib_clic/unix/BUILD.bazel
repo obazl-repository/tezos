@@ -1,7 +1,7 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
-    name = "scriptable_sig",
+    name = "scriptable__sig",
     src = ":scriptable.mli",
     opts = [
         "-open",
@@ -33,7 +33,7 @@ ocaml_module(
         "-open",
         "Tezos_error_monad.TzLwtreslib",
     ],
-    sig = ":scriptable_sig",
+    sig = ":scriptable__sig",
     struct = ":scriptable.ml",
     deps = [
         "@tezos//src/lib_clic:#Tezos_clic",
@@ -44,7 +44,8 @@ ocaml_module(
 )
 
 # okapi:auto
-ocaml_ns_library(
+# okapi:public_name tezos-clic.unix
+ocaml_ns_archive(
     name = "#Tezos_clic_unix",
     submodules = [":scriptable"],
     visibility = ["//visibility:public"],

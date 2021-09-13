@@ -1,53 +1,61 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
-    name = "RPC_client_errors_sig",
+    name = "RPC_client_errors__sig",
     src = ":RPC_client_errors.mli",
-    deps_opam = ["resto-cohttp"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
     ],
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
+    deps = [
+        "@ocaml//lib/resto-cohttp",
+        "@tezos//src/lib_base:#Tezos_base",
+    ],
 )
 
 ocaml_module(
     name = "RPC_client_errors",
-    deps_opam = ["resto-cohttp"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
     ],
-    sig = ":RPC_client_errors_sig",
+    sig = ":RPC_client_errors__sig",
     struct = ":RPC_client_errors.ml",
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
+    deps = [
+        "@ocaml//lib/resto-cohttp",
+        "@tezos//src/lib_base:#Tezos_base",
+    ],
 )
 
 ocaml_signature(
-    name = "media_type_sig",
+    name = "media_type__sig",
     src = ":media_type.mli",
-    deps_opam = ["resto-cohttp"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
     ],
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
+    deps = [
+        "@ocaml//lib/resto-cohttp",
+        "@tezos//src/lib_base:#Tezos_base",
+    ],
 )
 
 ocaml_module(
     name = "media_type",
-    deps_opam = ["resto-cohttp"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
     ],
-    sig = ":media_type_sig",
+    sig = ":media_type__sig",
     struct = ":media_type.ml",
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
+    deps = [
+        "@ocaml//lib/resto-cohttp",
+        "@tezos//src/lib_base:#Tezos_base",
+    ],
 )
 
 # okapi:public_name tezos-rpc-http
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_rpc_http",
     submodules = [
         ":RPC_client_errors",
@@ -57,9 +65,8 @@ ocaml_ns_library(
 )
 
 ocaml_signature(
-    name = "RPC_client_sig",
+    name = "RPC_client__sig",
     src = ":RPC_client.mli",
-    deps_opam = ["resto-cohttp-client"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -69,6 +76,7 @@ ocaml_signature(
     deps = [
         ":RPC_client_errors",
         ":media_type",
+        "@ocaml//lib/resto-cohttp-client",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http",
     ],
@@ -76,37 +84,33 @@ ocaml_signature(
 
 ocaml_module(
     name = "RPC_client",
-    deps_opam = ["resto-cohttp-client"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
         "-open",
         "Tezos_rpc_http",
     ],
-    sig = ":RPC_client_sig",
+    sig = ":RPC_client__sig",
     struct = ":RPC_client.ml",
     deps = [
         ":RPC_client_errors",
         ":media_type",
+        "@ocaml//lib/resto-cohttp-client",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http",
     ],
 )
 
 # okapi:public_name tezos-rpc-http-client
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_rpc_http_client",
     submodules = [":RPC_client"],
     visibility = ["//visibility:public"],
 )
 
 ocaml_signature(
-    name = "RPC_client_unix_sig",
+    name = "RPC_client_unix__sig",
     src = ":RPC_client_unix.mli",
-    deps_opam = [
-        "cohttp-lwt-unix",
-        "resto-cohttp-client",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -115,6 +119,8 @@ ocaml_signature(
     ],
     deps = [
         ":RPC_client",
+        "@ocaml//lib/cohttp-lwt-unix",
+        "@ocaml//lib/resto-cohttp-client",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
@@ -123,20 +129,18 @@ ocaml_signature(
 
 ocaml_module(
     name = "RPC_client_unix",
-    deps_opam = [
-        "cohttp-lwt-unix",
-        "resto-cohttp-client",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
         "-open",
         "Tezos_rpc_http_client",
     ],
-    sig = ":RPC_client_unix_sig",
+    sig = ":RPC_client_unix__sig",
     struct = ":RPC_client_unix.ml",
     deps = [
         ":RPC_client",
+        "@ocaml//lib/cohttp-lwt-unix",
+        "@ocaml//lib/resto-cohttp-client",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
@@ -144,19 +148,15 @@ ocaml_module(
 )
 
 # okapi:public_name tezos-rpc-http-client-unix
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_rpc_http_client_unix",
     submodules = [":RPC_client_unix"],
     visibility = ["//visibility:public"],
 )
 
 ocaml_signature(
-    name = "RPC_logging_sig",
+    name = "RPC_logging__sig",
     src = ":RPC_logging.mli",
-    deps_opam = [
-        "resto-cohttp-server",
-        "resto-acl",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -166,6 +166,8 @@ ocaml_signature(
         "Tezos_rpc_http",
     ],
     deps = [
+        "@ocaml//lib/resto-acl",
+        "@ocaml//lib/resto-cohttp-server",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http",
     ],
@@ -173,10 +175,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "RPC_logging",
-    deps_opam = [
-        "resto-cohttp-server",
-        "resto-acl",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -185,21 +183,19 @@ ocaml_module(
         "-open",
         "Tezos_rpc_http",
     ],
-    sig = ":RPC_logging_sig",
+    sig = ":RPC_logging__sig",
     struct = ":RPC_logging.ml",
     deps = [
+        "@ocaml//lib/resto-acl",
+        "@ocaml//lib/resto-cohttp-server",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http",
     ],
 )
 
 ocaml_signature(
-    name = "RPC_server_sig",
+    name = "RPC_server__sig",
     src = ":RPC_server.mli",
-    deps_opam = [
-        "resto-cohttp-server",
-        "resto-acl",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -211,6 +207,8 @@ ocaml_signature(
     deps = [
         ":RPC_logging",
         ":media_type",
+        "@ocaml//lib/resto-acl",
+        "@ocaml//lib/resto-cohttp-server",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http",
     ],
@@ -218,10 +216,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "RPC_server",
-    deps_opam = [
-        "resto-cohttp-server",
-        "resto-acl",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -230,18 +224,20 @@ ocaml_module(
         "-open",
         "Tezos_rpc_http",
     ],
-    sig = ":RPC_server_sig",
+    sig = ":RPC_server__sig",
     struct = ":RPC_server.ml",
     deps = [
         ":RPC_logging",
         ":media_type",
+        "@ocaml//lib/resto-acl",
+        "@ocaml//lib/resto-cohttp-server",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http",
     ],
 )
 
 # okapi:public_name tezos-rpc-http-server
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_rpc_http_server",
     submodules = [
         ":RPC_logging",

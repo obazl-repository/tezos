@@ -1,0 +1,36 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module")
+
+ocaml_module(
+    name = "main_accuser_alpha",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_protocol_alpha",
+        "-open",
+        "Tezos_client_alpha",
+        "-open",
+        "Tezos_client_commands",
+        "-open",
+        "Tezos_baking_alpha_commands",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_client_base_unix",
+    ],
+    struct = ":main_accuser_alpha.ml",
+    deps = [
+        "@tezos//src/lib_client_base_unix:#Tezos_client_base_unix",
+        "@tezos//src/lib_client_commands:#Tezos_client_commands",
+        "@tezos//src/proto_alpha/lib_delegate:#Tezos_baking_alpha_commands",
+    ],
+)
+
+# okapi:auto
+# okapi:public_name tezos-accuser-alpha
+ocaml_executable(
+    name = "exe-tezos-accuser-alpha",
+    main = "main_accuser_alpha",
+    visibility = ["//visibility:public"],
+    deps = [":main_accuser_alpha"],
+)

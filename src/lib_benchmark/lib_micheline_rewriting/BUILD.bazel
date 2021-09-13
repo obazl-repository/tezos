@@ -1,8 +1,7 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_module(
     name = "custom_weak",
-    deps_opam = ["zarith"],
     opts = [
         "-open",
         "Tezos_stdlib",
@@ -13,93 +12,7 @@ ocaml_module(
     ],
     struct = ":custom_weak.ml",
     deps = [
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "micheline_without_hash_consing",
-    deps_opam = ["zarith"],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-    ],
-    struct = ":micheline_without_hash_consing.ml",
-    deps = [
-        ":micheline_sig",
-        ":signature",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "signature",
-    deps_opam = ["zarith"],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-    ],
-    struct = ":signature.ml",
-    deps = [
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_signature(
-    name = "pattern_sig",
-    src = ":pattern.mli",
-    deps_opam = ["zarith"],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-    ],
-    deps = [
-        ":micheline_sig",
-        ":micheline_with_hash_consing",
-        ":path",
-        ":signature",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "pattern",
-    deps_opam = ["zarith"],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-    ],
-    sig = ":pattern_sig",
-    struct = ":pattern.ml",
-    deps = [
-        ":micheline_sig",
-        ":micheline_with_hash_consing",
-        ":path",
-        ":signature",
+        "@ocaml//lib/zarith",
         "@tezos//src/lib_error_monad:#Tezos_error_monad",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
@@ -108,7 +21,6 @@ ocaml_module(
 
 ocaml_module(
     name = "micheline_sig",
-    deps_opam = ["zarith"],
     opts = [
         "-open",
         "Tezos_stdlib",
@@ -119,91 +31,7 @@ ocaml_module(
     ],
     struct = ":micheline_sig.ml",
     deps = [
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "path",
-    deps_opam = ["zarith"],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-    ],
-    struct = ":path.ml",
-    deps = [
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "structural_compare",
-    deps_opam = ["zarith"],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-    ],
-    struct = ":structural_compare.ml",
-    deps = [
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_signature(
-    name = "rewrite_sig",
-    src = ":rewrite.mli",
-    deps_opam = ["zarith"],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-    ],
-    deps = [
-        ":micheline_sig",
-        ":path",
-        ":pattern",
-        ":signature",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "rewrite",
-    deps_opam = ["zarith"],
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-    ],
-    sig = ":rewrite_sig",
-    struct = ":rewrite.ml",
-    deps = [
-        ":micheline_sig",
-        ":path",
-        ":pattern",
-        ":signature",
+        "@ocaml//lib/zarith",
         "@tezos//src/lib_error_monad:#Tezos_error_monad",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
@@ -212,7 +40,6 @@ ocaml_module(
 
 ocaml_module(
     name = "micheline_with_hash_consing",
-    deps_opam = ["zarith"],
     opts = [
         "-open",
         "Tezos_stdlib",
@@ -226,6 +53,179 @@ ocaml_module(
         ":custom_weak",
         ":micheline_sig",
         ":signature",
+        "@ocaml//lib/zarith",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_micheline:#Tezos_micheline",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_module(
+    name = "micheline_without_hash_consing",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Tezos_micheline",
+    ],
+    struct = ":micheline_without_hash_consing.ml",
+    deps = [
+        ":micheline_sig",
+        ":signature",
+        "@ocaml//lib/zarith",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_micheline:#Tezos_micheline",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_module(
+    name = "path",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Tezos_micheline",
+    ],
+    struct = ":path.ml",
+    deps = [
+        "@ocaml//lib/zarith",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_micheline:#Tezos_micheline",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_signature(
+    name = "pattern__sig",
+    src = ":pattern.mli",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Tezos_micheline",
+    ],
+    deps = [
+        ":micheline_sig",
+        ":micheline_with_hash_consing",
+        ":path",
+        ":signature",
+        "@ocaml//lib/zarith",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_micheline:#Tezos_micheline",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_module(
+    name = "pattern",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Tezos_micheline",
+    ],
+    sig = ":pattern__sig",
+    struct = ":pattern.ml",
+    deps = [
+        ":micheline_sig",
+        ":micheline_with_hash_consing",
+        ":path",
+        ":signature",
+        "@ocaml//lib/zarith",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_micheline:#Tezos_micheline",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_signature(
+    name = "rewrite__sig",
+    src = ":rewrite.mli",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Tezos_micheline",
+    ],
+    deps = [
+        ":micheline_sig",
+        ":path",
+        ":pattern",
+        ":signature",
+        "@ocaml//lib/zarith",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_micheline:#Tezos_micheline",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_module(
+    name = "rewrite",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Tezos_micheline",
+    ],
+    sig = ":rewrite__sig",
+    struct = ":rewrite.ml",
+    deps = [
+        ":micheline_sig",
+        ":path",
+        ":pattern",
+        ":signature",
+        "@ocaml//lib/zarith",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_micheline:#Tezos_micheline",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_module(
+    name = "signature",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Tezos_micheline",
+    ],
+    struct = ":signature.ml",
+    deps = [
+        "@ocaml//lib/zarith",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_micheline:#Tezos_micheline",
+        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+    ],
+)
+
+ocaml_module(
+    name = "structural_compare",
+    opts = [
+        "-open",
+        "Tezos_stdlib",
+        "-open",
+        "Tezos_error_monad",
+        "-open",
+        "Tezos_micheline",
+    ],
+    struct = ":structural_compare.ml",
+    deps = [
+        "@ocaml//lib/zarith",
         "@tezos//src/lib_error_monad:#Tezos_error_monad",
         "@tezos//src/lib_micheline:#Tezos_micheline",
         "@tezos//src/lib_stdlib:#Tezos_stdlib",
@@ -233,7 +233,8 @@ ocaml_module(
 )
 
 # okapi:auto
-ocaml_ns_library(
+# okapi:public_name tezos-micheline-rewriting
+ocaml_ns_archive(
     name = "#Tezos_micheline_rewriting",
     submodules = [
         ":custom_weak",

@@ -1,3 +1,6 @@
+.obazl.d/codept.*
+*.history.txt
+*.log
 
 ## /!\ /!\ Update .dockerignore accordingly /!\ /!\
 

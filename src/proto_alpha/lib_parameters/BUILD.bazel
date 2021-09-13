@@ -1,11 +1,8 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
-ocaml_module(
-    name = "\\",
-    deps_opam = [
-        "tezos-base.unix",
-        "tezos-protocol-alpha",
-    ],
+ocaml_signature(
+    name = "default_parameters__sig",
+    src = ":default_parameters.mli",
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -13,39 +10,62 @@ ocaml_module(
         "Tezos_protocol_alpha",
         "-linkall",
     ],
-    struct = ":\\.ml",
     deps = [
+        "@ocaml//lib/tezos-protocol-alpha",
         "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
+        "@tezos//src/lib_base/unix:#Tezos_base_unix",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
     ],
 )
 
 ocaml_module(
-    name = "gen",
-    deps_opam = [
-        "tezos-base.unix",
-        "tezos-protocol-alpha",
-    ],
+    name = "default_parameters",
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
         "-open",
         "Tezos_protocol_alpha",
+        "-linkall",
+    ],
+    sig = ":default_parameters__sig",
+    struct = ":default_parameters.ml",
+    deps = [
+        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base/unix:#Tezos_base_unix",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+    ],
+)
+
+# okapi:auto
+# okapi:public_name tezos-protocol-alpha-parameters
+ocaml_ns_archive(
+    name = "#Tezos_protocol_alpha_parameters",
+    submodules = [":default_parameters"],
+    visibility = ["//visibility:public"],
+)
+
+ocaml_module(
+    name = "gen",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_protocol_alpha_parameters",
         "-linkall",
     ],
     struct = ":gen.ml",
     deps = [
         ":default_parameters",
         "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_protocol_environment:#Tezos_protocol_environment",
+        "@tezos//src/proto_alpha/lib_parameters:#Tezos_protocol_alpha_parameters",
     ],
 )
 
-ocaml_ns_library(
-    name = "#Tezos_protocol_alpha_parameters",
-    submodules = [
-        ":\\",
-        ":gen",
-    ],
+# okapi:public_name gen
+ocaml_executable(
+    name = "exe-gen",
+    main = "gen",
     visibility = ["//visibility:public"],
+    deps = [":gen"],
 )

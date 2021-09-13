@@ -1,0 +1,47 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module")
+
+ocaml_module(
+    name = "bip39_tests",
+    opts = [
+        "-open",
+        "Tezos_client_base",
+    ],
+    struct = ":bip39_tests.ml",
+    deps = [
+        "@ocaml//lib/alcotest",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base/unix:#Tezos_base_unix",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+    ],
+)
+
+# okapi:public_name bip39_tests
+ocaml_executable(
+    name = "exe-bip39_tests",
+    main = "bip39_tests",
+    visibility = ["//visibility:public"],
+    deps = [":bip39_tests"],
+)
+
+ocaml_module(
+    name = "pbkdf_tests",
+    opts = [
+        "-open",
+        "Tezos_client_base",
+    ],
+    struct = ":pbkdf_tests.ml",
+    deps = [
+        "@ocaml//lib/alcotest",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base/unix:#Tezos_base_unix",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+    ],
+)
+
+# okapi:public_name pbkdf_tests
+ocaml_executable(
+    name = "exe-pbkdf_tests",
+    main = "pbkdf_tests",
+    visibility = ["//visibility:public"],
+    deps = [":pbkdf_tests"],
+)

@@ -1,12 +1,8 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
-    name = "client_admin_commands_sig",
+    name = "client_admin_commands__sig",
     src = ":client_admin_commands.mli",
-    deps_opam = [
-        "tezos-clic.unix",
-        "data-encoding",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -24,7 +20,9 @@ ocaml_signature(
         "Data_encoding",
     ],
     deps = [
+        "@ocaml//lib/data-encoding",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_clic/unix:#Tezos_clic_unix",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_rpc:#Tezos_rpc",
@@ -36,10 +34,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "client_admin_commands",
-    deps_opam = [
-        "tezos-clic.unix",
-        "data-encoding",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -56,10 +50,12 @@ ocaml_module(
         "-open",
         "Data_encoding",
     ],
-    sig = ":client_admin_commands_sig",
+    sig = ":client_admin_commands__sig",
     struct = ":client_admin_commands.ml",
     deps = [
+        "@ocaml//lib/data-encoding",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_clic/unix:#Tezos_clic_unix",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_rpc:#Tezos_rpc",
@@ -70,12 +66,8 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "client_commands_sig",
+    name = "client_commands__sig",
     src = ":client_commands.mli",
-    deps_opam = [
-        "tezos-clic.unix",
-        "data-encoding",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -93,7 +85,9 @@ ocaml_signature(
         "Data_encoding",
     ],
     deps = [
+        "@ocaml//lib/data-encoding",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_clic/unix:#Tezos_clic_unix",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_rpc:#Tezos_rpc",
@@ -105,10 +99,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "client_commands",
-    deps_opam = [
-        "tezos-clic.unix",
-        "data-encoding",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -125,10 +115,12 @@ ocaml_module(
         "-open",
         "Data_encoding",
     ],
-    sig = ":client_commands_sig",
+    sig = ":client_commands__sig",
     struct = ":client_commands.ml",
     deps = [
+        "@ocaml//lib/data-encoding",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_clic/unix:#Tezos_clic_unix",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_rpc:#Tezos_rpc",
@@ -139,12 +131,8 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "client_event_logging_commands_sig",
+    name = "client_event_logging_commands__sig",
     src = ":client_event_logging_commands.mli",
-    deps_opam = [
-        "tezos-clic.unix",
-        "data-encoding",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -162,7 +150,10 @@ ocaml_signature(
         "Data_encoding",
     ],
     deps = [
+        ":client_commands",
+        "@ocaml//lib/data-encoding",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_clic/unix:#Tezos_clic_unix",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_rpc:#Tezos_rpc",
@@ -174,10 +165,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "client_event_logging_commands",
-    deps_opam = [
-        "tezos-clic.unix",
-        "data-encoding",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -194,10 +181,13 @@ ocaml_module(
         "-open",
         "Data_encoding",
     ],
-    sig = ":client_event_logging_commands_sig",
+    sig = ":client_event_logging_commands__sig",
     struct = ":client_event_logging_commands.ml",
     deps = [
+        ":client_commands",
+        "@ocaml//lib/data-encoding",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_clic/unix:#Tezos_clic_unix",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_rpc:#Tezos_rpc",
@@ -208,12 +198,8 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "client_helpers_commands_sig",
+    name = "client_helpers_commands__sig",
     src = ":client_helpers_commands.mli",
-    deps_opam = [
-        "tezos-clic.unix",
-        "data-encoding",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -231,7 +217,10 @@ ocaml_signature(
         "Data_encoding",
     ],
     deps = [
+        ":client_commands",
+        "@ocaml//lib/data-encoding",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_clic/unix:#Tezos_clic_unix",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_rpc:#Tezos_rpc",
@@ -243,10 +232,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "client_helpers_commands",
-    deps_opam = [
-        "tezos-clic.unix",
-        "data-encoding",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -263,10 +248,13 @@ ocaml_module(
         "-open",
         "Data_encoding",
     ],
-    sig = ":client_helpers_commands_sig",
+    sig = ":client_helpers_commands__sig",
     struct = ":client_helpers_commands.ml",
     deps = [
+        ":client_commands",
+        "@ocaml//lib/data-encoding",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_clic/unix:#Tezos_clic_unix",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_rpc:#Tezos_rpc",
@@ -277,12 +265,8 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "client_keys_commands_sig",
+    name = "client_keys_commands__sig",
     src = ":client_keys_commands.mli",
-    deps_opam = [
-        "tezos-clic.unix",
-        "data-encoding",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -300,7 +284,9 @@ ocaml_signature(
         "Data_encoding",
     ],
     deps = [
+        "@ocaml//lib/data-encoding",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_clic/unix:#Tezos_clic_unix",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_rpc:#Tezos_rpc",
@@ -312,10 +298,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "client_keys_commands",
-    deps_opam = [
-        "tezos-clic.unix",
-        "data-encoding",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -332,10 +314,12 @@ ocaml_module(
         "-open",
         "Data_encoding",
     ],
-    sig = ":client_keys_commands_sig",
+    sig = ":client_keys_commands__sig",
     struct = ":client_keys_commands.ml",
     deps = [
+        "@ocaml//lib/data-encoding",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_clic/unix:#Tezos_clic_unix",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_rpc:#Tezos_rpc",
@@ -346,12 +330,8 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "client_p2p_commands_sig",
+    name = "client_p2p_commands__sig",
     src = ":client_p2p_commands.mli",
-    deps_opam = [
-        "tezos-clic.unix",
-        "data-encoding",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -369,7 +349,10 @@ ocaml_signature(
         "Data_encoding",
     ],
     deps = [
+        ":client_commands",
+        "@ocaml//lib/data-encoding",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_clic/unix:#Tezos_clic_unix",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_rpc:#Tezos_rpc",
@@ -381,10 +364,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "client_p2p_commands",
-    deps_opam = [
-        "tezos-clic.unix",
-        "data-encoding",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -401,10 +380,13 @@ ocaml_module(
         "-open",
         "Data_encoding",
     ],
-    sig = ":client_p2p_commands_sig",
+    sig = ":client_p2p_commands__sig",
     struct = ":client_p2p_commands.ml",
     deps = [
+        ":client_commands",
+        "@ocaml//lib/data-encoding",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_clic/unix:#Tezos_clic_unix",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_rpc:#Tezos_rpc",
@@ -415,12 +397,8 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "client_report_commands_sig",
+    name = "client_report_commands__sig",
     src = ":client_report_commands.mli",
-    deps_opam = [
-        "tezos-clic.unix",
-        "data-encoding",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -438,7 +416,9 @@ ocaml_signature(
         "Data_encoding",
     ],
     deps = [
+        "@ocaml//lib/data-encoding",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_clic/unix:#Tezos_clic_unix",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_rpc:#Tezos_rpc",
@@ -450,10 +430,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "client_report_commands",
-    deps_opam = [
-        "tezos-clic.unix",
-        "data-encoding",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -470,10 +446,12 @@ ocaml_module(
         "-open",
         "Data_encoding",
     ],
-    sig = ":client_report_commands_sig",
+    sig = ":client_report_commands__sig",
     struct = ":client_report_commands.ml",
     deps = [
+        "@ocaml//lib/data-encoding",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_clic/unix:#Tezos_clic_unix",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
         "@tezos//src/lib_rpc:#Tezos_rpc",
@@ -484,7 +462,8 @@ ocaml_module(
 )
 
 # okapi:auto
-ocaml_ns_library(
+# okapi:public_name tezos-client-commands
+ocaml_ns_archive(
     name = "#Tezos_client_commands",
     submodules = [
         ":client_admin_commands",

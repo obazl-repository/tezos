@@ -1,11 +1,10 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
-    name = "lwtreslib_sig",
+    name = "lwtreslib__sig",
     src = ":lwtreslib.mli",
-    deps_opam = ["lwt"],
-    opts = [],
     deps = [
+        "@ocaml//lib/lwt",
         "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
         "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
         "@tezos//src/lib_lwt_result_stdlib/traced/sigs:#Traced_sigs",
@@ -15,11 +14,10 @@ ocaml_signature(
 
 ocaml_module(
     name = "lwtreslib",
-    deps_opam = ["lwt"],
-    opts = [],
-    sig = ":lwtreslib_sig",
+    sig = ":lwtreslib__sig",
     struct = ":lwtreslib.ml",
     deps = [
+        "@ocaml//lib/lwt",
         "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
         "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
         "@tezos//src/lib_lwt_result_stdlib/traced/sigs:#Traced_sigs",
@@ -29,7 +27,7 @@ ocaml_module(
 
 # okapi:auto
 # okapi:public_name tezos-lwt-result-stdlib
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_lwt_result_stdlib",
     submodules = [":lwtreslib"],
     visibility = ["//visibility:public"],

@@ -1,18 +1,21 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod")
+# load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod")
+load("//dsl:library.bzl", "lib", "mod")
 load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
 load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module")
 
+DEPS_OPAM = [
+    "@ocaml//lib/ctypes",
+    "@ocaml//lib/ctypes/stubs",
+]
+
 lib(
     name = "rustzcash-bindings",
-    deps_opam = [
-        "ctypes",
-        "ctypes.stubs",
-    ],
     modules = dict(
         rustzcash_ctypes_bindings = mod(),
         rustzcash_ctypes_gen = mod(":rustzcash_ctypes_bindings"),
     ),
     wrapped = False,
+    deps = DEPS_OPAM,
 )
 
 ocaml_executable(
@@ -46,12 +49,39 @@ cc_library(
 lib(
     "rustzcash-c",
     cc_deps = {":rustzcash_ctypes": "default"},
-    deps_opam = [
-        "ctypes",
-        "ctypes.stubs",
-    ],
     modules = dict(
         rustzcash_ctypes_stubs = mod(),
     ),
     wrapped = False,
+    deps = DEPS_OPAM,
 )
+
+# ocaml_module(
+#     name = "rustzcash_ctypes_bindings",
+#     struct = ":rustzcash_ctypes_bindings.ml",
+#     deps = [
+#         "@ocaml//lib/ctypes",
+#         "@ocaml//lib/ctypes/stubs",
+#     ],
+# )
+
+# ocaml_module(
+#     name = "rustzcash_ctypes_gen",
+#     struct = ":rustzcash_ctypes_gen.ml",
+#     deps = [
+#         ":rustzcash_ctypes_bindings",
+#         "@ocaml//lib/ctypes",
+#         "@ocaml//lib/ctypes/stubs",
+#     ],
+# )
+
+# # okapi:public_name rustzcash_ctypes_gen
+# ocaml_executable(
+#     name = "exe-rustzcash_ctypes_gen",
+#     main = "rustzcash_ctypes_gen",
+#     visibility = ["//visibility:public"],
+#     deps = [
+#         ":rustzcash_ctypes_bindings",
+#         ":rustzcash_ctypes_gen",
+#     ],
+# )

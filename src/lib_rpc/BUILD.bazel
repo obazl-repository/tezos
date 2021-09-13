@@ -1,218 +1,8 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
-    name = "RPC_query_sig",
-    src = ":RPC_query.mli",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
-    opts = [
-        "-open",
-        "Data_encoding",
-        "-open",
-        "Tezos_error_monad",
-    ],
-    deps = ["@tezos//src/lib_error_monad:#Tezos_error_monad"],
-)
-
-ocaml_module(
-    name = "RPC_query",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
-    opts = [
-        "-open",
-        "Data_encoding",
-        "-open",
-        "Tezos_error_monad",
-    ],
-    sig = ":RPC_query_sig",
-    struct = ":RPC_query.ml",
-    deps = ["@tezos//src/lib_error_monad:#Tezos_error_monad"],
-)
-
-ocaml_signature(
-    name = "RPC_arg_sig",
-    src = ":RPC_arg.mli",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
-    opts = [
-        "-open",
-        "Data_encoding",
-        "-open",
-        "Tezos_error_monad",
-    ],
-    deps = ["@tezos//src/lib_error_monad:#Tezos_error_monad"],
-)
-
-ocaml_module(
-    name = "RPC_arg",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
-    opts = [
-        "-open",
-        "Data_encoding",
-        "-open",
-        "Tezos_error_monad",
-    ],
-    sig = ":RPC_arg_sig",
-    struct = ":RPC_arg.ml",
-    deps = ["@tezos//src/lib_error_monad:#Tezos_error_monad"],
-)
-
-ocaml_signature(
-    name = "RPC_description_sig",
-    src = ":RPC_description.mli",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
-    opts = [
-        "-open",
-        "Data_encoding",
-        "-open",
-        "Tezos_error_monad",
-    ],
-    deps = [
-        ":RPC_context",
-        ":RPC_encoding",
-        ":RPC_service",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-    ],
-)
-
-ocaml_module(
-    name = "RPC_description",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
-    opts = [
-        "-open",
-        "Data_encoding",
-        "-open",
-        "Tezos_error_monad",
-    ],
-    sig = ":RPC_description_sig",
-    struct = ":RPC_description.ml",
-    deps = [
-        ":RPC_context",
-        ":RPC_encoding",
-        ":RPC_service",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-    ],
-)
-
-ocaml_signature(
-    name = "RPC_directory_sig",
-    src = ":RPC_directory.mli",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
-    opts = [
-        "-open",
-        "Data_encoding",
-        "-open",
-        "Tezos_error_monad",
-    ],
-    deps = [
-        ":RPC_answer",
-        ":RPC_encoding",
-        ":RPC_service",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-    ],
-)
-
-ocaml_module(
-    name = "RPC_directory",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
-    opts = [
-        "-open",
-        "Data_encoding",
-        "-open",
-        "Tezos_error_monad",
-    ],
-    sig = ":RPC_directory_sig",
-    struct = ":RPC_directory.ml",
-    deps = [
-        ":RPC_answer",
-        ":RPC_encoding",
-        ":RPC_service",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-    ],
-)
-
-ocaml_signature(
-    name = "RPC_service_sig",
-    src = ":RPC_service.mli",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
-    opts = [
-        "-open",
-        "Data_encoding",
-        "-open",
-        "Tezos_error_monad",
-    ],
-    deps = [
-        ":RPC_encoding",
-        ":RPC_path",
-        ":RPC_query",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-    ],
-)
-
-ocaml_module(
-    name = "RPC_service",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
-    opts = [
-        "-open",
-        "Data_encoding",
-        "-open",
-        "Tezos_error_monad",
-    ],
-    sig = ":RPC_service_sig",
-    struct = ":RPC_service.ml",
-    deps = [
-        ":RPC_encoding",
-        ":RPC_path",
-        ":RPC_query",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-    ],
-)
-
-ocaml_signature(
-    name = "RPC_answer_sig",
+    name = "RPC_answer__sig",
     src = ":RPC_answer.mli",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
     opts = [
         "-open",
         "Data_encoding",
@@ -221,39 +11,70 @@ ocaml_signature(
     ],
     deps = [
         ":RPC_service",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
         "@tezos//src/lib_error_monad:#Tezos_error_monad",
     ],
 )
 
 ocaml_module(
     name = "RPC_answer",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
     opts = [
         "-open",
         "Data_encoding",
         "-open",
         "Tezos_error_monad",
     ],
-    sig = ":RPC_answer_sig",
+    sig = ":RPC_answer__sig",
     struct = ":RPC_answer.ml",
     deps = [
         ":RPC_service",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
         "@tezos//src/lib_error_monad:#Tezos_error_monad",
     ],
 )
 
 ocaml_signature(
-    name = "RPC_context_sig",
-    src = ":RPC_context.mli",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
+    name = "RPC_arg__sig",
+    src = ":RPC_arg.mli",
+    opts = [
+        "-open",
+        "Data_encoding",
+        "-open",
+        "Tezos_error_monad",
     ],
+    deps = [
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+    ],
+)
+
+ocaml_module(
+    name = "RPC_arg",
+    opts = [
+        "-open",
+        "Data_encoding",
+        "-open",
+        "Tezos_error_monad",
+    ],
+    sig = ":RPC_arg__sig",
+    struct = ":RPC_arg.ml",
+    deps = [
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+    ],
+)
+
+ocaml_signature(
+    name = "RPC_context__sig",
+    src = ":RPC_context.mli",
     opts = [
         "-open",
         "Data_encoding",
@@ -264,41 +85,154 @@ ocaml_signature(
         ":RPC_directory",
         ":RPC_encoding",
         ":RPC_service",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
         "@tezos//src/lib_error_monad:#Tezos_error_monad",
     ],
 )
 
 ocaml_module(
     name = "RPC_context",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
     opts = [
         "-open",
         "Data_encoding",
         "-open",
         "Tezos_error_monad",
     ],
-    sig = ":RPC_context_sig",
+    sig = ":RPC_context__sig",
     struct = ":RPC_context.ml",
     deps = [
         ":RPC_directory",
         ":RPC_encoding",
         ":RPC_service",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
         "@tezos//src/lib_error_monad:#Tezos_error_monad",
     ],
 )
 
 ocaml_signature(
-    name = "RPC_error_sig",
-    src = ":RPC_error.mli",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
+    name = "RPC_description__sig",
+    src = ":RPC_description.mli",
+    opts = [
+        "-open",
+        "Data_encoding",
+        "-open",
+        "Tezos_error_monad",
     ],
+    deps = [
+        ":RPC_context",
+        ":RPC_encoding",
+        ":RPC_service",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+    ],
+)
+
+ocaml_module(
+    name = "RPC_description",
+    opts = [
+        "-open",
+        "Data_encoding",
+        "-open",
+        "Tezos_error_monad",
+    ],
+    sig = ":RPC_description__sig",
+    struct = ":RPC_description.ml",
+    deps = [
+        ":RPC_context",
+        ":RPC_encoding",
+        ":RPC_service",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+    ],
+)
+
+ocaml_signature(
+    name = "RPC_directory__sig",
+    src = ":RPC_directory.mli",
+    opts = [
+        "-open",
+        "Data_encoding",
+        "-open",
+        "Tezos_error_monad",
+    ],
+    deps = [
+        ":RPC_answer",
+        ":RPC_encoding",
+        ":RPC_service",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+    ],
+)
+
+ocaml_module(
+    name = "RPC_directory",
+    opts = [
+        "-open",
+        "Data_encoding",
+        "-open",
+        "Tezos_error_monad",
+    ],
+    sig = ":RPC_directory__sig",
+    struct = ":RPC_directory.ml",
+    deps = [
+        ":RPC_answer",
+        ":RPC_encoding",
+        ":RPC_service",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+    ],
+)
+
+ocaml_signature(
+    name = "RPC_encoding__sig",
+    src = ":RPC_encoding.mli",
+    opts = [
+        "-open",
+        "Data_encoding",
+        "-open",
+        "Tezos_error_monad",
+    ],
+    deps = [
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+    ],
+)
+
+ocaml_module(
+    name = "RPC_encoding",
+    opts = [
+        "-open",
+        "Data_encoding",
+        "-open",
+        "Tezos_error_monad",
+    ],
+    sig = ":RPC_encoding__sig",
+    struct = ":RPC_encoding.ml",
+    deps = [
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+    ],
+)
+
+ocaml_signature(
+    name = "RPC_error__sig",
+    src = ":RPC_error.mli",
     opts = [
         "-open",
         "Data_encoding",
@@ -308,105 +242,147 @@ ocaml_signature(
     deps = [
         ":RPC_context",
         ":RPC_service",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
         "@tezos//src/lib_error_monad:#Tezos_error_monad",
     ],
 )
 
 ocaml_module(
     name = "RPC_error",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
     opts = [
         "-open",
         "Data_encoding",
         "-open",
         "Tezos_error_monad",
     ],
-    sig = ":RPC_error_sig",
+    sig = ":RPC_error__sig",
     struct = ":RPC_error.ml",
     deps = [
         ":RPC_context",
         ":RPC_service",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
         "@tezos//src/lib_error_monad:#Tezos_error_monad",
     ],
 )
 
 ocaml_signature(
-    name = "RPC_encoding_sig",
-    src = ":RPC_encoding.mli",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
-    opts = [
-        "-open",
-        "Data_encoding",
-        "-open",
-        "Tezos_error_monad",
-    ],
-    deps = ["@tezos//src/lib_error_monad:#Tezos_error_monad"],
-)
-
-ocaml_module(
-    name = "RPC_encoding",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
-    opts = [
-        "-open",
-        "Data_encoding",
-        "-open",
-        "Tezos_error_monad",
-    ],
-    sig = ":RPC_encoding_sig",
-    struct = ":RPC_encoding.ml",
-    deps = ["@tezos//src/lib_error_monad:#Tezos_error_monad"],
-)
-
-ocaml_signature(
-    name = "RPC_path_sig",
+    name = "RPC_path__sig",
     src = ":RPC_path.mli",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
     opts = [
         "-open",
         "Data_encoding",
         "-open",
         "Tezos_error_monad",
     ],
-    deps = ["@tezos//src/lib_error_monad:#Tezos_error_monad"],
+    deps = [
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+    ],
 )
 
 ocaml_module(
     name = "RPC_path",
-    deps_opam = [
-        "data-encoding",
-        "resto",
-        "resto-directory",
-    ],
     opts = [
         "-open",
         "Data_encoding",
         "-open",
         "Tezos_error_monad",
     ],
-    sig = ":RPC_path_sig",
+    sig = ":RPC_path__sig",
     struct = ":RPC_path.ml",
-    deps = ["@tezos//src/lib_error_monad:#Tezos_error_monad"],
+    deps = [
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+    ],
+)
+
+ocaml_signature(
+    name = "RPC_query__sig",
+    src = ":RPC_query.mli",
+    opts = [
+        "-open",
+        "Data_encoding",
+        "-open",
+        "Tezos_error_monad",
+    ],
+    deps = [
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+    ],
+)
+
+ocaml_module(
+    name = "RPC_query",
+    opts = [
+        "-open",
+        "Data_encoding",
+        "-open",
+        "Tezos_error_monad",
+    ],
+    sig = ":RPC_query__sig",
+    struct = ":RPC_query.ml",
+    deps = [
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+    ],
+)
+
+ocaml_signature(
+    name = "RPC_service__sig",
+    src = ":RPC_service.mli",
+    opts = [
+        "-open",
+        "Data_encoding",
+        "-open",
+        "Tezos_error_monad",
+    ],
+    deps = [
+        ":RPC_encoding",
+        ":RPC_path",
+        ":RPC_query",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+    ],
+)
+
+ocaml_module(
+    name = "RPC_service",
+    opts = [
+        "-open",
+        "Data_encoding",
+        "-open",
+        "Tezos_error_monad",
+    ],
+    sig = ":RPC_service__sig",
+    struct = ":RPC_service.ml",
+    deps = [
+        ":RPC_encoding",
+        ":RPC_path",
+        ":RPC_query",
+        "@ocaml//lib/data-encoding",
+        "@ocaml//lib/resto",
+        "@ocaml//lib/resto-directory",
+        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+    ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-rpc
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_rpc",
     submodules = [
         ":RPC_answer",

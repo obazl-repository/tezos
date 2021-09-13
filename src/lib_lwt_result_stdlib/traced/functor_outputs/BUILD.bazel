@@ -1,32 +1,35 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive")
 
 ocaml_module(
     name = "hashtbl",
-    deps_opam = ["lwt"],
-    opts = [],
     struct = ":hashtbl.ml",
-    deps = ["@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs"],
+    deps = [
+        "@ocaml//lib/lwt",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
 )
 
 ocaml_module(
     name = "map",
-    deps_opam = ["lwt"],
-    opts = [],
     struct = ":map.ml",
-    deps = ["@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs"],
+    deps = [
+        "@ocaml//lib/lwt",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
 )
 
 ocaml_module(
     name = "set",
-    deps_opam = ["lwt"],
-    opts = [],
     struct = ":set.ml",
-    deps = ["@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs"],
+    deps = [
+        "@ocaml//lib/lwt",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
+    ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-lwt-result-stdlib.traced.functor-outputs
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Traced_functor_outputs",
     submodules = [
         ":hashtbl",

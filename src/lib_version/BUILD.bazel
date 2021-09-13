@@ -1,55 +1,7 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
-    name = "node_version_sig",
-    src = ":node_version.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = [
-        ":version",
-        "@tezos//src/lib_base:#Tezos_base",
-    ],
-)
-
-ocaml_module(
-    name = "node_version",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":node_version_sig",
-    struct = ":node_version.ml",
-    deps = [
-        ":version",
-        "@tezos//src/lib_base:#Tezos_base",
-    ],
-)
-
-ocaml_signature(
-    name = "version_sig",
-    src = ":version.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
-)
-
-ocaml_module(
-    name = "version",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":version_sig",
-    struct = ":version.ml",
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
-)
-
-ocaml_signature(
-    name = "bin_version_sig",
+    name = "bin_version__sig",
     src = ":bin_version.mli",
     opts = [
         "-open",
@@ -68,7 +20,7 @@ ocaml_module(
         "-open",
         "Tezos_base__TzPervasives",
     ],
-    sig = ":bin_version_sig",
+    sig = ":bin_version__sig",
     struct = ":bin_version.ml",
     deps = [
         ":current_git_info",
@@ -78,13 +30,16 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "current_git_info_sig",
+    name = "current_git_info__sig",
     src = ":current_git_info.mli",
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
     ],
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
+    deps = [
+        ":generated_git_info",
+        "@tezos//src/lib_base:#Tezos_base",
+    ],
 )
 
 ocaml_module(
@@ -93,11 +48,11 @@ ocaml_module(
         "-open",
         "Tezos_base__TzPervasives",
     ],
-    sig = ":current_git_info_sig",
+    sig = ":current_git_info__sig",
     struct = ":current_git_info.ml",
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
         ":generated_git_info",
+        "@tezos//src/lib_base:#Tezos_base",
     ],
 )
 
@@ -111,9 +66,57 @@ ocaml_module(
     deps = ["@tezos//src/lib_base:#Tezos_base"],
 )
 
+ocaml_signature(
+    name = "node_version__sig",
+    src = ":node_version.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = [
+        ":version",
+        "@tezos//src/lib_base:#Tezos_base",
+    ],
+)
+
+ocaml_module(
+    name = "node_version",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":node_version__sig",
+    struct = ":node_version.ml",
+    deps = [
+        ":version",
+        "@tezos//src/lib_base:#Tezos_base",
+    ],
+)
+
+ocaml_signature(
+    name = "version__sig",
+    src = ":version.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
+ocaml_module(
+    name = "version",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":version__sig",
+    struct = ":version.ml",
+    deps = ["@tezos//src/lib_base:#Tezos_base"],
+)
+
 # okapi:auto
 # okapi:public_name tezos-version
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_version",
     submodules = [
         ":bin_version",

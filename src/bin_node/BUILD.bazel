@@ -1,12 +1,13 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module", "ocaml_signature")
 
+DEPS_OPAM = [
+    "@ocaml//lib/cmdliner",
+    "@ocaml//lib/tls",
+    "@ocaml//lib/lwt-exit",
+]
+
 ocaml_module(
     name = "void_for_linking-000-Ps9mPmXa",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -39,7 +40,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-000-Ps9mPmXa.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -59,11 +60,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-001-PtCJ7pwo",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -96,7 +92,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-001-PtCJ7pwo.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -116,11 +112,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-002-PsYLVpVv",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -153,7 +144,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-002-PsYLVpVv.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -173,11 +164,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-003-PsddFKi3",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -210,7 +196,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-003-PsddFKi3.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -230,11 +216,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-004-Pt24m4xi",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -267,7 +248,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-004-Pt24m4xi.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -287,11 +268,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-005-PsBABY5H",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -324,7 +300,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-005-PsBABY5H.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -344,11 +320,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-005-PsBabyM1",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -381,7 +352,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-005-PsBabyM1.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -401,11 +372,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-006-PsCARTHA",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -438,7 +404,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-006-PsCARTHA.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -458,11 +424,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-007-PsDELPH1",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -495,7 +456,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-007-PsDELPH1.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -515,11 +476,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-008-PtEdo2Zk",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -552,7 +508,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-008-PtEdo2Zk.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -572,11 +528,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-008-PtEdo2Zk-protocol-plugin-registerer",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -609,7 +560,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-008-PtEdo2Zk-protocol-plugin-registerer.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -629,11 +580,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-008-PtEdoTez",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -666,7 +612,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-008-PtEdoTez.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -686,11 +632,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-009-PsFLoren-protocol-plugin-registerer",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -723,7 +664,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-009-PsFLoren-protocol-plugin-registerer.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -743,11 +684,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-010-PtGRANAD-protocol-plugin-registerer",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -780,7 +716,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-010-PtGRANAD-protocol-plugin-registerer.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -800,11 +736,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-alpha",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -837,7 +768,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-alpha.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -857,11 +788,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-alpha-protocol-plugin-registerer",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -894,7 +820,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-alpha-protocol-plugin-registerer.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -914,11 +840,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-demo-counter",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -951,7 +872,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-demo-counter.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -971,11 +892,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-demo-noops",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -1008,7 +924,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-demo-noops.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -1028,11 +944,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-embedded-protocol-genesis",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -1065,7 +976,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-embedded-protocol-genesis.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -1085,11 +996,6 @@ ocaml_module(
 
 ocaml_module(
     name = "void_for_linking-embedded-protocol-genesis-carthagenet",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -1122,7 +1028,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":void_for_linking-embedded-protocol-genesis-carthagenet.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -1143,11 +1049,6 @@ ocaml_module(
 ocaml_signature(
     name = "node_identity_command__sig",
     src = ":node_identity_command.mli",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -1179,7 +1080,7 @@ ocaml_signature(
         "Tezos_protocol_updater",
         "-linkall",
     ],
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_data_version",
         ":node_identity_file",
@@ -1203,11 +1104,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "node_identity_command",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -1241,7 +1137,7 @@ ocaml_module(
     ],
     sig = ":node_identity_command__sig",
     struct = ":node_identity_command.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_data_version",
         ":node_identity_file",
@@ -1266,11 +1162,6 @@ ocaml_module(
 ocaml_signature(
     name = "node_config_validation__sig",
     src = ":node_config_validation.mli",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -1302,7 +1193,7 @@ ocaml_signature(
         "Tezos_protocol_updater",
         "-linkall",
     ],
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
@@ -1323,11 +1214,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "node_config_validation",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -1361,7 +1247,7 @@ ocaml_module(
     ],
     sig = ":node_config_validation__sig",
     struct = ":node_config_validation.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
@@ -1383,11 +1269,6 @@ ocaml_module(
 ocaml_signature(
     name = "node_config_command__sig",
     src = ":node_config_command.mli",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -1419,7 +1300,7 @@ ocaml_signature(
         "Tezos_protocol_updater",
         "-linkall",
     ],
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_config_validation",
         ":node_shared_arg",
@@ -1442,11 +1323,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "node_config_command",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -1480,7 +1356,7 @@ ocaml_module(
     ],
     sig = ":node_config_command__sig",
     struct = ":node_config_command.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_config_validation",
         ":node_shared_arg",
@@ -1504,11 +1380,6 @@ ocaml_module(
 ocaml_signature(
     name = "node_upgrade_command__sig",
     src = ":node_upgrade_command.mli",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -1540,7 +1411,7 @@ ocaml_signature(
         "Tezos_protocol_updater",
         "-linkall",
     ],
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_data_version",
         ":node_shared_arg",
@@ -1563,11 +1434,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "node_upgrade_command",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -1601,7 +1467,7 @@ ocaml_module(
     ],
     sig = ":node_upgrade_command__sig",
     struct = ":node_upgrade_command.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_data_version",
         ":node_shared_arg",
@@ -1625,11 +1491,6 @@ ocaml_module(
 ocaml_signature(
     name = "node_reconstruct_command__sig",
     src = ":node_reconstruct_command.mli",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -1661,7 +1522,7 @@ ocaml_signature(
         "Tezos_protocol_updater",
         "-linkall",
     ],
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_data_version",
         ":node_shared_arg",
@@ -1685,11 +1546,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "node_reconstruct_command",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -1723,7 +1579,7 @@ ocaml_module(
     ],
     sig = ":node_reconstruct_command__sig",
     struct = ":node_reconstruct_command.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_data_version",
         ":node_shared_arg",
@@ -1748,11 +1604,6 @@ ocaml_module(
 ocaml_signature(
     name = "node_identity_file__sig",
     src = ":node_identity_file.mli",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -1784,7 +1635,7 @@ ocaml_signature(
         "Tezos_protocol_updater",
         "-linkall",
     ],
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_data_version",
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
@@ -1805,11 +1656,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "node_identity_file",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -1843,7 +1689,7 @@ ocaml_module(
     ],
     sig = ":node_identity_file__sig",
     struct = ":node_identity_file.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_data_version",
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
@@ -1864,11 +1710,6 @@ ocaml_module(
 
 ocaml_module(
     name = "main",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -1901,7 +1742,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":main.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_command",
         ":node_identity_command",
         ":node_reconstruct_command",
@@ -1929,11 +1770,6 @@ ocaml_module(
 
 ocaml_module(
     name = "node_services",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -1966,7 +1802,7 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":node_services.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
@@ -1988,11 +1824,6 @@ ocaml_module(
 ocaml_signature(
     name = "node_directory__sig",
     src = ":node_directory.mli",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -2024,7 +1855,7 @@ ocaml_signature(
         "Tezos_protocol_updater",
         "-linkall",
     ],
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_services",
         "@tezos//src/bin_validation:#Tezos_validator",
@@ -2046,11 +1877,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "node_directory",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -2084,7 +1910,7 @@ ocaml_module(
     ],
     sig = ":node_directory__sig",
     struct = ":node_directory.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_services",
         "@tezos//src/bin_validation:#Tezos_validator",
@@ -2107,11 +1933,6 @@ ocaml_module(
 ocaml_signature(
     name = "node_replay_command__sig",
     src = ":node_replay_command.mli",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -2143,7 +1964,7 @@ ocaml_signature(
         "Tezos_protocol_updater",
         "-linkall",
     ],
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_data_version",
         ":node_shared_arg",
@@ -2166,11 +1987,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "node_replay_command",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -2204,7 +2020,7 @@ ocaml_module(
     ],
     sig = ":node_replay_command__sig",
     struct = ":node_replay_command.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_data_version",
         ":node_shared_arg",
@@ -2228,11 +2044,6 @@ ocaml_module(
 ocaml_signature(
     name = "node_data_version__sig",
     src = ":node_data_version.mli",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -2264,7 +2075,7 @@ ocaml_signature(
         "Tezos_protocol_updater",
         "-linkall",
     ],
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -2284,11 +2095,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "node_data_version",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -2322,7 +2128,7 @@ ocaml_module(
     ],
     sig = ":node_data_version__sig",
     struct = ":node_data_version.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
@@ -2343,11 +2149,6 @@ ocaml_module(
 ocaml_signature(
     name = "node_run_command__sig",
     src = ":node_run_command.mli",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -2379,7 +2180,7 @@ ocaml_signature(
         "Tezos_protocol_updater",
         "-linkall",
     ],
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_config_validation",
         ":node_data_version",
@@ -2405,11 +2206,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "node_run_command",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -2443,7 +2239,7 @@ ocaml_module(
     ],
     sig = ":node_run_command__sig",
     struct = ":node_run_command.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_config_validation",
         ":node_data_version",
@@ -2470,11 +2266,6 @@ ocaml_module(
 ocaml_signature(
     name = "node_snapshot_command__sig",
     src = ":node_snapshot_command.mli",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -2506,7 +2297,7 @@ ocaml_signature(
         "Tezos_protocol_updater",
         "-linkall",
     ],
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_data_version",
         ":node_shared_arg",
@@ -2529,11 +2320,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "node_snapshot_command",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -2567,7 +2353,7 @@ ocaml_module(
     ],
     sig = ":node_snapshot_command__sig",
     struct = ":node_snapshot_command.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_data_version",
         ":node_shared_arg",
@@ -2591,11 +2377,6 @@ ocaml_module(
 ocaml_signature(
     name = "node_shared_arg__sig",
     src = ":node_shared_arg.mli",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -2627,7 +2408,7 @@ ocaml_signature(
         "Tezos_protocol_updater",
         "-linkall",
     ],
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_data_version",
         "@tezos//src/bin_validation:#Tezos_validator",
@@ -2649,11 +2430,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "node_shared_arg",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -2687,7 +2463,7 @@ ocaml_module(
     ],
     sig = ":node_shared_arg__sig",
     struct = ":node_shared_arg.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_data_version",
         "@tezos//src/bin_validation:#Tezos_validator",
@@ -2710,11 +2486,6 @@ ocaml_module(
 ocaml_signature(
     name = "node_config_file__sig",
     src = ":node_config_file.mli",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -2746,7 +2517,7 @@ ocaml_signature(
         "Tezos_protocol_updater",
         "-linkall",
     ],
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_data_version",
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
@@ -2767,11 +2538,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "node_config_file",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -2805,7 +2571,7 @@ ocaml_module(
     ],
     sig = ":node_config_file__sig",
     struct = ":node_config_file.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_data_version",
         "@tezos//src/bin_validation:#Tezos_validator",
         "@tezos//src/lib_base:#Tezos_base",
@@ -2827,11 +2593,6 @@ ocaml_module(
 ocaml_signature(
     name = "node_storage_command__sig",
     src = ":node_storage_command.mli",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -2863,7 +2624,7 @@ ocaml_signature(
         "Tezos_protocol_updater",
         "-linkall",
     ],
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_data_version",
         ":node_shared_arg",
@@ -2886,11 +2647,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "node_storage_command",
-    deps_opam = [
-        "cmdliner",
-        "tls",
-        "lwt-exit",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -2924,7 +2680,7 @@ ocaml_module(
     ],
     sig = ":node_storage_command__sig",
     struct = ":node_storage_command.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         ":node_config_file",
         ":node_data_version",
         ":node_shared_arg",
@@ -2953,10 +2709,6 @@ ocaml_executable(
     visibility = ["//visibility:public"],
     opts = [
         "-linkall",
-        "-package",
-        "digestif",
-        "-package",
-        "digestif.c",
     ],
     deps = [
         ":main",

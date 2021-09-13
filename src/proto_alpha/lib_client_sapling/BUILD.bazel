@@ -1,70 +1,8 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
-    name = "wallet_sig",
-    src = ":wallet.mli",
-    deps_opam = ["tezos-protocol-alpha"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_client_alpha_commands",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-    ],
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_crypto:#Tezos_crypto",
-        "@tezos//src/lib_signer_backends:#Tezos_signer_backends",
-        "@tezos//src/proto_alpha/lib_client:#Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_client_commands:#Tezos_client_alpha_commands",
-    ],
-)
-
-ocaml_module(
-    name = "wallet",
-    deps_opam = ["tezos-protocol-alpha"],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_client_alpha_commands",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-    ],
-    sig = ":wallet_sig",
-    struct = ":wallet.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_crypto:#Tezos_crypto",
-        "@tezos//src/lib_signer_backends:#Tezos_signer_backends",
-        "@tezos//src/proto_alpha/lib_client:#Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_client_commands:#Tezos_client_alpha_commands",
-    ],
-)
-
-ocaml_signature(
-    name = "client_sapling_commands_sig",
+    name = "client_sapling_commands__sig",
     src = ":client_sapling_commands.mli",
-    deps_opam = ["tezos-protocol-alpha"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -84,6 +22,7 @@ ocaml_signature(
     deps = [
         ":context",
         ":wallet",
+        "@ocaml//lib/tezos-protocol-alpha",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_crypto:#Tezos_crypto",
@@ -95,7 +34,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "client_sapling_commands",
-    deps_opam = ["tezos-protocol-alpha"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -112,11 +50,12 @@ ocaml_module(
         "-open",
         "Tezos_protocol_environment_alpha",
     ],
-    sig = ":client_sapling_commands_sig",
+    sig = ":client_sapling_commands__sig",
     struct = ":client_sapling_commands.ml",
     deps = [
         ":context",
         ":wallet",
+        "@ocaml//lib/tezos-protocol-alpha",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_crypto:#Tezos_crypto",
@@ -127,9 +66,8 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "context_sig",
+    name = "context__sig",
     src = ":context.mli",
-    deps_opam = ["tezos-protocol-alpha"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -147,6 +85,7 @@ ocaml_signature(
         "Tezos_protocol_environment_alpha",
     ],
     deps = [
+        "@ocaml//lib/tezos-protocol-alpha",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_crypto:#Tezos_crypto",
@@ -158,7 +97,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "context",
-    deps_opam = ["tezos-protocol-alpha"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -175,9 +113,71 @@ ocaml_module(
         "-open",
         "Tezos_protocol_environment_alpha",
     ],
-    sig = ":context_sig",
+    sig = ":context__sig",
     struct = ":context.ml",
     deps = [
+        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_crypto:#Tezos_crypto",
+        "@tezos//src/lib_signer_backends:#Tezos_signer_backends",
+        "@tezos//src/proto_alpha/lib_client:#Tezos_client_alpha",
+        "@tezos//src/proto_alpha/lib_client_commands:#Tezos_client_alpha_commands",
+    ],
+)
+
+ocaml_signature(
+    name = "wallet__sig",
+    src = ":wallet.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_client_base",
+        "-open",
+        "Tezos_client_alpha",
+        "-open",
+        "Tezos_client_alpha_commands",
+        "-open",
+        "Tezos_protocol_alpha",
+        "-open",
+        "Tezos_protocol_environment_alpha",
+    ],
+    deps = [
+        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_crypto:#Tezos_crypto",
+        "@tezos//src/lib_signer_backends:#Tezos_signer_backends",
+        "@tezos//src/proto_alpha/lib_client:#Tezos_client_alpha",
+        "@tezos//src/proto_alpha/lib_client_commands:#Tezos_client_alpha_commands",
+    ],
+)
+
+ocaml_module(
+    name = "wallet",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_client_base",
+        "-open",
+        "Tezos_client_alpha",
+        "-open",
+        "Tezos_client_alpha_commands",
+        "-open",
+        "Tezos_protocol_alpha",
+        "-open",
+        "Tezos_protocol_environment_alpha",
+    ],
+    sig = ":wallet__sig",
+    struct = ":wallet.ml",
+    deps = [
+        "@ocaml//lib/tezos-protocol-alpha",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_crypto:#Tezos_crypto",
@@ -188,7 +188,8 @@ ocaml_module(
 )
 
 # okapi:auto
-ocaml_ns_library(
+# okapi:public_name tezos-client-sapling-alpha
+ocaml_ns_archive(
     name = "#Tezos_client_sapling_alpha",
     submodules = [
         ":client_sapling_commands",

@@ -1,11 +1,7 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_module(
     name = "ledger",
-    deps_opam = [
-        "ocplib-endian.bigstring",
-        "tezos-base.unix",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -30,7 +26,9 @@ ocaml_module(
     ],
     struct = ":ledger.ml",
     deps = [
+        "@ocaml//lib/ocplib-endian.bigstring",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base/unix:#Tezos_base_unix",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client_unix",
         "@tezos//src/lib_signer_backends:#Tezos_signer_backends",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
@@ -38,12 +36,8 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "ledger_names_sig",
+    name = "ledger_names__sig",
     src = ":ledger_names.mli",
-    deps_opam = [
-        "ocplib-endian.bigstring",
-        "tezos-base.unix",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -67,7 +61,9 @@ ocaml_signature(
         "Tezos_shell_services",
     ],
     deps = [
+        "@ocaml//lib/ocplib-endian.bigstring",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base/unix:#Tezos_base_unix",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client_unix",
         "@tezos//src/lib_signer_backends:#Tezos_signer_backends",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
@@ -76,10 +72,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "ledger_names",
-    deps_opam = [
-        "ocplib-endian.bigstring",
-        "tezos-base.unix",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -102,10 +94,12 @@ ocaml_module(
         "-open",
         "Tezos_shell_services",
     ],
-    sig = ":ledger_names_sig",
+    sig = ":ledger_names__sig",
     struct = ":ledger_names.ml",
     deps = [
+        "@ocaml//lib/ocplib-endian.bigstring",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base/unix:#Tezos_base_unix",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client_unix",
         "@tezos//src/lib_signer_backends:#Tezos_signer_backends",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
@@ -113,12 +107,8 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "remote_sig",
+    name = "remote__sig",
     src = ":remote.mli",
-    deps_opam = [
-        "ocplib-endian.bigstring",
-        "tezos-base.unix",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -143,7 +133,9 @@ ocaml_signature(
     ],
     deps = [
         ":socket",
+        "@ocaml//lib/ocplib-endian.bigstring",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base/unix:#Tezos_base_unix",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client_unix",
         "@tezos//src/lib_signer_backends:#Tezos_signer_backends",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
@@ -152,10 +144,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "remote",
-    deps_opam = [
-        "ocplib-endian.bigstring",
-        "tezos-base.unix",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -178,11 +166,13 @@ ocaml_module(
         "-open",
         "Tezos_shell_services",
     ],
-    sig = ":remote_sig",
+    sig = ":remote__sig",
     struct = ":remote.ml",
     deps = [
         ":socket",
+        "@ocaml//lib/ocplib-endian.bigstring",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base/unix:#Tezos_base_unix",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client_unix",
         "@tezos//src/lib_signer_backends:#Tezos_signer_backends",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
@@ -190,12 +180,8 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "socket_sig",
+    name = "socket__sig",
     src = ":socket.mli",
-    deps_opam = [
-        "ocplib-endian.bigstring",
-        "tezos-base.unix",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -219,7 +205,9 @@ ocaml_signature(
         "Tezos_shell_services",
     ],
     deps = [
+        "@ocaml//lib/ocplib-endian.bigstring",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base/unix:#Tezos_base_unix",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client_unix",
         "@tezos//src/lib_signer_backends:#Tezos_signer_backends",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
@@ -228,10 +216,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "socket",
-    deps_opam = [
-        "ocplib-endian.bigstring",
-        "tezos-base.unix",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -254,10 +238,12 @@ ocaml_module(
         "-open",
         "Tezos_shell_services",
     ],
-    sig = ":socket_sig",
+    sig = ":socket__sig",
     struct = ":socket.ml",
     deps = [
+        "@ocaml//lib/ocplib-endian.bigstring",
         "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base/unix:#Tezos_base_unix",
         "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client_unix",
         "@tezos//src/lib_signer_backends:#Tezos_signer_backends",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
@@ -265,7 +251,8 @@ ocaml_module(
 )
 
 # okapi:auto
-ocaml_ns_library(
+# okapi:public_name tezos-signer-backends.unix
+ocaml_ns_archive(
     name = "#Tezos_signer_backends_unix",
     submodules = [
         ":ledger",

@@ -1,8 +1,7 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive")
 
 ocaml_module(
     name = "test_services",
-    deps_opam = ["alcotest-lwt"],
     opts = [
         "-linkall",
         "-open",
@@ -11,6 +10,7 @@ ocaml_module(
     struct = ":test_services.ml",
     deps = [
         ":test_services_base",
+        "@ocaml//lib/alcotest-lwt",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
     ],
@@ -18,7 +18,6 @@ ocaml_module(
 
 ocaml_module(
     name = "test_services_base",
-    deps_opam = ["alcotest-lwt"],
     opts = [
         "-linkall",
         "-open",
@@ -26,13 +25,15 @@ ocaml_module(
     ],
     struct = ":test_services_base.ml",
     deps = [
+        "@ocaml//lib/alcotest-lwt",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
     ],
 )
 
 # okapi:auto
-ocaml_ns_library(
+# okapi:public_name tezos-test-services
+ocaml_ns_archive(
     name = "#Tezos_test_services",
     submodules = [
         ":test_services",

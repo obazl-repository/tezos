@@ -1,9 +1,8 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
     name = "context__sig",
     src = ":context.mli",
-    deps_opam = ["irmin.mem"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -11,6 +10,7 @@ ocaml_signature(
         "Tezos_stdlib",
     ],
     deps = [
+        "@ocaml//lib/irmin/mem",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_context/encoding:#Tezos_context_encoding",
         "@tezos//src/lib_context/helpers:#Tezos_context_helpers",
@@ -20,7 +20,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "context",
-    deps_opam = ["irmin.mem"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -30,6 +29,7 @@ ocaml_module(
     sig = ":context__sig",
     struct = ":context.ml",
     deps = [
+        "@ocaml//lib/irmin/mem",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_context/encoding:#Tezos_context_encoding",
         "@tezos//src/lib_context/helpers:#Tezos_context_helpers",
@@ -39,7 +39,7 @@ ocaml_module(
 
 # okapi:auto
 # okapi:public_name tezos-context.memory
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_context_memory",
     submodules = [":context"],
     visibility = ["//visibility:public"],

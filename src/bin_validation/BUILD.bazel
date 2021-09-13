@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module", "ocaml_ns_library")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module", "ocaml_ns_archive")
 
 ocaml_module(
     name = "validator",
@@ -35,7 +35,7 @@ ocaml_module(
 )
 
 # okapi:public_name tezos-validator
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_validator",
     submodules = [":validator"],
     visibility = ["//visibility:public"],
@@ -43,7 +43,6 @@ ocaml_ns_library(
 
 ocaml_module(
     name = "main_validator",
-    deps_opam = ["tezos_validator"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -64,7 +63,10 @@ ocaml_module(
         "-linkall",
     ],
     struct = ":main_validator.ml",
-    deps = [":validator"],
+    deps = [
+        ":validator",
+        "@ocaml//lib/tezos_validator",
+    ],
 )
 
 # okapi:public_name tezos-validator
@@ -72,4 +74,5 @@ ocaml_executable(
     name = "exe-tezos-validator",
     main = "main_validator",
     visibility = ["//visibility:public"],
+    deps = [":main_validator"],
 )

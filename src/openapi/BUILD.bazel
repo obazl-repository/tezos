@@ -1,0 +1,67 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module", "ocaml_signature")
+
+ocaml_module(
+    name = "api",
+    struct = ":api.ml",
+    deps = [
+        ":json",
+        "@ocaml//lib/ezjsonm",
+        "@ocaml//lib/json-data-encoding",
+    ],
+)
+
+ocaml_module(
+    name = "json",
+    struct = ":json.ml",
+    deps = [
+        "@ocaml//lib/ezjsonm",
+        "@ocaml//lib/json-data-encoding",
+    ],
+)
+
+ocaml_signature(
+    name = "openapi__sig",
+    src = ":openapi.mli",
+    deps = [
+        ":json",
+        "@ocaml//lib/ezjsonm",
+        "@ocaml//lib/json-data-encoding",
+    ],
+)
+
+ocaml_module(
+    name = "openapi",
+    sig = ":openapi__sig",
+    struct = ":openapi.ml",
+    deps = [
+        ":json",
+        "@ocaml//lib/ezjsonm",
+        "@ocaml//lib/json-data-encoding",
+    ],
+)
+
+ocaml_module(
+    name = "rpc_openapi",
+    struct = ":rpc_openapi.ml",
+    deps = [
+        ":api",
+        ":json",
+        ":openapi",
+        "@ocaml//lib/ezjsonm",
+        "@ocaml//lib/json-data-encoding",
+    ],
+)
+
+# okapi:auto
+# okapi:public_name rpc_openapi
+ocaml_executable(
+    name = "exe-rpc_openapi",
+    main = "rpc_openapi",
+    visibility = ["//visibility:public"],
+    deps = [
+        ":api",
+        ":json",
+        ":openapi",
+        ":rpc_openapi",
+    ],
+)

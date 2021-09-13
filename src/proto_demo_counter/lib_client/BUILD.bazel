@@ -1,125 +1,8 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
-    name = "client_proto_main_sig",
-    src = ":client_proto_main.mli",
-    deps_opam = ["tezos-protocol-demo-counter"],
-    opts = [
-        "-w",
-        "-9+27-30-32-40@8",
-        "-safe-string",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_client_commands",
-        "-open",
-        "Tezos_protocol_demo_counter",
-    ],
-    deps = [
-        ":client_proto_args",
-        ":client_proto_commands",
-        ":protocol_client_context",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_client_commands:#Tezos_client_commands",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_module(
-    name = "client_proto_main",
-    deps_opam = ["tezos-protocol-demo-counter"],
-    opts = [
-        "-w",
-        "-9+27-30-32-40@8",
-        "-safe-string",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_client_commands",
-        "-open",
-        "Tezos_protocol_demo_counter",
-    ],
-    sig = ":client_proto_main_sig",
-    struct = ":client_proto_main.ml",
-    deps = [
-        ":client_proto_args",
-        ":client_proto_commands",
-        ":protocol_client_context",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_client_commands:#Tezos_client_commands",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_signature(
-    name = "protocol_client_context_sig",
-    src = ":protocol_client_context.mli",
-    deps_opam = ["tezos-protocol-demo-counter"],
-    opts = [
-        "-w",
-        "-9+27-30-32-40@8",
-        "-safe-string",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_client_commands",
-        "-open",
-        "Tezos_protocol_demo_counter",
-    ],
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_client_commands:#Tezos_client_commands",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_module(
-    name = "protocol_client_context",
-    deps_opam = ["tezos-protocol-demo-counter"],
-    opts = [
-        "-w",
-        "-9+27-30-32-40@8",
-        "-safe-string",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_client_commands",
-        "-open",
-        "Tezos_protocol_demo_counter",
-    ],
-    sig = ":protocol_client_context_sig",
-    struct = ":protocol_client_context.ml",
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_client_commands:#Tezos_client_commands",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-    ],
-)
-
-ocaml_signature(
-    name = "client_proto_args_sig",
+    name = "client_proto_args__sig",
     src = ":client_proto_args.mli",
-    deps_opam = ["tezos-protocol-demo-counter"],
     opts = [
         "-w",
         "-9+27-30-32-40@8",
@@ -136,6 +19,8 @@ ocaml_signature(
         "Tezos_protocol_demo_counter",
     ],
     deps = [
+        ":protocol_client_context",
+        "@ocaml//lib/tezos-protocol-demo-counter",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_client_commands:#Tezos_client_commands",
@@ -145,7 +30,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "client_proto_args",
-    deps_opam = ["tezos-protocol-demo-counter"],
     opts = [
         "-w",
         "-9+27-30-32-40@8",
@@ -161,9 +45,11 @@ ocaml_module(
         "-open",
         "Tezos_protocol_demo_counter",
     ],
-    sig = ":client_proto_args_sig",
+    sig = ":client_proto_args__sig",
     struct = ":client_proto_args.ml",
     deps = [
+        ":protocol_client_context",
+        "@ocaml//lib/tezos-protocol-demo-counter",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_client_commands:#Tezos_client_commands",
@@ -172,9 +58,8 @@ ocaml_module(
 )
 
 ocaml_signature(
-    name = "client_proto_commands_sig",
+    name = "client_proto_commands__sig",
     src = ":client_proto_commands.mli",
-    deps_opam = ["tezos-protocol-demo-counter"],
     opts = [
         "-w",
         "-9+27-30-32-40@8",
@@ -192,6 +77,7 @@ ocaml_signature(
     ],
     deps = [
         ":protocol_client_context",
+        "@ocaml//lib/tezos-protocol-demo-counter",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_client_commands:#Tezos_client_commands",
@@ -201,7 +87,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "client_proto_commands",
-    deps_opam = ["tezos-protocol-demo-counter"],
     opts = [
         "-w",
         "-9+27-30-32-40@8",
@@ -217,10 +102,127 @@ ocaml_module(
         "-open",
         "Tezos_protocol_demo_counter",
     ],
-    sig = ":client_proto_commands_sig",
+    sig = ":client_proto_commands__sig",
     struct = ":client_proto_commands.ml",
     deps = [
         ":protocol_client_context",
+        "@ocaml//lib/tezos-protocol-demo-counter",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_client_commands:#Tezos_client_commands",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_signature(
+    name = "client_proto_main__sig",
+    src = ":client_proto_main.mli",
+    opts = [
+        "-w",
+        "-9+27-30-32-40@8",
+        "-safe-string",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_client_base",
+        "-open",
+        "Tezos_client_commands",
+        "-open",
+        "Tezos_protocol_demo_counter",
+    ],
+    deps = [
+        ":client_proto_args",
+        ":client_proto_commands",
+        ":protocol_client_context",
+        "@ocaml//lib/tezos-protocol-demo-counter",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_client_commands:#Tezos_client_commands",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_module(
+    name = "client_proto_main",
+    opts = [
+        "-w",
+        "-9+27-30-32-40@8",
+        "-safe-string",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_client_base",
+        "-open",
+        "Tezos_client_commands",
+        "-open",
+        "Tezos_protocol_demo_counter",
+    ],
+    sig = ":client_proto_main__sig",
+    struct = ":client_proto_main.ml",
+    deps = [
+        ":client_proto_args",
+        ":client_proto_commands",
+        ":protocol_client_context",
+        "@ocaml//lib/tezos-protocol-demo-counter",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_client_commands:#Tezos_client_commands",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_signature(
+    name = "protocol_client_context__sig",
+    src = ":protocol_client_context.mli",
+    opts = [
+        "-w",
+        "-9+27-30-32-40@8",
+        "-safe-string",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_client_base",
+        "-open",
+        "Tezos_client_commands",
+        "-open",
+        "Tezos_protocol_demo_counter",
+    ],
+    deps = [
+        "@ocaml//lib/tezos-protocol-demo-counter",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_client_commands:#Tezos_client_commands",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+    ],
+)
+
+ocaml_module(
+    name = "protocol_client_context",
+    opts = [
+        "-w",
+        "-9+27-30-32-40@8",
+        "-safe-string",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_client_base",
+        "-open",
+        "Tezos_client_commands",
+        "-open",
+        "Tezos_protocol_demo_counter",
+    ],
+    sig = ":protocol_client_context__sig",
+    struct = ":protocol_client_context.ml",
+    deps = [
+        "@ocaml//lib/tezos-protocol-demo-counter",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_client_base:#Tezos_client_base",
         "@tezos//src/lib_client_commands:#Tezos_client_commands",
@@ -229,7 +231,8 @@ ocaml_module(
 )
 
 # okapi:auto
-ocaml_ns_library(
+# okapi:public_name tezos-client-demo-counter
+ocaml_ns_archive(
     name = "#Tezos_client_demo_counter",
     submodules = [
         ":client_proto_args",

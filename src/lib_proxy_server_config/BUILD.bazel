@@ -1,7 +1,7 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
 
 ocaml_signature(
-    name = "proxy_server_config_sig",
+    name = "proxy_server_config__sig",
     src = ":proxy_server_config.mli",
     opts = [
         "-open",
@@ -19,7 +19,7 @@ ocaml_module(
         "-open",
         "Tezos_base__TzPervasives",
     ],
-    sig = ":proxy_server_config_sig",
+    sig = ":proxy_server_config__sig",
     struct = ":proxy_server_config.ml",
     deps = [
         "@tezos//src/lib_base:#Tezos_base",
@@ -28,7 +28,8 @@ ocaml_module(
 )
 
 # okapi:auto
-ocaml_ns_library(
+# okapi:public_name tezos-proxy-server-config
+ocaml_ns_archive(
     name = "#Tezos_proxy_server_config",
     submodules = [":proxy_server_config"],
     visibility = ["//visibility:public"],

@@ -1,0 +1,21 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module")
+
+ocaml_module(
+    name = "test",
+    struct = ":test.ml",
+    deps = [
+        "@ocaml//lib/alcotest",
+        "@ocaml//lib/cstruct",
+        "@ocaml//lib/rresult",
+        "@tezos//vendors/ocaml-lmdb/src:lib-tezos-lmdb",
+    ],
+)
+
+# okapi:auto
+# okapi:public_name test
+ocaml_executable(
+    name = "exe-test",
+    main = "test",
+    visibility = ["//visibility:public"],
+    deps = [":test"],
+)

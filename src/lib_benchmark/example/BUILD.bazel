@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive")
 
 ocaml_module(
     name = "blake2b",
@@ -16,7 +16,8 @@ ocaml_module(
 )
 
 # okapi:auto
-ocaml_ns_library(
+# okapi:public_name tezos-benchmark-examples
+ocaml_ns_archive(
     name = "#Tezos_benchmark_examples",
     submodules = [":blake2b"],
     visibility = ["//visibility:public"],

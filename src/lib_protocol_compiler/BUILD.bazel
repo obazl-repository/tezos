@@ -1,11 +1,35 @@
-load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig", "copy_interface", "sig_module")
+# load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig", "copy_interface", "sig_module")
+load("//dsl:library.bzl", "lib", "mod", "sig", "copy_interface", "sig_module")
 load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
 load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
+DEPS_OPAM = [
+    "@ocaml//lib/compiler-libs/common",
+    "@ocaml//lib/lwt/unix",
+    "@ocaml//lib/ocplib-ocamlres",
+    "@ocaml//lib/unix",
+]
+
+## there must be a better way...
 copy_file(
     name = "embed_registerer_cmi",
     src = ":registerer__sig",
     out = "embed/tezos_protocol_registerer__Registerer.cmi",
+)
+
+ocaml_module(
+    name = "embedded_cmis",
+    opts = [
+        "-opaque",
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":embedded_cmis__sig",
+    struct = ":embedded_cmis.ml",
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+    ],
 )
 
 genrule(
@@ -18,19 +42,23 @@ genrule(
         "//src/lib_protocol_environment/sigs:embed_v2_cmi",
         "//src/lib_protocol_environment/sigs:embed_v3_cmi",
     ],
-    outs = ["__obazl/embedded_cmis.ml"],
+    outs = ["embedded_cmis.ml"],
     cmd = "echo $(SRCS) && $(execpath @opam_libs//:bin/ocp-ocamlres) -format ocaml -o $(@) $(SRCS)",
     tools = ["@opam_libs//:bin/ocp-ocamlres"],
 )
 
-copy_interface(
-    name = "embedded_cmis",
-    out = "embedded_cmis",
-)
-
-sig_module(
-    "embedded_cmis",
-    dict(mod_src = ":embedded_cmis_ml", sig_src = ":embedded_cmis_mli"),
+ocaml_signature(
+    name = "embedded_cmis__sig",
+    src = ":embedded_cmis.mli",
+    opts = [
+        "-opaque",
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = [
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
+    ],
 )
 
 ocaml_signature(
@@ -71,12 +99,6 @@ ocaml_ns_library(
 
 ocaml_module(
     name = "compiler",
-    deps_opam = [
-        "compiler-libs.common",
-        "lwt.unix",
-        "ocplib-ocamlres",
-        "unix",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -86,7 +108,7 @@ ocaml_module(
         "Tezos_stdlib_unix",
     ],
     struct = ":compiler.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         ":embedded_cmis",
         ":packer",
         "@tezos//src/lib_base:#Tezos_base",
@@ -100,12 +122,6 @@ ocaml_module(
 ocaml_signature(
     name = "packer__sig",
     src = ":packer.mli",
-    deps_opam = [
-        "compiler-libs.common",
-        "lwt.unix",
-        "ocplib-ocamlres",
-        "unix",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -114,7 +130,7 @@ ocaml_signature(
         "-open",
         "Tezos_stdlib_unix",
     ],
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
@@ -125,12 +141,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "packer",
-    deps_opam = [
-        "compiler-libs.common",
-        "lwt.unix",
-        "ocplib-ocamlres",
-        "unix",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -141,7 +151,7 @@ ocaml_module(
     ],
     sig = ":packer__sig",
     struct = ":packer.ml",
-    deps = [
+    deps = DEPS_OPAM + [
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
         "@tezos//src/lib_protocol_environment/sigs:#Tezos_protocol_environment_sigs",
@@ -163,7 +173,6 @@ ocaml_ns_library(
 ocaml_signature(
     name = "byte__sig",
     src = ":byte.mli",
-    deps_opam = ["compiler-libs.bytecomp"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -174,12 +183,12 @@ ocaml_signature(
         ":compiler",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_protocol_compiler:#Tezos_protocol_compiler",
+        "@ocaml//lib/compiler-libs/bytecomp",
     ],
 )
 
 ocaml_module(
     name = "byte",
-    deps_opam = ["compiler-libs.bytecomp"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -192,6 +201,7 @@ ocaml_module(
         ":compiler",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_protocol_compiler:#Tezos_protocol_compiler",
+        "@ocaml//lib/compiler-libs/bytecomp"
     ],
 )
 
@@ -205,7 +215,6 @@ ocaml_ns_library(
 ocaml_signature(
     name = "native__sig",
     src = ":native.mli",
-    deps_opam = ["compiler-libs.optcomp"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -216,12 +225,12 @@ ocaml_signature(
         ":compiler",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_protocol_compiler:#Tezos_protocol_compiler",
+        "@ocaml//lib/compiler-libs/bytecomp"
     ],
 )
 
 ocaml_module(
     name = "native",
-    deps_opam = ["compiler-libs.optcomp"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -234,6 +243,7 @@ ocaml_module(
         ":compiler",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_protocol_compiler:#Tezos_protocol_compiler",
+        "@ocaml//lib/compiler-libs/bytecomp"
     ],
 )
 
@@ -246,7 +256,7 @@ ocaml_ns_library(
 
 ocaml_module(
     name = "main_byte",
-    deps_opam = ["tezos_protocol_compiler_byte"],
+    deps = ["@ocaml//lib/tezos_protocol_compiler_byte"],
     opts = ["-linkall"],
     struct = ":main_byte.ml",
 )
@@ -260,7 +270,7 @@ ocaml_executable(
 
 ocaml_module(
     name = "main_native",
-    deps_opam = ["tezos_protocol_compiler_native"],
+    deps = ["@ocaml//lib/tezos_protocol_compiler_native"],
     opts = ["-linkall"],
     struct = ":main_native.ml",
 )
@@ -346,7 +356,6 @@ ocaml_executable(
 
 ocaml_module(
     name = "replace",
-    deps_opam = ["re.str"],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -358,6 +367,7 @@ ocaml_module(
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_base/unix:#Tezos_base_unix",
         "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@ocaml//lib/re/str"
     ],
 )
 

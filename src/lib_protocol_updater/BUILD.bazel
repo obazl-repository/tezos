@@ -1,12 +1,69 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+
+ocaml_signature(
+    name = "registered_protocol__sig",
+    src = ":registered_protocol.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_micheline",
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_context",
+    ],
+    deps = [
+        "@ocaml//lib/dynlink",
+        "@ocaml//lib/lwt-exit",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_micheline:#Tezos_micheline",
+        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_compiler_native",
+        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_registerer",
+        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "registered_protocol",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_micheline",
+        "-open",
+        "Tezos_shell_services",
+        "-open",
+        "Tezos_context",
+    ],
+    sig = ":registered_protocol__sig",
+    struct = ":registered_protocol.ml",
+    deps = [
+        "@ocaml//lib/dynlink",
+        "@ocaml//lib/lwt-exit",
+        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_context:#Tezos_context",
+        "@tezos//src/lib_micheline:#Tezos_micheline",
+        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_compiler_native",
+        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_registerer",
+        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
+        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+    ],
+)
 
 ocaml_signature(
     name = "updater__sig",
     src = ":updater.mli",
-    deps_opam = [
-        "lwt-exit",
-        "dynlink",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -21,6 +78,8 @@ ocaml_signature(
     ],
     deps = [
         ":updater_events",
+        "@ocaml//lib/dynlink",
+        "@ocaml//lib/lwt-exit",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_context:#Tezos_context",
         "@tezos//src/lib_micheline:#Tezos_micheline",
@@ -35,10 +94,6 @@ ocaml_signature(
 
 ocaml_module(
     name = "updater",
-    deps_opam = [
-        "lwt-exit",
-        "dynlink",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -55,6 +110,8 @@ ocaml_module(
     struct = ":updater.ml",
     deps = [
         ":updater_events",
+        "@ocaml//lib/dynlink",
+        "@ocaml//lib/lwt-exit",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_context:#Tezos_context",
         "@tezos//src/lib_micheline:#Tezos_micheline",
@@ -69,10 +126,6 @@ ocaml_module(
 
 ocaml_module(
     name = "updater_events",
-    deps_opam = [
-        "lwt-exit",
-        "dynlink",
-    ],
     opts = [
         "-open",
         "Tezos_base__TzPervasives",
@@ -87,71 +140,8 @@ ocaml_module(
     ],
     struct = ":updater_events.ml",
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_compiler_native",
-        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_registerer",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "registered_protocol__sig",
-    src = ":registered_protocol.mli",
-    deps_opam = [
-        "lwt-exit",
-        "dynlink",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_context",
-    ],
-    deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_compiler_native",
-        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_registerer",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "registered_protocol",
-    deps_opam = [
-        "lwt-exit",
-        "dynlink",
-    ],
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_context",
-    ],
-    sig = ":registered_protocol__sig",
-    struct = ":registered_protocol.ml",
-    deps = [
+        "@ocaml//lib/dynlink",
+        "@ocaml//lib/lwt-exit",
         "@tezos//src/lib_base:#Tezos_base",
         "@tezos//src/lib_context:#Tezos_context",
         "@tezos//src/lib_micheline:#Tezos_micheline",
@@ -166,7 +156,7 @@ ocaml_module(
 
 # okapi:auto
 # okapi:public_name tezos-protocol-updater
-ocaml_ns_library(
+ocaml_ns_archive(
     name = "#Tezos_protocol_updater",
     submodules = [
         ":registered_protocol",
