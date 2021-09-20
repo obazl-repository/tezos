@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
     name = "client_proto_main__sig",
@@ -18,12 +18,12 @@ ocaml_signature(
     deps = [
         ":protocol_client_context",
         "@ocaml//lib/tezos-protocol-genesis-carthagenet",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_client_commands:#Tezos_client_commands",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_client_commands:Tezos_client_commands",
         "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -46,12 +46,12 @@ ocaml_module(
     deps = [
         ":protocol_client_context",
         "@ocaml//lib/tezos-protocol-genesis-carthagenet",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_client_commands:#Tezos_client_commands",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_client_commands:Tezos_client_commands",
         "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -72,19 +72,19 @@ ocaml_module(
     struct = ":protocol_client_context.ml",
     deps = [
         "@ocaml//lib/tezos-protocol-genesis-carthagenet",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_client_commands:#Tezos_client_commands",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_client_commands:Tezos_client_commands",
         "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-client-genesis-carthagenet
-ocaml_ns_archive(
-    name = "#Tezos_client_genesis_carthagenet",
+ocaml_ns_library(
+    name = "Tezos_client_genesis_carthagenet",
     submodules = [
         ":client_proto_main",
         ":protocol_client_context",

@@ -1,4 +1,6 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+     "ocaml_module",
+     "ocaml_ns_library")
 
 ocaml_module(
     name = "hashtbl",
@@ -20,8 +22,9 @@ ocaml_module(
 
 # okapi:auto
 # okapi:public_name tezos-lwt-result-stdlib.bare.functor-outputs
-ocaml_ns_archive(
-    name = "#Bare_functor_outputs",
+# ocaml_ns_library(
+ocaml_ns_library(
+    name = "Bare_functor_outputs",
     submodules = [
         ":hashtbl",
         ":map",

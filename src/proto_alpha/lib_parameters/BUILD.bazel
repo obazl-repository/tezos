@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
     name = "default_parameters__sig",
@@ -12,8 +12,8 @@ ocaml_signature(
     ],
     deps = [
         "@ocaml//lib/tezos-protocol-alpha",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_base/unix:#Tezos_base_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_base/unix:Tezos_base_unix",
         "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
     ],
 )
@@ -31,16 +31,16 @@ ocaml_module(
     struct = ":default_parameters.ml",
     deps = [
         "@ocaml//lib/tezos-protocol-alpha",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_base/unix:#Tezos_base_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_base/unix:Tezos_base_unix",
         "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-protocol-alpha-parameters
-ocaml_ns_archive(
-    name = "#Tezos_protocol_alpha_parameters",
+ocaml_ns_library(
+    name = "Tezos_protocol_alpha_parameters",
     submodules = [":default_parameters"],
     visibility = ["//visibility:public"],
 )
@@ -57,8 +57,8 @@ ocaml_module(
     struct = ":gen.ml",
     deps = [
         ":default_parameters",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/proto_alpha/lib_parameters:#Tezos_protocol_alpha_parameters",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
     ],
 )
 

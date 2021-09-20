@@ -20,9 +20,9 @@ ocaml_module(
     ],
     struct = ":main_baker_alpha.ml",
     deps = [
-        "@tezos//src/lib_client_base_unix:#Tezos_client_base_unix",
-        "@tezos//src/lib_client_commands:#Tezos_client_commands",
-        "@tezos//src/proto_alpha/lib_delegate:#Tezos_baking_alpha_commands",
+        "@tezos//src/lib_client_base_unix:Tezos_client_base_unix",
+        "@tezos//src/lib_client_commands:Tezos_client_commands",
+        "@tezos//src/proto_alpha/lib_delegate:Tezos_baking_alpha_commands",
     ],
 )
 

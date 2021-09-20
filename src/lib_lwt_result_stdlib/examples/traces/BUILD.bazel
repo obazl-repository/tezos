@@ -1,11 +1,11 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
     name = "traces__sig",
     src = ":traces.mli",
     deps = [
         "@ocaml//lib/lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
         "@tezos//src/lib_lwt_result_stdlib/traced/sigs:#Traced_sigs",
     ],
 )
@@ -16,14 +16,14 @@ ocaml_module(
     struct = ":traces.ml",
     deps = [
         "@ocaml//lib/lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
         "@tezos//src/lib_lwt_result_stdlib/traced/sigs:#Traced_sigs",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-lwt-result-stdlib.examples.traces
-ocaml_ns_archive(
+ocaml_ns_library(
     name = "#Traces",
     submodules = [":traces"],
     visibility = ["//visibility:public"],

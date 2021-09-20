@@ -39,7 +39,7 @@ sig
 
   val parse_config_args :
     (* How to parse CLI arguments *)
-    #Tezos_client_base.Client_context.full ->
+    Tezos_client_base.Client_context.full ->
     string list ->
     (Client_config.parsed_config_args * string list) tzresult Lwt.t
 

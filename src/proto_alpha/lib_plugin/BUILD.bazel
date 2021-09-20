@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
 
 ocaml_module(
     name = "plugin",
@@ -11,14 +11,14 @@ ocaml_module(
     struct = ":plugin.ml",
     deps = [
         "@ocaml//lib/tezos-protocol-alpha",
-        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base:Tezos_base",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-protocol-plugin-alpha
-ocaml_ns_archive(
-    name = "#Tezos_protocol_plugin_alpha",
+ocaml_ns_library(
+    name = "Tezos_protocol_plugin_alpha",
     submodules = [":plugin"],
     visibility = ["//visibility:public"],
 )
@@ -39,15 +39,15 @@ ocaml_module(
     deps = [
         ":plugin",
         "@ocaml//lib/tezos-embedded-protocol-alpha",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_shell:#Tezos_shell",
-        "@tezos//src/proto_alpha/lib_plugin:#Tezos_protocol_plugin_alpha",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_shell:Tezos_shell",
+        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
     ],
 )
 
 # okapi:public_name tezos-protocol-plugin-alpha-registerer
-ocaml_ns_archive(
-    name = "#Tezos_protocol_plugin_alpha_registerer",
+ocaml_ns_library(
+    name = "Tezos_protocol_plugin_alpha_registerer",
     submodules = [":plugin_registerer"],
     visibility = ["//visibility:public"],
 )

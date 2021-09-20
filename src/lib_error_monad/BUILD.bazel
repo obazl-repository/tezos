@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
     name = "TzCore__sig",
@@ -15,8 +15,8 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/lwt",
         "@ocaml//lib/lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -36,8 +36,8 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/lwt",
         "@ocaml//lib/lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -55,8 +55,8 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/lwt",
         "@ocaml//lib/lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -75,8 +75,8 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/lwt",
         "@ocaml//lib/lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -98,8 +98,8 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/lwt",
         "@ocaml//lib/lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -122,8 +122,8 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/lwt",
         "@ocaml//lib/lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -141,8 +141,8 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/lwt",
         "@ocaml//lib/lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -161,8 +161,8 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/lwt",
         "@ocaml//lib/lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -180,8 +180,8 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/lwt",
         "@ocaml//lib/lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -200,8 +200,8 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/lwt",
         "@ocaml//lib/lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -222,8 +222,8 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/lwt",
         "@ocaml//lib/lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -245,8 +245,8 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/lwt",
         "@ocaml//lib/lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -264,8 +264,8 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/lwt",
         "@ocaml//lib/lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -284,8 +284,8 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/lwt",
         "@ocaml//lib/lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -303,8 +303,8 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/lwt",
         "@ocaml//lib/lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -323,8 +323,8 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/lwt",
         "@ocaml//lib/lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -341,15 +341,15 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/lwt",
         "@ocaml//lib/lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-error-monad
-ocaml_ns_archive(
-    name = "#Tezos_error_monad",
+ocaml_ns_library(
+    name = "Tezos_error_monad",
     submodules = [
         ":TzCore",
         ":TzLwtreslib",

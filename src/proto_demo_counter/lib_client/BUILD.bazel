@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
     name = "client_proto_args__sig",
@@ -21,10 +21,10 @@ ocaml_signature(
     deps = [
         ":protocol_client_context",
         "@ocaml//lib/tezos-protocol-demo-counter",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_client_commands:#Tezos_client_commands",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_client_commands:Tezos_client_commands",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
     ],
 )
 
@@ -50,10 +50,10 @@ ocaml_module(
     deps = [
         ":protocol_client_context",
         "@ocaml//lib/tezos-protocol-demo-counter",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_client_commands:#Tezos_client_commands",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_client_commands:Tezos_client_commands",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
     ],
 )
 
@@ -78,10 +78,10 @@ ocaml_signature(
     deps = [
         ":protocol_client_context",
         "@ocaml//lib/tezos-protocol-demo-counter",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_client_commands:#Tezos_client_commands",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_client_commands:Tezos_client_commands",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
     ],
 )
 
@@ -107,10 +107,10 @@ ocaml_module(
     deps = [
         ":protocol_client_context",
         "@ocaml//lib/tezos-protocol-demo-counter",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_client_commands:#Tezos_client_commands",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_client_commands:Tezos_client_commands",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
     ],
 )
 
@@ -137,10 +137,10 @@ ocaml_signature(
         ":client_proto_commands",
         ":protocol_client_context",
         "@ocaml//lib/tezos-protocol-demo-counter",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_client_commands:#Tezos_client_commands",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_client_commands:Tezos_client_commands",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
     ],
 )
 
@@ -168,10 +168,10 @@ ocaml_module(
         ":client_proto_commands",
         ":protocol_client_context",
         "@ocaml//lib/tezos-protocol-demo-counter",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_client_commands:#Tezos_client_commands",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_client_commands:Tezos_client_commands",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
     ],
 )
 
@@ -195,10 +195,10 @@ ocaml_signature(
     ],
     deps = [
         "@ocaml//lib/tezos-protocol-demo-counter",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_client_commands:#Tezos_client_commands",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_client_commands:Tezos_client_commands",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
     ],
 )
 
@@ -223,17 +223,17 @@ ocaml_module(
     struct = ":protocol_client_context.ml",
     deps = [
         "@ocaml//lib/tezos-protocol-demo-counter",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_client_commands:#Tezos_client_commands",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_client_commands:Tezos_client_commands",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-client-demo-counter
-ocaml_ns_archive(
-    name = "#Tezos_client_demo_counter",
+ocaml_ns_library(
+    name = "Tezos_client_demo_counter",
     submodules = [
         ":client_proto_args",
         ":client_proto_commands",

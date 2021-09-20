@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
 
 ocaml_module(
     name = "bloomer_benchmarks",
@@ -18,11 +18,11 @@ ocaml_module(
     ],
     struct = ":bloomer_benchmarks.ml",
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_benchmark:#Tezos_benchmark",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_benchmark:Tezos_benchmark",
+        "@tezos//src/lib_context:Tezos_context",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
     ],
 )
 
@@ -45,11 +45,11 @@ ocaml_module(
     struct = ":encoding_benchmarks.ml",
     deps = [
         ":encoding_benchmarks_helpers",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_benchmark:#Tezos_benchmark",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_benchmark:Tezos_benchmark",
+        "@tezos//src/lib_context:Tezos_context",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
     ],
 )
 
@@ -71,11 +71,11 @@ ocaml_module(
     ],
     struct = ":encoding_benchmarks_helpers.ml",
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_benchmark:#Tezos_benchmark",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_benchmark:Tezos_benchmark",
+        "@tezos//src/lib_context:Tezos_context",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
     ],
 )
 
@@ -99,11 +99,11 @@ ocaml_module(
     deps = [
         ":io_helpers",
         ":io_stats",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_benchmark:#Tezos_benchmark",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_benchmark:Tezos_benchmark",
+        "@tezos//src/lib_context:Tezos_context",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
     ],
 )
 
@@ -125,11 +125,11 @@ ocaml_module(
     ],
     struct = ":io_helpers.ml",
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_benchmark:#Tezos_benchmark",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_benchmark:Tezos_benchmark",
+        "@tezos//src/lib_context:Tezos_context",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
     ],
 )
 
@@ -152,11 +152,11 @@ ocaml_module(
     struct = ":io_stats.ml",
     deps = [
         ":io_helpers",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_benchmark:#Tezos_benchmark",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_benchmark:Tezos_benchmark",
+        "@tezos//src/lib_context:Tezos_context",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
     ],
 )
 
@@ -178,11 +178,11 @@ ocaml_module(
     ],
     struct = ":micheline_benchmarks.ml",
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_benchmark:#Tezos_benchmark",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_benchmark:Tezos_benchmark",
+        "@tezos//src/lib_context:Tezos_context",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
     ],
 )
 
@@ -204,18 +204,18 @@ ocaml_module(
     ],
     struct = ":misc_benchmarks.ml",
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_benchmark:#Tezos_benchmark",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_benchmark:Tezos_benchmark",
+        "@tezos//src/lib_context:Tezos_context",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-shell-benchmarks
-ocaml_ns_archive(
-    name = "#Tezos_shell_benchmarks",
+ocaml_ns_library(
+    name = "Tezos_shell_benchmarks",
     submodules = [
         ":bloomer_benchmarks",
         ":encoding_benchmarks",

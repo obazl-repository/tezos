@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
     name = "main__sig",
@@ -13,7 +13,7 @@ ocaml_module(
 
 # okapi:auto
 # okapi:public_name proto_test_injection
-ocaml_ns_archive(
+ocaml_ns_library(
     name = "#Proto_test_injection",
     submodules = [":main"],
     visibility = ["//visibility:public"],

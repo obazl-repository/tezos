@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
     name = "base_samplers__sig",
@@ -17,10 +17,10 @@ ocaml_signature(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -42,10 +42,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -69,10 +69,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -93,10 +93,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -123,10 +123,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -151,10 +151,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -176,10 +176,10 @@ ocaml_signature(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -202,10 +202,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -227,10 +227,10 @@ ocaml_signature(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -253,10 +253,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -277,10 +277,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -303,10 +303,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -328,10 +328,10 @@ ocaml_signature(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -354,10 +354,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -378,10 +378,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -409,10 +409,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -439,10 +439,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -464,10 +464,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -490,10 +490,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -514,10 +514,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -540,10 +540,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -565,10 +565,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -589,10 +589,10 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -614,10 +614,10 @@ ocaml_signature(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -640,17 +640,17 @@ ocaml_module(
         "@ocaml//lib/ocaml-migrate-parsetree",
         "@ocaml//lib/pyml-plot",
         "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_clic:#Tezos_clic",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_clic:Tezos_clic",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-benchmark
-ocaml_ns_archive(
-    name = "#Tezos_benchmark",
+ocaml_ns_library(
+    name = "Tezos_benchmark",
     submodules = [
         ":base_samplers",
         ":benchmark",

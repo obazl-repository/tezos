@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
     name = "RPC_answer__sig",
@@ -14,7 +14,7 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -33,7 +33,7 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -50,7 +50,7 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -68,7 +68,7 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -88,7 +88,7 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -109,7 +109,7 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -129,7 +129,7 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -150,7 +150,7 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -170,7 +170,7 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -191,7 +191,7 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -208,7 +208,7 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -226,7 +226,7 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -245,7 +245,7 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -265,7 +265,7 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -282,7 +282,7 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -300,7 +300,7 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -317,7 +317,7 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -335,7 +335,7 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -355,7 +355,7 @@ ocaml_signature(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
@@ -376,14 +376,14 @@ ocaml_module(
         "@ocaml//lib/data-encoding",
         "@ocaml//lib/resto",
         "@ocaml//lib/resto-directory",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-rpc
-ocaml_ns_archive(
-    name = "#Tezos_rpc",
+ocaml_ns_library(
+    name = "Tezos_rpc",
     submodules = [
         ":RPC_answer",
         ":RPC_arg",

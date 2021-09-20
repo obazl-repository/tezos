@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
     name = "signer_messages__sig",
@@ -13,9 +13,9 @@ ocaml_signature(
         "-linkall",
     ],
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_rpc:Tezos_rpc",
     ],
 )
 
@@ -33,9 +33,9 @@ ocaml_module(
     sig = ":signer_messages__sig",
     struct = ":signer_messages.ml",
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_rpc:Tezos_rpc",
     ],
 )
 
@@ -52,9 +52,9 @@ ocaml_signature(
         "-linkall",
     ],
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_rpc:Tezos_rpc",
     ],
 )
 
@@ -72,16 +72,16 @@ ocaml_module(
     sig = ":signer_services__sig",
     struct = ":signer_services.ml",
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_rpc:Tezos_rpc",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-signer-services
-ocaml_ns_archive(
-    name = "#Tezos_signer_services",
+ocaml_ns_library(
+    name = "Tezos_signer_services",
     submodules = [
         ":signer_messages",
         ":signer_services",

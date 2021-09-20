@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
     name = "context__sig",
@@ -19,12 +19,12 @@ ocaml_signature(
         "@ocaml//lib/irmin",
         "@ocaml//lib/irmin-pack",
         "@ocaml//lib/logs/fmt",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_context/encoding:#Tezos_context_encoding",
-        "@tezos//src/lib_context/helpers:#Tezos_context_helpers",
-        "@tezos//src/lib_context/sigs:#Tezos_context_sigs",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_context/encoding:Tezos_context_encoding",
+        "@tezos//src/lib_context/helpers:Tezos_context_helpers",
+        "@tezos//src/lib_context/sigs:Tezos_context_sigs",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -48,12 +48,12 @@ ocaml_module(
         "@ocaml//lib/irmin",
         "@ocaml//lib/irmin-pack",
         "@ocaml//lib/logs/fmt",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_context/encoding:#Tezos_context_encoding",
-        "@tezos//src/lib_context/helpers:#Tezos_context_helpers",
-        "@tezos//src/lib_context/sigs:#Tezos_context_sigs",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_context/encoding:Tezos_context_encoding",
+        "@tezos//src/lib_context/helpers:Tezos_context_helpers",
+        "@tezos//src/lib_context/sigs:Tezos_context_sigs",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -76,12 +76,12 @@ ocaml_signature(
         "@ocaml//lib/irmin",
         "@ocaml//lib/irmin-pack",
         "@ocaml//lib/logs/fmt",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_context/encoding:#Tezos_context_encoding",
-        "@tezos//src/lib_context/helpers:#Tezos_context_helpers",
-        "@tezos//src/lib_context/sigs:#Tezos_context_sigs",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_context/encoding:Tezos_context_encoding",
+        "@tezos//src/lib_context/helpers:Tezos_context_helpers",
+        "@tezos//src/lib_context/sigs:Tezos_context_sigs",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -105,12 +105,12 @@ ocaml_module(
         "@ocaml//lib/irmin",
         "@ocaml//lib/irmin-pack",
         "@ocaml//lib/logs/fmt",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_context/encoding:#Tezos_context_encoding",
-        "@tezos//src/lib_context/helpers:#Tezos_context_helpers",
-        "@tezos//src/lib_context/sigs:#Tezos_context_sigs",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_context/encoding:Tezos_context_encoding",
+        "@tezos//src/lib_context/helpers:Tezos_context_helpers",
+        "@tezos//src/lib_context/sigs:Tezos_context_sigs",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -132,19 +132,19 @@ ocaml_module(
         "@ocaml//lib/irmin",
         "@ocaml//lib/irmin-pack",
         "@ocaml//lib/logs/fmt",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_context/encoding:#Tezos_context_encoding",
-        "@tezos//src/lib_context/helpers:#Tezos_context_helpers",
-        "@tezos//src/lib_context/sigs:#Tezos_context_sigs",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_context/encoding:Tezos_context_encoding",
+        "@tezos//src/lib_context/helpers:Tezos_context_helpers",
+        "@tezos//src/lib_context/sigs:Tezos_context_sigs",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-context
-ocaml_ns_archive(
-    name = "#Tezos_context",
+ocaml_ns_library(
+    name = "Tezos_context",
     submodules = [
         ":context",
         ":context_dump",

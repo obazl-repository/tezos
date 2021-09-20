@@ -31,6 +31,6 @@
     scheme must be registered already.
     *)
 val populate :
-  #Tezos_client_base.Client_context.io_wallet ->
+  Tezos_client_base.Client_context.io_wallet ->
   string option ->
   unit tzresult Lwt.t

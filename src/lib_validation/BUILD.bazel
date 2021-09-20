@@ -1,4 +1,7 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+     "ocaml_module",
+     "ocaml_ns_library",
+     "ocaml_signature")
 
 ocaml_signature(
     name = "block_validation__sig",
@@ -20,12 +23,12 @@ ocaml_signature(
         "Tezos_stdlib_unix",
     ],
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
-        "@tezos//src/lib_protocol_updater:#Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_context:Tezos_context",
+        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
+        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -50,12 +53,12 @@ ocaml_module(
     sig = ":block_validation__sig",
     struct = ":block_validation.ml",
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
-        "@tezos//src/lib_protocol_updater:#Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_context:Tezos_context",
+        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
+        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -79,12 +82,12 @@ ocaml_signature(
         "Tezos_stdlib_unix",
     ],
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
-        "@tezos//src/lib_protocol_updater:#Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_context:Tezos_context",
+        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
+        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -109,19 +112,20 @@ ocaml_module(
     sig = ":external_validation__sig",
     struct = ":external_validation.ml",
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
-        "@tezos//src/lib_protocol_updater:#Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_context:Tezos_context",
+        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
+        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-validation
-ocaml_ns_archive(
-    name = "#Tezos_validation",
+# ocaml_ns_library(
+ocaml_ns_library(
+    name = "Tezos_validation",
     submodules = [
         ":block_validation",
         ":external_validation",

@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
     name = "context__sig",
@@ -12,7 +12,7 @@ ocaml_signature(
     deps = [
         "@ocaml//lib/irmin",
         "@ocaml//lib/irmin/mem",
-        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base:Tezos_base",
     ],
 )
 
@@ -29,14 +29,14 @@ ocaml_module(
     deps = [
         "@ocaml//lib/irmin",
         "@ocaml//lib/irmin/mem",
-        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base:Tezos_base",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-context.encoding
-ocaml_ns_archive(
-    name = "#Tezos_context_encoding",
+ocaml_ns_library(
+    name = "Tezos_context_encoding",
     submodules = [":context"],
     visibility = ["//visibility:public"],
 )

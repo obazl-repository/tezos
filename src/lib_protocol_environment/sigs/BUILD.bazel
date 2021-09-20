@@ -1,4 +1,6 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+     "ocaml_module",
+     "ocaml_ns_library")
 
 # load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
 load("//src/lib_protocol_environment/s_packer:pack.bzl", "pack")
@@ -39,7 +41,7 @@ ocaml_module(
 
 # okapi:public_name tezos-protocol-environment-sigs
 ocaml_ns_library(
-    name = "#Tezos_protocol_environment_sigs",
+    name = "Tezos_protocol_environment_sigs",
     submodules = [
         ":v0",
         ":v1",

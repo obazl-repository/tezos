@@ -48,7 +48,7 @@ module type M = sig
   val global_options : unit -> (t, Client_context_unix.unix_full) Clic.options
 
   val parse_config_args :
-    #Tezos_client_base.Client_context.full ->
+    Tezos_client_base.Client_context.full ->
     string list ->
     (Client_config.parsed_config_args * string list) tzresult Lwt.t
 

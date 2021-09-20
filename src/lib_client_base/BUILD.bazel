@@ -1,8 +1,8 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_ns_archive")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_ns_library")
 
 # okapi:public_name tezos-client-base
-ocaml_ns_archive(
-    name = "#Tezos_client_base",
+ocaml_ns_library(
+    name = "Tezos_client_base",
     submodules = [],
     visibility = ["//visibility:public"],
 )

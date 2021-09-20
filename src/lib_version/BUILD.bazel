@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
     name = "bin_version__sig",
@@ -10,7 +10,7 @@ ocaml_signature(
     deps = [
         ":current_git_info",
         ":version",
-        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base:Tezos_base",
     ],
 )
 
@@ -25,7 +25,7 @@ ocaml_module(
     deps = [
         ":current_git_info",
         ":version",
-        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base:Tezos_base",
     ],
 )
 
@@ -38,7 +38,7 @@ ocaml_signature(
     ],
     deps = [
         ":generated_git_info",
-        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base:Tezos_base",
     ],
 )
 
@@ -52,7 +52,7 @@ ocaml_module(
     struct = ":current_git_info.ml",
     deps = [
         ":generated_git_info",
-        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base:Tezos_base",
     ],
 )
 
@@ -63,7 +63,7 @@ ocaml_module(
         "Tezos_base__TzPervasives",
     ],
     struct = ":generated_git_info.ml",
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
+    deps = ["@tezos//src/lib_base:Tezos_base"],
 )
 
 ocaml_signature(
@@ -75,7 +75,7 @@ ocaml_signature(
     ],
     deps = [
         ":version",
-        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base:Tezos_base",
     ],
 )
 
@@ -89,7 +89,7 @@ ocaml_module(
     struct = ":node_version.ml",
     deps = [
         ":version",
-        "@tezos//src/lib_base:#Tezos_base",
+        "@tezos//src/lib_base:Tezos_base",
     ],
 )
 
@@ -100,7 +100,7 @@ ocaml_signature(
         "-open",
         "Tezos_base__TzPervasives",
     ],
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
+    deps = ["@tezos//src/lib_base:Tezos_base"],
 )
 
 ocaml_module(
@@ -111,13 +111,13 @@ ocaml_module(
     ],
     sig = ":version__sig",
     struct = ":version.ml",
-    deps = ["@tezos//src/lib_base:#Tezos_base"],
+    deps = ["@tezos//src/lib_base:Tezos_base"],
 )
 
 # okapi:auto
 # okapi:public_name tezos-version
-ocaml_ns_archive(
-    name = "#Tezos_version",
+ocaml_ns_library(
+    name = "Tezos_version",
     submodules = [
         ":bin_version",
         ":current_git_info",

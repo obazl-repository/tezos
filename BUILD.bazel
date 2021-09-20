@@ -32,3 +32,20 @@ platform(
         "container-image": "docker://ternarypulsar/tezos-buildbuddy-root:5"
     },
 )
+
+cc_import(
+    name = "librustzcash-internal",
+    hdrs = glob(["tezos-rust-libs/*.h"]),
+    static_library = "@ocaml//_lib/tezos-rust-libs/librustzcash.a",
+    alwayslink = 1,
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "librustzcash",
+    hdrs = glob(["tezos-rust-libs/*.h"]),
+    deps = [":librustzcash-internal"],
+    visibility = ["//visibility:public"],
+    strip_include_prefix = "tezos-rust-libs",
+)
+

@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
     name = "p2p__sig",
@@ -31,10 +31,10 @@ ocaml_signature(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -70,10 +70,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -94,10 +94,10 @@ ocaml_signature(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -119,10 +119,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -143,10 +143,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -173,10 +173,10 @@ ocaml_signature(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -204,10 +204,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -240,10 +240,10 @@ ocaml_signature(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -277,10 +277,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -307,10 +307,10 @@ ocaml_signature(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -338,10 +338,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -364,10 +364,10 @@ ocaml_signature(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -391,10 +391,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -415,10 +415,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -440,10 +440,10 @@ ocaml_signature(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -466,10 +466,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -492,10 +492,10 @@ ocaml_signature(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -519,10 +519,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -551,10 +551,10 @@ ocaml_signature(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -584,10 +584,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -609,10 +609,10 @@ ocaml_signature(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -635,10 +635,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -659,10 +659,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -683,10 +683,10 @@ ocaml_signature(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -708,10 +708,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -732,10 +732,10 @@ ocaml_signature(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -757,10 +757,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -788,10 +788,10 @@ ocaml_signature(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -820,10 +820,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -849,10 +849,10 @@ ocaml_signature(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -879,10 +879,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -906,10 +906,10 @@ ocaml_signature(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -934,10 +934,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -958,10 +958,10 @@ ocaml_signature(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -983,10 +983,10 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -1010,10 +1010,10 @@ ocaml_signature(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -1038,17 +1038,17 @@ ocaml_module(
         "@ocaml//lib/lwt-canceler",
         "@ocaml//lib/lwt-watcher",
         "@ocaml//lib/ringo",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_p2p_services:#Tezos_p2p_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-p2p
-ocaml_ns_archive(
-    name = "#Tezos_p2p",
+ocaml_ns_library(
+    name = "Tezos_p2p",
     submodules = [
         ":p2p",
         ":p2p_acl",

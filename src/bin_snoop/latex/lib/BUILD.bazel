@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
 
 ocaml_module(
     name = "latex_pp",
@@ -13,7 +13,7 @@ ocaml_module(
 
 # okapi:auto
 # okapi:public_name latex
-ocaml_ns_archive(
+ocaml_ns_library(
     name = "#Latex",
     submodules = [
         ":latex_pp",

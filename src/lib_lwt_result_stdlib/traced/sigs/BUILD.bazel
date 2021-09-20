@@ -1,12 +1,14 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+     "ocaml_module",
+     "ocaml_ns_library")
 
 ocaml_module(
     name = "hashtbl",
     struct = ":hashtbl.ml",
     deps = [
         "@ocaml//lib/lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
-        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
         "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
     ],
 )
@@ -16,8 +18,8 @@ ocaml_module(
     struct = ":list.ml",
     deps = [
         "@ocaml//lib/lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
-        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
         "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
     ],
 )
@@ -27,8 +29,8 @@ ocaml_module(
     struct = ":map.ml",
     deps = [
         "@ocaml//lib/lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
-        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
         "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
     ],
 )
@@ -38,8 +40,8 @@ ocaml_module(
     struct = ":monad.ml",
     deps = [
         "@ocaml//lib/lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
-        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
         "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
     ],
 )
@@ -49,8 +51,8 @@ ocaml_module(
     struct = ":option.ml",
     deps = [
         "@ocaml//lib/lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
-        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
         "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
     ],
 )
@@ -60,8 +62,8 @@ ocaml_module(
     struct = ":result.ml",
     deps = [
         "@ocaml//lib/lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
-        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
         "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
     ],
 )
@@ -71,8 +73,8 @@ ocaml_module(
     struct = ":seq.ml",
     deps = [
         "@ocaml//lib/lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
-        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
         "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
     ],
 )
@@ -82,8 +84,8 @@ ocaml_module(
     struct = ":seq_e.ml",
     deps = [
         "@ocaml//lib/lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
-        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
         "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
     ],
 )
@@ -93,8 +95,8 @@ ocaml_module(
     struct = ":seq_es.ml",
     deps = [
         "@ocaml//lib/lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
-        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
         "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
     ],
 )
@@ -104,8 +106,8 @@ ocaml_module(
     struct = ":seq_s.ml",
     deps = [
         "@ocaml//lib/lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
-        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
         "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
     ],
 )
@@ -115,8 +117,8 @@ ocaml_module(
     struct = ":set.ml",
     deps = [
         "@ocaml//lib/lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
-        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
         "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
     ],
 )
@@ -126,8 +128,8 @@ ocaml_module(
     struct = ":trace.ml",
     deps = [
         "@ocaml//lib/lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
-        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
         "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
     ],
 )
@@ -137,15 +139,16 @@ ocaml_module(
     struct = ":withExceptions.ml",
     deps = [
         "@ocaml//lib/lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:#Bare_sigs",
-        "@tezos//src/lib_lwt_result_stdlib/bare/structs:#Bare_structs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
         "@tezos//src/lib_lwt_result_stdlib/traced/functor_outputs:#Traced_functor_outputs",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-lwt-result-stdlib.traced.sigs
-ocaml_ns_archive(
+# ocaml_ns_library(
+ocaml_ns_library(
     name = "#Traced_sigs",
     submodules = [
         ":hashtbl",

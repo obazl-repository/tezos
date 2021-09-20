@@ -1,9 +1,13 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_signature", "ppx_executable", "ppx_module", "ppx_ns_archive")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+     "ocaml_signature",
+     "ppx_executable",
+     "ppx_module",
+     "ppx_ns_library")
 
 ppx_executable(
-    name = "ppx_tezos_micheline",
+    name = "ppx",
     deps = ["@ocaml//lib/ppx_inline_test"],
-    main = "//dsl:ppx_driver",
+    main = "@ppx//driver",
 )
 
 ocaml_signature(
@@ -17,7 +21,7 @@ ocaml_signature(
         "-open",
         "Data_encoding",
     ],
-    ppx = ":ppx_tezos_micheline",
+    ppx = ":ppx",
     ppx_print = "@ppx//print:text",
     ppx_tags = ["inline-test"],
     deps = [
@@ -25,8 +29,8 @@ ocaml_signature(
         "@ocaml//lib/ppx_inline_test",
         "@ocaml//lib/uutf",
         "@ocaml//lib/zarith",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -40,7 +44,7 @@ ppx_module(
         "-open",
         "Data_encoding",
     ],
-    ppx = ":ppx_tezos_micheline",
+    ppx = ":ppx",
     ppx_print = "@ppx//print:text",
     ppx_tags = ["inline-test"],
     sig = ":micheline__sig",
@@ -50,8 +54,8 @@ ppx_module(
         "@ocaml//lib/ppx_inline_test",
         "@ocaml//lib/uutf",
         "@ocaml//lib/zarith",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -66,7 +70,7 @@ ocaml_signature(
         "-open",
         "Data_encoding",
     ],
-    ppx = ":ppx_tezos_micheline",
+    ppx = ":ppx",
     ppx_print = "@ppx//print:text",
     ppx_tags = ["inline-test"],
     deps = [
@@ -75,8 +79,8 @@ ocaml_signature(
         "@ocaml//lib/ppx_inline_test",
         "@ocaml//lib/uutf",
         "@ocaml//lib/zarith",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -90,7 +94,7 @@ ppx_module(
         "-open",
         "Data_encoding",
     ],
-    ppx = ":ppx_tezos_micheline",
+    ppx = ":ppx",
     ppx_print = "@ppx//print:text",
     ppx_tags = ["inline-test"],
     sig = ":micheline_parser__sig",
@@ -101,8 +105,8 @@ ppx_module(
         "@ocaml//lib/ppx_inline_test",
         "@ocaml//lib/uutf",
         "@ocaml//lib/zarith",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -117,7 +121,7 @@ ocaml_signature(
         "-open",
         "Data_encoding",
     ],
-    ppx = ":ppx_tezos_micheline",
+    ppx = ":ppx",
     ppx_print = "@ppx//print:text",
     ppx_tags = ["inline-test"],
     deps = [
@@ -126,8 +130,8 @@ ocaml_signature(
         "@ocaml//lib/ppx_inline_test",
         "@ocaml//lib/uutf",
         "@ocaml//lib/zarith",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -141,7 +145,7 @@ ppx_module(
         "-open",
         "Data_encoding",
     ],
-    ppx = ":ppx_tezos_micheline",
+    ppx = ":ppx",
     ppx_print = "@ppx//print:text",
     ppx_tags = ["inline-test"],
     sig = ":micheline_printer__sig",
@@ -152,15 +156,15 @@ ppx_module(
         "@ocaml//lib/ppx_inline_test",
         "@ocaml//lib/uutf",
         "@ocaml//lib/zarith",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-micheline
-ppx_ns_archive(
-    name = "#Tezos_micheline",
+ppx_ns_library(
+    name = "Tezos_micheline",
     submodules = [
         ":micheline",
         ":micheline_parser",

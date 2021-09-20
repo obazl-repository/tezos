@@ -1,12 +1,10 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module",
-     "ocaml_ns_archive",
      "ocaml_ns_library",
      "ocaml_signature")
 
 DEPS_OPAM = [
     "@ocaml//lib/data-encoding",
     "@ocaml//lib/lwt",
-    "@ocaml//lib/bls12-381",
     "@ocaml//lib/secp256k1-internal",
     "@ocaml//lib/ringo",
     "@ocaml//lib/zarith",
@@ -31,11 +29,11 @@ ocaml_signature(
         ":blake2B",
         ":s",
         ":znz",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -59,11 +57,11 @@ ocaml_module(
         ":blake2B",
         ":s",
         ":znz",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -82,19 +80,23 @@ ocaml_signature(
         "-open",
         "Tezos_rpc",
     ],
-    deps = DEPS_OPAM + [
+    deps = [
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ],
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@ocaml//lib/bls12-381",
+    ] + select({
+        "//conditions:default": ["@ocaml//lib/bls12-381-unix"],
+    }) + DEPS_OPAM
 )
 
 ocaml_module(
     name = "BLS12_381",
     opts = [
+        "-linkall",
         "-open",
         "Tezos_stdlib",
         "-open",
@@ -110,12 +112,16 @@ ocaml_module(
     struct = ":BLS12_381.ml",
     deps = [
         ":s",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
-    ] + DEPS_OPAM
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
+        "@ocaml//lib/bls12-381",
+    ] + select({
+        ## FIXME: this is a deferred dep, needed to link an executable
+        "//conditions:default": ["@ocaml//lib/bls12-381-unix"],
+    }) + DEPS_OPAM
 )
 
 ocaml_signature(
@@ -138,11 +144,11 @@ ocaml_signature(
         ":block_hash",
         ":helpers",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -167,11 +173,11 @@ ocaml_module(
         ":block_hash",
         ":helpers",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -192,11 +198,11 @@ ocaml_module(
     struct = ":s.ml",
     deps = DEPS_OPAM + [
         ":base58",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -220,10 +226,10 @@ ocaml_signature(
         ":blake2B",
         ":operation_list_hash",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -248,11 +254,11 @@ ocaml_module(
         ":blake2B",
         ":operation_list_hash",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -275,11 +281,11 @@ ocaml_signature(
         ":hacl",
         ":pvss",
         ":secp256k1_group",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -303,11 +309,11 @@ ocaml_module(
         ":hacl",
         ":pvss",
         ":secp256k1_group",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -331,11 +337,11 @@ ocaml_signature(
         ":blake2B",
         ":operation_metadata_hash",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -360,11 +366,11 @@ ocaml_module(
         ":blake2B",
         ":operation_metadata_hash",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -388,11 +394,11 @@ ocaml_signature(
         ":hacl",
         ":helpers",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -417,11 +423,11 @@ ocaml_module(
         ":hacl",
         ":helpers",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -444,11 +450,11 @@ ocaml_signature(
         ":base58",
         ":blake2B",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -472,11 +478,11 @@ ocaml_module(
         ":base58",
         ":blake2B",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -499,11 +505,11 @@ ocaml_signature(
         ":blake2B",
         ":crypto_box",
         ":hacl",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -527,11 +533,11 @@ ocaml_module(
         ":blake2B",
         ":crypto_box",
         ":hacl",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -555,11 +561,11 @@ ocaml_signature(
         ":blake2B",
         ":operation_hash",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -584,11 +590,11 @@ ocaml_module(
         ":blake2B",
         ":operation_hash",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -615,11 +621,11 @@ ocaml_signature(
         ":p256",
         ":s",
         ":secp256k1",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -647,11 +653,11 @@ ocaml_module(
         ":p256",
         ":s",
         ":secp256k1",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -672,11 +678,11 @@ ocaml_signature(
     ],
     deps = DEPS_OPAM + [
         ":hacl",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -698,11 +704,11 @@ ocaml_module(
     struct = ":rand.ml",
     deps = DEPS_OPAM + [
         ":hacl",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -722,11 +728,11 @@ ocaml_signature(
         "Tezos_rpc",
     ],
     deps = DEPS_OPAM + [
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -747,11 +753,11 @@ ocaml_module(
     sig = ":zplus_sig",
     struct = ":zplus.ml",
     deps = DEPS_OPAM + [
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -772,11 +778,11 @@ ocaml_signature(
     ],
     deps = DEPS_OPAM + [
         ":hacl",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -798,10 +804,10 @@ ocaml_module(
     struct = ":base58.ml",
     deps = DEPS_OPAM + [
         ":hacl",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -822,11 +828,11 @@ ocaml_module(
     struct = ":helpers.ml",
     deps = DEPS_OPAM + [
         ":base58",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -849,11 +855,11 @@ ocaml_signature(
         ":base58",
         ":blake2B",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -877,11 +883,11 @@ ocaml_module(
         ":base58",
         ":blake2B",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -901,11 +907,11 @@ ocaml_signature(
         "Tezos_rpc",
     ],
     deps = DEPS_OPAM + [
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -926,11 +932,11 @@ ocaml_module(
     sig = ":hacl_sig",
     struct = ":hacl.ml",
     deps = DEPS_OPAM + [
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -953,11 +959,11 @@ ocaml_signature(
         ":base58",
         ":blake2B",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -981,11 +987,11 @@ ocaml_module(
         ":base58",
         ":blake2B",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1010,11 +1016,11 @@ ocaml_signature(
         ":hacl",
         ":helpers",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1040,11 +1046,11 @@ ocaml_module(
         ":hacl",
         ":helpers",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1068,11 +1074,11 @@ ocaml_signature(
         ":helpers",
         ":s",
         ":zplus",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1097,11 +1103,11 @@ ocaml_module(
         ":helpers",
         ":s",
         ":zplus",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1125,11 +1131,11 @@ ocaml_signature(
         ":blake2B",
         ":hacl",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1154,11 +1160,11 @@ ocaml_module(
         ":blake2B",
         ":hacl",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1181,11 +1187,11 @@ ocaml_signature(
         ":base58",
         ":blake2B",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1209,11 +1215,11 @@ ocaml_module(
         ":base58",
         ":blake2B",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1236,11 +1242,11 @@ ocaml_signature(
         ":base58",
         ":blake2B",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1264,11 +1270,11 @@ ocaml_module(
         ":base58",
         ":blake2B",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1291,11 +1297,11 @@ ocaml_signature(
         ":base58",
         ":blake2B",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1319,11 +1325,11 @@ ocaml_module(
         ":base58",
         ":blake2B",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1347,11 +1353,11 @@ ocaml_signature(
         ":blake2B",
         ":operation_metadata_list_hash",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1376,11 +1382,11 @@ ocaml_module(
         ":blake2B",
         ":operation_metadata_list_hash",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1403,11 +1409,11 @@ ocaml_signature(
         ":base58",
         ":helpers",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1431,11 +1437,11 @@ ocaml_module(
         ":base58",
         ":helpers",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1460,11 +1466,11 @@ ocaml_signature(
         ":hacl",
         ":helpers",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1490,11 +1496,11 @@ ocaml_module(
         ":hacl",
         ":helpers",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1519,11 +1525,11 @@ ocaml_signature(
         ":hacl",
         ":helpers",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -1549,18 +1555,19 @@ ocaml_module(
         ":hacl",
         ":helpers",
         ":s",
-        "@tezos//src/lib_error_monad:#Tezos_error_monad",
-        "@tezos//src/lib_hacl_glue:#Tezos_hacl_glue",
-        "@tezos//src/lib_lwt_result_stdlib:#Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_rpc:#Tezos_rpc",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_error_monad:Tezos_error_monad",
+        "@tezos//src/lib_hacl_glue:Tezos_hacl_glue",
+        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
+        "@tezos//src/lib_rpc:Tezos_rpc",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-crypto
-ocaml_ns_archive(
-    name = "#Tezos_crypto",
+ocaml_ns_library(
+    name = "Tezos_crypto",
+    opts = ["-linkall"],
     submodules = [
         ":BLS12_381",
         ":base58",

@@ -1,4 +1,7 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+     "ocaml_module",
+     "ocaml_ns_library",
+     "ocaml_signature")
 
 ocaml_signature(
     name = "registered_protocol__sig",
@@ -18,15 +21,15 @@ ocaml_signature(
     deps = [
         "@ocaml//lib/dynlink",
         "@ocaml//lib/lwt-exit",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_compiler_native",
-        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_registerer",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_context:Tezos_context",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_protocol_compiler:Tezos_protocol_compiler_native",
+        "@tezos//src/lib_protocol_compiler:Tezos_protocol_registerer",
+        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
         "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -49,15 +52,15 @@ ocaml_module(
     deps = [
         "@ocaml//lib/dynlink",
         "@ocaml//lib/lwt-exit",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_compiler_native",
-        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_registerer",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_context:Tezos_context",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_protocol_compiler:Tezos_protocol_compiler_native",
+        "@tezos//src/lib_protocol_compiler:Tezos_protocol_registerer",
+        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
         "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -80,15 +83,15 @@ ocaml_signature(
         ":updater_events",
         "@ocaml//lib/dynlink",
         "@ocaml//lib/lwt-exit",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_compiler_native",
-        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_registerer",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_context:Tezos_context",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_protocol_compiler:Tezos_protocol_compiler_native",
+        "@tezos//src/lib_protocol_compiler:Tezos_protocol_registerer",
+        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
         "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -112,15 +115,15 @@ ocaml_module(
         ":updater_events",
         "@ocaml//lib/dynlink",
         "@ocaml//lib/lwt-exit",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_compiler_native",
-        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_registerer",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_context:Tezos_context",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_protocol_compiler:Tezos_protocol_compiler_native",
+        "@tezos//src/lib_protocol_compiler:Tezos_protocol_registerer",
+        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
         "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
@@ -142,22 +145,23 @@ ocaml_module(
     deps = [
         "@ocaml//lib/dynlink",
         "@ocaml//lib/lwt-exit",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_context:#Tezos_context",
-        "@tezos//src/lib_micheline:#Tezos_micheline",
-        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_compiler_native",
-        "@tezos//src/lib_protocol_compiler:#Tezos_protocol_registerer",
-        "@tezos//src/lib_protocol_environment:#Tezos_shell_context",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_context:Tezos_context",
+        "@tezos//src/lib_micheline:Tezos_micheline",
+        "@tezos//src/lib_protocol_compiler:Tezos_protocol_compiler_native",
+        "@tezos//src/lib_protocol_compiler:Tezos_protocol_registerer",
+        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
         "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:#Tezos_stdlib_unix",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-protocol-updater
-ocaml_ns_archive(
-    name = "#Tezos_protocol_updater",
+# ocaml_ns_library(
+ocaml_ns_library(
+    name = "Tezos_protocol_updater",
     submodules = [
         ":registered_protocol",
         ":updater",

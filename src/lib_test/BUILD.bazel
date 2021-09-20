@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
     name = "qcheck_helpers__sig",
@@ -27,7 +27,7 @@ ocaml_module(
 
 # okapi:auto
 # okapi:public_name tezos-test-helpers
-ocaml_ns_archive(
+ocaml_ns_library(
     name = "#Lib_test",
     submodules = [":qcheck_helpers"],
     visibility = ["//visibility:public"],

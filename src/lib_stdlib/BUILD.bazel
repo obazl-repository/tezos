@@ -1,10 +1,16 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_signature", "ppx_executable", "ocaml_module", "ocaml_ns_archive")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+     "ocaml_signature",
+     "ppx_executable",
+     "ppx_module",
+     "ocaml_module",
+     "ocaml_ns_library")
 
 ppx_executable(
-    name = "ppx", ## _tezos_stdlib",
-    main = "//dsl:ppx_driver",
+    name = "ppx",
+    main = "@ppx//driver",
     deps = [
-        "@ocaml//lib/ppx_inline_test"
+        "@ocaml//lib/ppxlib",
+        "@ocaml//lib/ppx_inline_test",
     ]
 )
 
@@ -99,8 +105,8 @@ ocaml_signature(
     name = "circular_buffer__sig",
     src = ":circular_buffer.mli",
     ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
+    # ppx_print = "@ppx//print:text",
+    # ppx_tags = ["inline-test"],
     deps = [
         "@ocaml//lib/hex",
         "@ocaml//lib/lwt",
@@ -505,8 +511,9 @@ ocaml_module(
 
 # okapi:auto
 # okapi:public_name tezos-stdlib
-ocaml_ns_archive(
-    name = "#Tezos_stdlib",
+# ocaml_ns_library(
+ocaml_ns_library(
+    name = "Tezos_stdlib",
     submodules = [
         ":bits",
         ":bloomer",

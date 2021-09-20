@@ -1,4 +1,7 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+     "ocaml_module",
+     "ocaml_ns_library",
+     "ocaml_signature")
 
 ocaml_signature(
     name = "hacl__sig",
@@ -20,8 +23,9 @@ ocaml_module(
 )
 
 # okapi:public_name tezos-hacl-glue
-ocaml_ns_archive(
-    name = "#Tezos_hacl_glue",
+# ocaml_ns_library(
+ocaml_ns_library(
+    name = "Tezos_hacl_glue",
     submodules = [":hacl"],
     visibility = ["//visibility:public"],
 )

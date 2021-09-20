@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
     name = "RPC_client__sig",
@@ -9,12 +9,12 @@ ocaml_signature(
     ],
     deps = [
         "@ocaml//lib/resto-cohttp-self-serving-client",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_rpc_http:#Tezos_rpc_http",
-        "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
+        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
     ],
 )
 
@@ -28,18 +28,18 @@ ocaml_module(
     struct = ":RPC_client.ml",
     deps = [
         "@ocaml//lib/resto-cohttp-self-serving-client",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_rpc_http:#Tezos_rpc_http",
-        "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
+        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
+        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
     ],
 )
 
 # okapi:public_name tezos-mockup-proxy
-ocaml_ns_archive(
-    name = "#Tezos_mockup_proxy",
+ocaml_ns_library(
+    name = "Tezos_mockup_proxy",
     submodules = [":RPC_client"],
     visibility = ["//visibility:public"],
 )

@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_module(
     name = "attacker_main",
@@ -19,7 +19,7 @@ ocaml_module(
 
 # okapi:auto
 # okapi:public_name bin_attacker
-ocaml_ns_archive(
+ocaml_ns_library(
     name = "#Bin_attacker",
     submodules = [
         ":attacker_main",

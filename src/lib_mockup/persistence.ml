@@ -71,7 +71,7 @@ module Internal = struct
     end
 
     let get_registered_mockup (protocol_hash_opt : Protocol_hash.t option)
-        (printer : #Tezos_client_base.Client_context.printer) :
+        (printer : Tezos_client_base.Client_context.printer) :
         Registration.mockup_environment tzresult Lwt.t =
       let mockup_environments = Registration.get_registered_environments () in
       (match protocol_hash_opt with
@@ -152,12 +152,12 @@ module Internal = struct
     let mockup_context_from_persisted
         ({protocol_hash; chain_id; rpc_context} :
           Persistent_mockup_environment.t)
-        (printer : #Tezos_client_base.Client_context.printer) =
+        (printer : Tezos_client_base.Client_context.printer) =
       get_registered_mockup (Some protocol_hash) printer >>=? fun mockup ->
       return (mockup, (chain_id, rpc_context))
 
     let get_mockup_context_from_disk ~base_dir ~protocol_hash
-        (printer : #Tezos_client_base.Client_context.printer) =
+        (printer : Tezos_client_base.Client_context.printer) =
       let file = (Files.Context.get ~dirname:base_dir :> string) in
       if not (Sys.file_exists file) then
         failwith "get_mockup_context_from_disk: file %s not found" file

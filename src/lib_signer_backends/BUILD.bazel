@@ -1,4 +1,4 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_archive", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
 
 ocaml_signature(
     name = "encrypted__sig",
@@ -21,12 +21,12 @@ ocaml_signature(
     ],
     deps = [
         ":unencrypted",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_signer_services:#Tezos_signer_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_signer_services:Tezos_signer_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -52,12 +52,12 @@ ocaml_module(
     struct = ":encrypted.ml",
     deps = [
         ":unencrypted",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_signer_services:#Tezos_signer_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_signer_services:Tezos_signer_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -82,12 +82,12 @@ ocaml_signature(
     ],
     deps = [
         ":http_gen",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_signer_services:#Tezos_signer_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_signer_services:Tezos_signer_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -113,12 +113,12 @@ ocaml_module(
     struct = ":http.ml",
     deps = [
         ":http_gen",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_signer_services:#Tezos_signer_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_signer_services:Tezos_signer_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -142,12 +142,12 @@ ocaml_signature(
         "Tezos_shell_services",
     ],
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_signer_services:#Tezos_signer_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_signer_services:Tezos_signer_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -172,12 +172,12 @@ ocaml_module(
     sig = ":http_gen__sig",
     struct = ":http_gen.ml",
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_signer_services:#Tezos_signer_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_signer_services:Tezos_signer_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -202,12 +202,12 @@ ocaml_signature(
     ],
     deps = [
         ":http_gen",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_signer_services:#Tezos_signer_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_signer_services:Tezos_signer_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -233,12 +233,12 @@ ocaml_module(
     struct = ":https.ml",
     deps = [
         ":http_gen",
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_signer_services:#Tezos_signer_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_signer_services:Tezos_signer_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -262,12 +262,12 @@ ocaml_module(
     ],
     struct = ":signer_events.ml",
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_signer_services:#Tezos_signer_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_signer_services:Tezos_signer_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -291,12 +291,12 @@ ocaml_signature(
         "Tezos_shell_services",
     ],
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_signer_services:#Tezos_signer_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_signer_services:Tezos_signer_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
@@ -321,19 +321,19 @@ ocaml_module(
     sig = ":unencrypted__sig",
     struct = ":unencrypted.ml",
     deps = [
-        "@tezos//src/lib_base:#Tezos_base",
-        "@tezos//src/lib_client_base:#Tezos_client_base",
-        "@tezos//src/lib_rpc_http:#Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:#Tezos_shell_services",
-        "@tezos//src/lib_signer_services:#Tezos_signer_services",
-        "@tezos//src/lib_stdlib:#Tezos_stdlib",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_client_base:Tezos_client_base",
+        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
+        "@tezos//src/lib_shell_services:Tezos_shell_services",
+        "@tezos//src/lib_signer_services:Tezos_signer_services",
+        "@tezos//src/lib_stdlib:Tezos_stdlib",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-signer-backends
-ocaml_ns_archive(
-    name = "#Tezos_signer_backends",
+ocaml_ns_library(
+    name = "Tezos_signer_backends",
     submodules = [
         ":encrypted",
         ":http",
