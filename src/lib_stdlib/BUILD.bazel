@@ -1,10 +1,9 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl",
-     "ocaml_signature",
-     "ppx_executable",
-     "ppx_module",
-     "ocaml_module",
      "ocaml_ns_archive",
-     "ocaml_ns_library")
+     "ocaml_ns_library",
+     "ocaml_module",
+     "ocaml_signature",
+     "ppx_executable")
 
 ppx_executable(
     name = "ppx",
