@@ -1,19 +1,9 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl",
+     "ocaml_module",
      "ocaml_ns_archive",
      "ocaml_ns_library",
-     "ocaml_module",
      "ocaml_signature",
      "ppx_executable")
-
-ppx_executable(
-    name = "ppx",
-    main = "@ppx//driver",
-    deps = [
-        "@ocaml//lib/ppxlib",
-        "@ocaml//lib/ppx_inline_test"
-    ],
-    deps_adjunct = ["@ocaml//lib/ppx_inline_test"]
-)
 
 ocaml_signature(
     name = "bits__sig",
@@ -261,4 +251,15 @@ ocaml_ns_library(
         ":utils",
     ],
     visibility = ["//visibility:public"],
+)
+
+################
+ppx_executable(
+    name = "ppx",
+    main = "@ppx//driver",
+    deps = [
+        "@ocaml//lib/ppxlib",
+        "@ocaml//lib/ppx_inline_test"
+    ],
+    deps_adjunct = ["@ocaml//lib/ppx_inline_test"]
 )
