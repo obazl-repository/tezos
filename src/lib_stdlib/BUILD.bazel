@@ -3,6 +3,7 @@ load("@obazl_rules_ocaml//ocaml:rules.bzl",
      "ppx_executable",
      "ppx_module",
      "ocaml_module",
+     "ocaml_ns_archive",
      "ocaml_ns_library")
 
 ppx_executable(
@@ -10,51 +11,25 @@ ppx_executable(
     main = "@ppx//driver",
     deps = [
         "@ocaml//lib/ppxlib",
-        "@ocaml//lib/ppx_inline_test",
-    ]
+        "@ocaml//lib/ppx_inline_test"
+    ],
+    deps_adjunct = ["@ocaml//lib/ppx_inline_test"]
 )
 
 ocaml_signature(
     name = "bits__sig",
     src = ":bits.mli",
-    ppx = ":ppx",
-    # ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_module(
     name = "bits",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     sig = ":bits__sig",
     struct = ":bits.ml",
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_signature(
     name = "bloomer__sig",
     src = ":bloomer.mli",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_module(
@@ -65,453 +40,206 @@ ocaml_module(
     sig = ":bloomer__sig",
     struct = ":bloomer.ml",
     deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
+        ## FIXME: deps_adjunct should obviate this
         "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
     ],
 )
 
 ocaml_signature(
     name = "bounded_heap__sig",
     src = ":bounded_heap.mli",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_module(
     name = "bounded_heap",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     sig = ":bounded_heap__sig",
     struct = ":bounded_heap.ml",
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_signature(
     name = "circular_buffer__sig",
     src = ":circular_buffer.mli",
-    ppx = ":ppx",
-    # ppx_print = "@ppx//print:text",
-    # ppx_tags = ["inline-test"],
     deps = [
-        "@ocaml//lib/hex",
         "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
     ],
 )
 
 ocaml_module(
     name = "circular_buffer",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     sig = ":circular_buffer__sig",
     struct = ":circular_buffer.ml",
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_signature(
     name = "compare__sig",
     src = ":compare.mli",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
         "@ocaml//lib/zarith",
     ],
 )
 
 ocaml_module(
     name = "compare",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     sig = ":compare__sig",
     struct = ":compare.ml",
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_signature(
     name = "fallbackArray__sig",
     src = ":fallbackArray.mli",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_module(
     name = "fallbackArray",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     sig = ":fallbackArray__sig",
     struct = ":fallbackArray.ml",
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_signature(
     name = "lwt_dropbox__sig",
     src = ":lwt_dropbox.mli",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     deps = [
-        "@ocaml//lib/hex",
         "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
     ],
 )
 
 ocaml_module(
     name = "lwt_dropbox",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     sig = ":lwt_dropbox__sig",
     struct = ":lwt_dropbox.ml",
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_signature(
     name = "lwt_idle_waiter__sig",
     src = ":lwt_idle_waiter.mli",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     deps = [
-        "@ocaml//lib/hex",
         "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
     ],
 )
 
 ocaml_module(
     name = "lwt_idle_waiter",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     sig = ":lwt_idle_waiter__sig",
     struct = ":lwt_idle_waiter.ml",
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_signature(
     name = "lwt_pipe__sig",
     src = ":lwt_pipe.mli",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     deps = [
-        "@ocaml//lib/hex",
         "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
     ],
 )
 
 ocaml_module(
     name = "lwt_pipe",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     sig = ":lwt_pipe__sig",
     struct = ":lwt_pipe.ml",
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_signature(
     name = "lwt_utils__sig",
     src = ":lwt_utils.mli",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     deps = [
-        "@ocaml//lib/hex",
         "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
     ],
 )
 
 ocaml_module(
     name = "lwt_utils",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     sig = ":lwt_utils__sig",
     struct = ":lwt_utils.ml",
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_signature(
     name = "memory__sig",
     src = ":memory.mli",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_module(
     name = "memory",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     sig = ":memory__sig",
     struct = ":memory.ml",
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_signature(
     name = "tag__sig",
     src = ":tag.mli",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_module(
     name = "tag",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     sig = ":tag__sig",
     struct = ":tag.ml",
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_signature(
     name = "tzEndian__sig",
     src = ":tzEndian.mli",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_module(
     name = "tzEndian",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     sig = ":tzEndian__sig",
     struct = ":tzEndian.ml",
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_signature(
     name = "tzFilename__sig",
     src = ":tzFilename.mli",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_module(
     name = "tzFilename",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     sig = ":tzFilename__sig",
     struct = ":tzFilename.ml",
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_signature(
     name = "tzList__sig",
     src = ":tzList.mli",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     deps = [
         ":bounded_heap",
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
     ],
 )
 
 ocaml_module(
     name = "tzList",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     sig = ":tzList__sig",
     struct = ":tzList.ml",
     deps = [
         ":bounded_heap",
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
     ],
 )
 
 ocaml_signature(
     name = "tzString__sig",
     src = ":tzString.mli",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_module(
     name = "tzString",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     sig = ":tzString__sig",
     struct = ":tzString.ml",
     deps = [
         "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
     ],
 )
 
 ocaml_signature(
     name = "utils__sig",
     src = ":utils.mli",
-    ppx = ":ppx",
-    # ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 ocaml_module(
     name = "utils",
-    ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
-    ppx_tags = ["inline-test"],
     sig = ":utils__sig",
     struct = ":utils.ml",
-    deps = [
-        "@ocaml//lib/hex",
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/ppx_inline_test",
-        "@ocaml//lib/zarith",
-    ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-stdlib
-# ocaml_ns_library(
+# ocaml_ns_archive(
 ocaml_ns_library(
     name = "Tezos_stdlib",
     submodules = [
