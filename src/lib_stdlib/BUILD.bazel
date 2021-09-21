@@ -7,18 +7,18 @@ load("@obazl_rules_ocaml//ocaml:rules.bzl",
 
 ocaml_signature(
     name = "bits__sig",
-    src = ":bits.mli",
+    src = "bits.mli",
 )
 
 ocaml_module(
     name = "bits",
     sig = ":bits__sig",
-    struct = ":bits.ml",
+    struct = "bits.ml",
 )
 
 ocaml_signature(
     name = "bloomer__sig",
-    src = ":bloomer.mli",
+    src = "bloomer.mli",
 )
 
 ocaml_module(
@@ -27,7 +27,7 @@ ocaml_module(
     ppx_print = "@ppx//print:text",
     ppx_tags = ["inline-test"],
     sig = ":bloomer__sig",
-    struct = ":bloomer.ml",
+    struct = "bloomer.ml",
     deps = [
         ## FIXME: deps_adjunct should obviate this
         "@ocaml//lib/ppx_inline_test",
@@ -36,18 +36,18 @@ ocaml_module(
 
 ocaml_signature(
     name = "bounded_heap__sig",
-    src = ":bounded_heap.mli",
+    src = "bounded_heap.mli",
 )
 
 ocaml_module(
     name = "bounded_heap",
     sig = ":bounded_heap__sig",
-    struct = ":bounded_heap.ml",
+    struct = "bounded_heap.ml",
 )
 
 ocaml_signature(
     name = "circular_buffer__sig",
-    src = ":circular_buffer.mli",
+    src = "circular_buffer.mli",
     deps = [
         "@ocaml//lib/lwt",
     ],
@@ -56,12 +56,12 @@ ocaml_signature(
 ocaml_module(
     name = "circular_buffer",
     sig = ":circular_buffer__sig",
-    struct = ":circular_buffer.ml",
+    struct = "circular_buffer.ml",
 )
 
 ocaml_signature(
     name = "compare__sig",
-    src = ":compare.mli",
+    src = "compare.mli",
     deps = [
         "@ocaml//lib/zarith",
     ],
@@ -70,23 +70,23 @@ ocaml_signature(
 ocaml_module(
     name = "compare",
     sig = ":compare__sig",
-    struct = ":compare.ml",
+    struct = "compare.ml",
 )
 
 ocaml_signature(
     name = "fallbackArray__sig",
-    src = ":fallbackArray.mli",
+    src = "fallbackArray.mli",
 )
 
 ocaml_module(
     name = "fallbackArray",
     sig = ":fallbackArray__sig",
-    struct = ":fallbackArray.ml",
+    struct = "fallbackArray.ml",
 )
 
 ocaml_signature(
     name = "lwt_dropbox__sig",
-    src = ":lwt_dropbox.mli",
+    src = "lwt_dropbox.mli",
     deps = [
         "@ocaml//lib/lwt",
     ],
@@ -95,12 +95,12 @@ ocaml_signature(
 ocaml_module(
     name = "lwt_dropbox",
     sig = ":lwt_dropbox__sig",
-    struct = ":lwt_dropbox.ml",
+    struct = "lwt_dropbox.ml",
 )
 
 ocaml_signature(
     name = "lwt_idle_waiter__sig",
-    src = ":lwt_idle_waiter.mli",
+    src = "lwt_idle_waiter.mli",
     deps = [
         "@ocaml//lib/lwt",
     ],
@@ -109,12 +109,12 @@ ocaml_signature(
 ocaml_module(
     name = "lwt_idle_waiter",
     sig = ":lwt_idle_waiter__sig",
-    struct = ":lwt_idle_waiter.ml",
+    struct = "lwt_idle_waiter.ml",
 )
 
 ocaml_signature(
     name = "lwt_pipe__sig",
-    src = ":lwt_pipe.mli",
+    src = "lwt_pipe.mli",
     deps = [
         "@ocaml//lib/lwt",
     ],
@@ -123,12 +123,12 @@ ocaml_signature(
 ocaml_module(
     name = "lwt_pipe",
     sig = ":lwt_pipe__sig",
-    struct = ":lwt_pipe.ml",
+    struct = "lwt_pipe.ml",
 )
 
 ocaml_signature(
     name = "lwt_utils__sig",
-    src = ":lwt_utils.mli",
+    src = "lwt_utils.mli",
     deps = [
         "@ocaml//lib/lwt",
     ],
@@ -137,56 +137,56 @@ ocaml_signature(
 ocaml_module(
     name = "lwt_utils",
     sig = ":lwt_utils__sig",
-    struct = ":lwt_utils.ml",
+    struct = "lwt_utils.ml",
 )
 
 ocaml_signature(
     name = "memory__sig",
-    src = ":memory.mli",
+    src = "memory.mli",
 )
 
 ocaml_module(
     name = "memory",
     sig = ":memory__sig",
-    struct = ":memory.ml",
+    struct = "memory.ml",
 )
 
 ocaml_signature(
     name = "tag__sig",
-    src = ":tag.mli",
+    src = "tag.mli",
 )
 
 ocaml_module(
     name = "tag",
     sig = ":tag__sig",
-    struct = ":tag.ml",
+    struct = "tag.ml",
 )
 
 ocaml_signature(
     name = "tzEndian__sig",
-    src = ":tzEndian.mli",
+    src = "tzEndian.mli",
 )
 
 ocaml_module(
     name = "tzEndian",
     sig = ":tzEndian__sig",
-    struct = ":tzEndian.ml",
+    struct = "tzEndian.ml",
 )
 
 ocaml_signature(
     name = "tzFilename__sig",
-    src = ":tzFilename.mli",
+    src = "tzFilename.mli",
 )
 
 ocaml_module(
     name = "tzFilename",
     sig = ":tzFilename__sig",
-    struct = ":tzFilename.ml",
+    struct = "tzFilename.ml",
 )
 
 ocaml_signature(
     name = "tzList__sig",
-    src = ":tzList.mli",
+    src = "tzList.mli",
     deps = [
         ":bounded_heap",
     ],
@@ -195,7 +195,7 @@ ocaml_signature(
 ocaml_module(
     name = "tzList",
     sig = ":tzList__sig",
-    struct = ":tzList.ml",
+    struct = "tzList.ml",
     deps = [
         ":bounded_heap",
     ],
@@ -203,13 +203,13 @@ ocaml_module(
 
 ocaml_signature(
     name = "tzString__sig",
-    src = ":tzString.mli",
+    src = "tzString.mli",
 )
 
 ocaml_module(
     name = "tzString",
     sig = ":tzString__sig",
-    struct = ":tzString.ml",
+    struct = "tzString.ml",
     deps = [
         "@ocaml//lib/hex",
     ],
@@ -217,13 +217,13 @@ ocaml_module(
 
 ocaml_signature(
     name = "utils__sig",
-    src = ":utils.mli",
+    src = "utils.mli",
 )
 
 ocaml_module(
     name = "utils",
     sig = ":utils__sig",
-    struct = ":utils.ml",
+    struct = "utils.ml",
 )
 
 # okapi:auto
