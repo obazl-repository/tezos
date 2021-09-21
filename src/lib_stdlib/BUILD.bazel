@@ -24,7 +24,7 @@ ocaml_signature(
 ocaml_module(
     name = "bloomer",
     ppx = ":ppx",
-    ppx_print = "@ppx//print:text",
+    # ppx_print = "@ppx//print:text",
     ppx_tags = ["inline-test"],
     sig = ":bloomer__sig",
     struct = "bloomer.ml",
