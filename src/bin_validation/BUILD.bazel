@@ -68,7 +68,7 @@ ocaml_module(
     struct = ":main_validator.ml",
     deps = [
         ":validator",
-        "@ocaml//lib/tezos_validator",
+        "@tezos_validator//:tezos_validator",
     ],
 )
 

@@ -7,8 +7,8 @@ ocaml_signature(
     name = "hacl__sig",
     src = ":hacl.mli",
     deps = [
-        "@ocaml//lib/hacl-star",
-        "@ocaml//lib/hacl-star-raw",
+        "@hacl-star//:hacl-star",
+        "@hacl-star-raw//:hacl-star-raw",
     ],
 )
 
@@ -17,8 +17,8 @@ ocaml_module(
     sig = ":hacl__sig",
     struct = ":hacl.ml",
     deps = [
-        "@ocaml//lib/hacl-star",
-        "@ocaml//lib/hacl-star-raw",
+        "@hacl-star//:hacl-star",
+        "@hacl-star-raw//:hacl-star-raw",
     ],
 )
 

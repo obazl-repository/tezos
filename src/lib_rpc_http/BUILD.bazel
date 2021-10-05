@@ -8,7 +8,7 @@ ocaml_signature(
         "Tezos_base__TzPervasives",
     ],
     deps = [
-        "@ocaml//lib/resto-cohttp",
+        "@resto-cohttp//:resto-cohttp",
         "@tezos//src/lib_base:Tezos_base",
     ],
 )
@@ -22,7 +22,7 @@ ocaml_module(
     sig = ":RPC_client_errors__sig",
     struct = ":RPC_client_errors.ml",
     deps = [
-        "@ocaml//lib/resto-cohttp",
+        "@resto-cohttp//:resto-cohttp",
         "@tezos//src/lib_base:Tezos_base",
     ],
 )
@@ -35,7 +35,7 @@ ocaml_signature(
         "Tezos_base__TzPervasives",
     ],
     deps = [
-        "@ocaml//lib/resto-cohttp",
+        "@resto-cohttp//:resto-cohttp",
         "@tezos//src/lib_base:Tezos_base",
     ],
 )
@@ -49,7 +49,7 @@ ocaml_module(
     sig = ":media_type__sig",
     struct = ":media_type.ml",
     deps = [
-        "@ocaml//lib/resto-cohttp",
+        "@resto-cohttp//:resto-cohttp",
         "@tezos//src/lib_base:Tezos_base",
     ],
 )
@@ -76,7 +76,7 @@ ocaml_signature(
     deps = [
         ":RPC_client_errors",
         ":media_type",
-        "@ocaml//lib/resto-cohttp-client",
+        "@resto-cohttp-client//:resto-cohttp-client",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_rpc_http:Tezos_rpc_http",
     ],
@@ -95,7 +95,7 @@ ocaml_module(
     deps = [
         ":RPC_client_errors",
         ":media_type",
-        "@ocaml//lib/resto-cohttp-client",
+        "@resto-cohttp-client//:resto-cohttp-client",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_rpc_http:Tezos_rpc_http",
     ],
@@ -119,8 +119,8 @@ ocaml_signature(
     ],
     deps = [
         ":RPC_client",
-        "@ocaml//lib/cohttp-lwt-unix",
-        "@ocaml//lib/resto-cohttp-client",
+        "@cohttp-lwt-unix//:cohttp-lwt-unix",
+        "@resto-cohttp-client//:resto-cohttp-client",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
         "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
@@ -139,8 +139,8 @@ ocaml_module(
     struct = ":RPC_client_unix.ml",
     deps = [
         ":RPC_client",
-        "@ocaml//lib/cohttp-lwt-unix",
-        "@ocaml//lib/resto-cohttp-client",
+        "@cohttp-lwt-unix//:cohttp-lwt-unix",
+        "@resto-cohttp-client//:resto-cohttp-client",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
         "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
@@ -166,8 +166,8 @@ ocaml_signature(
         "Tezos_rpc_http",
     ],
     deps = [
-        "@ocaml//lib/resto-acl",
-        "@ocaml//lib/resto-cohttp-server",
+        "@resto-acl//:resto-acl",
+        "@resto-cohttp-server//:resto-cohttp-server",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_rpc_http:Tezos_rpc_http",
     ],
@@ -186,8 +186,8 @@ ocaml_module(
     sig = ":RPC_logging__sig",
     struct = ":RPC_logging.ml",
     deps = [
-        "@ocaml//lib/resto-acl",
-        "@ocaml//lib/resto-cohttp-server",
+        "@resto-acl//:resto-acl",
+        "@resto-cohttp-server//:resto-cohttp-server",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_rpc_http:Tezos_rpc_http",
     ],
@@ -207,8 +207,8 @@ ocaml_signature(
     deps = [
         ":RPC_logging",
         ":media_type",
-        "@ocaml//lib/resto-acl",
-        "@ocaml//lib/resto-cohttp-server",
+        "@resto-acl//:resto-acl",
+        "@resto-cohttp-server//:resto-cohttp-server",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_rpc_http:Tezos_rpc_http",
     ],
@@ -229,8 +229,8 @@ ocaml_module(
     deps = [
         ":RPC_logging",
         ":media_type",
-        "@ocaml//lib/resto-acl",
-        "@ocaml//lib/resto-cohttp-server",
+        "@resto-acl//:resto-acl",
+        "@resto-cohttp-server//:resto-cohttp-server",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_rpc_http:Tezos_rpc_http",
     ],

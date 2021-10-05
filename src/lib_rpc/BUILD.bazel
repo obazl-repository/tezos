@@ -11,9 +11,9 @@ ocaml_signature(
     ],
     deps = [
         ":RPC_service",
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -30,9 +30,9 @@ ocaml_module(
     struct = ":RPC_answer.ml",
     deps = [
         ":RPC_service",
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -47,9 +47,9 @@ ocaml_signature(
         "Tezos_error_monad",
     ],
     deps = [
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -65,9 +65,9 @@ ocaml_module(
     sig = ":RPC_arg__sig",
     struct = ":RPC_arg.ml",
     deps = [
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -85,9 +85,9 @@ ocaml_signature(
         ":RPC_directory",
         ":RPC_encoding",
         ":RPC_service",
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -106,9 +106,9 @@ ocaml_module(
         ":RPC_directory",
         ":RPC_encoding",
         ":RPC_service",
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -126,9 +126,9 @@ ocaml_signature(
         ":RPC_context",
         ":RPC_encoding",
         ":RPC_service",
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -147,9 +147,9 @@ ocaml_module(
         ":RPC_context",
         ":RPC_encoding",
         ":RPC_service",
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -167,9 +167,9 @@ ocaml_signature(
         ":RPC_answer",
         ":RPC_encoding",
         ":RPC_service",
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -188,9 +188,9 @@ ocaml_module(
         ":RPC_answer",
         ":RPC_encoding",
         ":RPC_service",
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -205,9 +205,9 @@ ocaml_signature(
         "Tezos_error_monad",
     ],
     deps = [
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -223,9 +223,9 @@ ocaml_module(
     sig = ":RPC_encoding__sig",
     struct = ":RPC_encoding.ml",
     deps = [
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -242,9 +242,9 @@ ocaml_signature(
     deps = [
         ":RPC_context",
         ":RPC_service",
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -262,9 +262,9 @@ ocaml_module(
     deps = [
         ":RPC_context",
         ":RPC_service",
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -279,9 +279,9 @@ ocaml_signature(
         "Tezos_error_monad",
     ],
     deps = [
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -297,9 +297,9 @@ ocaml_module(
     sig = ":RPC_path__sig",
     struct = ":RPC_path.ml",
     deps = [
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -314,9 +314,9 @@ ocaml_signature(
         "Tezos_error_monad",
     ],
     deps = [
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -332,9 +332,9 @@ ocaml_module(
     sig = ":RPC_query__sig",
     struct = ":RPC_query.ml",
     deps = [
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -352,9 +352,9 @@ ocaml_signature(
         ":RPC_encoding",
         ":RPC_path",
         ":RPC_query",
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )
@@ -373,9 +373,9 @@ ocaml_module(
         ":RPC_encoding",
         ":RPC_path",
         ":RPC_query",
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/resto",
-        "@ocaml//lib/resto-directory",
+        "@data-encoding//:data-encoding",
+        "@resto//:resto",
+        "@resto-directory//:resto-directory",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
     ],
 )

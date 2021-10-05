@@ -4,9 +4,9 @@ ocaml_module(
     name = "test",
     struct = ":test.ml",
     deps = [
-        "@ocaml//lib/alcotest",
-        "@ocaml//lib/cstruct",
-        "@ocaml//lib/rresult",
+        "@alcotest//:alcotest",
+        "@cstruct//:cstruct",
+        "@rresult//:rresult",
         "@tezos//vendors/ocaml-lmdb/src:lib-tezos-lmdb",
     ],
 )

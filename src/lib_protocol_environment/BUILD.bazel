@@ -1,5 +1,6 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl",
      "ocaml_archive",
+     "ocaml_library",
      "ocaml_module",
      "ocaml_ns_library",
      "ocaml_signature")
@@ -16,7 +17,7 @@ ocaml_signature(
     deps = [
         ":environment_context",
         ":tezos_protocol_environment",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -39,7 +40,7 @@ ocaml_module(
     deps = [
         ":environment_context",
         ":tezos_protocol_environment",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -62,7 +63,7 @@ ocaml_signature(
         ":environment_context",
         ":environment_protocol_T",
         ":environment_protocol_T_V0",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -86,7 +87,7 @@ ocaml_module(
         ":environment_context",
         ":environment_protocol_T",
         ":environment_protocol_T_V0",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -109,7 +110,7 @@ ocaml_signature(
         ":environment_context",
         ":environment_protocol_T",
         ":environment_protocol_T_V1",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -133,7 +134,7 @@ ocaml_module(
         ":environment_context",
         ":environment_protocol_T",
         ":environment_protocol_T_V1",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -156,7 +157,7 @@ ocaml_signature(
         ":environment_context",
         ":environment_protocol_T",
         ":environment_protocol_T_V2",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -180,7 +181,7 @@ ocaml_module(
         ":environment_context",
         ":environment_protocol_T",
         ":environment_protocol_T_V2",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -203,7 +204,7 @@ ocaml_signature(
         ":environment_context",
         ":environment_protocol_T",
         ":environment_protocol_T_V3",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -227,7 +228,7 @@ ocaml_module(
         ":environment_context",
         ":environment_protocol_T",
         ":environment_protocol_T_V3",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -248,7 +249,7 @@ ocaml_signature(
     ],
     deps = [
         ":environment_context_intf",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -270,7 +271,7 @@ ocaml_module(
     struct = ":environment_context.ml",
     deps = [
         # ":environment_context_intf",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -290,7 +291,7 @@ ocaml_module(
     ],
     struct = ":environment_context_intf.ml",
     deps = [
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -313,7 +314,7 @@ ocaml_module(
         # ":environment_context_intf",
         ":environment_context",
         ":environment_protocol_T_V0",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -333,7 +334,7 @@ ocaml_module(
     ],
     struct = ":environment_protocol_T_V0.ml",
     deps = [
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -354,7 +355,7 @@ ocaml_module(
     struct = ":environment_protocol_T_V1.ml",
     deps = [
         ":environment_protocol_T_V0",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -375,7 +376,7 @@ ocaml_module(
     struct = ":environment_protocol_T_V2.ml",
     deps = [
         ":environment_protocol_T_V1",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -396,7 +397,7 @@ ocaml_module(
     struct = ":environment_protocol_T_V3.ml",
     deps = [
         ":environment_protocol_T_V2",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -418,7 +419,7 @@ ocaml_signature(
     deps = [
         ":environment_context",
         ":tezos_protocol_environment",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -441,7 +442,7 @@ ocaml_module(
     deps = [
         ":environment_context",
         ":tezos_protocol_environment",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -463,7 +464,7 @@ ocaml_signature(
     deps = [
         ":environment_context",
         ":tezos_protocol_environment",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -486,7 +487,7 @@ ocaml_module(
     deps = [
         ":environment_context",
         ":tezos_protocol_environment",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -511,7 +512,7 @@ ocaml_signature(
         ":environment_V2",
         ":environment_context",
         ":environment_protocol_T",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -537,7 +538,7 @@ ocaml_module(
         ":environment_V2",
         ":environment_context",
         ":environment_protocol_T",
-        "@ocaml//lib/lwt-dllist",
+        "@lwt-dllist//:lwt-dllist",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/memory:Tezos_context_memory",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -548,7 +549,8 @@ ocaml_module(
 )
 
 # okapi:public_name tezos-protocol-environment
-ocaml_archive(
+#ocaml_archive(
+ocaml_library(
     name = "lib-tezos_protocol_environment",
     modules = [
         ":dummy_context",
@@ -557,7 +559,6 @@ ocaml_archive(
         ":environment_V2",
         ":environment_V3",
         ":environment_context",
-        ":environment_context_intf",
         ":environment_protocol_T",
         ":environment_protocol_T_V0",
         ":environment_protocol_T_V1",

@@ -11,7 +11,7 @@ ocaml_signature(
     ],
     deps = [
         ":requester_event",
-        "@ocaml//lib/lwt-watcher",
+        "@lwt-watcher//:lwt-watcher",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
@@ -29,7 +29,7 @@ ocaml_module(
     struct = ":requester.ml",
     deps = [
         ":requester_event",
-        "@ocaml//lib/lwt-watcher",
+        "@lwt-watcher//:lwt-watcher",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
@@ -45,7 +45,7 @@ ocaml_module(
     ],
     struct = ":requester_event.ml",
     deps = [
-        "@ocaml//lib/lwt-watcher",
+        "@lwt-watcher//:lwt-watcher",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],

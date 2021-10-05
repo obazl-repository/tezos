@@ -1,9 +1,9 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module", "ocaml_signature")
 
 DEPS_OPAM = [
-    "@ocaml//lib/cmdliner",
-    "@ocaml//lib/tls",
-    "@ocaml//lib/lwt-exit",
+    "@cmdliner//:cmdliner",
+    "@tls//:tls",
+    "@lwt-exit//:lwt-exit",
 ]
 
 ocaml_module(
@@ -2708,15 +2708,13 @@ ocaml_executable(
     main = ":main",
     visibility = ["//visibility:public"],
     opts = [
-        "-verbose",
+        # "-verbose",
+        # "-ccopt", "-Wl,-v"
         "-linkall",
     ],
     deps = [
-        "@ocaml//lib/bls12-381-unix",
-        # "//vendors/ocaml-lmdb/src:Tezos_lmdb",
-        # ":main"
+        ## FIXME: this should be propagated from the ppx transform
+        ## of src/lib_stdlib:bloomer
+        "@ppx_inline_test//runtime-lib",
     ],
-    # deps = [
-    #     "@ocaml//lib/ctypes"
-    # ],
 )

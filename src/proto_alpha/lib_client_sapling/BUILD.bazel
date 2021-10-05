@@ -22,7 +22,7 @@ ocaml_signature(
     deps = [
         ":context",
         ":wallet",
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_crypto:Tezos_crypto",
@@ -55,7 +55,7 @@ ocaml_module(
     deps = [
         ":context",
         ":wallet",
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_crypto:Tezos_crypto",
@@ -85,7 +85,7 @@ ocaml_signature(
         "Tezos_protocol_environment_alpha",
     ],
     deps = [
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_crypto:Tezos_crypto",
@@ -116,7 +116,7 @@ ocaml_module(
     sig = ":context__sig",
     struct = ":context.ml",
     deps = [
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_crypto:Tezos_crypto",
@@ -146,7 +146,7 @@ ocaml_signature(
         "Tezos_protocol_environment_alpha",
     ],
     deps = [
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_crypto:Tezos_crypto",
@@ -177,7 +177,7 @@ ocaml_module(
     sig = ":wallet__sig",
     struct = ":wallet.ml",
     deps = [
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_crypto:Tezos_crypto",

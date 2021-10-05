@@ -8,7 +8,7 @@ ocaml_module(
     ],
     struct = ":bip39_tests.ml",
     deps = [
-        "@ocaml//lib/alcotest",
+        "@alcotest//:alcotest",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_base/unix:Tezos_base_unix",
         "@tezos//src/lib_client_base:Tezos_client_base",
@@ -31,7 +31,7 @@ ocaml_module(
     ],
     struct = ":pbkdf_tests.ml",
     deps = [
-        "@ocaml//lib/alcotest",
+        "@alcotest//:alcotest",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_base/unix:Tezos_base_unix",
         "@tezos//src/lib_client_base:Tezos_client_base",

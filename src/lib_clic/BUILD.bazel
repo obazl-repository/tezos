@@ -12,8 +12,8 @@ ocaml_signature(
         "Tezos_error_monad.TzLwtreslib",
     ],
     deps = [
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/re",
+        "@lwt//:lwt",
+        "@re//:re",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
         "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
         "@tezos//src/lib_stdlib:Tezos_stdlib",
@@ -33,8 +33,8 @@ ocaml_module(
     sig = ":clic__sig",
     struct = ":clic.ml",
     deps = [
-        "@ocaml//lib/lwt",
-        "@ocaml//lib/re",
+        "@lwt//:lwt",
+        "@re//:re",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
         "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
         "@tezos//src/lib_stdlib:Tezos_stdlib",

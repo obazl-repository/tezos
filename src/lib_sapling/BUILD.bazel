@@ -1,13 +1,14 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module",
+     "ocaml_ns_archive",
      "ocaml_ns_library",
      "ocaml_signature")
 
 DEPS_OPAM = [
-    "@ocaml//lib/ctypes",
-    "@ocaml//lib/ctypes/foreign",
-    "@ocaml//lib/ctypes/stubs",
-    "@ocaml//lib/hex",
-    "@ocaml//lib/data-encoding",
+    # "@ocaml//ffi",
+    "@ctypes//foreign",
+    "@ctypes//stubs",
+    "@hex//:hex",
+    "@data-encoding//:data-encoding",
 ]
 
 ocaml_signature(
@@ -43,14 +44,16 @@ ocaml_module(
         "Tezos_error_monad",
         "-open",
         "Tezos_error_monad.TzLwtreslib",
+        # "-ccopt", "-fvisibility=default",
+        # "-ccopt", "-fvisibility-inlines-hidden",
     ],
     sig = ":rustzcash__sig",
     struct = ":rustzcash.ml",
-    cc_deps = {
-        "//src/lib_sapling/bindings:librustzcash_ctypes_c_stubs.so": "dynamic"
-        # "//src/lib_sapling/bindings:rustzcash_ctypes_c_stubs": "static",
-        # "@tezos-rust-libs//:librustzcash": "static",
-    },
+    # cc_deps = {
+    #     # "//src/lib_sapling/bindings:librustzcash_ctypes_c_stubs.so": "default"
+    #     "//src/lib_sapling/bindings:rustzcash_ctypes_c_stubs": "static",
+    #     # "@tezos-rust-libs//:librustzcash": "static",
+    # },
     deps = [
         ":rustzcash_sig",
         "//src/lib_sapling/bindings:rustzcash_ctypes_bindings",
@@ -59,11 +62,11 @@ ocaml_module(
         "@tezos//src/lib_error_monad:Tezos_error_monad",
         "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
         "@tezos//src/lib_stdlib:Tezos_stdlib",
-        "@ocaml//lib/ctypes",
-        "@ocaml//lib/ctypes/foreign",
-        "@ocaml//lib/ctypes/stubs",
-        "@ocaml//lib/hex",
-        "@ocaml//lib/data-encoding",
+        "@ocaml//ffi",
+        # "@ocaml//ffi/foreign",
+        # "@ocaml//ffi/stubs",
+        "@hex//:hex",
+        "@data-encoding//:data-encoding",
     ],
 )
 
@@ -227,7 +230,8 @@ ocaml_module(
 
 # okapi:auto
 # okapi:public_name tezos-sapling
-ocaml_ns_library(
+ocaml_ns_archive(
+#ocaml_ns_library(
     name = "Tezos_sapling",
     submodules = [
         ":core",

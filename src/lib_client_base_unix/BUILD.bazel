@@ -23,7 +23,7 @@ ocaml_module(
     ],
     struct = ":client_config.ml",
     deps = [
-        "@ocaml//lib/lwt-exit",
+        "@lwt-exit//:lwt-exit",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_client_commands:Tezos_client_commands",
@@ -61,7 +61,7 @@ ocaml_signature(
         "-linkall",
     ],
     deps = [
-        "@ocaml//lib/lwt-exit",
+        "@lwt-exit//:lwt-exit",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_client_commands:Tezos_client_commands",
@@ -100,7 +100,7 @@ ocaml_module(
     sig = ":client_context_unix__sig",
     struct = ":client_context_unix.ml",
     deps = [
-        "@ocaml//lib/lwt-exit",
+        "@lwt-exit//:lwt-exit",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_client_commands:Tezos_client_commands",
@@ -140,7 +140,7 @@ ocaml_signature(
     deps = [
         ":client_config",
         ":client_context_unix",
-        "@ocaml//lib/lwt-exit",
+        "@lwt-exit//:lwt-exit",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_client_commands:Tezos_client_commands",
@@ -181,7 +181,7 @@ ocaml_module(
     deps = [
         ":client_config",
         ":client_context_unix",
-        "@ocaml//lib/lwt-exit",
+        "@lwt-exit//:lwt-exit",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_client_commands:Tezos_client_commands",

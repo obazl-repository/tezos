@@ -3,11 +3,11 @@ load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module",
      "ocaml_signature")
 
 DEPS_OPAM = [
-    "@ocaml//lib/data-encoding",
-    "@ocaml//lib/lwt",
-    "@ocaml//lib/secp256k1-internal",
-    "@ocaml//lib/ringo",
-    "@ocaml//lib/zarith",
+    "@data-encoding//:data-encoding",
+    "@lwt//:lwt",
+    "@secp256k1-internal//:secp256k1-internal",
+    "@ringo//:ringo",
+    "@zarith//:zarith",
 ]
 
 ocaml_signature(
@@ -87,9 +87,9 @@ ocaml_signature(
         "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
         "@tezos//src/lib_rpc:Tezos_rpc",
         "@tezos//src/lib_stdlib:Tezos_stdlib",
-        "@ocaml//lib/bls12-381",
+        "@bls12-381//:bls12-381",
     ] + select({
-        "//conditions:default": ["@ocaml//lib/bls12-381-unix"],
+        "//conditions:default": ["@bls12-381-unix//:bls12-381-unix"],
     }) + DEPS_OPAM
 )
 
@@ -117,10 +117,10 @@ ocaml_module(
         "@tezos//src/lib_error_monad:Tezos_error_monad",
         "@tezos//src/lib_rpc:Tezos_rpc",
         "@tezos//src/lib_stdlib:Tezos_stdlib",
-        "@ocaml//lib/bls12-381",
+        "@bls12-381//:bls12-381",
     ] + select({
         ## FIXME: this is a deferred dep, needed to link an executable
-        "//conditions:default": ["@ocaml//lib/bls12-381-unix"],
+        "//conditions:default": ["@bls12-381-unix//:bls12-381-unix"],
     }) + DEPS_OPAM
 )
 

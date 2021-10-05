@@ -27,7 +27,7 @@ ocaml_module(
         ":test_operation_repr",
         ":test_raw_level_repr",
         ":test_tez_repr",
-        "@ocaml//lib/alcotest-lwt",
+        "@alcotest//:alcotest-lwt",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -61,7 +61,7 @@ ocaml_module(
     ],
     struct = ":test_alpha_context.ml",
     deps = [
-        "@ocaml//lib/alcotest-lwt",
+        "@alcotest//:alcotest-lwt",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -95,7 +95,7 @@ ocaml_module(
     ],
     struct = ":test_contract_repr.ml",
     deps = [
-        "@ocaml//lib/alcotest-lwt",
+        "@alcotest//:alcotest-lwt",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -129,7 +129,7 @@ ocaml_module(
     ],
     struct = ":test_operation_repr.ml",
     deps = [
-        "@ocaml//lib/alcotest-lwt",
+        "@alcotest//:alcotest-lwt",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -163,7 +163,7 @@ ocaml_module(
     ],
     struct = ":test_raw_level_repr.ml",
     deps = [
-        "@ocaml//lib/alcotest-lwt",
+        "@alcotest//:alcotest-lwt",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -197,7 +197,7 @@ ocaml_module(
     ],
     struct = ":test_tez_repr.ml",
     deps = [
-        "@ocaml//lib/alcotest-lwt",
+        "@alcotest//:alcotest-lwt",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_micheline:Tezos_micheline",

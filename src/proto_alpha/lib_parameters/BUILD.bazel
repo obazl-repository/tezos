@@ -11,7 +11,7 @@ ocaml_signature(
         "-linkall",
     ],
     deps = [
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_base/unix:Tezos_base_unix",
         "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
@@ -30,7 +30,7 @@ ocaml_module(
     sig = ":default_parameters__sig",
     struct = ":default_parameters.ml",
     deps = [
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_base/unix:Tezos_base_unix",
         "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",

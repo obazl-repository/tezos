@@ -21,7 +21,7 @@ ocaml_module(
         "//src/lib_crypto:Tezos_crypto",
         "//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
         "//src/lib_stdlib:Tezos_stdlib",
-        "@ocaml//lib/data-encoding",
+        "@data-encoding//:data-encoding",
     ],
 )
 
@@ -32,7 +32,7 @@ ocaml_module(
         "//src/lib_crypto:Tezos_crypto",
         "//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
         "//src/lib_stdlib:Tezos_stdlib",
-        "@ocaml//lib/data-encoding",
+        "@data-encoding//:data-encoding",
     ],
 )
 
@@ -43,7 +43,7 @@ ocaml_module(
         "//src/lib_crypto:Tezos_crypto",
         "//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
         "//src/lib_stdlib:Tezos_stdlib",
-        "@ocaml//lib/data-encoding",
+        "@data-encoding//:data-encoding",
     ],
 )
 
@@ -54,7 +54,7 @@ ocaml_module(
         "//src/lib_crypto:Tezos_crypto",
         "//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
         "//src/lib_stdlib:Tezos_stdlib",
-        "@ocaml//lib/data-encoding",
+        "@data-encoding//:data-encoding",
     ],
 )
 

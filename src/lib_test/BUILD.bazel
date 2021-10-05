@@ -5,10 +5,10 @@ ocaml_signature(
     src = ":qcheck_helpers.mli",
     opts = ["-linkall"],
     deps = [
-        "@ocaml//lib/alcotest",
-        "@ocaml//lib/alcotest-lwt",
-        "@ocaml//lib/qcheck-alcotest",
-        "@ocaml//lib/uri",
+        "@alcotest//:alcotest",
+        "@alcotest//:alcotest-lwt",
+        "@qcheck-alcotest//:qcheck-alcotest",
+        "@uri//:uri",
     ],
 )
 
@@ -18,10 +18,10 @@ ocaml_module(
     sig = ":qcheck_helpers__sig",
     struct = ":qcheck_helpers.ml",
     deps = [
-        "@ocaml//lib/alcotest",
-        "@ocaml//lib/alcotest-lwt",
-        "@ocaml//lib/qcheck-alcotest",
-        "@ocaml//lib/uri",
+        "@alcotest//:alcotest",
+        "@alcotest//:alcotest-lwt",
+        "@qcheck-alcotest//:qcheck-alcotest",
+        "@uri//:uri",
     ],
 )
 

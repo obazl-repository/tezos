@@ -10,7 +10,7 @@ ocaml_signature(
         "Tezos_stdlib",
     ],
     deps = [
-        "@ocaml//lib/irmin/mem",
+        "@irmin//mem",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/encoding:Tezos_context_encoding",
         "@tezos//src/lib_context/helpers:Tezos_context_helpers",
@@ -29,7 +29,7 @@ ocaml_module(
     sig = ":context__sig",
     struct = ":context.ml",
     deps = [
-        "@ocaml//lib/irmin/mem",
+        "@irmin//mem",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_context/encoding:Tezos_context_encoding",
         "@tezos//src/lib_context/helpers:Tezos_context_helpers",

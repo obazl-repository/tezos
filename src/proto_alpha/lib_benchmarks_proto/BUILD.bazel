@@ -31,7 +31,7 @@ ocaml_module(
         ":size",
         ":tags",
         ":translator_benchmarks",
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_benchmark:Tezos_benchmark",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -69,7 +69,7 @@ ocaml_module(
     ],
     struct = ":gas_helpers.ml",
     deps = [
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_benchmark:Tezos_benchmark",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -114,7 +114,7 @@ ocaml_module(
         ":registration_helpers",
         ":sapling_generation",
         ":tags",
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_benchmark:Tezos_benchmark",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -154,7 +154,7 @@ ocaml_module(
     deps = [
         ":interpreter_workload",
         ":registration_helpers",
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_benchmark:Tezos_benchmark",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -193,7 +193,7 @@ ocaml_module(
     struct = ":interpreter_workload.ml",
     deps = [
         ":size",
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_benchmark:Tezos_benchmark",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -232,7 +232,7 @@ ocaml_module(
     struct = ":michelson_commands.ml",
     deps = [
         ":michelson_generation",
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_benchmark:Tezos_benchmark",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -270,7 +270,7 @@ ocaml_module(
     ],
     struct = ":michelson_generation.ml",
     deps = [
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_benchmark:Tezos_benchmark",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -308,7 +308,7 @@ ocaml_module(
     ],
     struct = ":michelson_types.ml",
     deps = [
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_benchmark:Tezos_benchmark",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -346,7 +346,7 @@ ocaml_module(
     ],
     struct = ":registration_helpers.ml",
     deps = [
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_benchmark:Tezos_benchmark",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -387,7 +387,7 @@ ocaml_module(
         ":interpreter_benchmarks",
         ":sapling_generation",
         ":size",
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_benchmark:Tezos_benchmark",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -426,7 +426,7 @@ ocaml_module(
     struct = ":sapling_commands.ml",
     deps = [
         ":sapling_generation",
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_benchmark:Tezos_benchmark",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -464,7 +464,7 @@ ocaml_module(
     ],
     struct = ":sapling_generation.ml",
     deps = [
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_benchmark:Tezos_benchmark",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -502,7 +502,7 @@ ocaml_module(
     ],
     struct = ":size.ml",
     deps = [
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_benchmark:Tezos_benchmark",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -540,7 +540,7 @@ ocaml_module(
     ],
     struct = ":tags.ml",
     deps = [
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_benchmark:Tezos_benchmark",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -585,7 +585,7 @@ ocaml_module(
         ":tags",
         ":translator_model",
         ":translator_workload",
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_benchmark:Tezos_benchmark",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -624,7 +624,7 @@ ocaml_module(
     struct = ":translator_model.ml",
     deps = [
         ":translator_workload",
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_benchmark:Tezos_benchmark",
         "@tezos//src/lib_micheline:Tezos_micheline",
@@ -664,7 +664,7 @@ ocaml_module(
     deps = [
         ":gas_helpers",
         ":size",
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_benchmark:Tezos_benchmark",
         "@tezos//src/lib_micheline:Tezos_micheline",

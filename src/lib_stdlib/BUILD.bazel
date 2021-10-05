@@ -29,8 +29,8 @@ ocaml_module(
     sig = ":bloomer__sig",
     struct = "bloomer.ml",
     deps = [
-        ## FIXME: deps_adjunct should obviate this
-        "@ocaml//lib/ppx_inline_test",
+        ## FIXME: ppx_codeps should obviate this
+        # "@ppx_inline_test//:ppx_inline_test",
     ],
 )
 
@@ -49,7 +49,7 @@ ocaml_signature(
     name = "circular_buffer__sig",
     src = "circular_buffer.mli",
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
     ],
 )
 
@@ -63,7 +63,7 @@ ocaml_signature(
     name = "compare__sig",
     src = "compare.mli",
     deps = [
-        "@ocaml//lib/zarith",
+        "@zarith//:zarith",
     ],
 )
 
@@ -88,7 +88,7 @@ ocaml_signature(
     name = "lwt_dropbox__sig",
     src = "lwt_dropbox.mli",
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
     ],
 )
 
@@ -102,7 +102,7 @@ ocaml_signature(
     name = "lwt_idle_waiter__sig",
     src = "lwt_idle_waiter.mli",
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
     ],
 )
 
@@ -116,7 +116,7 @@ ocaml_signature(
     name = "lwt_pipe__sig",
     src = "lwt_pipe.mli",
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
     ],
 )
 
@@ -130,7 +130,7 @@ ocaml_signature(
     name = "lwt_utils__sig",
     src = "lwt_utils.mli",
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
     ],
 )
 
@@ -211,7 +211,7 @@ ocaml_module(
     sig = ":tzString__sig",
     struct = "tzString.ml",
     deps = [
-        "@ocaml//lib/hex",
+        "@hex//:hex",
     ],
 )
 
@@ -258,8 +258,8 @@ ppx_executable(
     name = "ppx",
     main = "@ppx//driver",
     deps = [
-        "@ocaml//lib/ppxlib",
-        "@ocaml//lib/ppx_inline_test"
+        "@ppxlib//:ppxlib",
+        "@ppx_inline_test//:ppx_inline_test"
     ],
-    deps_adjunct = ["@ocaml//lib/ppx_inline_test"]
+    # ppx_codeps = ["@ppx_inline_test//:ppx_inline_test"]
 )

@@ -10,7 +10,7 @@ ocaml_module(
     ],
     struct = ":plugin.ml",
     deps = [
-        "@ocaml//lib/tezos-protocol-alpha",
+        "@tezos-protocol-alpha//:tezos-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
     ],
 )
@@ -38,7 +38,7 @@ ocaml_module(
     struct = ":plugin_registerer.ml",
     deps = [
         ":plugin",
-        "@ocaml//lib/tezos-embedded-protocol-alpha",
+        "@tezos-embedded-protocol-alpha//:tezos-embedded-protocol-alpha",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_shell:Tezos_shell",
         "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",

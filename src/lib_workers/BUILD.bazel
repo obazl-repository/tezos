@@ -12,7 +12,7 @@ ocaml_signature(
         "Tezos_stdlib_unix",
     ],
     deps = [
-        "@ocaml//lib/ringo",
+        "@ringo//:ringo",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
@@ -31,7 +31,7 @@ ocaml_module(
     sig = ":worker__sig",
     struct = ":worker.ml",
     deps = [
-        "@ocaml//lib/ringo",
+        "@ringo//:ringo",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],

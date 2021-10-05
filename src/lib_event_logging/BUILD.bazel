@@ -14,8 +14,8 @@ ocaml_signature(
         "Tezos_error_monad.TzLwtreslib",
     ],
     deps = [
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/lwt_log/core",
+        "@data-encoding//:data-encoding",
+        "@lwt_log//core",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
         "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
         "@tezos//src/lib_stdlib:Tezos_stdlib",
@@ -37,8 +37,8 @@ ocaml_module(
     sig = ":internal_event__sig",
     struct = ":internal_event.ml",
     deps = [
-        "@ocaml//lib/data-encoding",
-        "@ocaml//lib/lwt_log/core",
+        "@data-encoding//:data-encoding",
+        "@lwt_log//core",
         "@tezos//src/lib_error_monad:Tezos_error_monad",
         "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
         "@tezos//src/lib_stdlib:Tezos_stdlib",

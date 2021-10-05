@@ -26,7 +26,7 @@ ocaml_module(
     ],
     struct = ":ledger.ml",
     deps = [
-        "@ocaml//lib/ocplib-endian.bigstring",
+        "@ocplib-endian//bigstring",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_base/unix:Tezos_base_unix",
         "@tezos//src/lib_rpc_http:Tezos_rpc_http_client_unix",
@@ -61,7 +61,7 @@ ocaml_signature(
         "Tezos_shell_services",
     ],
     deps = [
-        "@ocaml//lib/ocplib-endian.bigstring",
+        "@ocplib-endian//bigstring",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_base/unix:Tezos_base_unix",
         "@tezos//src/lib_rpc_http:Tezos_rpc_http_client_unix",
@@ -97,7 +97,7 @@ ocaml_module(
     sig = ":ledger_names__sig",
     struct = ":ledger_names.ml",
     deps = [
-        "@ocaml//lib/ocplib-endian.bigstring",
+        "@ocplib-endian//bigstring",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_base/unix:Tezos_base_unix",
         "@tezos//src/lib_rpc_http:Tezos_rpc_http_client_unix",
@@ -133,7 +133,7 @@ ocaml_signature(
     ],
     deps = [
         ":socket",
-        "@ocaml//lib/ocplib-endian.bigstring",
+        "@ocplib-endian//bigstring",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_base/unix:Tezos_base_unix",
         "@tezos//src/lib_rpc_http:Tezos_rpc_http_client_unix",
@@ -170,7 +170,7 @@ ocaml_module(
     struct = ":remote.ml",
     deps = [
         ":socket",
-        "@ocaml//lib/ocplib-endian.bigstring",
+        "@ocplib-endian//bigstring",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_base/unix:Tezos_base_unix",
         "@tezos//src/lib_rpc_http:Tezos_rpc_http_client_unix",
@@ -205,7 +205,7 @@ ocaml_signature(
         "Tezos_shell_services",
     ],
     deps = [
-        "@ocaml//lib/ocplib-endian.bigstring",
+        "@ocplib-endian//bigstring",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_base/unix:Tezos_base_unix",
         "@tezos//src/lib_rpc_http:Tezos_rpc_http_client_unix",
@@ -241,7 +241,7 @@ ocaml_module(
     sig = ":socket__sig",
     struct = ":socket.ml",
     deps = [
-        "@ocaml//lib/ocplib-endian.bigstring",
+        "@ocplib-endian//bigstring",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_base/unix:Tezos_base_unix",
         "@tezos//src/lib_rpc_http:Tezos_rpc_http_client_unix",

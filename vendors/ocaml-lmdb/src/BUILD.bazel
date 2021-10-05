@@ -13,21 +13,24 @@ cc_library(
         "midl.c",
     ],
     deps = [
-        "@ocaml//csdk"
+        "@ocaml//ffi"
     ],
 )
 
 ocaml_signature(
     name = "lmdb__sig",
     src = "lmdb.mli",
-    deps = ["@ocaml//lib/rresult"],
+    deps = ["@rresult//:rresult"],
 )
 
 ocaml_module(
     name = "lmdb",
     opts = ["-linkall"],
-    deps = ["@ocaml//lib/rresult"],
-    cc_deps = { "lmdb_c": "default" },
+    deps = [
+        "@rresult//:rresult",
+        ":lmdb_c"
+    ],
+    # cc_deps = { "lmdb_c": "default" },
     sig = "lmdb__sig",
     struct = "lmdb.ml",
     visibility = ["//visibility:public"],

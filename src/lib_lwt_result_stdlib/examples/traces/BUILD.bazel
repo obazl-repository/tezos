@@ -4,9 +4,9 @@ ocaml_signature(
     name = "traces__sig",
     src = ":traces.mli",
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
         "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
-        "@tezos//src/lib_lwt_result_stdlib/traced/sigs:#Traced_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/sigs:Traced_sigs",
     ],
 )
 
@@ -15,9 +15,9 @@ ocaml_module(
     sig = ":traces__sig",
     struct = ":traces.ml",
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
         "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
-        "@tezos//src/lib_lwt_result_stdlib/traced/sigs:#Traced_sigs",
+        "@tezos//src/lib_lwt_result_stdlib/traced/sigs:Traced_sigs",
     ],
 )
 

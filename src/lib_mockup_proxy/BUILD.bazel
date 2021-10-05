@@ -8,7 +8,7 @@ ocaml_signature(
         "Tezos_base__TzPervasives",
     ],
     deps = [
-        "@ocaml//lib/resto-cohttp-self-serving-client",
+        "@resto-cohttp-self-serving-client//:resto-cohttp-self-serving-client",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
@@ -27,7 +27,7 @@ ocaml_module(
     sig = ":RPC_client__sig",
     struct = ":RPC_client.ml",
     deps = [
-        "@ocaml//lib/resto-cohttp-self-serving-client",
+        "@resto-cohttp-self-serving-client//:resto-cohttp-self-serving-client",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_client_base:Tezos_client_base",
         "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",

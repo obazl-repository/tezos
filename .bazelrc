@@ -1,1 +1,3 @@
+build --experimental_starlark_cc_import # for new cc_import
+
 try-import .private/user.bazelrc

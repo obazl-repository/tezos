@@ -13,7 +13,7 @@ ocaml_executable(
 
 ocaml_module(
     name = "s_packer",
-    struct = ":s_packer.ml",
+    struct = "s_packer.ml",
 )
 
 # okapi:auto

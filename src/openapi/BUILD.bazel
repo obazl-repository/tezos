@@ -5,8 +5,8 @@ ocaml_module(
     struct = ":api.ml",
     deps = [
         ":json",
-        "@ocaml//lib/ezjsonm",
-        "@ocaml//lib/json-data-encoding",
+        "@ezjsonm//:ezjsonm",
+        "@json-data-encoding//:json-data-encoding",
     ],
 )
 
@@ -14,8 +14,8 @@ ocaml_module(
     name = "json",
     struct = ":json.ml",
     deps = [
-        "@ocaml//lib/ezjsonm",
-        "@ocaml//lib/json-data-encoding",
+        "@ezjsonm//:ezjsonm",
+        "@json-data-encoding//:json-data-encoding",
     ],
 )
 
@@ -24,8 +24,8 @@ ocaml_signature(
     src = ":openapi.mli",
     deps = [
         ":json",
-        "@ocaml//lib/ezjsonm",
-        "@ocaml//lib/json-data-encoding",
+        "@ezjsonm//:ezjsonm",
+        "@json-data-encoding//:json-data-encoding",
     ],
 )
 
@@ -35,8 +35,8 @@ ocaml_module(
     struct = ":openapi.ml",
     deps = [
         ":json",
-        "@ocaml//lib/ezjsonm",
-        "@ocaml//lib/json-data-encoding",
+        "@ezjsonm//:ezjsonm",
+        "@json-data-encoding//:json-data-encoding",
     ],
 )
 
@@ -47,8 +47,8 @@ ocaml_module(
         ":api",
         ":json",
         ":openapi",
-        "@ocaml//lib/ezjsonm",
-        "@ocaml//lib/json-data-encoding",
+        "@ezjsonm//:ezjsonm",
+        "@json-data-encoding//:json-data-encoding",
     ],
 )
 

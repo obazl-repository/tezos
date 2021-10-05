@@ -1,30 +1,36 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl",
      "ocaml_module",
+     "ocaml_ns_archive",
      "ocaml_ns_library")
+
+OPTS = [] # ["-open", "Bare_functor_outputs"]
 
 ocaml_module(
     name = "hashtbl",
+    opts = OPTS,
     struct = ":hashtbl.ml",
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
         "@tezos//src/lib_lwt_result_stdlib/bare/functor_outputs:Bare_functor_outputs",
     ],
 )
 
 ocaml_module(
     name = "list",
+    opts = OPTS,
     struct = ":list.ml",
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
         "@tezos//src/lib_lwt_result_stdlib/bare/functor_outputs:Bare_functor_outputs",
     ],
 )
 
 ocaml_module(
     name = "map",
+    opts = OPTS,
     struct = ":map.ml",
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
         "@tezos//src/lib_lwt_result_stdlib/bare/functor_outputs:Bare_functor_outputs",
     ],
 )
@@ -32,8 +38,9 @@ ocaml_module(
 ocaml_module(
     name = "monad",
     struct = ":monad.ml",
+    opts = OPTS,
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
         "@tezos//src/lib_lwt_result_stdlib/bare/functor_outputs:Bare_functor_outputs",
     ],
 )
@@ -41,79 +48,87 @@ ocaml_module(
 ocaml_module(
     name = "option",
     struct = ":option.ml",
+    opts = OPTS,
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
         "@tezos//src/lib_lwt_result_stdlib/bare/functor_outputs:Bare_functor_outputs",
     ],
 )
 
 ocaml_module(
     name = "result",
+    opts = OPTS,
     struct = ":result.ml",
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
         "@tezos//src/lib_lwt_result_stdlib/bare/functor_outputs:Bare_functor_outputs",
     ],
 )
 
 ocaml_module(
     name = "seq",
+    opts = OPTS,
     struct = ":seq.ml",
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
         "@tezos//src/lib_lwt_result_stdlib/bare/functor_outputs:Bare_functor_outputs",
     ],
 )
 
 ocaml_module(
     name = "seq_e",
+    opts = OPTS,
     struct = ":seq_e.ml",
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
         "@tezos//src/lib_lwt_result_stdlib/bare/functor_outputs:Bare_functor_outputs",
     ],
 )
 
 ocaml_module(
     name = "seq_es",
+    opts = OPTS,
     struct = ":seq_es.ml",
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
         "@tezos//src/lib_lwt_result_stdlib/bare/functor_outputs:Bare_functor_outputs",
     ],
 )
 
 ocaml_module(
     name = "seq_s",
+    opts = OPTS,
     struct = ":seq_s.ml",
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
         "@tezos//src/lib_lwt_result_stdlib/bare/functor_outputs:Bare_functor_outputs",
     ],
 )
 
 ocaml_module(
     name = "set",
+    opts = OPTS,
     struct = ":set.ml",
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
         "@tezos//src/lib_lwt_result_stdlib/bare/functor_outputs:Bare_functor_outputs",
     ],
 )
 
 ocaml_module(
     name = "withExceptions",
+    opts = OPTS,
     struct = ":withExceptions.ml",
     deps = [
-        "@ocaml//lib/lwt",
+        "@lwt//:lwt",
         "@tezos//src/lib_lwt_result_stdlib/bare/functor_outputs:Bare_functor_outputs",
     ],
 )
 
 # okapi:auto
 # okapi:public_name tezos-lwt-result-stdlib.bare.sigs
-# ocaml_ns_library(
-ocaml_ns_library(
+ocaml_ns_archive(
+#ocaml_ns_library(
     name = "Bare_sigs",
     submodules = [
         ":hashtbl",

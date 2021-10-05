@@ -12,8 +12,8 @@ def obazl_deps():
 
     maybe(
         git_repository,
-        name = "obazl_tools_opam",
-        remote = "https://github.com/obazl/rules_opam",
+        name = "opam",
+        remote = "https://github.com/obazl/tools_opam",
         branch = "obazl2",
     )
 

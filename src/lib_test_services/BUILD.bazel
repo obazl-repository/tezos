@@ -10,7 +10,7 @@ ocaml_module(
     struct = ":test_services.ml",
     deps = [
         ":test_services_base",
-        "@ocaml//lib/alcotest-lwt",
+        "@alcotest//:alcotest-lwt",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
@@ -25,7 +25,7 @@ ocaml_module(
     ],
     struct = ":test_services_base.ml",
     deps = [
-        "@ocaml//lib/alcotest-lwt",
+        "@alcotest//:alcotest-lwt",
         "@tezos//src/lib_base:Tezos_base",
         "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
