@@ -1,0 +1,48 @@
+## original: /Users/gar/.opam/4.10/lib/rresult/META
+
+load(
+    "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_import"
+)
+
+ocaml_import(
+    name = "rresult",
+    version = """0.6.0""",
+    doc = """Result value combinators for OCaml""",
+## _filedeps_path: 'rresult'
+    archive = select({
+        "@ocaml//mode:bytecode": [
+            "@rresult//:rresult.cma",
+
+        ],
+        "@ocaml//mode:native": [
+            "@rresult//:rresult.cmxa",
+            "@rresult//:rresult.a",
+
+        ],
+    }),
+    all = glob(["*.cmx", "*.cmi", "*.a", "*.so"]),
+    deps = [
+        "@result//:result",
+    ],
+    visibility = ["//visibility:public"]
+)
+
+ocaml_import(
+    name = "plugin",
+## _filedeps_path: 'rresult'
+    plugin = select({
+        "@ocaml//mode:bytecode": [
+            "@rresult//:rresult.cma",
+
+        ],
+        "@ocaml//mode:native": [
+            "@rresult//:rresult.cmxs",
+
+        ],
+    }),
+    deps = [
+        "@result//:result",
+    ],
+    visibility = ["//visibility:public"]
+)

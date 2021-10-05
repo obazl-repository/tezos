@@ -1,0 +1,55 @@
+## original: /Users/gar/.opam/4.10/lib/metrics-rusage/META
+
+load(
+    "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_import"
+)
+
+ocaml_import(
+    name = "metrics-rusage",
+    version = """0.3.0""",
+## _filedeps_path: 'metrics-rusage'
+    archive = select({
+        "@ocaml//mode:bytecode": [
+            "@metrics-rusage//:metrics_rusage.cma",
+
+        ],
+        "@ocaml//mode:native": [
+            "@metrics-rusage//:metrics_rusage.cmxa",
+            "@metrics-rusage//:metrics_rusage.a",
+
+        ],
+    }),
+    all = glob(["*.cmx", "*.cmi", "*.a", "*.so"]),
+    deps = [
+        "@fmt//:fmt",
+        "@logs//:logs",
+        "@metrics//:metrics",
+        "@rresult//:rresult",
+        "@unix//:unix",
+    ],
+    visibility = ["//visibility:public"]
+)
+
+ocaml_import(
+    name = "plugin",
+## _filedeps_path: 'metrics-rusage'
+    plugin = select({
+        "@ocaml//mode:bytecode": [
+            "@metrics-rusage//:metrics_rusage.cma",
+
+        ],
+        "@ocaml//mode:native": [
+            "@metrics-rusage//:metrics_rusage.cmxs",
+
+        ],
+    }),
+    deps = [
+        "@fmt//:fmt",
+        "@logs//:logs",
+        "@metrics//:metrics",
+        "@rresult//:rresult",
+        "@unix//:unix",
+    ],
+    visibility = ["//visibility:public"]
+)

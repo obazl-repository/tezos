@@ -1,0 +1,42 @@
+## original: /Users/gar/.opam/4.10/lib/str/META
+
+load(
+    "@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_import"
+)
+
+ocaml_import(
+    name = "str",
+    version = """[distributed with Ocaml]""",
+    doc = """Regular expressions and string processing""",
+## _filedeps_path: 'ocaml'
+    archive = select({
+        "@ocaml//mode:bytecode": [
+            "@ocaml//lib:str.cma",
+
+        ],
+        "@ocaml//mode:native": [
+            "@ocaml//lib:str.cmxa",
+            "@ocaml//lib:str.a",
+
+        ],
+    }),
+    all = glob(["*.cmx", "*.cmi", "*.a", "*.so"]),
+    visibility = ["//visibility:public"]
+)
+
+ocaml_import(
+    name = "plugin",
+## _filedeps_path: 'ocaml'
+    plugin = select({
+        "@ocaml//mode:bytecode": [
+            "@ocaml//lib:str.cma",
+
+        ],
+        "@ocaml//mode:native": [
+            "@ocaml//lib:str.cmxs",
+
+        ],
+    }),
+    visibility = ["//visibility:public"]
+)
