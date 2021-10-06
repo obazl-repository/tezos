@@ -5,9 +5,6 @@ load("@obazl_rules_ocaml//ocaml:rules.bzl",
      "ocaml_signature")
 
 OPTS = [
-    "-I", "bazel-out/darwin-fastbuild-ST-c9e450094d2b/bin/src/lib_lwt_result_stdlib/bare/functor_outputs",
-    "-I", "external/ocaml/bin/src/lib_lwt_result_stdlib/bare/functor_outputs",
-    "-I", "bin/src/lib_lwt_result_stdlib/bare/functor_outputs"
 ]
 
 ocaml_signature(
