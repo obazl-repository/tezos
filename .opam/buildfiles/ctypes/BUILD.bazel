@@ -6,7 +6,7 @@ load(
 )
 load("@rules_cc//cc:defs.bzl", "cc_library")
 cc_library(
-    name = "c-api",
+    name = "libctypes",
     srcs = glob(["*.a"]),
     hdrs = glob(["*.h"]),
     visibility = ["//visibility:public"],

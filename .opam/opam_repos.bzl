@@ -1298,6 +1298,12 @@ def fetch():
     )
 
     new_local_pkg_repository(
+        name       = "threads",
+        build_file = "@//.opam/buildfiles/threads:BUILD.bazel",
+        path       = "threads",
+    )
+
+    new_local_pkg_repository(
         name       = "optint",
         build_file = "@//.opam/buildfiles/optint:BUILD.bazel",
         path       = "optint",
@@ -2164,5 +2170,11 @@ def fetch():
         name       = "mirage-crypto",
         build_file = "@//.opam/buildfiles/mirage-crypto:BUILD.bazel",
         path       = "mirage-crypto",
+    )
+
+    new_local_pkg_repository(
+        name       = "dynlink",
+        build_file = "@//.opam/buildfiles/dynlink:BUILD.bazel",
+        path       = "dynlink",
     )
 

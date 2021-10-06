@@ -23,7 +23,7 @@ ocaml_import(
     all = glob(["*.cmx", "*.cmi", "*.a", "*.so"]),
     deps = [
         "@base//:base",
-    "@ocaml//compiler-libs:common",
+        "@ocaml//compiler-libs:common",
         "@ppx_compare//runtime-lib",
         "@ppx_enumerate//runtime-lib",
         "@ppx_hash//runtime-lib",
@@ -49,7 +49,7 @@ ocaml_import(
     }),
     deps = [
         "@base//:base",
-    "@ocaml//compiler-libs:common",
+        "@ocaml//compiler-libs:common",
         "@ppx_compare//runtime-lib",
         "@ppx_enumerate//runtime-lib",
         "@ppx_hash//runtime-lib",

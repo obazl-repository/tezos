@@ -23,7 +23,7 @@ ocaml_import(
     all = glob(["*.cmx", "*.cmi", "*.a", "*.so"]),
     deps = [
         "@base//:base",
-    "@ocaml//compiler-libs:common",
+        "@ocaml//compiler-libs:common",
         "@ppxlib//:ppxlib",
     ],
     visibility = ["//visibility:public"]
@@ -44,7 +44,7 @@ ocaml_import(
     }),
     deps = [
         "@base//:base",
-    "@ocaml//compiler-libs:common",
+        "@ocaml//compiler-libs:common",
         "@ppxlib//:ppxlib",
     ],
     visibility = ["//visibility:public"]

@@ -22,7 +22,7 @@ ocaml_import(
     }),
     all = glob(["*.cmx", "*.cmi", "*.a", "*.so"]),
     deps = [
-    "@ocaml//compiler-libs:common",
+        "@ocaml//compiler-libs:common",
         "@fpath//:fpath",
         "@odoc//compat",
         "@odoc//html",
@@ -49,7 +49,7 @@ ocaml_import(
         ],
     }),
     deps = [
-    "@ocaml//compiler-libs:common",
+        "@ocaml//compiler-libs:common",
         "@fpath//:fpath",
         "@odoc//compat",
         "@odoc//html",

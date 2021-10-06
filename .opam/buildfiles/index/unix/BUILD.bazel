@@ -29,7 +29,7 @@ ocaml_import(
         "@mtime//:mtime",
         "@mtime//clock/os",
         "@semaphore-compat//:semaphore-compat",
-    "@ocaml//threads/posix",
+        "@ocaml//threads",
         "@unix//:unix",
     ],
     visibility = ["//visibility:public"]
@@ -56,7 +56,7 @@ ocaml_import(
         "@mtime//:mtime",
         "@mtime//clock/os",
         "@semaphore-compat//:semaphore-compat",
-    "@ocaml//threads/posix",
+        "@ocaml//threads",
         "@unix//:unix",
     ],
     visibility = ["//visibility:public"]

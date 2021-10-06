@@ -50,27 +50,15 @@ load("@obazl_rules_ocaml//ocaml/_repo_rules:new_local_pkg_repository.bzl",
      "new_local_pkg_repository")
 
 ## tezos-rust-libs is an opam pkg but has no META file
-new_local_repository(
+new_local_pkg_repository(
     name = "tezos-rust-libs",
-    path = "/Users/gar/.opam/4.10/lib/tezos-rust-libs",
-    build_file_content = """
-
-# WARNING: to use this cc_import, you must pass
-# build --experimental_starlark_cc_import
-load("@bazel_tools//tools/build_defs/cc:cc_import.bzl", "cc_import")
-
-cc_import(
-    name = "librustzcash",
-    hdrs = ["librustzcash.h"],
-    static_library = "librustzcash.a",
-    linkopts = ["-DTEZOS_LIB"],
-    alwayslink = 1,
-    visibility = ["//visibility:public"],
+    path = "tezos-rust-libs", # relative to $OPAM_SWITCH_PREFIX/lib
+    ## note the colon:
+    build_file = "@//bzl:tezos-rust-libs.BUILD"
 )
 
-""")
-
-## local opam pkg repos:
+## local opam pkg repos. enable this after running
+## bazel run @opam//update
 
 load("//.opam:opam_repos.bzl", "fetch")
 fetch()

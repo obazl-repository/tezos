@@ -37,7 +37,7 @@ cc_library(
     linkstatic = 1,
     deps = [
         "@ocaml//ffi",
-        "@ctypes//:c-api",
+        "@ctypes//:libctypes",
         "@tezos-rust-libs//:librustzcash",
     ],
     visibility = ["//src/lib_sapling:__pkg__"],

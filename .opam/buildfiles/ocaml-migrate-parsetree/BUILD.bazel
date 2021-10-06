@@ -22,7 +22,7 @@ ocaml_import(
     }),
     all = glob(["*.cmx", "*.cmi", "*.a", "*.so"]),
     deps = [
-    "@ocaml//compiler-libs:common",
+        "@ocaml//compiler-libs:common",
         "@ppx_derivers//:ppx_derivers",
         "@result//:result",
     ],
@@ -43,7 +43,7 @@ ocaml_import(
         ],
     }),
     deps = [
-    "@ocaml//compiler-libs:common",
+        "@ocaml//compiler-libs:common",
         "@ppx_derivers//:ppx_derivers",
         "@result//:result",
     ],

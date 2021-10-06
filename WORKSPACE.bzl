@@ -23,3 +23,13 @@ def obazl_deps():
         remote = "https://github.com/obazl/rules_ocaml",
         branch = "obazl2",
     )
+
+    # maybe(
+    #     http_archive,
+    #     name = "opam-repository",
+    #     urls = [
+    #         "https://github.com/ocaml/opam-repository/archive/refs/heads/master.zip"],
+    #     strip_prefix = "opam-repository-master",
+    #     build_file_content = "exports_files(glob([\"**/*\"]))"
+    # )
+

@@ -24,8 +24,8 @@ ocaml_import(
     all = glob(["*.cmx", "*.cmi", "*.a", "*.so"]),
     deps = [
         "@bytes//:bytes",
-    "@ocaml//compiler-libs:bytecomp",
-    "@ocaml//compiler-libs:common",
+        "@ocaml//compiler-libs:bytecomp",
+        "@ocaml//compiler-libs:common",
         "@menhirLib//:menhirLib",
         "@yojson//:yojson",
     ],
@@ -47,8 +47,8 @@ ocaml_import(
     }),
     deps = [
         "@bytes//:bytes",
-    "@ocaml//compiler-libs:bytecomp",
-    "@ocaml//compiler-libs:common",
+        "@ocaml//compiler-libs:bytecomp",
+        "@ocaml//compiler-libs:common",
         "@menhirLib//:menhirLib",
         "@yojson//:yojson",
     ],

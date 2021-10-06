@@ -1,48 +1,5 @@
-## original: /Users/gar/.opam/4.10/lib/bigarray/META
-
-load(
-    "@obazl_rules_ocaml//ocaml:rules.bzl",
-    "ocaml_import"
-)
-
-ocaml_import(
+alias(
     name = "bigarray",
-    version = """[distributed with Ocaml]""",
-    doc = """Large statically allocated arrays""",
-## _filedeps_path: 'ocaml'
-    archive = select({
-        "@ocaml//mode:bytecode": [
-            "@ocaml//lib:bigarray.cma",
-
-        ],
-        "@ocaml//mode:native": [
-            "@ocaml//lib:bigarray.cmxa",
-            "@ocaml//lib:bigarray.a",
-
-        ],
-    }),
-    all = glob(["*.cmx", "*.cmi", "*.a", "*.so"]),
-    deps = [
-        "@unix//:unix",
-    ],
-    visibility = ["//visibility:public"]
-)
-
-ocaml_import(
-    name = "plugin",
-## _filedeps_path: 'ocaml'
-    plugin = select({
-        "@ocaml//mode:bytecode": [
-            "@ocaml//lib:bigarray.cma",
-
-        ],
-        "@ocaml//mode:native": [
-            "@ocaml//lib:bigarray.cmxs",
-
-        ],
-    }),
-    deps = [
-        "@unix//:unix",
-    ],
+    actual = "@ocaml.bigarray//:bigarray",
     visibility = ["//visibility:public"]
 )

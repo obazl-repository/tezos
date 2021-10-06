@@ -11,11 +11,11 @@ ocaml_import(
     doc = """Arbitrary-precision rational arithmetic""",
     deps = select({
         "X//conditions:default": [ ## predicates: 
-            "X@num/core//lib",
+            "@FIXME: num/core//lib",
         ],
         "X": [ ## predicates: toploop, 
-            "X@num/core//lib",
-            "X@num-top//lib",
+            "@FIXME: num/core//lib",
+            "@FIXME: num-top//lib",
         ],
     }),
     visibility = ["//visibility:public"]

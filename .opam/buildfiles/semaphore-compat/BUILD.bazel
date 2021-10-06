@@ -22,7 +22,7 @@ ocaml_import(
     }),
     all = glob(["*.cmx", "*.cmi", "*.a", "*.so"]),
     deps = [
-    "@ocaml//threads/posix",
+        "@ocaml//threads",
     ],
     visibility = ["//visibility:public"]
 )
@@ -41,7 +41,7 @@ ocaml_import(
         ],
     }),
     deps = [
-    "@ocaml//threads/posix",
+        "@ocaml//threads",
     ],
     visibility = ["//visibility:public"]
 )
