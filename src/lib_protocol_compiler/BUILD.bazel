@@ -51,7 +51,8 @@ genrule(
         "//src/lib_protocol_environment/sigs:embed_v3_cmi",
     ],
     outs = ["embedded_cmis.ml"],
-    cmd = "echo $(SRCS) && $(execpath @ocaml//bin:ocp-ocamlres) -format ocaml -o $(@) $(SRCS)",
+    # echo $(SRCS) &&
+    cmd = "$(execpath @ocaml//bin:ocp-ocamlres) -format ocaml -o $(@) $(SRCS)",
     tools = ["@ocaml//bin:ocp-ocamlres"],
 )
 

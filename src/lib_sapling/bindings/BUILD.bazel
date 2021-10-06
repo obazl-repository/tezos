@@ -58,7 +58,6 @@ genrule(
 ocaml_executable(
     name = "rustzcash_ctypes_gen.exe",
     main = "rustzcash_ctypes_gen",
-    opts = ["-verbose"],
     visibility = ["//visibility:public"],
     deps = [
         ":rustzcash_ctypes_bindings",
