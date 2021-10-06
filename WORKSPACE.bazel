@@ -3,6 +3,17 @@ workspace(name = "tezos")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
+load("//:WORKSPACE.bzl", "obazl_deps")
+obazl_deps()
+
+# load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
+# bazel_skylib_workspace()
+
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+     "new_local_pkg_repository")
+
+
+################################################################
 http_archive(
     name = "io_buildbuddy_buildbuddy_toolchain",
     sha256 = "a2a5cccec251211e2221b1587af2ce43c36d32a42f5d881737db3b546a536510",
@@ -14,23 +25,20 @@ buildbuddy_deps()
 load("@io_buildbuddy_buildbuddy_toolchain//:rules.bzl", "buildbuddy")
 buildbuddy(name = "buildbuddy_toolchain")
 
-http_archive(
-    name = "okapi",
-    sha256 = "ade3d128577ccfd9bebe099611442f0098403e908830011686896bc01db492b7",
-    strip_prefix = "okapi-4c521109008ff697a35d5969334b3ce01408362d",
-    url = "https://github.com/tweag/okapi/archive/4c521109008ff697a35d5969334b3ce01408362d.tar.gz",
-)
+# http_archive(
+#     name = "okapi",
+#     sha256 = "ade3d128577ccfd9bebe099611442f0098403e908830011686896bc01db492b7",
+#     strip_prefix = "okapi-4c521109008ff697a35d5969334b3ce01408362d",
+#     url = "https://github.com/tweag/okapi/archive/4c521109008ff697a35d5969334b3ce01408362d.tar.gz",
+# )
 
-load("@okapi//bzl:deps.bzl", "okapi_deps")
-okapi_deps()
+# load("@okapi//bzl:deps.bzl", "okapi_deps")
+# okapi_deps()
 
-load("@okapi//bzl:setup.bzl", "okapi_setup")
-okapi_setup(
-    nix_support = False
-)
-
-load("//:WORKSPACE.bzl", "obazl_deps")
-obazl_deps()
+# load("@okapi//bzl:setup.bzl", "okapi_setup")
+# okapi_setup(
+#     nix_support = False
+# )
 
 load("@opam//:WORKSPACE.bzl", "opam_fetch_repos")
 opam_fetch_repos()
@@ -46,8 +54,6 @@ load("@obazl_rules_ocaml//ocaml:bootstrap.bzl", "ocaml_configure")
 ocaml_configure(switch = "4.10")
 
 ####################
-load("@obazl_rules_ocaml//ocaml/_repo_rules:new_local_pkg_repository.bzl",
-     "new_local_pkg_repository")
 
 ## tezos-rust-libs is an opam pkg but has no META file
 new_local_pkg_repository(
