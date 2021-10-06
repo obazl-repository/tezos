@@ -1,3 +1,5 @@
 build --experimental_starlark_cc_import # for new cc_import
 
+run -c opt  # for @opam//update (temporary)
+
 try-import .private/user.bazelrc
