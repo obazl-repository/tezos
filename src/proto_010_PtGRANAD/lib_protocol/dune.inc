@@ -528,7 +528,7 @@ include Tezos_raw_protocol_010_PtGRANAD.Main
    alpha_services.mli alpha_services.ml
    main.mli main.ml
   (:src_dir TEZOS_PROTOCOL))
- (action (run %{bin:tezos-protocol-compiler}  .)))
+ (action (run %{bin:tezos-protocol-compiler}  ./)))
 
 (rule
  (alias runtest_sandbox)

@@ -113,7 +113,7 @@ include Tezos_raw_protocol_demo_noops.Main
  (deps
    main.mli main.ml
   (:src_dir TEZOS_PROTOCOL))
- (action (run %{bin:tezos-protocol-compiler} -no-hash-check .)))
+ (action (run %{bin:tezos-protocol-compiler} -no-hash-check ./)))
 
 (rule
  (alias runtest_sandbox)

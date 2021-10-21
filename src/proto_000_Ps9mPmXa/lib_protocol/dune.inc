@@ -123,7 +123,7 @@ include Tezos_raw_protocol_000_Ps9mPmXa.Main
    services.ml
    main.mli main.ml
   (:src_dir TEZOS_PROTOCOL))
- (action (run %{bin:tezos-protocol-compiler}  .)))
+ (action (run %{bin:tezos-protocol-compiler}  ./)))
 
 (rule
  (alias runtest_sandbox)

@@ -528,7 +528,7 @@ include Tezos_raw_protocol_alpha.Main
    alpha_services.mli alpha_services.ml
    main.mli main.ml
   (:src_dir TEZOS_PROTOCOL))
- (action (run %{bin:tezos-protocol-compiler} -no-hash-check .)))
+ (action (run %{bin:tezos-protocol-compiler} -no-hash-check ./)))
 
 (rule
  (alias runtest_sandbox)
