@@ -67,5 +67,5 @@
    v2/RPC_context.mli
    v2/equality_witness.mli
  )
- (action (with-stdout-to %{targets} (chdir %{workspace_root}}
+ (action (with-stdout-to %{targets} (chdir %{workspace_root}
           (run %{libexec:tezos-protocol-environment-packer:s_packer} "sigs" %{deps})))))

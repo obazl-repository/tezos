@@ -18,5 +18,5 @@
    v2/data_encoding.ml
  )
 
-(action (with-stdout-to %{targets} (chdir %{workspace_root}}
+(action (with-stdout-to %{targets} (chdir %{workspace_root}
  (run %{libexec:tezos-protocol-environment-packer:s_packer} "structs" %{deps})))))
