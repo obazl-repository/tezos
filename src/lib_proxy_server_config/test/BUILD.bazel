@@ -1,0 +1,23 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Test_proxy_server_config",
+    struct   = "test_proxy_server_config.ml",
+    deps     = [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-proxy-server-config)
+##   (deps (alias runtest_proxy_server_config))
+##   (action progn)
+## )

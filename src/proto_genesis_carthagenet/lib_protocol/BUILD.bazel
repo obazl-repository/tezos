@@ -1,0 +1,295 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-protocol-genesis-carthagenet.environment ########
+TEZOS_PROTOCOL_GENESIS_CARTHAGENET_ENVIRONMENT_DEPS = [
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-genesis-carthagenet.environment",
+    ns         = "Tezos_protocol_environment_genesis_carthagenet",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Environment",
+    ],
+)
+
+######## tezos-protocol-genesis-carthagenet.raw ########
+TEZOS_PROTOCOL_GENESIS_CARTHAGENET_RAW_OPTS = [
+    "-nopervasives",
+    "-nostdlib",
+    "-w",
+    "+a-4-6-7-9-29-32-40..42-44-45-48-60-67",
+    "-warn-error",
+    "+a",
+    "-open", "Error_monad",
+    "-open", "Pervasives",
+    "-open", "Tezos_protocol_environment_genesis_carthagenet__Environment",
+]
+
+TEZOS_PROTOCOL_GENESIS_CARTHAGENET_RAW_DEPS = [
+    "//src/proto_genesis_carthagenet/lib_protocol:tezos-protocol-genesis-carthagenet.environment",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-genesis-carthagenet.raw",
+    ns         = "Tezos_raw_protocol_genesis_carthagenet",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Data",
+        ":Main",
+        ":Services",
+    ],
+)
+
+######## tezos-protocol-genesis-carthagenet ########
+TEZOS_PROTOCOL_GENESIS_CARTHAGENET_OPTS = [
+    "-w",
+    "+a-4-6-7-9-29-40..42-44-45-48-60-67",
+    "-warn-error",
+    "+a",
+    "-nopervasives",
+]
+
+TEZOS_PROTOCOL_GENESIS_CARTHAGENET_DEPS = [
+    "//src/lib_protocol_environment/sigs:tezos-protocol-environment-sigs",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/proto_genesis_carthagenet/lib_protocol:tezos-protocol-genesis-carthagenet.raw",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-genesis-carthagenet",
+    ns         = "Tezos_protocol_genesis_carthagenet",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Protocol",
+    ],
+)
+
+######## tezos-protocol-functor-genesis-carthagenet ########
+TEZOS_PROTOCOL_FUNCTOR_GENESIS_CARTHAGENET_OPTS = [
+    "-w",
+    "+a-4-6-7-9-29-40..42-44-45-48-60-67",
+    "-warn-error",
+    "+a",
+    "-nopervasives",
+]
+
+TEZOS_PROTOCOL_FUNCTOR_GENESIS_CARTHAGENET_DEPS = [
+    "//src/lib_protocol_environment/sigs:tezos-protocol-environment-sigs",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/proto_genesis_carthagenet/lib_protocol:tezos-protocol-genesis-carthagenet.raw",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-functor-genesis-carthagenet",
+    ns         = "Tezos_protocol_genesis_carthagenet_functor",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Functor",
+    ],
+)
+
+######## tezos-embedded-protocol-genesis-carthagenet ########
+TEZOS_EMBEDDED_PROTOCOL_GENESIS_CARTHAGENET_OPTS = [
+    "-w",
+    "+a-4-6-7-9-29-32-40..42-44-45-48-60-67",
+    "-warn-error",
+    "+a",
+]
+
+TEZOS_EMBEDDED_PROTOCOL_GENESIS_CARTHAGENET_DEPS = [
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_protocol_updater:tezos-protocol-updater",
+    "//src/proto_genesis_carthagenet/lib_protocol:tezos-protocol-genesis-carthagenet",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-embedded-protocol-genesis-carthagenet",
+    ns         = "Tezos_embedded_protocol_genesis_carthagenet",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Registerer",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Data",
+    struct   = "data.ml",
+    opts     = TEZOS_PROTOCOL_GENESIS_CARTHAGENET_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_GENESIS_CARTHAGENET_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Environment",
+    struct   = "environment.ml",
+    deps     = TEZOS_PROTOCOL_GENESIS_CARTHAGENET_ENVIRONMENT_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Functor",
+    struct   = "functor.ml",
+    opts     = TEZOS_PROTOCOL_FUNCTOR_GENESIS_CARTHAGENET_OPTS,
+    deps     = TEZOS_PROTOCOL_FUNCTOR_GENESIS_CARTHAGENET_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Main",
+    struct   = "main.ml",
+    sig      = ":Main_cmi",
+    opts     = TEZOS_PROTOCOL_GENESIS_CARTHAGENET_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_GENESIS_CARTHAGENET_RAW_DEPS + [
+       ":Services",
+       ":Data",
+    ]
+)
+
+ocaml_signature(
+    name     = "Main_cmi",
+    src      = "main.mli",
+    opts     = TEZOS_PROTOCOL_GENESIS_CARTHAGENET_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_GENESIS_CARTHAGENET_RAW_DEPS + [
+       ":Data",
+    ]
+)
+
+ocaml_module(
+    name     = "Protocol",
+    struct   = "protocol.ml",
+    opts     = TEZOS_PROTOCOL_GENESIS_CARTHAGENET_OPTS,
+    deps     = TEZOS_PROTOCOL_GENESIS_CARTHAGENET_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Registerer",
+    struct   = "registerer.ml",
+    opts     = TEZOS_EMBEDDED_PROTOCOL_GENESIS_CARTHAGENET_OPTS,
+    deps     = TEZOS_EMBEDDED_PROTOCOL_GENESIS_CARTHAGENET_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Services",
+    struct   = "services.ml",
+    opts     = TEZOS_PROTOCOL_GENESIS_CARTHAGENET_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_GENESIS_CARTHAGENET_RAW_DEPS + [
+       ":Data",
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+###########
+write_file(
+    name     = "write_environment.ml",
+    out      = "environment.ml",
+    content  = """
+module Name = struct let name = "genesis-carthagenet" end
+include Tezos_protocol_environment.MakeV0(Name)()
+module CamlinternalFormatBasics = struct include CamlinternalFormatBasics end
+""")
+
+######## with-stdout-to ########
+genrule(
+    name = "__registerer.ml",
+    outs  = [
+        "registerer.ml"
+    ],
+    tools  = ["//src/lib_protocol_compiler:tezos-embedded-protocol-packer.exe"],
+    cmd  = " ".join([
+        "$(execpath //src/lib_protocol_compiler:tezos-embedded-protocol-packer.exe) ",
+        "$(location //src/proto_genesis_carthagenet/lib_protocol:TEZOS_PROTOCOL)",
+        "genesis_carthagenet",
+        "> $@"
+        ]),
+    srcs  = [
+        "//src/proto_genesis_carthagenet/lib_protocol:data.ml",
+        "//src/proto_genesis_carthagenet/lib_protocol:services.ml",
+        "//src/proto_genesis_carthagenet/lib_protocol:main.mli",
+        "//src/proto_genesis_carthagenet/lib_protocol:main.ml",
+        "//src/proto_genesis_carthagenet/lib_protocol:TEZOS_PROTOCOL",
+    ],
+)
+######## with-stdout-to ########
+genrule(
+    name = "__functor.ml",
+    outs  = [
+        "functor.ml"
+    ],
+    tools  = ["//src/lib_protocol_compiler:tezos-protocol-compiler.tezos-protocol-packer.exe"],
+    cmd  = " ".join([
+        "$(execpath //src/lib_protocol_compiler:tezos-protocol-compiler.tezos-protocol-packer.exe) ",
+        "$(location //src/proto_genesis_carthagenet/lib_protocol:TEZOS_PROTOCOL)",
+        "> $@"
+        ]),
+    srcs  = [
+        "//src/proto_genesis_carthagenet/lib_protocol:data.ml",
+        "//src/proto_genesis_carthagenet/lib_protocol:services.ml",
+        "//src/proto_genesis_carthagenet/lib_protocol:main.mli",
+        "//src/proto_genesis_carthagenet/lib_protocol:main.ml",
+        "//src/proto_genesis_carthagenet/lib_protocol:TEZOS_PROTOCOL",
+    ],
+)
+###########
+write_file(
+    name     = "write_protocol.ml",
+    out      = "protocol.ml",
+    content  = """
+module Environment = Tezos_protocol_environment_genesis_carthagenet.Environment
+let hash = Tezos_crypto.Protocol_hash.of_b58check_exn "PtYuensgYBb3G3x1hLLbCmcav8ue8Kyd2khADcL5LsT5R1hcXex"
+let name = Environment.Name.name
+include Tezos_raw_protocol_genesis_carthagenet
+include Tezos_raw_protocol_genesis_carthagenet.Main
+""")
+
+################  rule  ################
+## (
+##   (alias runtest_sandbox)
+##   (deps .tezos_protocol_genesis_carthagenet.objs/native/tezos_protocol_genesis_carthagenet.cmx)
+##   (action (progn))
+## )
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-protocol-genesis-carthagenet)
+##   (deps (alias runtest_sandbox))
+##   (action (progn))
+## )
+######## run cmd ########
+genrule(
+    name = "__dune.inc.gen",
+    outs  = [
+        "dune.inc.gen"
+    ],
+    tools  = ["////src/lib_protocol_compiler:replace.exe"],
+    cmd  = (),
+    srcs  = [
+    ],
+)
+## (
+##   (:out "dune.inc.gen")
+##   (:cmd ((:tool %{libexec:tezos-protocol-compiler:replace}) (:deps ((:_static "src/proto_genesis_carthagenet/lib_protocol" "TEZOS_PROTOCOL") (:_static "src/proto_genesis_carthagenet/lib_protocol" "data.ml") (:_static "src/proto_genesis_carthagenet/lib_protocol" "main.ml") (:_static "src/proto_genesis_carthagenet/lib_protocol" "services.ml") (:_generated "src/proto_genesis_carthagenet/lib_protocol" "protocol.ml") (:_generated "src/proto_genesis_carthagenet/lib_protocol" "functor.ml") (:_generated "src/proto_genesis_carthagenet/lib_protocol" "registerer.ml") (:_generated "src/proto_genesis_carthagenet/lib_protocol" "environment.ml") (:_static "src/proto_genesis_carthagenet/lib_protocol" "main.mli"))) (:args ((:_generated "src/proto_genesis_carthagenet/lib_protocol" "%{libexec:tezos-protocol-compiler:dune_protocol.template}") "dune.inc.gen" (:_generated "src/proto_genesis_carthagenet/lib_protocol" "%{libexec:tezos-protocol-compiler:final_protocol_versions}"))) (:foo #t) (:raw ((run %{libexec:tezos-protocol-compiler:replace} %{libexec:tezos-protocol-compiler:dune_protocol.template} "dune.inc.gen" %{libexec:tezos-protocol-compiler:final_protocol_versions})))))
+##   (:vars ())
+##   (:raw (rule (targets "dune.inc.gen") (deps TEZOS_PROTOCOL (glob_files *.ml) (glob_files *.mli)) (action (run %{libexec:tezos-protocol-compiler:replace} %{libexec:tezos-protocol-compiler:dune_protocol.template} "dune.inc.gen" %{libexec:tezos-protocol-compiler:final_protocol_versions}))))
+## )
+################  rule  ################
+## (
+##   (alias runtest_dune_template)
+##   (action (diff dune.inc dune.inc.gen))
+## )

@@ -1,0 +1,233 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-benchmarks-proto-010-PtGRANAD ########
+TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS = [
+    "-open", "Tezos_010_PtGRANAD_test_helpers",
+    "-open", "Tezos_base",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_benchmark",
+    "-open", "Tezos_benchmark_010_PtGRANAD",
+    "-open", "Tezos_benchmark_type_inference_010_PtGRANAD",
+    "-open", "Tezos_client_010_PtGRANAD",
+    "-open", "Tezos_crypto",
+    "-open", "Tezos_error_monad",
+    "-open", "Tezos_micheline",
+    "-open", "Tezos_protocol_010_PtGRANAD",
+    "-open", "Tezos_stdlib",
+]
+
+TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_benchmark:tezos-benchmark",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/lib_sapling:tezos-sapling",
+    "//src/lib_shell_benchmarks:tezos-shell-benchmarks",
+    "//src/proto_010_PtGRANAD/lib_benchmark:tezos-benchmark-010-PtGRANAD",
+    "//src/proto_010_PtGRANAD/lib_parameters:tezos-protocol-010-PtGRANAD-parameters",
+    "//src/proto_010_PtGRANAD/lib_protocol/test/helpers:tezos-010-PtGRANAD-test-helpers",
+    "//src/proto_010_PtGRANAD/lib_protocol:tezos-protocol-010-PtGRANAD",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-benchmarks-proto-010-PtGRANAD",
+    ns         = "Tezos_benchmarks_proto_010_PtGRANAD",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Encodings_benchmarks",
+        ":Gas_helpers",
+        ":Interpreter_benchmarks",
+        ":Interpreter_model",
+        ":Interpreter_workload",
+        ":Michelson_commands",
+        ":Michelson_generation",
+        ":Michelson_types",
+        ":Registration_helpers",
+        ":Sapling_benchmarks",
+        ":Sapling_commands",
+        ":Sapling_generation",
+        ":Size",
+        ":Tags",
+        ":Translator_benchmarks",
+        ":Translator_model",
+        ":Translator_workload",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Encodings_benchmarks",
+    struct   = "encodings_benchmarks.ml",
+    opts     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS + [
+       ":Translator_workload",
+       ":Translator_benchmarks",
+       ":Tags",
+       ":Size",
+       ":Registration_helpers",
+       ":Michelson_generation",
+    ]
+)
+
+ocaml_module(
+    name     = "Gas_helpers",
+    struct   = "gas_helpers.ml",
+    opts     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Interpreter_benchmarks",
+    struct   = "interpreter_benchmarks.ml",
+    opts     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS + [
+       ":Tags",
+       ":Sapling_generation",
+       ":Registration_helpers",
+       ":Michelson_types",
+       ":Interpreter_workload",
+       ":Interpreter_model",
+       ":Gas_helpers",
+    ]
+)
+
+ocaml_module(
+    name     = "Interpreter_model",
+    struct   = "interpreter_model.ml",
+    opts     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS + [
+       ":Registration_helpers",
+       ":Interpreter_workload",
+    ]
+)
+
+ocaml_module(
+    name     = "Interpreter_workload",
+    struct   = "interpreter_workload.ml",
+    opts     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS + [
+       ":Size",
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_commands",
+    struct   = "michelson_commands.ml",
+    opts     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS + [
+       ":Michelson_generation",
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_generation",
+    struct   = "michelson_generation.ml",
+    opts     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_types",
+    struct   = "michelson_types.ml",
+    opts     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Registration_helpers",
+    struct   = "registration_helpers.ml",
+    opts     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Sapling_benchmarks",
+    struct   = "sapling_benchmarks.ml",
+    opts     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS + [
+       ":Size",
+       ":Sapling_generation",
+       ":Interpreter_workload",
+       ":Interpreter_benchmarks",
+    ]
+)
+
+ocaml_module(
+    name     = "Sapling_commands",
+    struct   = "sapling_commands.ml",
+    opts     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS + [
+       ":Sapling_generation",
+    ]
+)
+
+ocaml_module(
+    name     = "Sapling_generation",
+    struct   = "sapling_generation.ml",
+    opts     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Size",
+    struct   = "size.ml",
+    opts     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Tags",
+    struct   = "tags.ml",
+    opts     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Translator_benchmarks",
+    struct   = "translator_benchmarks.ml",
+    opts     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS + [
+       ":Translator_workload",
+       ":Translator_model",
+       ":Tags",
+       ":Size",
+       ":Registration_helpers",
+       ":Michelson_generation",
+       ":Gas_helpers",
+    ]
+)
+
+ocaml_module(
+    name     = "Translator_model",
+    struct   = "translator_model.ml",
+    opts     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS + [
+       ":Translator_workload",
+    ]
+)
+
+ocaml_module(
+    name     = "Translator_workload",
+    struct   = "translator_workload.ml",
+    opts     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARKS_PROTO_010_PTGRANAD_DEPS + [
+       ":Size",
+       ":Gas_helpers",
+    ]
+)
+

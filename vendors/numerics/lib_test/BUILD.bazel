@@ -1,0 +1,32 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_DEPS = [
+    "//vendors/numerics/lib:numerics",
+    "@ocaml//bigarray",
+]
+
+#################
+ocaml_executable(
+    name    = "test.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test",
+    main    = ":Test",
+    deps = TEST_DEPS + [
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Test",
+    struct   = "test.ml",
+    deps     = TEST_DEPS + [
+    ]
+)
+

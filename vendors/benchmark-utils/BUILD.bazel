@@ -1,0 +1,39 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## benchmark-utils ########
+BENCHMARK_UTILS_OPTS = [
+    "-w",
+    "-9-32",
+    "-safe-string",
+]
+
+BENCHMARK_UTILS_DEPS = [
+]
+
+ocaml_ns_archive(
+    name       = "benchmark-utils",
+    ns         = "Benchmark_utils",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Stubs",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Stubs",
+    struct   = "stubs.ml",
+    opts     = BENCHMARK_UTILS_OPTS,
+    deps     = BENCHMARK_UTILS_DEPS + [
+    ]
+)
+

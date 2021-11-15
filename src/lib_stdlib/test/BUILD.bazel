@@ -1,0 +1,364 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_BITS_OPTS = [
+    "-open", "Tezos_stdlib",
+]
+
+TEST_BITS_DEPS = [
+    "//src/lib_stdlib:tezos-stdlib",
+    "//src/lib_test:tezos-test-helpers",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@alcotest//:alcotest",
+    "@bigstring//:bigstring",
+    "@lwt//unix",
+    "@lwt_log//:lwt_log",
+    "@qcheck-alcotest//:qcheck-alcotest",
+]
+
+#################
+ocaml_executable(
+    name    = "test_bits.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_bits",
+    main    = ":Test_bits",
+    deps = TEST_BITS_DEPS + [
+        ":Assert",
+        ":Test_bounded_heap",
+        ":Test_circular_buffer",
+        ":Test_circular_buffer_fuzzy",
+        ":Test_fallbackArray",
+        ":Test_lwt_pipe",
+        ":Test_tzList",
+        ":Test_tzString",
+    ],
+)
+
+TEST_TZLIST_OPTS = [
+    "-open", "Tezos_stdlib",
+]
+
+TEST_TZLIST_DEPS = [
+    "//src/lib_stdlib:tezos-stdlib",
+    "//src/lib_test:tezos-test-helpers",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@alcotest//:alcotest",
+    "@bigstring//:bigstring",
+    "@lwt//unix",
+    "@lwt_log//:lwt_log",
+    "@qcheck-alcotest//:qcheck-alcotest",
+]
+
+#################
+ocaml_executable(
+    name    = "test_tzList.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_tzList",
+    main    = ":Test_tzList",
+    deps = TEST_TZLIST_DEPS + [
+        ":Assert",
+        ":Test_bits",
+        ":Test_bounded_heap",
+        ":Test_circular_buffer",
+        ":Test_circular_buffer_fuzzy",
+        ":Test_fallbackArray",
+        ":Test_lwt_pipe",
+        ":Test_tzString",
+    ],
+)
+
+TEST_BOUNDED_HEAP_OPTS = [
+    "-open", "Tezos_stdlib",
+]
+
+TEST_BOUNDED_HEAP_DEPS = [
+    "//src/lib_stdlib:tezos-stdlib",
+    "//src/lib_test:tezos-test-helpers",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@alcotest//:alcotest",
+    "@bigstring//:bigstring",
+    "@lwt//unix",
+    "@lwt_log//:lwt_log",
+    "@qcheck-alcotest//:qcheck-alcotest",
+]
+
+#################
+ocaml_executable(
+    name    = "test_bounded_heap.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_bounded_heap",
+    main    = ":Test_bounded_heap",
+    deps = TEST_BOUNDED_HEAP_DEPS + [
+        ":Assert",
+        ":Test_bits",
+        ":Test_circular_buffer",
+        ":Test_circular_buffer_fuzzy",
+        ":Test_fallbackArray",
+        ":Test_lwt_pipe",
+        ":Test_tzList",
+        ":Test_tzString",
+    ],
+)
+
+TEST_TZSTRING_OPTS = [
+    "-open", "Tezos_stdlib",
+]
+
+TEST_TZSTRING_DEPS = [
+    "//src/lib_stdlib:tezos-stdlib",
+    "//src/lib_test:tezos-test-helpers",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@alcotest//:alcotest",
+    "@bigstring//:bigstring",
+    "@lwt//unix",
+    "@lwt_log//:lwt_log",
+    "@qcheck-alcotest//:qcheck-alcotest",
+]
+
+#################
+ocaml_executable(
+    name    = "test_tzString.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_tzString",
+    main    = ":Test_tzString",
+    deps = TEST_TZSTRING_DEPS + [
+        ":Assert",
+        ":Test_bits",
+        ":Test_bounded_heap",
+        ":Test_circular_buffer",
+        ":Test_circular_buffer_fuzzy",
+        ":Test_fallbackArray",
+        ":Test_lwt_pipe",
+        ":Test_tzList",
+    ],
+)
+
+TEST_FALLBACKARRAY_OPTS = [
+    "-open", "Tezos_stdlib",
+]
+
+TEST_FALLBACKARRAY_DEPS = [
+    "//src/lib_stdlib:tezos-stdlib",
+    "//src/lib_test:tezos-test-helpers",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@alcotest//:alcotest",
+    "@bigstring//:bigstring",
+    "@lwt//unix",
+    "@lwt_log//:lwt_log",
+    "@qcheck-alcotest//:qcheck-alcotest",
+]
+
+#################
+ocaml_executable(
+    name    = "test_fallbackArray.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_fallbackArray",
+    main    = ":Test_fallbackArray",
+    deps = TEST_FALLBACKARRAY_DEPS + [
+        ":Assert",
+        ":Test_bits",
+        ":Test_bounded_heap",
+        ":Test_circular_buffer",
+        ":Test_circular_buffer_fuzzy",
+        ":Test_lwt_pipe",
+        ":Test_tzList",
+        ":Test_tzString",
+    ],
+)
+
+TEST_LWT_PIPE_OPTS = [
+    "-open", "Tezos_stdlib",
+]
+
+TEST_LWT_PIPE_DEPS = [
+    "//src/lib_stdlib:tezos-stdlib",
+    "//src/lib_test:tezos-test-helpers",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@alcotest//:alcotest",
+    "@bigstring//:bigstring",
+    "@lwt//unix",
+    "@lwt_log//:lwt_log",
+    "@qcheck-alcotest//:qcheck-alcotest",
+]
+
+#################
+ocaml_executable(
+    name    = "test_lwt_pipe.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_lwt_pipe",
+    main    = ":Test_lwt_pipe",
+    deps = TEST_LWT_PIPE_DEPS + [
+        ":Assert",
+        ":Test_bits",
+        ":Test_bounded_heap",
+        ":Test_circular_buffer",
+        ":Test_circular_buffer_fuzzy",
+        ":Test_fallbackArray",
+        ":Test_tzList",
+        ":Test_tzString",
+    ],
+)
+
+TEST_CIRCULAR_BUFFER_OPTS = [
+    "-open", "Tezos_stdlib",
+]
+
+TEST_CIRCULAR_BUFFER_DEPS = [
+    "//src/lib_stdlib:tezos-stdlib",
+    "//src/lib_test:tezos-test-helpers",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@alcotest//:alcotest",
+    "@bigstring//:bigstring",
+    "@lwt//unix",
+    "@lwt_log//:lwt_log",
+    "@qcheck-alcotest//:qcheck-alcotest",
+]
+
+#################
+ocaml_executable(
+    name    = "test_circular_buffer.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_circular_buffer",
+    main    = ":Test_circular_buffer",
+    deps = TEST_CIRCULAR_BUFFER_DEPS + [
+        ":Assert",
+        ":Test_bits",
+        ":Test_bounded_heap",
+        ":Test_circular_buffer_fuzzy",
+        ":Test_fallbackArray",
+        ":Test_lwt_pipe",
+        ":Test_tzList",
+        ":Test_tzString",
+    ],
+)
+
+TEST_CIRCULAR_BUFFER_FUZZY_OPTS = [
+    "-open", "Tezos_stdlib",
+]
+
+TEST_CIRCULAR_BUFFER_FUZZY_DEPS = [
+    "//src/lib_stdlib:tezos-stdlib",
+    "//src/lib_test:tezos-test-helpers",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@alcotest//:alcotest",
+    "@bigstring//:bigstring",
+    "@lwt//unix",
+    "@lwt_log//:lwt_log",
+    "@qcheck-alcotest//:qcheck-alcotest",
+]
+
+#################
+ocaml_executable(
+    name    = "test_circular_buffer_fuzzy.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_circular_buffer_fuzzy",
+    main    = ":Test_circular_buffer_fuzzy",
+    deps = TEST_CIRCULAR_BUFFER_FUZZY_DEPS + [
+        ":Assert",
+        ":Test_bits",
+        ":Test_bounded_heap",
+        ":Test_circular_buffer",
+        ":Test_fallbackArray",
+        ":Test_lwt_pipe",
+        ":Test_tzList",
+        ":Test_tzString",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Assert",
+    struct   = "assert.ml",
+    opts     = TEST_BITS_OPTS,
+    deps     = TEST_BITS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_bits",
+    struct   = "test_bits.ml",
+    opts     = TEST_BITS_OPTS,
+    deps     = TEST_BITS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_bounded_heap",
+    struct   = "test_bounded_heap.ml",
+    opts     = TEST_BITS_OPTS,
+    deps     = TEST_BITS_DEPS + [
+       ":Assert",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_circular_buffer",
+    struct   = "test_circular_buffer.ml",
+    opts     = TEST_BITS_OPTS,
+    deps     = TEST_BITS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_circular_buffer_fuzzy",
+    struct   = "test_circular_buffer_fuzzy.ml",
+    opts     = TEST_BITS_OPTS,
+    deps     = TEST_BITS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_fallbackArray",
+    struct   = "test_fallbackArray.ml",
+    opts     = TEST_BITS_OPTS,
+    deps     = TEST_BITS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_lwt_pipe",
+    struct   = "test_lwt_pipe.ml",
+    opts     = TEST_BITS_OPTS,
+    deps     = TEST_BITS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_tzList",
+    struct   = "test_tzList.ml",
+    opts     = TEST_BITS_OPTS,
+    deps     = TEST_BITS_DEPS + [
+       ":Assert",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_tzString",
+    struct   = "test_tzString.ml",
+    opts     = TEST_BITS_OPTS,
+    deps     = TEST_BITS_DEPS + [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias buildtest)
+##   (deps test_tzList.exe test_bounded_heap.exe test_tzString.exe test_lwt_pipe.exe)
+##   (action (progn))
+## )
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-stdlib)
+##   (deps (alias runtest_bits) (alias runtest_tzList) (alias runtest_bounded_heap) (alias runtest_tzString) (alias runtest_lwt_pipe) (alias runtest_circular_buffer) (alias runtest_circular_buffer_fuzzy))
+##   (action (progn))
+## )

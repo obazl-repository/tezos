@@ -1,0 +1,444 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-baking-008-PtEdo2Zk ########
+TEZOS_BAKING_008_PTEDO2ZK_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_008_PtEdo2Zk",
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_client_commands",
+    "-open", "Tezos_context",
+    "-open", "Tezos_protocol_008_PtEdo2Zk",
+    "-open", "Tezos_rpc",
+    "-open", "Tezos_rpc_http",
+    "-open", "Tezos_shell_context",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_BAKING_008_PTEDO2ZK_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_client_commands:tezos-client-commands",
+    "//src/lib_context:tezos-context",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_protocol_environment:tezos-shell-context",
+    "//src/lib_rpc:tezos-rpc",
+    "//src/lib_rpc_http:tezos-rpc-http",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_version:tezos-version",
+    "//src/proto_008_PtEdo2Zk/lib_client:tezos-client-008-PtEdo2Zk",
+    "//src/proto_008_PtEdo2Zk/lib_protocol:tezos-protocol-008-PtEdo2Zk",
+    "@lwt-canceler//:lwt-canceler",
+    "@lwt-exit//:lwt-exit",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-baking-008-PtEdo2Zk",
+    ns         = "Tezos_baking_008_PtEdo2Zk",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Client_baking_blocks",
+        ":Client_baking_denunciation",
+        ":Client_baking_endorsement",
+        ":Client_baking_files",
+        ":Client_baking_forge",
+        ":Client_baking_highwatermarks",
+        ":Client_baking_lib",
+        ":Client_baking_nonces",
+        ":Client_baking_pow",
+        ":Client_baking_revelation",
+        ":Client_baking_scheduling",
+        ":Client_baking_simulator",
+        ":Client_daemon",
+        ":Delegate_commands_registration",
+        ":Logging",
+    ],
+)
+
+######## tezos-baking-008-PtEdo2Zk-commands ########
+TEZOS_BAKING_008_PTEDO2ZK_COMMANDS_OPTS = [
+    "-open", "Tezos_baking_008_PtEdo2Zk",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_008_PtEdo2Zk",
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_client_commands",
+    "-open", "Tezos_protocol_008_PtEdo2Zk",
+    "-open", "Tezos_rpc",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_BAKING_008_PTEDO2ZK_COMMANDS_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_client_commands:tezos-client-commands",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/proto_008_PtEdo2Zk/lib_client:tezos-client-008-PtEdo2Zk",
+    "//src/proto_008_PtEdo2Zk/lib_delegate:tezos-baking-008-PtEdo2Zk",
+    "//src/proto_008_PtEdo2Zk/lib_protocol:tezos-protocol-008-PtEdo2Zk",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-baking-008-PtEdo2Zk-commands",
+    ns         = "Tezos_baking_008_PtEdo2Zk_commands",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Delegate_commands",
+    ],
+)
+
+######## tezos-baking-008-PtEdo2Zk-commands.registration ########
+TEZOS_BAKING_008_PTEDO2ZK_COMMANDS_REGISTRATION_OPTS = [
+    "-open", "Tezos_baking_008_PtEdo2Zk",
+    "-open", "Tezos_baking_008_PtEdo2Zk_commands",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_008_PtEdo2Zk",
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_client_commands",
+    "-open", "Tezos_protocol_008_PtEdo2Zk",
+    "-open", "Tezos_rpc",
+    "-open", "Tezos_shell_services",
+]
+
+TEZOS_BAKING_008_PTEDO2ZK_COMMANDS_REGISTRATION_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_client_commands:tezos-client-commands",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_rpc:tezos-rpc",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/proto_008_PtEdo2Zk/lib_client:tezos-client-008-PtEdo2Zk",
+    "//src/proto_008_PtEdo2Zk/lib_delegate:tezos-baking-008-PtEdo2Zk",
+    "//src/proto_008_PtEdo2Zk/lib_delegate:tezos-baking-008-PtEdo2Zk-commands",
+    "//src/proto_008_PtEdo2Zk/lib_protocol:tezos-protocol-008-PtEdo2Zk",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-baking-008-PtEdo2Zk-commands.registration",
+    ns         = "Tezos_baking_008_PtEdo2Zk_commands_registration",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Delegate_commands_registration",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Client_baking_blocks",
+    struct   = "client_baking_blocks.ml",
+    sig      = ":Client_baking_blocks_cmi",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_baking_blocks_cmi",
+    src      = "client_baking_blocks.mli",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Client_baking_denunciation",
+    struct   = "client_baking_denunciation.ml",
+    sig      = ":Client_baking_denunciation_cmi",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+       ":Logging",
+       ":Client_baking_scheduling",
+       ":Client_baking_blocks",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_baking_denunciation_cmi",
+    src      = "client_baking_denunciation.mli",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+       ":Client_baking_blocks",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_baking_endorsement",
+    struct   = "client_baking_endorsement.ml",
+    sig      = ":Client_baking_endorsement_cmi",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+       ":Logging",
+       ":Client_baking_scheduling",
+       ":Client_baking_highwatermarks",
+       ":Client_baking_files",
+       ":Client_baking_blocks",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_baking_endorsement_cmi",
+    src      = "client_baking_endorsement.mli",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+       ":Client_baking_blocks",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_baking_files",
+    struct   = "client_baking_files.ml",
+    sig      = ":Client_baking_files_cmi",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_baking_files_cmi",
+    src      = "client_baking_files.mli",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Client_baking_forge",
+    struct   = "client_baking_forge.ml",
+    sig      = ":Client_baking_forge_cmi",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+       ":Logging",
+       ":Client_baking_simulator",
+       ":Client_baking_scheduling",
+       ":Client_baking_revelation",
+       ":Client_baking_pow",
+       ":Client_baking_nonces",
+       ":Client_baking_highwatermarks",
+       ":Client_baking_files",
+       ":Client_baking_blocks",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_baking_forge_cmi",
+    src      = "client_baking_forge.mli",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+       ":Client_baking_blocks",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_baking_highwatermarks",
+    struct   = "client_baking_highwatermarks.ml",
+    sig      = ":Client_baking_highwatermarks_cmi",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+       ":Client_baking_files",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_baking_highwatermarks_cmi",
+    src      = "client_baking_highwatermarks.mli",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+       ":Client_baking_files",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_baking_lib",
+    struct   = "client_baking_lib.ml",
+    sig      = ":Client_baking_lib_cmi",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+       ":Client_baking_revelation",
+       ":Client_baking_nonces",
+       ":Client_baking_forge",
+       ":Client_baking_files",
+       ":Client_baking_endorsement",
+       ":Client_baking_blocks",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_baking_lib_cmi",
+    src      = "client_baking_lib.mli",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Client_baking_nonces",
+    struct   = "client_baking_nonces.ml",
+    sig      = ":Client_baking_nonces_cmi",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+       ":Logging",
+       ":Client_baking_files",
+       ":Client_baking_blocks",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_baking_nonces_cmi",
+    src      = "client_baking_nonces.mli",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+       ":Client_baking_files",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_baking_pow",
+    struct   = "client_baking_pow.ml",
+    sig      = ":Client_baking_pow_cmi",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_baking_pow_cmi",
+    src      = "client_baking_pow.mli",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Client_baking_revelation",
+    struct   = "client_baking_revelation.ml",
+    sig      = ":Client_baking_revelation_cmi",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+       ":Logging",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_baking_revelation_cmi",
+    src      = "client_baking_revelation.mli",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Client_baking_scheduling",
+    struct   = "client_baking_scheduling.ml",
+    sig      = ":Client_baking_scheduling_cmi",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+       ":Logging",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_baking_scheduling_cmi",
+    src      = "client_baking_scheduling.mli",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Client_baking_simulator",
+    struct   = "client_baking_simulator.ml",
+    sig      = ":Client_baking_simulator_cmi",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+       ":Client_baking_blocks",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_baking_simulator_cmi",
+    src      = "client_baking_simulator.mli",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+       ":Client_baking_blocks",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_daemon",
+    struct   = "client_daemon.ml",
+    sig      = ":Client_daemon_cmi",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+       ":Client_baking_scheduling",
+       ":Client_baking_nonces",
+       ":Client_baking_forge",
+       ":Client_baking_files",
+       ":Client_baking_endorsement",
+       ":Client_baking_denunciation",
+       ":Client_baking_blocks",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_daemon_cmi",
+    src      = "client_daemon.mli",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Delegate_commands",
+    struct   = "delegate_commands.ml",
+    sig      = ":Delegate_commands_cmi",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_COMMANDS_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_COMMANDS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Delegate_commands_cmi",
+    src      = "delegate_commands.mli",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_COMMANDS_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_COMMANDS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Delegate_commands_registration",
+    struct   = "delegate_commands_registration.ml",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+       ":Delegate_commands",
+    ]
+)
+
+ocaml_module(
+    name     = "Logging",
+    struct   = "logging.ml",
+    sig      = ":Logging_cmi",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Logging_cmi",
+    src      = "logging.mli",
+    opts     = TEZOS_BAKING_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_BAKING_008_PTEDO2ZK_DEPS + [
+    ]
+)
+

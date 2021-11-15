@@ -1,0 +1,69 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_legacy_store",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEST_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_store/legacy_store:tezos-legacy-store",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+#################
+ocaml_executable(
+    name    = "test.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test",
+    main    = ":Test",
+    deps = TEST_DEPS + [
+        ":Assert",
+        ":Test_raw_store",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Assert",
+    struct   = "assert.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test",
+    struct   = "test.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_raw_store",
+    struct   = "test_raw_store.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+       ":Assert",
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-legacy-store)
+##   (action (chdir %{workspace_root} (run %{exe:test.exe})))
+## )

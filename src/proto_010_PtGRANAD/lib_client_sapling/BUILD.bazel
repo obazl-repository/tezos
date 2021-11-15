@@ -1,0 +1,98 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-client-sapling-010-PtGRANAD ########
+TEZOS_CLIENT_SAPLING_010_PTGRANAD_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_010_PtGRANAD",
+    "-open", "Tezos_client_010_PtGRANAD_commands",
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_protocol_010_PtGRANAD",
+    "-open", "Tezos_protocol_environment_010_PtGRANAD",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_CLIENT_SAPLING_010_PTGRANAD_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_crypto:tezos-crypto",
+    "//src/lib_signer_backends:tezos-signer-backends",
+    "//src/proto_010_PtGRANAD/lib_client:tezos-client-010-PtGRANAD",
+    "//src/proto_010_PtGRANAD/lib_client_commands:tezos-client-010-PtGRANAD-commands",
+    "//src/proto_010_PtGRANAD/lib_protocol:tezos-protocol-010-PtGRANAD",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-client-sapling-010-PtGRANAD",
+    ns         = "Tezos_client_sapling_010_PtGRANAD",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Client_sapling_commands",
+        ":Context",
+        ":Wallet",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Client_sapling_commands",
+    struct   = "client_sapling_commands.ml",
+    sig      = ":Client_sapling_commands_cmi",
+    opts     = TEZOS_CLIENT_SAPLING_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_SAPLING_010_PTGRANAD_DEPS + [
+       ":Wallet",
+       ":Context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_sapling_commands_cmi",
+    src      = "client_sapling_commands.mli",
+    opts     = TEZOS_CLIENT_SAPLING_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_SAPLING_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Context",
+    struct   = "context.ml",
+    sig      = ":Context_cmi",
+    opts     = TEZOS_CLIENT_SAPLING_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_SAPLING_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Context_cmi",
+    src      = "context.mli",
+    opts     = TEZOS_CLIENT_SAPLING_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_SAPLING_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Wallet",
+    struct   = "wallet.ml",
+    sig      = ":Wallet_cmi",
+    opts     = TEZOS_CLIENT_SAPLING_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_SAPLING_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Wallet_cmi",
+    src      = "wallet.mli",
+    opts     = TEZOS_CLIENT_SAPLING_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_SAPLING_010_PTGRANAD_DEPS + [
+    ]
+)
+

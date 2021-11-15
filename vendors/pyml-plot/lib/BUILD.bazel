@@ -1,0 +1,91 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## pyml-plot ########
+PYML_PLOT_DEPS = [
+    "@ocaml//bigarray",
+    "@pyml//:pyml",
+]
+
+ocaml_ns_archive(
+    name       = "pyml-plot",
+    ns         = "Pyplot",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Matrix",
+        ":Plot",
+        ":Pymodules",
+        ":Pyplot",
+        ":Pytools",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Matrix",
+    struct   = "matrix.ml",
+    sig      = ":Matrix_cmi",
+    deps     = PYML_PLOT_DEPS + [
+       ":Pymodules",
+    ]
+)
+
+ocaml_signature(
+    name     = "Matrix_cmi",
+    src      = "matrix.mli",
+    deps     = PYML_PLOT_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Plot",
+    struct   = "plot.ml",
+    sig      = ":Plot_cmi",
+    deps     = PYML_PLOT_DEPS + [
+       ":Pytools",
+       ":Pymodules",
+       ":Matrix",
+    ]
+)
+
+ocaml_signature(
+    name     = "Plot_cmi",
+    src      = "plot.mli",
+    deps     = PYML_PLOT_DEPS + [
+       ":Matrix",
+    ]
+)
+
+ocaml_module(
+    name     = "Pymodules",
+    struct   = "pymodules.ml",
+    deps     = PYML_PLOT_DEPS + [
+       ":Pytools",
+    ]
+)
+
+ocaml_module(
+    name     = "Pyplot",
+    struct   = "pyplot.ml",
+    deps     = PYML_PLOT_DEPS + [
+       ":Plot",
+       ":Matrix",
+    ]
+)
+
+ocaml_module(
+    name     = "Pytools",
+    struct   = "pytools.ml",
+    deps     = PYML_PLOT_DEPS + [
+    ]
+)
+

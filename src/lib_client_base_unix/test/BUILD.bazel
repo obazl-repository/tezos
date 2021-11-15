@@ -1,0 +1,50 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_MOCKUP_WALLET_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+]
+
+TEST_MOCKUP_WALLET_DEPS = [
+    "//src/lib_client_base_unix:tezos-client-base-unix",
+    "//src/lib_mockup:tezos-mockup-commands",
+    "//src/lib_test_services:tezos-test-services",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@alcotest//:alcotest",
+]
+
+#################
+ocaml_executable(
+    name    = "test_mockup_wallet.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_mockup_wallet",
+    main    = ":Test_mockup_wallet",
+    deps = TEST_MOCKUP_WALLET_DEPS + [
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Test_mockup_wallet",
+    struct   = "test_mockup_wallet.ml",
+    opts     = TEST_MOCKUP_WALLET_OPTS,
+    deps     = TEST_MOCKUP_WALLET_DEPS + [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-client-base-unix)
+##   (deps (alias runtest_mockup_wallet))
+##   (action (progn))
+## )

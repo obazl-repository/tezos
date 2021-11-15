@@ -1,0 +1,57 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_REWRITING_OPTS = [
+    "-open", "Tezos_micheline",
+]
+
+TEST_REWRITING_DEPS = [
+    "//src/lib_benchmark/lib_micheline_rewriting:tezos-micheline-rewriting",
+    "//src/lib_error_monad:tezos-error-monad",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/proto_alpha/lib_client:tezos-client-alpha",
+    "//src/proto_alpha/lib_protocol:tezos-protocol-alpha",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+#################
+ocaml_executable(
+    name    = "test_rewriting.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_rewriting",
+    main    = ":Test_rewriting",
+    deps = TEST_REWRITING_DEPS + [
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Test_rewriting",
+    struct   = "test_rewriting.ml",
+    opts     = TEST_REWRITING_OPTS,
+    deps     = TEST_REWRITING_DEPS + [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias buildtest)
+##   (deps test_rewriting.exe)
+##   (action (progn))
+## )
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-micheline-rewriting)
+##   (deps (alias runtest_test_rewriting))
+##   (action (progn))
+## )

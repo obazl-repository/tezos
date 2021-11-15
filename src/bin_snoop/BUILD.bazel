@@ -1,0 +1,113 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+    "ocaml_signature",
+)
+
+##############################
+####  Executable Targets  ####
+TEZOS_SNOOP_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_benchmark",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_SNOOP_DEPS = [
+    "//src/bin_snoop/latex/lib:latex",
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_benchmark/example:tezos-benchmark-examples",
+    "//src/lib_benchmark:tezos-benchmark",
+    "//src/lib_clic:tezos-clic",
+    "//src/lib_shell_benchmarks:tezos-shell-benchmarks",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/proto_alpha/lib_benchmarks_proto:tezos-benchmarks-proto-alpha",
+    "//vendors/pyml-plot/lib:pyml-plot",
+    "@ocaml//str",
+    "@ocamlgraph//:ocamlgraph",
+    "@pyml//:pyml",
+]
+
+#################
+ocaml_executable(
+    name    = "tezos-snoop.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main_snoop",
+    main    = ":Main_snoop",
+    deps = TEZOS_SNOOP_DEPS + [
+        ":Cmdline",
+        ":Commands",
+        ":Dep_graph",
+        ":Display",
+        ":Report",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Cmdline",
+    struct   = "cmdline.ml",
+    opts     = TEZOS_SNOOP_OPTS,
+    deps     = TEZOS_SNOOP_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Commands",
+    struct   = "commands.ml",
+    opts     = TEZOS_SNOOP_OPTS,
+    deps     = TEZOS_SNOOP_DEPS + [
+       ":Cmdline",
+    ]
+)
+
+ocaml_module(
+    name     = "Dep_graph",
+    struct   = "dep_graph.ml",
+    opts     = TEZOS_SNOOP_OPTS,
+    deps     = TEZOS_SNOOP_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Display",
+    struct   = "display.ml",
+    sig      = ":Display_cmi",
+    opts     = TEZOS_SNOOP_OPTS,
+    deps     = TEZOS_SNOOP_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Display_cmi",
+    src      = "display.mli",
+    opts     = TEZOS_SNOOP_OPTS,
+    deps     = TEZOS_SNOOP_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Main_snoop",
+    struct   = "main_snoop.ml",
+    opts     = TEZOS_SNOOP_OPTS,
+    deps     = TEZOS_SNOOP_DEPS + [
+       ":Report",
+       ":Display",
+       ":Dep_graph",
+       ":Commands",
+       ":Cmdline",
+    ]
+)
+
+ocaml_module(
+    name     = "Report",
+    struct   = "report.ml",
+    opts     = TEZOS_SNOOP_OPTS,
+    deps     = TEZOS_SNOOP_DEPS + [
+       ":Display",
+    ]
+)
+

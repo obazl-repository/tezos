@@ -1,0 +1,260 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-client-004-Pt24m4xi ########
+TEZOS_CLIENT_004_PT24M4XI_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_protocol_004_Pt24m4xi",
+    "-open", "Tezos_rpc",
+    "-open", "Tezos_shell_services",
+]
+
+TEZOS_CLIENT_004_PT24M4XI_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_rpc:tezos-rpc",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_signer_backends:tezos-signer-backends",
+    "//src/proto_004_Pt24m4xi/lib_protocol:tezos-protocol-004-Pt24m4xi",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-client-004-Pt24m4xi",
+    ns         = "Tezos_client_004_Pt24m4xi",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Alpha_client_context",
+        ":Client_proto_args",
+        ":Client_proto_context",
+        ":Client_proto_contracts",
+        ":Client_proto_programs",
+        ":Michelson_v1_emacs",
+        ":Michelson_v1_error_reporter",
+        ":Michelson_v1_macros",
+        ":Michelson_v1_parser",
+        ":Michelson_v1_printer",
+        ":Operation_result",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Alpha_client_context",
+    struct   = "alpha_client_context.ml",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Client_proto_args",
+    struct   = "client_proto_args.ml",
+    sig      = ":Client_proto_args_cmi",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+       ":Alpha_client_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_proto_args_cmi",
+    src      = "client_proto_args.mli",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+       ":Alpha_client_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_proto_context",
+    struct   = "client_proto_context.ml",
+    sig      = ":Client_proto_context_cmi",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+       ":Operation_result",
+       ":Client_proto_contracts",
+       ":Alpha_client_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_proto_context_cmi",
+    src      = "client_proto_context.mli",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+       ":Alpha_client_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_proto_contracts",
+    struct   = "client_proto_contracts.ml",
+    sig      = ":Client_proto_contracts_cmi",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_proto_contracts_cmi",
+    src      = "client_proto_contracts.mli",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+       ":Alpha_client_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_proto_programs",
+    struct   = "client_proto_programs.ml",
+    sig      = ":Client_proto_programs_cmi",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+       ":Operation_result",
+       ":Michelson_v1_printer",
+       ":Michelson_v1_parser",
+       ":Michelson_v1_error_reporter",
+       ":Michelson_v1_emacs",
+       ":Alpha_client_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_proto_programs_cmi",
+    src      = "client_proto_programs.mli",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+       ":Michelson_v1_parser",
+       ":Alpha_client_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_v1_emacs",
+    struct   = "michelson_v1_emacs.ml",
+    sig      = ":Michelson_v1_emacs_cmi",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+       ":Michelson_v1_parser",
+       ":Michelson_v1_macros",
+       ":Michelson_v1_error_reporter",
+    ]
+)
+
+ocaml_signature(
+    name     = "Michelson_v1_emacs_cmi",
+    src      = "michelson_v1_emacs.mli",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+       ":Michelson_v1_parser",
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_v1_error_reporter",
+    struct   = "michelson_v1_error_reporter.ml",
+    sig      = ":Michelson_v1_error_reporter_cmi",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+       ":Operation_result",
+       ":Michelson_v1_printer",
+       ":Michelson_v1_parser",
+       ":Michelson_v1_macros",
+    ]
+)
+
+ocaml_signature(
+    name     = "Michelson_v1_error_reporter_cmi",
+    src      = "michelson_v1_error_reporter.mli",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+       ":Michelson_v1_parser",
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_v1_macros",
+    struct   = "michelson_v1_macros.ml",
+    sig      = ":Michelson_v1_macros_cmi",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+       ":Alpha_client_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Michelson_v1_macros_cmi",
+    src      = "michelson_v1_macros.mli",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_v1_parser",
+    struct   = "michelson_v1_parser.ml",
+    sig      = ":Michelson_v1_parser_cmi",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+       ":Michelson_v1_macros",
+    ]
+)
+
+ocaml_signature(
+    name     = "Michelson_v1_parser_cmi",
+    src      = "michelson_v1_parser.mli",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_v1_printer",
+    struct   = "michelson_v1_printer.ml",
+    sig      = ":Michelson_v1_printer_cmi",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+       ":Michelson_v1_parser",
+       ":Michelson_v1_macros",
+    ]
+)
+
+ocaml_signature(
+    name     = "Michelson_v1_printer_cmi",
+    src      = "michelson_v1_printer.mli",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+       ":Michelson_v1_parser",
+    ]
+)
+
+ocaml_module(
+    name     = "Operation_result",
+    struct   = "operation_result.ml",
+    sig      = ":Operation_result_cmi",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+       ":Michelson_v1_printer",
+       ":Michelson_v1_parser",
+       ":Client_proto_args",
+    ]
+)
+
+ocaml_signature(
+    name     = "Operation_result_cmi",
+    src      = "operation_result.mli",
+    opts     = TEZOS_CLIENT_004_PT24M4XI_OPTS,
+    deps     = TEZOS_CLIENT_004_PT24M4XI_DEPS + [
+    ]
+)
+

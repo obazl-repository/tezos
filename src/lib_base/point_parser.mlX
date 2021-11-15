@@ -1,0 +1,1049 @@
+# 34 "src/lib_base/point_parser.mll"
+ 
+
+  type addr_port_id = {
+    addr : string;
+    port : int option;
+    peer_id : P2p_peer_id.t option;
+  }
+
+  type parsing_error =
+    | Port_not_in_range of int
+    | Bad_id_format of string
+    | Bad_format
+
+  let string_of_parsing_error = function
+    | Port_not_in_range p ->
+      Format.asprintf "port '%d' not in range [0-65535]" p
+    | Bad_id_format s ->
+      Format.asprintf "peer id '%s' is not valid (b58 format expected)" s
+    | Bad_format ->
+      Format.asprintf "expected <addr>[:<port>][#<peer_id>]"
+
+  let parse_port p k =
+      match p with
+      | None -> k None
+      | Some p ->
+            let p = int_of_string p in
+      	    if 0 <= p && p <= 65535 then
+	          k (Some p)
+	   else
+                  Error (Port_not_in_range p)
+
+
+  let parse_peer_id peer_id k =
+      match peer_id with
+      | None -> k None
+      | Some peer_id ->
+            match P2p_peer_id.of_b58check_opt peer_id with
+      	    | None -> Error (Bad_id_format peer_id)
+	    | Some id -> k (Some id)
+
+  (* Remove square brackets for ipv6 addresses *)
+  let parse_addr addr k =
+      let len = String.length addr in
+      if len > 0 && String.get addr 0 = '[' && String.get addr (len - 1) = ']' then
+           k (String.sub addr 1 (len - 2))
+      else
+           k addr
+
+  let make_full_addr addr port peer_id =
+    parse_port port (fun port ->
+    parse_peer_id peer_id (fun peer_id ->
+    parse_addr addr (fun addr ->
+    Ok {addr;port;peer_id})))
+
+
+# 58 "bazel-out/darwin-fastbuild/bin/src/lib_base/point_parser.ml"
+
+let rec __ocaml_lex_refill_buf lexbuf _buf _len _curr _last =
+  if lexbuf.Lexing.lex_eof_reached then
+    256, _buf, _len, _curr, _last
+  else begin
+    lexbuf.Lexing.lex_curr_pos <- _curr;
+    lexbuf.Lexing.lex_last_pos <- _last;
+    lexbuf.Lexing.refill_buff lexbuf;
+    let _curr = lexbuf.Lexing.lex_curr_pos in
+    let _last = lexbuf.Lexing.lex_last_pos in
+    let _len = lexbuf.Lexing.lex_buffer_len in
+    let _buf = lexbuf.Lexing.lex_buffer in
+    if _curr < _len then
+      Char.code (Bytes.unsafe_get _buf _curr), _buf, _len, (_curr + 1), _last
+    else
+      __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+  end
+
+let rec __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last =
+  let next_char, _buf, _len, _curr, _last =
+    if _curr >= _len then
+      __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+    else
+      Char.code (Bytes.unsafe_get _buf _curr),
+      _buf, _len, (_curr + 1), _last
+  in
+  begin match next_char with
+    (* |eof *)
+    | 256 ->
+      (* *)
+      lexbuf.Lexing.lex_curr_pos <- _curr;
+      lexbuf.Lexing.lex_last_pos <- _last;
+      1
+    | _ ->
+      __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+  end
+
+and __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last =
+  let next_char, _buf, _len, _curr, _last =
+    if _curr >= _len then
+      __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+    else
+      Char.code (Bytes.unsafe_get _buf _curr),
+      _buf, _len, (_curr + 1), _last
+  in
+  begin match next_char with
+    (* |'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+    |48|49|50|51|52|53|54|55|56|57|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+      (* L=1 [9] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(9) <- _curr;
+      __ocaml_lex_state29 lexbuf _last_action _buf _len _curr _last
+    (* |eof *)
+    | 256 ->
+      (* *)
+      lexbuf.Lexing.lex_curr_pos <- _curr;
+      lexbuf.Lexing.lex_last_pos <- _last;
+      1
+    | _ ->
+      __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+  end
+
+and __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last =
+  let next_char, _buf, _len, _curr, _last =
+    if _curr >= _len then
+      __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+    else
+      Char.code (Bytes.unsafe_get _buf _curr),
+      _buf, _len, (_curr + 1), _last
+  in
+  begin match next_char with
+    (* |'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9' *)
+    |48|49|50|51|52|53|54|55|56|57 ->
+      (* L=1 [8] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(8) <- _curr;
+      __ocaml_lex_state24 lexbuf _last_action _buf _len _curr _last
+    (* |eof *)
+    | 256 ->
+      (* *)
+      lexbuf.Lexing.lex_curr_pos <- _curr;
+      lexbuf.Lexing.lex_last_pos <- _last;
+      1
+    | _ ->
+      __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+  end
+
+and __ocaml_lex_state5 lexbuf _last_action _buf _len _curr _last =
+  let next_char, _buf, _len, _curr, _last =
+    if _curr >= _len then
+      __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+    else
+      Char.code (Bytes.unsafe_get _buf _curr),
+      _buf, _len, (_curr + 1), _last
+  in
+  begin match next_char with
+    (* |eof *)
+    | 256 ->
+      (* t4 <- -1 ; t2 <- -1 ; t0 <- [5] ; *)
+      lexbuf.Lexing.lex_mem.(4) <- -1 ;
+      lexbuf.Lexing.lex_mem.(2) <- -1 ;
+      lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+      lexbuf.Lexing.lex_curr_pos <- _curr;
+      lexbuf.Lexing.lex_last_pos <- _last;
+      0
+    (* |':' *)
+    | 58 ->
+      (* L=1 [7] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(7) <- _curr;
+      __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last
+    (* |'#' *)
+    | 35 ->
+      (* L=1 [6] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(6) <- _curr;
+      __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last
+    | _ ->
+      __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+  end
+
+and __ocaml_lex_state6 lexbuf _last_action _buf _len _curr _last =
+  let next_char, _buf, _len, _curr, _last =
+    if _curr >= _len then
+      __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+    else
+      Char.code (Bytes.unsafe_get _buf _curr),
+      _buf, _len, (_curr + 1), _last
+  in
+  begin match next_char with
+    (* |eof *)
+    | 256 ->
+      (* t4 <- -1 ; t2 <- -1 ; t0 <- [5] ; *)
+      lexbuf.Lexing.lex_mem.(4) <- -1 ;
+      lexbuf.Lexing.lex_mem.(2) <- -1 ;
+      lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+      lexbuf.Lexing.lex_curr_pos <- _curr;
+      lexbuf.Lexing.lex_last_pos <- _last;
+      0
+    (* |':' *)
+    | 58 ->
+      (* L=1 [7] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(7) <- _curr;
+      __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last
+    (* |'-'|'.'|'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+    |45|46|48|49|50|51|52|53|54|55|56|57|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+      (* L=1 [5] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(5) <- _curr;
+      __ocaml_lex_state6 lexbuf _last_action _buf _len _curr _last
+    (* |'#' *)
+    | 35 ->
+      (* L=1 [6] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(6) <- _curr;
+      __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last
+    | _ ->
+      __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+  end
+
+and __ocaml_lex_state9 lexbuf _last_action _buf _len _curr _last =
+  let next_char, _buf, _len, _curr, _last =
+    if _curr >= _len then
+      __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+    else
+      Char.code (Bytes.unsafe_get _buf _curr),
+      _buf, _len, (_curr + 1), _last
+  in
+  begin match next_char with
+    (* |eof *)
+    | 256 ->
+      (* t4 <- -1 ; t2 <- -1 ; t0 <- [5] ; *)
+      lexbuf.Lexing.lex_mem.(4) <- -1 ;
+      lexbuf.Lexing.lex_mem.(2) <- -1 ;
+      lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+      lexbuf.Lexing.lex_curr_pos <- _curr;
+      lexbuf.Lexing.lex_last_pos <- _last;
+      0
+    (* |'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9' *)
+    |48|49|50|51|52|53|54|55|56|57 ->
+      (* L=1 [5] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(5) <- _curr;
+      let next_char, _buf, _len, _curr, _last =
+        if _curr >= _len then
+          __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+        else
+          Char.code (Bytes.unsafe_get _buf _curr),
+          _buf, _len, (_curr + 1), _last
+      in
+      begin match next_char with
+        (* |eof *)
+        | 256 ->
+          (* t4 <- -1 ; t2 <- -1 ; t0 <- [5] ; *)
+          lexbuf.Lexing.lex_mem.(4) <- -1 ;
+          lexbuf.Lexing.lex_mem.(2) <- -1 ;
+          lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+          lexbuf.Lexing.lex_curr_pos <- _curr;
+          lexbuf.Lexing.lex_last_pos <- _last;
+          0
+        (* |'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9' *)
+        |48|49|50|51|52|53|54|55|56|57 ->
+          (* L=1 [5] <- p ;  *)
+          lexbuf.Lexing.lex_mem.(5) <- _curr;
+          let next_char, _buf, _len, _curr, _last =
+            if _curr >= _len then
+              __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+            else
+              Char.code (Bytes.unsafe_get _buf _curr),
+              _buf, _len, (_curr + 1), _last
+          in
+          begin match next_char with
+            (* |eof *)
+            | 256 ->
+              (* t4 <- -1 ; t2 <- -1 ; t0 <- [5] ; *)
+              lexbuf.Lexing.lex_mem.(4) <- -1 ;
+              lexbuf.Lexing.lex_mem.(2) <- -1 ;
+              lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+              lexbuf.Lexing.lex_curr_pos <- _curr;
+              lexbuf.Lexing.lex_last_pos <- _last;
+              0
+            (* |'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9' *)
+            |48|49|50|51|52|53|54|55|56|57 ->
+              (* L=1 [5] <- p ;  *)
+              lexbuf.Lexing.lex_mem.(5) <- _curr;
+              let next_char, _buf, _len, _curr, _last =
+                if _curr >= _len then
+                  __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+                else
+                  Char.code (Bytes.unsafe_get _buf _curr),
+                  _buf, _len, (_curr + 1), _last
+              in
+              begin match next_char with
+                (* |eof *)
+                | 256 ->
+                  (* t4 <- -1 ; t2 <- -1 ; t0 <- [5] ; *)
+                  lexbuf.Lexing.lex_mem.(4) <- -1 ;
+                  lexbuf.Lexing.lex_mem.(2) <- -1 ;
+                  lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+                  lexbuf.Lexing.lex_curr_pos <- _curr;
+                  lexbuf.Lexing.lex_last_pos <- _last;
+                  0
+                (* |':' *)
+                | 58 ->
+                  (* L=1 [7] <- p ;  *)
+                  lexbuf.Lexing.lex_mem.(7) <- _curr;
+                  __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last
+                (* |'.' *)
+                | 46 ->
+                  (* L=1 [5] <- p ;  *)
+                  lexbuf.Lexing.lex_mem.(5) <- _curr;
+                  __ocaml_lex_state13 lexbuf _last_action _buf _len _curr _last
+                (* |'-'|'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+                |45|48|49|50|51|52|53|54|55|56|57|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+                  (* L=1 [5] <- p ;  *)
+                  lexbuf.Lexing.lex_mem.(5) <- _curr;
+                  __ocaml_lex_state6 lexbuf _last_action _buf _len _curr _last
+                (* |'#' *)
+                | 35 ->
+                  (* L=1 [6] <- p ;  *)
+                  lexbuf.Lexing.lex_mem.(6) <- _curr;
+                  __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last
+                | _ ->
+                  __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+              end
+            (* |':' *)
+            | 58 ->
+              (* L=1 [7] <- p ;  *)
+              lexbuf.Lexing.lex_mem.(7) <- _curr;
+              __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last
+            (* |'.' *)
+            | 46 ->
+              (* L=1 [5] <- p ;  *)
+              lexbuf.Lexing.lex_mem.(5) <- _curr;
+              __ocaml_lex_state13 lexbuf _last_action _buf _len _curr _last
+            (* |'-'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+            |45|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+              (* L=1 [5] <- p ;  *)
+              lexbuf.Lexing.lex_mem.(5) <- _curr;
+              __ocaml_lex_state6 lexbuf _last_action _buf _len _curr _last
+            (* |'#' *)
+            | 35 ->
+              (* L=1 [6] <- p ;  *)
+              lexbuf.Lexing.lex_mem.(6) <- _curr;
+              __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last
+            | _ ->
+              __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+          end
+        (* |':' *)
+        | 58 ->
+          (* L=1 [7] <- p ;  *)
+          lexbuf.Lexing.lex_mem.(7) <- _curr;
+          __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last
+        (* |'.' *)
+        | 46 ->
+          (* L=1 [5] <- p ;  *)
+          lexbuf.Lexing.lex_mem.(5) <- _curr;
+          __ocaml_lex_state13 lexbuf _last_action _buf _len _curr _last
+        (* |'-'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+        |45|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+          (* L=1 [5] <- p ;  *)
+          lexbuf.Lexing.lex_mem.(5) <- _curr;
+          __ocaml_lex_state6 lexbuf _last_action _buf _len _curr _last
+        (* |'#' *)
+        | 35 ->
+          (* L=1 [6] <- p ;  *)
+          lexbuf.Lexing.lex_mem.(6) <- _curr;
+          __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last
+        | _ ->
+          __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+      end
+    (* |':' *)
+    | 58 ->
+      (* L=1 [7] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(7) <- _curr;
+      __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last
+    (* |'-'|'.'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+    |45|46|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+      (* L=1 [5] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(5) <- _curr;
+      __ocaml_lex_state6 lexbuf _last_action _buf _len _curr _last
+    (* |'#' *)
+    | 35 ->
+      (* L=1 [6] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(6) <- _curr;
+      __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last
+    | _ ->
+      __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+  end
+
+and __ocaml_lex_state13 lexbuf _last_action _buf _len _curr _last =
+  let next_char, _buf, _len, _curr, _last =
+    if _curr >= _len then
+      __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+    else
+      Char.code (Bytes.unsafe_get _buf _curr),
+      _buf, _len, (_curr + 1), _last
+  in
+  begin match next_char with
+    (* |eof *)
+    | 256 ->
+      (* t4 <- -1 ; t2 <- -1 ; t0 <- [5] ; *)
+      lexbuf.Lexing.lex_mem.(4) <- -1 ;
+      lexbuf.Lexing.lex_mem.(2) <- -1 ;
+      lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+      lexbuf.Lexing.lex_curr_pos <- _curr;
+      lexbuf.Lexing.lex_last_pos <- _last;
+      0
+    (* |'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9' *)
+    |48|49|50|51|52|53|54|55|56|57 ->
+      (* L=1 [5] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(5) <- _curr;
+      let next_char, _buf, _len, _curr, _last =
+        if _curr >= _len then
+          __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+        else
+          Char.code (Bytes.unsafe_get _buf _curr),
+          _buf, _len, (_curr + 1), _last
+      in
+      begin match next_char with
+        (* |eof *)
+        | 256 ->
+          (* t4 <- -1 ; t2 <- -1 ; t0 <- [5] ; *)
+          lexbuf.Lexing.lex_mem.(4) <- -1 ;
+          lexbuf.Lexing.lex_mem.(2) <- -1 ;
+          lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+          lexbuf.Lexing.lex_curr_pos <- _curr;
+          lexbuf.Lexing.lex_last_pos <- _last;
+          0
+        (* |'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9' *)
+        |48|49|50|51|52|53|54|55|56|57 ->
+          (* L=1 [5] <- p ;  *)
+          lexbuf.Lexing.lex_mem.(5) <- _curr;
+          let next_char, _buf, _len, _curr, _last =
+            if _curr >= _len then
+              __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+            else
+              Char.code (Bytes.unsafe_get _buf _curr),
+              _buf, _len, (_curr + 1), _last
+          in
+          begin match next_char with
+            (* |eof *)
+            | 256 ->
+              (* t4 <- -1 ; t2 <- -1 ; t0 <- [5] ; *)
+              lexbuf.Lexing.lex_mem.(4) <- -1 ;
+              lexbuf.Lexing.lex_mem.(2) <- -1 ;
+              lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+              lexbuf.Lexing.lex_curr_pos <- _curr;
+              lexbuf.Lexing.lex_last_pos <- _last;
+              0
+            (* |'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9' *)
+            |48|49|50|51|52|53|54|55|56|57 ->
+              (* L=1 [5] <- p ;  *)
+              lexbuf.Lexing.lex_mem.(5) <- _curr;
+              let next_char, _buf, _len, _curr, _last =
+                if _curr >= _len then
+                  __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+                else
+                  Char.code (Bytes.unsafe_get _buf _curr),
+                  _buf, _len, (_curr + 1), _last
+              in
+              begin match next_char with
+                (* |eof *)
+                | 256 ->
+                  (* t4 <- -1 ; t2 <- -1 ; t0 <- [5] ; *)
+                  lexbuf.Lexing.lex_mem.(4) <- -1 ;
+                  lexbuf.Lexing.lex_mem.(2) <- -1 ;
+                  lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+                  lexbuf.Lexing.lex_curr_pos <- _curr;
+                  lexbuf.Lexing.lex_last_pos <- _last;
+                  0
+                (* |'.' *)
+                | 46 ->
+                  (* L=1 [5] <- p ;  *)
+                  lexbuf.Lexing.lex_mem.(5) <- _curr;
+                  __ocaml_lex_state17 lexbuf _last_action _buf _len _curr _last
+                (* |':' *)
+                | 58 ->
+                  (* L=1 [7] <- p ;  *)
+                  lexbuf.Lexing.lex_mem.(7) <- _curr;
+                  __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last
+                (* |'-'|'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+                |45|48|49|50|51|52|53|54|55|56|57|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+                  (* L=1 [5] <- p ;  *)
+                  lexbuf.Lexing.lex_mem.(5) <- _curr;
+                  __ocaml_lex_state6 lexbuf _last_action _buf _len _curr _last
+                (* |'#' *)
+                | 35 ->
+                  (* L=1 [6] <- p ;  *)
+                  lexbuf.Lexing.lex_mem.(6) <- _curr;
+                  __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last
+                | _ ->
+                  __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+              end
+            (* |'.' *)
+            | 46 ->
+              (* L=1 [5] <- p ;  *)
+              lexbuf.Lexing.lex_mem.(5) <- _curr;
+              __ocaml_lex_state17 lexbuf _last_action _buf _len _curr _last
+            (* |':' *)
+            | 58 ->
+              (* L=1 [7] <- p ;  *)
+              lexbuf.Lexing.lex_mem.(7) <- _curr;
+              __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last
+            (* |'-'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+            |45|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+              (* L=1 [5] <- p ;  *)
+              lexbuf.Lexing.lex_mem.(5) <- _curr;
+              __ocaml_lex_state6 lexbuf _last_action _buf _len _curr _last
+            (* |'#' *)
+            | 35 ->
+              (* L=1 [6] <- p ;  *)
+              lexbuf.Lexing.lex_mem.(6) <- _curr;
+              __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last
+            | _ ->
+              __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+          end
+        (* |'.' *)
+        | 46 ->
+          (* L=1 [5] <- p ;  *)
+          lexbuf.Lexing.lex_mem.(5) <- _curr;
+          __ocaml_lex_state17 lexbuf _last_action _buf _len _curr _last
+        (* |':' *)
+        | 58 ->
+          (* L=1 [7] <- p ;  *)
+          lexbuf.Lexing.lex_mem.(7) <- _curr;
+          __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last
+        (* |'-'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+        |45|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+          (* L=1 [5] <- p ;  *)
+          lexbuf.Lexing.lex_mem.(5) <- _curr;
+          __ocaml_lex_state6 lexbuf _last_action _buf _len _curr _last
+        (* |'#' *)
+        | 35 ->
+          (* L=1 [6] <- p ;  *)
+          lexbuf.Lexing.lex_mem.(6) <- _curr;
+          __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last
+        | _ ->
+          __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+      end
+    (* |':' *)
+    | 58 ->
+      (* L=1 [7] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(7) <- _curr;
+      __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last
+    (* |'-'|'.'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+    |45|46|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+      (* L=1 [5] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(5) <- _curr;
+      __ocaml_lex_state6 lexbuf _last_action _buf _len _curr _last
+    (* |'#' *)
+    | 35 ->
+      (* L=1 [6] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(6) <- _curr;
+      __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last
+    | _ ->
+      __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+  end
+
+and __ocaml_lex_state17 lexbuf _last_action _buf _len _curr _last =
+  let next_char, _buf, _len, _curr, _last =
+    if _curr >= _len then
+      __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+    else
+      Char.code (Bytes.unsafe_get _buf _curr),
+      _buf, _len, (_curr + 1), _last
+  in
+  begin match next_char with
+    (* |eof *)
+    | 256 ->
+      (* t4 <- -1 ; t2 <- -1 ; t0 <- [5] ; *)
+      lexbuf.Lexing.lex_mem.(4) <- -1 ;
+      lexbuf.Lexing.lex_mem.(2) <- -1 ;
+      lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+      lexbuf.Lexing.lex_curr_pos <- _curr;
+      lexbuf.Lexing.lex_last_pos <- _last;
+      0
+    (* |':' *)
+    | 58 ->
+      (* L=1 [7] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(7) <- _curr;
+      __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last
+    (* |'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9' *)
+    |48|49|50|51|52|53|54|55|56|57 ->
+      (* L=1 [5] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(5) <- _curr;
+      let next_char, _buf, _len, _curr, _last =
+        if _curr >= _len then
+          __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+        else
+          Char.code (Bytes.unsafe_get _buf _curr),
+          _buf, _len, (_curr + 1), _last
+      in
+      begin match next_char with
+        (* |eof *)
+        | 256 ->
+          (* t4 <- -1 ; t2 <- -1 ; t0 <- [5] ; *)
+          lexbuf.Lexing.lex_mem.(4) <- -1 ;
+          lexbuf.Lexing.lex_mem.(2) <- -1 ;
+          lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+          lexbuf.Lexing.lex_curr_pos <- _curr;
+          lexbuf.Lexing.lex_last_pos <- _last;
+          0
+        (* |'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9' *)
+        |48|49|50|51|52|53|54|55|56|57 ->
+          (* L=1 [5] <- p ;  *)
+          lexbuf.Lexing.lex_mem.(5) <- _curr;
+          let next_char, _buf, _len, _curr, _last =
+            if _curr >= _len then
+              __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+            else
+              Char.code (Bytes.unsafe_get _buf _curr),
+              _buf, _len, (_curr + 1), _last
+          in
+          begin match next_char with
+            (* |eof *)
+            | 256 ->
+              (* t4 <- -1 ; t2 <- -1 ; t0 <- [5] ; *)
+              lexbuf.Lexing.lex_mem.(4) <- -1 ;
+              lexbuf.Lexing.lex_mem.(2) <- -1 ;
+              lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+              lexbuf.Lexing.lex_curr_pos <- _curr;
+              lexbuf.Lexing.lex_last_pos <- _last;
+              0
+            (* |':' *)
+            | 58 ->
+              (* L=1 [7] <- p ;  *)
+              lexbuf.Lexing.lex_mem.(7) <- _curr;
+              __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last
+            (* |'-'|'.'|'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+            |45|46|48|49|50|51|52|53|54|55|56|57|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+              (* L=1 [5] <- p ;  *)
+              lexbuf.Lexing.lex_mem.(5) <- _curr;
+              __ocaml_lex_state6 lexbuf _last_action _buf _len _curr _last
+            (* |'#' *)
+            | 35 ->
+              (* L=1 [6] <- p ;  *)
+              lexbuf.Lexing.lex_mem.(6) <- _curr;
+              __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last
+            | _ ->
+              __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+          end
+        (* |':' *)
+        | 58 ->
+          (* L=1 [7] <- p ;  *)
+          lexbuf.Lexing.lex_mem.(7) <- _curr;
+          __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last
+        (* |'-'|'.'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+        |45|46|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+          (* L=1 [5] <- p ;  *)
+          lexbuf.Lexing.lex_mem.(5) <- _curr;
+          __ocaml_lex_state6 lexbuf _last_action _buf _len _curr _last
+        (* |'#' *)
+        | 35 ->
+          (* L=1 [6] <- p ;  *)
+          lexbuf.Lexing.lex_mem.(6) <- _curr;
+          __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last
+        | _ ->
+          __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+      end
+    (* |'-'|'.'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+    |45|46|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+      (* L=1 [5] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(5) <- _curr;
+      __ocaml_lex_state6 lexbuf _last_action _buf _len _curr _last
+    (* |'#' *)
+    | 35 ->
+      (* L=1 [6] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(6) <- _curr;
+      __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last
+    | _ ->
+      __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+  end
+
+and __ocaml_lex_state23 lexbuf _last_action _buf _len _curr _last =
+  let next_char, _buf, _len, _curr, _last =
+    if _curr >= _len then
+      __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+    else
+      Char.code (Bytes.unsafe_get _buf _curr),
+      _buf, _len, (_curr + 1), _last
+  in
+  begin match next_char with
+    (* |']' *)
+    | 93 ->
+      (* L=1 [5] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(5) <- _curr;
+      __ocaml_lex_state5 lexbuf _last_action _buf _len _curr _last
+    (* |'.'|'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|':'|'A'|'B'|'C'|'D'|'E'|'F'|'a'|'b'|'c'|'d'|'e'|'f' *)
+    |46|48|49|50|51|52|53|54|55|56|57|58|65|66|67|68|69|70|97|98|99|100|101|102 ->
+      __ocaml_lex_state23 lexbuf _last_action _buf _len _curr _last
+    (* |eof *)
+    | 256 ->
+      (* *)
+      lexbuf.Lexing.lex_curr_pos <- _curr;
+      lexbuf.Lexing.lex_last_pos <- _last;
+      1
+    | _ ->
+      __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+  end
+
+and __ocaml_lex_state24 lexbuf _last_action _buf _len _curr _last =
+  let next_char, _buf, _len, _curr, _last =
+    if _curr >= _len then
+      __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+    else
+      Char.code (Bytes.unsafe_get _buf _curr),
+      _buf, _len, (_curr + 1), _last
+  in
+  begin match next_char with
+    (* |eof *)
+    | 256 ->
+      (* t2 <- -1 ; t4 <- [7] ; t3 <- [8] ; t0 <- [5] ; *)
+      lexbuf.Lexing.lex_mem.(2) <- -1 ;
+      lexbuf.Lexing.lex_mem.(4) <- lexbuf.Lexing.lex_mem.(7) ;
+      lexbuf.Lexing.lex_mem.(3) <- lexbuf.Lexing.lex_mem.(8) ;
+      lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+      lexbuf.Lexing.lex_curr_pos <- _curr;
+      lexbuf.Lexing.lex_last_pos <- _last;
+      0
+    (* |'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9' *)
+    |48|49|50|51|52|53|54|55|56|57 ->
+      (* L=1 [8] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(8) <- _curr;
+      __ocaml_lex_state24 lexbuf _last_action _buf _len _curr _last
+    (* |'#' *)
+    | 35 ->
+      (* L=1 [6] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(6) <- _curr;
+      let next_char, _buf, _len, _curr, _last =
+        if _curr >= _len then
+          __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+        else
+          Char.code (Bytes.unsafe_get _buf _curr),
+          _buf, _len, (_curr + 1), _last
+      in
+      begin match next_char with
+        (* |'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+        |48|49|50|51|52|53|54|55|56|57|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+          (* L=1 [9] <- p ;  *)
+          lexbuf.Lexing.lex_mem.(9) <- _curr;
+          __ocaml_lex_state27 lexbuf _last_action _buf _len _curr _last
+        (* |eof *)
+        | 256 ->
+          (* *)
+          lexbuf.Lexing.lex_curr_pos <- _curr;
+          lexbuf.Lexing.lex_last_pos <- _last;
+          1
+        | _ ->
+          __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+      end
+    | _ ->
+      __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+  end
+
+and __ocaml_lex_state27 lexbuf _last_action _buf _len _curr _last =
+  let next_char, _buf, _len, _curr, _last =
+    if _curr >= _len then
+      __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+    else
+      Char.code (Bytes.unsafe_get _buf _curr),
+      _buf, _len, (_curr + 1), _last
+  in
+  begin match next_char with
+    (* |'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+    |48|49|50|51|52|53|54|55|56|57|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+      (* L=1 [9] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(9) <- _curr;
+      __ocaml_lex_state27 lexbuf _last_action _buf _len _curr _last
+    (* |eof *)
+    | 256 ->
+      (* t4 <- [7] ; t3 <- [8] ; t2 <- [6] ; t1 <- [9] ; t0 <- [5] ; *)
+      lexbuf.Lexing.lex_mem.(4) <- lexbuf.Lexing.lex_mem.(7) ;
+      lexbuf.Lexing.lex_mem.(3) <- lexbuf.Lexing.lex_mem.(8) ;
+      lexbuf.Lexing.lex_mem.(2) <- lexbuf.Lexing.lex_mem.(6) ;
+      lexbuf.Lexing.lex_mem.(1) <- lexbuf.Lexing.lex_mem.(9) ;
+      lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+      lexbuf.Lexing.lex_curr_pos <- _curr;
+      lexbuf.Lexing.lex_last_pos <- _last;
+      0
+    | _ ->
+      __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+  end
+
+and __ocaml_lex_state29 lexbuf _last_action _buf _len _curr _last =
+  let next_char, _buf, _len, _curr, _last =
+    if _curr >= _len then
+      __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+    else
+      Char.code (Bytes.unsafe_get _buf _curr),
+      _buf, _len, (_curr + 1), _last
+  in
+  begin match next_char with
+    (* |eof *)
+    | 256 ->
+      (* t4 <- -1 ; t2 <- [6] ; t1 <- [9] ; t0 <- [5] ; *)
+      lexbuf.Lexing.lex_mem.(4) <- -1 ;
+      lexbuf.Lexing.lex_mem.(2) <- lexbuf.Lexing.lex_mem.(6) ;
+      lexbuf.Lexing.lex_mem.(1) <- lexbuf.Lexing.lex_mem.(9) ;
+      lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+      lexbuf.Lexing.lex_curr_pos <- _curr;
+      lexbuf.Lexing.lex_last_pos <- _last;
+      0
+    (* |'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+    |48|49|50|51|52|53|54|55|56|57|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+      (* L=1 [9] <- p ;  *)
+      lexbuf.Lexing.lex_mem.(9) <- _curr;
+      __ocaml_lex_state29 lexbuf _last_action _buf _len _curr _last
+    | _ ->
+      __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+  end
+
+
+let rec parse_full_addr lexbuf =
+  let __ocaml_lex_result =
+    lexbuf.Lexing.lex_mem <- Array.make 10 (-1);
+    let _curr = lexbuf.Lexing.lex_curr_pos in
+    let _last = _curr in
+    let _len = lexbuf.Lexing.lex_buffer_len in
+    let _buf = lexbuf.Lexing.lex_buffer in
+    let _last_action = -1 in
+    lexbuf.Lexing.lex_start_pos <- _curr;
+    (* L=1 [5] <- p ;  *)
+    lexbuf.Lexing.lex_mem.(5) <- _curr;
+    let next_char, _buf, _len, _curr, _last =
+      if _curr >= _len then
+        __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+      else
+        Char.code (Bytes.unsafe_get _buf _curr),
+        _buf, _len, (_curr + 1), _last
+    in
+    begin match next_char with
+      (* |eof *)
+      | 256 ->
+        (* t4 <- -1 ; t2 <- -1 ; t0 <- [5] ; *)
+        lexbuf.Lexing.lex_mem.(4) <- -1 ;
+        lexbuf.Lexing.lex_mem.(2) <- -1 ;
+        lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+        lexbuf.Lexing.lex_curr_pos <- _curr;
+        lexbuf.Lexing.lex_last_pos <- _last;
+        0
+      (* |'[' *)
+      | 91 ->
+        let next_char, _buf, _len, _curr, _last =
+          if _curr >= _len then
+            __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+          else
+            Char.code (Bytes.unsafe_get _buf _curr),
+            _buf, _len, (_curr + 1), _last
+        in
+        begin match next_char with
+          (* |'.'|'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|':'|'A'|'B'|'C'|'D'|'E'|'F'|'a'|'b'|'c'|'d'|'e'|'f' *)
+          |46|48|49|50|51|52|53|54|55|56|57|58|65|66|67|68|69|70|97|98|99|100|101|102 ->
+            __ocaml_lex_state23 lexbuf _last_action _buf _len _curr _last
+          (* |eof *)
+          | 256 ->
+            (* *)
+            lexbuf.Lexing.lex_curr_pos <- _curr;
+            lexbuf.Lexing.lex_last_pos <- _last;
+            1
+          | _ ->
+            __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+        end
+      (* |'_' *)
+      | 95 ->
+        (* L=1 [5] <- p ;  *)
+        lexbuf.Lexing.lex_mem.(5) <- _curr;
+        __ocaml_lex_state5 lexbuf _last_action _buf _len _curr _last
+      (* |'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9' *)
+      |48|49|50|51|52|53|54|55|56|57 ->
+        (* L=1 [5] <- p ;  *)
+        lexbuf.Lexing.lex_mem.(5) <- _curr;
+        let next_char, _buf, _len, _curr, _last =
+          if _curr >= _len then
+            __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+          else
+            Char.code (Bytes.unsafe_get _buf _curr),
+            _buf, _len, (_curr + 1), _last
+        in
+        begin match next_char with
+          (* |eof *)
+          | 256 ->
+            (* t4 <- -1 ; t2 <- -1 ; t0 <- [5] ; *)
+            lexbuf.Lexing.lex_mem.(4) <- -1 ;
+            lexbuf.Lexing.lex_mem.(2) <- -1 ;
+            lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+            lexbuf.Lexing.lex_curr_pos <- _curr;
+            lexbuf.Lexing.lex_last_pos <- _last;
+            0
+          (* |'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9' *)
+          |48|49|50|51|52|53|54|55|56|57 ->
+            (* L=1 [5] <- p ;  *)
+            lexbuf.Lexing.lex_mem.(5) <- _curr;
+            let next_char, _buf, _len, _curr, _last =
+              if _curr >= _len then
+                __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+              else
+                Char.code (Bytes.unsafe_get _buf _curr),
+                _buf, _len, (_curr + 1), _last
+            in
+            begin match next_char with
+              (* |eof *)
+              | 256 ->
+                (* t4 <- -1 ; t2 <- -1 ; t0 <- [5] ; *)
+                lexbuf.Lexing.lex_mem.(4) <- -1 ;
+                lexbuf.Lexing.lex_mem.(2) <- -1 ;
+                lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+                lexbuf.Lexing.lex_curr_pos <- _curr;
+                lexbuf.Lexing.lex_last_pos <- _last;
+                0
+              (* |':' *)
+              | 58 ->
+                (* L=1 [7] <- p ;  *)
+                lexbuf.Lexing.lex_mem.(7) <- _curr;
+                __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last
+              (* |'.' *)
+              | 46 ->
+                (* L=1 [5] <- p ;  *)
+                lexbuf.Lexing.lex_mem.(5) <- _curr;
+                __ocaml_lex_state9 lexbuf _last_action _buf _len _curr _last
+              (* |'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9' *)
+              |48|49|50|51|52|53|54|55|56|57 ->
+                (* L=1 [5] <- p ;  *)
+                lexbuf.Lexing.lex_mem.(5) <- _curr;
+                let next_char, _buf, _len, _curr, _last =
+                  if _curr >= _len then
+                    __ocaml_lex_refill_buf lexbuf _buf _len _curr _last
+                  else
+                    Char.code (Bytes.unsafe_get _buf _curr),
+                    _buf, _len, (_curr + 1), _last
+                in
+                begin match next_char with
+                  (* |eof *)
+                  | 256 ->
+                    (* t4 <- -1 ; t2 <- -1 ; t0 <- [5] ; *)
+                    lexbuf.Lexing.lex_mem.(4) <- -1 ;
+                    lexbuf.Lexing.lex_mem.(2) <- -1 ;
+                    lexbuf.Lexing.lex_mem.(0) <- lexbuf.Lexing.lex_mem.(5) ;
+                    lexbuf.Lexing.lex_curr_pos <- _curr;
+                    lexbuf.Lexing.lex_last_pos <- _last;
+                    0
+                  (* |':' *)
+                  | 58 ->
+                    (* L=1 [7] <- p ;  *)
+                    lexbuf.Lexing.lex_mem.(7) <- _curr;
+                    __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last
+                  (* |'.' *)
+                  | 46 ->
+                    (* L=1 [5] <- p ;  *)
+                    lexbuf.Lexing.lex_mem.(5) <- _curr;
+                    __ocaml_lex_state9 lexbuf _last_action _buf _len _curr _last
+                  (* |'-'|'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+                  |45|48|49|50|51|52|53|54|55|56|57|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+                    (* L=1 [5] <- p ;  *)
+                    lexbuf.Lexing.lex_mem.(5) <- _curr;
+                    __ocaml_lex_state6 lexbuf _last_action _buf _len _curr _last
+                  (* |'#' *)
+                  | 35 ->
+                    (* L=1 [6] <- p ;  *)
+                    lexbuf.Lexing.lex_mem.(6) <- _curr;
+                    __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last
+                  | _ ->
+                    __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+                end
+              (* |'-'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+              |45|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+                (* L=1 [5] <- p ;  *)
+                lexbuf.Lexing.lex_mem.(5) <- _curr;
+                __ocaml_lex_state6 lexbuf _last_action _buf _len _curr _last
+              (* |'#' *)
+              | 35 ->
+                (* L=1 [6] <- p ;  *)
+                lexbuf.Lexing.lex_mem.(6) <- _curr;
+                __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last
+              | _ ->
+                __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+            end
+          (* |':' *)
+          | 58 ->
+            (* L=1 [7] <- p ;  *)
+            lexbuf.Lexing.lex_mem.(7) <- _curr;
+            __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last
+          (* |'.' *)
+          | 46 ->
+            (* L=1 [5] <- p ;  *)
+            lexbuf.Lexing.lex_mem.(5) <- _curr;
+            __ocaml_lex_state9 lexbuf _last_action _buf _len _curr _last
+          (* |'-'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+          |45|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+            (* L=1 [5] <- p ;  *)
+            lexbuf.Lexing.lex_mem.(5) <- _curr;
+            __ocaml_lex_state6 lexbuf _last_action _buf _len _curr _last
+          (* |'#' *)
+          | 35 ->
+            (* L=1 [6] <- p ;  *)
+            lexbuf.Lexing.lex_mem.(6) <- _curr;
+            __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last
+          | _ ->
+            __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+        end
+      (* |':' *)
+      | 58 ->
+        (* L=1 [7] <- p ;  *)
+        lexbuf.Lexing.lex_mem.(7) <- _curr;
+        __ocaml_lex_state4 lexbuf _last_action _buf _len _curr _last
+      (* |'-'|'.'|'A'|'B'|'C'|'D'|'E'|'F'|'G'|'H'|'I'|'J'|'K'|'L'|'M'|'N'|'O'|'P'|'Q'|'R'|'S'|'T'|'U'|'V'|'W'|'X'|'Y'|'Z'|'a'|'b'|'c'|'d'|'e'|'f'|'g'|'h'|'i'|'j'|'k'|'l'|'m'|'n'|'o'|'p'|'q'|'r'|'s'|'t'|'u'|'v'|'w'|'x'|'y'|'z' *)
+      |45|46|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122 ->
+        (* L=1 [5] <- p ;  *)
+        lexbuf.Lexing.lex_mem.(5) <- _curr;
+        __ocaml_lex_state6 lexbuf _last_action _buf _len _curr _last
+      (* |'#' *)
+      | 35 ->
+        (* L=1 [6] <- p ;  *)
+        lexbuf.Lexing.lex_mem.(6) <- _curr;
+        __ocaml_lex_state3 lexbuf _last_action _buf _len _curr _last
+      | _ ->
+        __ocaml_lex_state1 lexbuf _last_action _buf _len _curr _last
+    end
+  in
+  begin
+    let _curr_p = lexbuf.Lexing.lex_curr_p in
+    if _curr_p != Lexing.dummy_pos then begin
+      lexbuf.Lexing.lex_start_p <- _curr_p;
+      lexbuf.Lexing.lex_curr_p <-
+        {_curr_p with Lexing.pos_cnum =
+         lexbuf.Lexing.lex_abs_pos+lexbuf.Lexing.lex_curr_pos}
+    end
+  end;
+  match __ocaml_lex_result with
+  | 0 ->
+let
+# 109 "src/lib_base/point_parser.mll"
+               addr
+# 1025 "bazel-out/darwin-fastbuild/bin/src/lib_base/point_parser.ml"
+= Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_mem.(0)
+and
+# 109 "src/lib_base/point_parser.mll"
+                                   port
+# 1030 "bazel-out/darwin-fastbuild/bin/src/lib_base/point_parser.ml"
+= Lexing.sub_lexeme_opt lexbuf lexbuf.Lexing.lex_mem.(4) lexbuf.Lexing.lex_mem.(3)
+and
+# 109 "src/lib_base/point_parser.mll"
+                                                            peer_id
+# 1035 "bazel-out/darwin-fastbuild/bin/src/lib_base/point_parser.ml"
+= Lexing.sub_lexeme_opt lexbuf lexbuf.Lexing.lex_mem.(2) lexbuf.Lexing.lex_mem.(1) in
+# 110 "src/lib_base/point_parser.mll"
+    (make_full_addr addr port peer_id)
+# 1039 "bazel-out/darwin-fastbuild/bin/src/lib_base/point_parser.ml"
+
+  | 1 ->
+# 112 "src/lib_base/point_parser.mll"
+    (Error Bad_format)
+# 1044 "bazel-out/darwin-fastbuild/bin/src/lib_base/point_parser.ml"
+
+  | _ -> raise (Failure "lexing: empty token")
+
+
+;;
+

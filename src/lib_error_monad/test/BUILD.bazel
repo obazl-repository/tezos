@@ -1,0 +1,55 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_RECURSIVE_REGISTRATION_OPTS = [
+    "-open", "Tezos_error_monad",
+]
+
+TEST_RECURSIVE_REGISTRATION_DEPS = [
+    "//src/lib_error_monad:tezos-error-monad",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@data-encoding//:data-encoding",
+    "@lwt//unix",
+]
+
+#################
+ocaml_executable(
+    name    = "test_recursive_registration.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_recursive_registration",
+    main    = ":Test_recursive_registration",
+    deps = TEST_RECURSIVE_REGISTRATION_DEPS + [
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Test_recursive_registration",
+    struct   = "test_recursive_registration.ml",
+    opts     = TEST_RECURSIVE_REGISTRATION_OPTS,
+    deps     = TEST_RECURSIVE_REGISTRATION_DEPS + [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias buildtest)
+##   (deps test_recursive_registration.exe)
+##   (action (progn))
+## )
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-error-monad)
+##   (deps (alias runtest_recursive_registration))
+##   (action (progn))
+## )

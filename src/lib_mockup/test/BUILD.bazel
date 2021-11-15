@@ -1,0 +1,122 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_MOCKUP_ARGS_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+]
+
+TEST_MOCKUP_ARGS_DEPS = [
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_mockup:tezos-mockup",
+    "//src/lib_mockup:tezos-mockup-registration",
+    "//src/lib_test_services:tezos-test-services",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@alcotest//:alcotest",
+    "@crowbar//:crowbar",
+]
+
+#################
+ocaml_executable(
+    name    = "test_mockup_args.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_mockup_args",
+    main    = ":Test_mockup_args",
+    deps = TEST_MOCKUP_ARGS_DEPS + [
+        ":Test_fuzzing_mockup_args",
+        ":Test_persistence",
+    ],
+)
+
+TEST_FUZZING_MOCKUP_ARGS_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+]
+
+TEST_FUZZING_MOCKUP_ARGS_DEPS = [
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_mockup:tezos-mockup",
+    "//src/lib_mockup:tezos-mockup-registration",
+    "//src/lib_test_services:tezos-test-services",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@alcotest//:alcotest",
+    "@crowbar//:crowbar",
+]
+
+#################
+ocaml_executable(
+    name    = "test_fuzzing_mockup_args.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_fuzzing_mockup_args",
+    main    = ":Test_fuzzing_mockup_args",
+    deps = TEST_FUZZING_MOCKUP_ARGS_DEPS + [
+        ":Test_mockup_args",
+        ":Test_persistence",
+    ],
+)
+
+TEST_PERSISTENCE_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+]
+
+TEST_PERSISTENCE_DEPS = [
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_mockup:tezos-mockup",
+    "//src/lib_mockup:tezos-mockup-registration",
+    "//src/lib_test_services:tezos-test-services",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@alcotest//:alcotest",
+    "@crowbar//:crowbar",
+]
+
+#################
+ocaml_executable(
+    name    = "test_persistence.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_persistence",
+    main    = ":Test_persistence",
+    deps = TEST_PERSISTENCE_DEPS + [
+        ":Test_fuzzing_mockup_args",
+        ":Test_mockup_args",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Test_fuzzing_mockup_args",
+    struct   = "test_fuzzing_mockup_args.ml",
+    opts     = TEST_MOCKUP_ARGS_OPTS,
+    deps     = TEST_MOCKUP_ARGS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_mockup_args",
+    struct   = "test_mockup_args.ml",
+    opts     = TEST_MOCKUP_ARGS_OPTS,
+    deps     = TEST_MOCKUP_ARGS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_persistence",
+    struct   = "test_persistence.ml",
+    opts     = TEST_MOCKUP_ARGS_OPTS,
+    deps     = TEST_MOCKUP_ARGS_DEPS + [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-mockup)
+##   (deps (alias runtest_mockup_args) (alias runtest_fuzzing_mockup_args) (alias runtest_persistence))
+##   (action (progn))
+## )

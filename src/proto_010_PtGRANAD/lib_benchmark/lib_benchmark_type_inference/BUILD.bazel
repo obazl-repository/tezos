@@ -1,0 +1,160 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-benchmark-type-inference-010-PtGRANAD ########
+TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_OPTS = [
+    "-open", "Tezos_error_monad",
+    "-open", "Tezos_micheline",
+    "-open", "Tezos_micheline_rewriting",
+    "-open", "Tezos_protocol_010_PtGRANAD",
+    "-open", "Tezos_stdlib",
+]
+
+TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_DEPS = [
+    "//src/lib_benchmark/lib_micheline_rewriting:tezos-micheline-rewriting",
+    "//src/lib_crypto:tezos-crypto",
+    "//src/lib_error_monad:tezos-error-monad",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/lib_stdlib:tezos-stdlib",
+    "//src/proto_010_PtGRANAD/lib_protocol:tezos-protocol-010-PtGRANAD",
+    "@hashcons//:hashcons",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-benchmark-type-inference-010-PtGRANAD",
+    ns         = "Tezos_benchmark_type_inference_010_PtGRANAD",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Inference",
+        ":Int_map",
+        ":Mikhailsky",
+        ":Mikhailsky_prim",
+        ":Monads",
+        ":Stores",
+        ":Type",
+        ":Uf",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Inference",
+    struct   = "inference.ml",
+    sig      = ":Inference_cmi",
+    opts     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_DEPS + [
+       ":Uf",
+       ":Type",
+       ":Stores",
+       ":Monads",
+       ":Mikhailsky_prim",
+       ":Mikhailsky",
+       ":Int_map",
+    ]
+)
+
+ocaml_signature(
+    name     = "Inference_cmi",
+    src      = "inference.mli",
+    opts     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_DEPS + [
+       ":Uf",
+       ":Type",
+       ":Stores",
+       ":Monads",
+       ":Mikhailsky_prim",
+       ":Mikhailsky",
+    ]
+)
+
+ocaml_module(
+    name     = "Int_map",
+    struct   = "int_map.ml",
+    opts     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Mikhailsky",
+    struct   = "mikhailsky.ml",
+    sig      = ":Mikhailsky_cmi",
+    opts     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_DEPS + [
+       ":Type",
+       ":Mikhailsky_prim",
+    ]
+)
+
+ocaml_signature(
+    name     = "Mikhailsky_cmi",
+    src      = "mikhailsky.mli",
+    opts     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_DEPS + [
+       ":Type",
+       ":Mikhailsky_prim",
+    ]
+)
+
+ocaml_module(
+    name     = "Mikhailsky_prim",
+    struct   = "mikhailsky_prim.ml",
+    opts     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Monads",
+    struct   = "monads.ml",
+    opts     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_DEPS + [
+       ":Stores",
+    ]
+)
+
+ocaml_module(
+    name     = "Stores",
+    struct   = "stores.ml",
+    opts     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Type",
+    struct   = "type.ml",
+    sig      = ":Type_cmi",
+    opts     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Type_cmi",
+    src      = "type.mli",
+    opts     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Uf",
+    struct   = "uf.ml",
+    opts     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_TYPE_INFERENCE_010_PTGRANAD_DEPS + [
+       ":Stores",
+       ":Monads",
+       ":Int_map",
+    ]
+)
+

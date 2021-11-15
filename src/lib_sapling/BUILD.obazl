@@ -1,0 +1,136 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-sapling ########
+TEZOS_SAPLING_OPTS = [
+    "-open", "Tezos_crypto",
+    "-open", "Tezos_error_monad",
+    "-open", "Tezos_error_monad.TzLwtreslib",
+    "-open", "Tezos_stdlib",
+]
+
+TEZOS_SAPLING_DEPS = [
+    "//src/lib_crypto:tezos-crypto",
+    "//src/lib_error_monad:tezos-error-monad",
+    "//src/lib_lwt_result_stdlib:tezos-lwt-result-stdlib",
+    "//src/lib_stdlib:tezos-stdlib",
+    "@ctypes//:ctypes",
+    "@ctypes//foreign",
+    "@ctypes//stubs",
+    "@data-encoding//:data-encoding",
+    "@hex//:hex",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-sapling",
+    ns         = "Tezos_sapling",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Core",
+        ":Core_sig",
+        ":Forge",
+        ":Rustzcash",
+        ":Rustzcash_sig",
+        ":Storage",
+        ":Storage_sig",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Core",
+    struct   = "core.ml",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+       ":Rustzcash",
+       ":Core_sig",
+    ]
+)
+
+ocaml_module(
+    name     = "Core_sig",
+    struct   = "core_sig.ml",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Forge",
+    struct   = "forge.ml",
+    sig      = ":Forge_cmi",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+       ":Storage",
+       ":Core",
+    ]
+)
+
+ocaml_signature(
+    name     = "Forge_cmi",
+    src      = "forge.mli",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+       ":Storage",
+       ":Core",
+    ]
+)
+
+ocaml_module(
+    name     = "Rustzcash",
+    struct   = "rustzcash.ml",
+    sig      = ":Rustzcash_cmi",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+       ":Rustzcash_sig",
+        "//src/lib_sapling/bindings:rustzcash_ctypes_bindings",
+        "//src/lib_sapling/bindings:rustzcash_ctypes_stubs",
+    ]
+)
+
+ocaml_signature(
+    name     = "Rustzcash_cmi",
+    src      = "rustzcash.mli",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+       ":Rustzcash_sig",
+    ]
+)
+
+ocaml_module(
+    name     = "Rustzcash_sig",
+    struct   = "rustzcash_sig.ml",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Storage",
+    struct   = "storage.ml",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+       ":Storage_sig",
+       ":Core_sig",
+       ":Core",
+    ]
+)
+
+ocaml_module(
+    name     = "Storage_sig",
+    struct   = "storage_sig.ml",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+       ":Core",
+    ]
+)
+

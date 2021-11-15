@@ -1,0 +1,32 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+PLOT_TEST_DEPS = [
+    "//vendors/pyml-plot/lib:pyml-plot",
+    "@ocaml//bigarray",
+]
+
+#################
+ocaml_executable(
+    name    = "plot_test.exe",
+    visibility = ["//visibility:public"],
+    exe     = "plot_test",
+    main    = ":Plot_test",
+    deps = PLOT_TEST_DEPS + [
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Plot_test",
+    struct   = "plot_test.ml",
+    deps     = PLOT_TEST_DEPS + [
+    ]
+)
+

@@ -1,0 +1,30 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+DISCOVER_DEPS = [
+]
+
+#################
+ocaml_executable(
+    name    = "discover.exe",
+    visibility = ["//visibility:public"],
+    exe     = "discover",
+    main    = ":Discover",
+    deps = [
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Discover",
+    struct   = "discover.ml",
+    deps     = DISCOVER_DEPS + [
+    ]
+)
+

@@ -1,0 +1,44 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEZOS_ACCUSER_008_PTEDO2ZK_OPTS = [
+    "-open", "Tezos_baking_008_PtEdo2Zk_commands",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_008_PtEdo2Zk",
+    "-open", "Tezos_client_base_unix",
+    "-open", "Tezos_client_commands",
+    "-open", "Tezos_protocol_008_PtEdo2Zk",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_ACCUSER_008_PTEDO2ZK_DEPS = [
+    "//src/lib_client_base_unix:tezos-client-base-unix",
+    "//src/lib_client_commands:tezos-client-commands",
+    "//src/proto_008_PtEdo2Zk/lib_delegate:tezos-baking-008-PtEdo2Zk-commands",
+]
+
+#################
+ocaml_executable(
+    name    = "tezos-accuser-008-PtEdo2Zk.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main_accuser_008_PtEdo2Zk",
+    main    = ":Main_accuser_008_PtEdo2Zk",
+    deps = TEZOS_ACCUSER_008_PTEDO2ZK_DEPS + [
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Main_accuser_008_PtEdo2Zk",
+    struct   = "main_accuser_008_PtEdo2Zk.ml",
+    opts     = TEZOS_ACCUSER_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_ACCUSER_008_PTEDO2ZK_DEPS + [
+    ]
+)
+

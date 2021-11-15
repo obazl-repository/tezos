@@ -1,0 +1,13 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Test_rpc_http",
+    struct   = "test_rpc_http.ml",
+    deps     = [
+    ]
+)
+

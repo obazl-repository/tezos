@@ -1,0 +1,88 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+MH_TEST_DEPS = [
+    "//vendors/numerics/lib:numerics",
+    "//vendors/pyml-plot/lib:pyml-plot",
+    "//vendors/statz/lib:staTz",
+    "@ocaml//bigarray",
+]
+
+#################
+ocaml_executable(
+    name    = "mh_test.exe",
+    visibility = ["//visibility:public"],
+    exe     = "mh_test",
+    main    = ":Mh_test",
+    deps = MH_TEST_DEPS + [
+        ":Fourier_test",
+        ":Stats_test",
+    ],
+)
+
+FOURIER_TEST_DEPS = [
+    "//vendors/numerics/lib:numerics",
+    "//vendors/pyml-plot/lib:pyml-plot",
+    "//vendors/statz/lib:staTz",
+    "@ocaml//bigarray",
+]
+
+#################
+ocaml_executable(
+    name    = "fourier_test.exe",
+    visibility = ["//visibility:public"],
+    exe     = "fourier_test",
+    main    = ":Fourier_test",
+    deps = FOURIER_TEST_DEPS + [
+        ":Mh_test",
+        ":Stats_test",
+    ],
+)
+
+STATS_TEST_DEPS = [
+    "//vendors/numerics/lib:numerics",
+    "//vendors/pyml-plot/lib:pyml-plot",
+    "//vendors/statz/lib:staTz",
+    "@ocaml//bigarray",
+]
+
+#################
+ocaml_executable(
+    name    = "stats_test.exe",
+    visibility = ["//visibility:public"],
+    exe     = "stats_test",
+    main    = ":Stats_test",
+    deps = STATS_TEST_DEPS + [
+        ":Fourier_test",
+        ":Mh_test",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Fourier_test",
+    struct   = "fourier_test.ml",
+    deps     = MH_TEST_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Mh_test",
+    struct   = "mh_test.ml",
+    deps     = MH_TEST_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Stats_test",
+    struct   = "stats_test.ml",
+    deps     = MH_TEST_DEPS + [
+    ]
+)
+

@@ -1,0 +1,87 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+    "ocaml_signature",
+)
+
+##############################
+####  Executable Targets  ####
+TEZOS_CODEC_OPTS = [
+    "-linkall",
+    "-open", "Data_encoding",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_clic",
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_client_base_unix",
+    "-open", "Tezos_event_logging",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_CODEC_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_clic:tezos-clic",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_client_base_unix:tezos-client-base-unix",
+    "//src/lib_event_logging:tezos-event-logging",
+    "//src/lib_signer_services:tezos-signer-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "@data-encoding//:data-encoding",
+]
+
+#################
+ocaml_executable(
+    name    = "tezos-codec.exe",
+    visibility = ["//visibility:public"],
+    exe     = "codec",
+    main    = ":Codec",
+    deps = TEZOS_CODEC_DEPS + [
+        ":Additional_registrations",
+        ":Commands",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Additional_registrations",
+    struct   = "additional_registrations.ml",
+    opts     = TEZOS_CODEC_OPTS,
+    deps     = TEZOS_CODEC_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Codec",
+    struct   = "codec.ml",
+    opts     = TEZOS_CODEC_OPTS,
+    deps     = TEZOS_CODEC_DEPS + [
+       ":Commands",
+       ":Additional_registrations",
+    ]
+)
+
+ocaml_module(
+    name     = "Commands",
+    struct   = "commands.ml",
+    sig      = ":Commands_cmi",
+    opts     = TEZOS_CODEC_OPTS,
+    deps     = TEZOS_CODEC_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Commands_cmi",
+    src      = "commands.mli",
+    opts     = TEZOS_CODEC_OPTS,
+    deps     = TEZOS_CODEC_DEPS + [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (action (progn (write-file void_for_linking-alpha.empty "") (write-file void_for_linking-005-PsBabyM1.empty "") (write-file void_for_linking-006-PsCARTHA.empty "") (write-file void_for_linking-007-PsDELPH1.empty "") (write-file void_for_linking-008-PtEdo2Zk.empty "") (write-file void_for_linking-009-PsFLoren.empty "") (write-file void_for_linking-010-PtGRANAD.empty "")))
+## )

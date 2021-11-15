@@ -1,0 +1,42 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Light_lib",
+    struct   = "light_lib.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_fuzzing_light",
+    struct   = "test_fuzzing_light.ml",
+    deps     = [
+       ":Light_lib",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_fuzzing_proxy_getter",
+    struct   = "test_fuzzing_proxy_getter.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_light",
+    struct   = "test_light.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_proxy",
+    struct   = "test_proxy.ml",
+    deps     = [
+    ]
+)
+

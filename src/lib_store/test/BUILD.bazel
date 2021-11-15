@@ -1,0 +1,333 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_legacy_store",
+    "-open", "Tezos_protocol_alpha_parameters",
+    "-open", "Tezos_protocol_plugin_alpha",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_store",
+    "-open", "Tezos_validation",
+]
+
+TEST_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_store/legacy_store:tezos-legacy-store",
+    "//src/lib_store:tezos-store",
+    "//src/lib_validation:tezos-validation",
+    "//src/proto_alpha/lib_parameters:tezos-protocol-alpha-parameters",
+    "//src/proto_alpha/lib_plugin:tezos-protocol-plugin-alpha",
+    "//src/proto_alpha/lib_protocol:tezos-embedded-protocol-alpha",
+    "//src/proto_demo_noops/lib_protocol:tezos-embedded-protocol-demo-noops",
+    "//src/proto_genesis/lib_protocol:tezos-embedded-protocol-genesis",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+#################
+ocaml_executable(
+    name    = "test.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test",
+    main    = ":Test",
+    deps = TEST_DEPS + [
+        ":Alpha_utils",
+        ":Assert",
+        ":Legacy_store_maker",
+        ":Legacy_utils",
+        ":Test_block_store",
+        ":Test_cemented_store",
+        ":Test_history_mode_switch",
+        ":Test_legacy",
+        ":Test_protocol_store",
+        ":Test_reconstruct",
+        ":Test_snapshots",
+        ":Test_store",
+        ":Test_testchain",
+        ":Test_utils",
+    ],
+)
+
+TEST_LEGACY_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_legacy_store",
+    "-open", "Tezos_protocol_alpha_parameters",
+    "-open", "Tezos_protocol_plugin_alpha",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_store",
+    "-open", "Tezos_validation",
+]
+
+TEST_LEGACY_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_store/legacy_store:tezos-legacy-store",
+    "//src/lib_store:tezos-store",
+    "//src/lib_validation:tezos-validation",
+    "//src/proto_alpha/lib_parameters:tezos-protocol-alpha-parameters",
+    "//src/proto_alpha/lib_plugin:tezos-protocol-plugin-alpha",
+    "//src/proto_alpha/lib_protocol:tezos-embedded-protocol-alpha",
+    "//src/proto_demo_noops/lib_protocol:tezos-embedded-protocol-demo-noops",
+    "//src/proto_genesis/lib_protocol:tezos-embedded-protocol-genesis",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+#################
+ocaml_executable(
+    name    = "test_legacy.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_legacy",
+    main    = ":Test_legacy",
+    deps = TEST_LEGACY_DEPS + [
+        ":Alpha_utils",
+        ":Assert",
+        ":Legacy_store_maker",
+        ":Legacy_utils",
+        ":Test",
+        ":Test_block_store",
+        ":Test_cemented_store",
+        ":Test_history_mode_switch",
+        ":Test_protocol_store",
+        ":Test_reconstruct",
+        ":Test_snapshots",
+        ":Test_store",
+        ":Test_testchain",
+        ":Test_utils",
+    ],
+)
+
+LEGACY_STORE_MAKER_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_legacy_store",
+    "-open", "Tezos_protocol_alpha_parameters",
+    "-open", "Tezos_protocol_plugin_alpha",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_store",
+    "-open", "Tezos_validation",
+]
+
+LEGACY_STORE_MAKER_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_store/legacy_store:tezos-legacy-store",
+    "//src/lib_store:tezos-store",
+    "//src/lib_validation:tezos-validation",
+    "//src/proto_alpha/lib_parameters:tezos-protocol-alpha-parameters",
+    "//src/proto_alpha/lib_plugin:tezos-protocol-plugin-alpha",
+    "//src/proto_alpha/lib_protocol:tezos-embedded-protocol-alpha",
+    "//src/proto_demo_noops/lib_protocol:tezos-embedded-protocol-demo-noops",
+    "//src/proto_genesis/lib_protocol:tezos-embedded-protocol-genesis",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+#################
+ocaml_executable(
+    name    = "legacy_store_maker.exe",
+    visibility = ["//visibility:public"],
+    exe     = "legacy_store_maker",
+    main    = ":Legacy_store_maker",
+    deps = LEGACY_STORE_MAKER_DEPS + [
+        ":Alpha_utils",
+        ":Assert",
+        ":Legacy_utils",
+        ":Test",
+        ":Test_block_store",
+        ":Test_cemented_store",
+        ":Test_history_mode_switch",
+        ":Test_legacy",
+        ":Test_protocol_store",
+        ":Test_reconstruct",
+        ":Test_snapshots",
+        ":Test_store",
+        ":Test_testchain",
+        ":Test_utils",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Alpha_utils",
+    struct   = "alpha_utils.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+       ":Test_utils",
+       ":Assert",
+    ]
+)
+
+ocaml_module(
+    name     = "Assert",
+    struct   = "assert.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Legacy_store_maker",
+    struct   = "legacy_store_maker.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+       ":Legacy_utils",
+    ]
+)
+
+ocaml_module(
+    name     = "Legacy_utils",
+    struct   = "legacy_utils.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+       ":Test_utils",
+       ":Assert",
+       ":Alpha_utils",
+    ]
+)
+
+ocaml_module(
+    name     = "Test",
+    struct   = "test.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_block_store",
+    struct   = "test_block_store.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+       ":Test_utils",
+       ":Assert",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_cemented_store",
+    struct   = "test_cemented_store.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+       ":Test_utils",
+       ":Assert",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_history_mode_switch",
+    struct   = "test_history_mode_switch.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+       ":Test_utils",
+       ":Assert",
+       ":Alpha_utils",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_legacy",
+    struct   = "test_legacy.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+       ":Test_utils",
+       ":Legacy_utils",
+       ":Assert",
+       ":Alpha_utils",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_protocol_store",
+    struct   = "test_protocol_store.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+       ":Test_utils",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_reconstruct",
+    struct   = "test_reconstruct.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+       ":Test_utils",
+       ":Assert",
+       ":Alpha_utils",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_snapshots",
+    struct   = "test_snapshots.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+       ":Test_utils",
+       ":Assert",
+       ":Alpha_utils",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_store",
+    struct   = "test_store.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+       ":Test_utils",
+       ":Assert",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_testchain",
+    struct   = "test_testchain.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+       ":Test_utils",
+       ":Assert",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_utils",
+    struct   = "test_utils.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+       ":Assert",
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias buildtest)
+##   (deps ../legacy_store/legacy_store_builder.exe test.exe test_legacy.exe)
+##   (action (progn))
+## )
+################  rule  ################
+## (
+##   (alias runtest_store)
+##   (action (setenv SLOW_TEST false (run %{exe:test.exe})))
+## )
+################  rule  ################
+## (
+##   (alias runtest_store_legacy_slow)
+##   (deps (:legacy_builder ../legacy_store/legacy_store_builder.exe))
+##   (action (setenv SLOW_TEST true (run %{exe:test_legacy.exe} --builder-path %{legacy_builder})))
+## )
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-store)
+##   (deps (alias runtest_store) (alias runtest_store_legacy))
+##   (action (progn))
+## )

@@ -1,0 +1,22 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-tooling ########
+TEZOS_TOOLING_DEPS = [
+]
+
+ocaml_ns_archive(
+    name       = "tezos-tooling",
+    ns         = "Tezos_tooling",
+    visibility = ["//visibility:public"],
+)
+
+#############################
+####  Singleton Targets  ####
+

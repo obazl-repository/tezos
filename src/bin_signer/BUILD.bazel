@@ -1,0 +1,153 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+    "ocaml_signature",
+)
+
+##############################
+####  Executable Targets  ####
+TEZOS_SIGNER_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_client_base_unix",
+    "-open", "Tezos_client_commands",
+    "-open", "Tezos_rpc_http",
+    "-open", "Tezos_rpc_http_client_unix",
+    "-open", "Tezos_rpc_http_server",
+    "-open", "Tezos_signer_services",
+    "-open", "Tezos_stdlib",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_SIGNER_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_client_base_unix:tezos-client-base-unix",
+    "//src/lib_client_commands:tezos-client-commands",
+    "//src/lib_rpc_http:tezos-rpc-http-client-unix",
+    "//src/lib_rpc_http:tezos-rpc-http-server",
+    "//src/lib_signer_backends/unix:tezos-signer-backends.unix",
+    "//src/lib_signer_services:tezos-signer-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+]
+
+#################
+ocaml_executable(
+    name    = "tezos-signer.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main_signer",
+    main    = ":Main_signer",
+    deps = TEZOS_SIGNER_DEPS + [
+        ":Handler",
+        ":Http_daemon",
+        ":Signer_events",
+        ":Signer_logging",
+        ":Socket_daemon",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Handler",
+    struct   = "handler.ml",
+    sig      = ":Handler_cmi",
+    opts     = TEZOS_SIGNER_OPTS,
+    deps     = TEZOS_SIGNER_DEPS + [
+       ":Signer_events",
+    ]
+)
+
+ocaml_signature(
+    name     = "Handler_cmi",
+    src      = "handler.mli",
+    opts     = TEZOS_SIGNER_OPTS,
+    deps     = TEZOS_SIGNER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Http_daemon",
+    struct   = "http_daemon.ml",
+    sig      = ":Http_daemon_cmi",
+    opts     = TEZOS_SIGNER_OPTS,
+    deps     = TEZOS_SIGNER_DEPS + [
+       ":Signer_events",
+       ":Handler",
+    ]
+)
+
+ocaml_signature(
+    name     = "Http_daemon_cmi",
+    src      = "http_daemon.mli",
+    opts     = TEZOS_SIGNER_OPTS,
+    deps     = TEZOS_SIGNER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Main_signer",
+    struct   = "main_signer.ml",
+    sig      = ":Main_signer_cmi",
+    opts     = TEZOS_SIGNER_OPTS,
+    deps     = TEZOS_SIGNER_DEPS + [
+       ":Socket_daemon",
+       ":Http_daemon",
+       ":Handler",
+    ]
+)
+
+ocaml_signature(
+    name     = "Main_signer_cmi",
+    src      = "main_signer.mli",
+    opts     = TEZOS_SIGNER_OPTS,
+    deps     = TEZOS_SIGNER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Signer_events",
+    struct   = "signer_events.ml",
+    opts     = TEZOS_SIGNER_OPTS,
+    deps     = TEZOS_SIGNER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Signer_logging",
+    struct   = "signer_logging.ml",
+    sig      = ":Signer_logging_cmi",
+    opts     = TEZOS_SIGNER_OPTS,
+    deps     = TEZOS_SIGNER_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Signer_logging_cmi",
+    src      = "signer_logging.mli",
+    opts     = TEZOS_SIGNER_OPTS,
+    deps     = TEZOS_SIGNER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Socket_daemon",
+    struct   = "socket_daemon.ml",
+    sig      = ":Socket_daemon_cmi",
+    opts     = TEZOS_SIGNER_OPTS,
+    deps     = TEZOS_SIGNER_DEPS + [
+       ":Signer_events",
+       ":Handler",
+    ]
+)
+
+ocaml_signature(
+    name     = "Socket_daemon_cmi",
+    src      = "socket_daemon.mli",
+    opts     = TEZOS_SIGNER_OPTS,
+    deps     = TEZOS_SIGNER_DEPS + [
+    ]
+)
+

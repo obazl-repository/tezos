@@ -1,0 +1,119 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+    "ocaml_signature",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_protocol_environment",
+]
+
+TEST_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_test:tezos-test-helpers",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@lwt//unix",
+    "@qcheck-alcotest//:qcheck-alcotest",
+]
+
+#################
+ocaml_executable(
+    name    = "test.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test",
+    main    = ":Test",
+    deps = TEST_DEPS + [
+        ":Assert",
+        ":Test_mem_context",
+        ":Test_mem_context_array_theory",
+    ],
+)
+
+TEST_MEM_CONTEXT_ARRAY_THEORY_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_protocol_environment",
+]
+
+TEST_MEM_CONTEXT_ARRAY_THEORY_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_test:tezos-test-helpers",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@lwt//unix",
+    "@qcheck-alcotest//:qcheck-alcotest",
+]
+
+#################
+ocaml_executable(
+    name    = "test_mem_context_array_theory.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_mem_context_array_theory",
+    main    = ":Test_mem_context_array_theory",
+    deps = TEST_MEM_CONTEXT_ARRAY_THEORY_DEPS + [
+        ":Assert",
+        ":Test",
+        ":Test_mem_context",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Assert",
+    struct   = "assert.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test",
+    struct   = "test.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+       ":Test_mem_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_mem_context",
+    struct   = "test_mem_context.ml",
+    sig      = ":Test_mem_context_cmi",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+       ":Assert",
+    ]
+)
+
+ocaml_signature(
+    name     = "Test_mem_context_cmi",
+    src      = "test_mem_context.mli",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_mem_context_array_theory",
+    struct   = "test_mem_context_array_theory.ml",
+    opts     = TEST_OPTS,
+    deps     = TEST_DEPS + [
+       ":Test_mem_context",
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-protocol-environment)
+##   (deps (alias runtest_mem_context) (alias runtest_mem_context_array_theory))
+##   (action (progn))
+## )

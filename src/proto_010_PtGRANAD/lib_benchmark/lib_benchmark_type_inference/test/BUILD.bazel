@@ -1,0 +1,20 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Test_inference",
+    struct   = "test_inference.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_uf",
+    struct   = "test_uf.ml",
+    deps     = [
+    ]
+)
+

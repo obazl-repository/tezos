@@ -1,0 +1,2623 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-protocol-alpha.environment ########
+TEZOS_PROTOCOL_ALPHA_ENVIRONMENT_DEPS = [
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-alpha.environment",
+    ns         = "Tezos_protocol_environment_alpha",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Environment",
+    ],
+)
+
+######## tezos-protocol-alpha.raw ########
+TEZOS_PROTOCOL_ALPHA_RAW_OPTS = [
+    "-nopervasives",
+    "-nostdlib",
+    "-w",
+    "+a-4-6-7-9-29-32-40..42-44-45-48-60-67",
+    "-warn-error",
+    "+a",
+    "-open", "Error_monad",
+    "-open", "Pervasives",
+    "-open", "Tezos_protocol_environment_alpha__Environment",
+]
+
+TEZOS_PROTOCOL_ALPHA_RAW_DEPS = [
+    "//src/proto_alpha/lib_protocol:tezos-protocol-alpha.environment",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-alpha.raw",
+    ns         = "Tezos_raw_protocol_alpha",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Alpha_context",
+        ":Alpha_services",
+        ":Amendment",
+        ":Apply",
+        ":Apply_results",
+        ":Baking",
+        ":Blinded_public_key_hash",
+        ":Block_header_repr",
+        ":Bootstrap_storage",
+        ":Commitment_repr",
+        ":Commitment_storage",
+        ":Constants_repr",
+        ":Constants_services",
+        ":Constants_storage",
+        ":Contract_hash",
+        ":Contract_repr",
+        ":Contract_services",
+        ":Contract_storage",
+        ":Cycle_repr",
+        ":Delegate_services",
+        ":Delegate_storage",
+        ":Fees_storage",
+        ":Fitness_repr",
+        ":Fitness_storage",
+        ":Fixed_point_repr",
+        ":Gas_limit_repr",
+        ":Init_storage",
+        ":Lazy_storage_diff",
+        ":Lazy_storage_kind",
+        ":Level_repr",
+        ":Level_storage",
+        ":Liquidity_baking_cpmm",
+        ":Liquidity_baking_lqt",
+        ":Liquidity_baking_migration",
+        ":Liquidity_baking_repr",
+        ":Main",
+        ":Manager_repr",
+        ":Michelson_v1_gas",
+        ":Michelson_v1_primitives",
+        ":Migration_repr",
+        ":Misc",
+        ":Nonce_hash",
+        ":Nonce_storage",
+        ":Operation_repr",
+        ":Parameters_repr",
+        ":Period_repr",
+        ":Raw_context",
+        ":Raw_context_intf",
+        ":Raw_level_repr",
+        ":Receipt_repr",
+        ":Roll_repr",
+        ":Roll_storage",
+        ":Sapling_repr",
+        ":Sapling_services",
+        ":Sapling_storage",
+        ":Sapling_validator",
+        ":Saturation_repr",
+        ":Script_expr_hash",
+        ":Script_int_repr",
+        ":Script_interpreter",
+        ":Script_interpreter_defs",
+        ":Script_ir_annot",
+        ":Script_ir_translator",
+        ":Script_repr",
+        ":Script_tc_errors",
+        ":Script_tc_errors_registration",
+        ":Script_timestamp_repr",
+        ":Script_typed_ir",
+        ":Seed_repr",
+        ":Seed_storage",
+        ":Services_registration",
+        ":State_hash",
+        ":Storage",
+        ":Storage_costs",
+        ":Storage_description",
+        ":Storage_functors",
+        ":Storage_sigs",
+        ":Tez_repr",
+        ":Time_repr",
+        ":Vote_repr",
+        ":Vote_storage",
+        ":Voting_period_repr",
+        ":Voting_period_storage",
+        ":Voting_services",
+    ],
+)
+
+######## tezos-protocol-alpha ########
+TEZOS_PROTOCOL_ALPHA_OPTS = [
+    "-w",
+    "+a-4-6-7-9-29-40..42-44-45-48-60-67",
+    "-warn-error",
+    "+a",
+    "-nopervasives",
+]
+
+TEZOS_PROTOCOL_ALPHA_DEPS = [
+    "//src/lib_protocol_environment/sigs:tezos-protocol-environment-sigs",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/proto_alpha/lib_protocol:tezos-protocol-alpha.raw",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-alpha",
+    ns         = "Tezos_protocol_alpha",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Protocol",
+    ],
+)
+
+######## tezos-protocol-functor-alpha ########
+TEZOS_PROTOCOL_FUNCTOR_ALPHA_OPTS = [
+    "-w",
+    "+a-4-6-7-9-29-40..42-44-45-48-60-67",
+    "-warn-error",
+    "+a",
+    "-nopervasives",
+]
+
+TEZOS_PROTOCOL_FUNCTOR_ALPHA_DEPS = [
+    "//src/lib_protocol_environment/sigs:tezos-protocol-environment-sigs",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/proto_alpha/lib_protocol:tezos-protocol-alpha.raw",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-functor-alpha",
+    ns         = "Tezos_protocol_alpha_functor",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Functor",
+    ],
+)
+
+######## tezos-embedded-protocol-alpha ########
+TEZOS_EMBEDDED_PROTOCOL_ALPHA_OPTS = [
+    "-w",
+    "+a-4-6-7-9-29-32-40..42-44-45-48-60-67",
+    "-warn-error",
+    "+a",
+]
+
+TEZOS_EMBEDDED_PROTOCOL_ALPHA_DEPS = [
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_protocol_updater:tezos-protocol-updater",
+    "//src/proto_alpha/lib_protocol:tezos-protocol-alpha",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-embedded-protocol-alpha",
+    ns         = "Tezos_embedded_protocol_alpha",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Registerer",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Alpha_context",
+    struct   = "alpha_context.ml",
+    sig      = ":Alpha_context_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Voting_period_storage",
+       ":Voting_period_repr",
+       ":Vote_storage",
+       ":Vote_repr",
+       ":Time_repr",
+       ":Tez_repr",
+       ":Storage",
+       ":Seed_storage",
+       ":Seed_repr",
+       ":Script_timestamp_repr",
+       ":Script_repr",
+       ":Script_int_repr",
+       ":Sapling_validator",
+       ":Sapling_storage",
+       ":Sapling_repr",
+       ":Roll_storage",
+       ":Roll_repr",
+       ":Receipt_repr",
+       ":Raw_level_repr",
+       ":Raw_context",
+       ":Period_repr",
+       ":Parameters_repr",
+       ":Operation_repr",
+       ":Nonce_storage",
+       ":Migration_repr",
+       ":Michelson_v1_primitives",
+       ":Liquidity_baking_repr",
+       ":Level_storage",
+       ":Level_repr",
+       ":Lazy_storage_kind",
+       ":Lazy_storage_diff",
+       ":Init_storage",
+       ":Gas_limit_repr",
+       ":Fitness_storage",
+       ":Fitness_repr",
+       ":Fees_storage",
+       ":Delegate_storage",
+       ":Cycle_repr",
+       ":Contract_storage",
+       ":Contract_repr",
+       ":Constants_storage",
+       ":Constants_repr",
+       ":Commitment_storage",
+       ":Commitment_repr",
+       ":Bootstrap_storage",
+       ":Block_header_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Alpha_context_cmi",
+    src      = "alpha_context.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Storage_description",
+       ":Script_repr",
+       ":Script_int_repr",
+       ":Script_expr_hash",
+       ":Saturation_repr",
+       ":Nonce_hash",
+       ":Michelson_v1_primitives",
+       ":Gas_limit_repr",
+       ":Fixed_point_repr",
+       ":Blinded_public_key_hash",
+    ]
+)
+
+ocaml_module(
+    name     = "Alpha_services",
+    struct   = "alpha_services.ml",
+    sig      = ":Alpha_services_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Voting_services",
+       ":Services_registration",
+       ":Sapling_services",
+       ":Raw_context",
+       ":Nonce_hash",
+       ":Delegate_services",
+       ":Contract_services",
+       ":Constants_services",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Alpha_services_cmi",
+    src      = "alpha_services.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Voting_services",
+       ":Saturation_repr",
+       ":Sapling_services",
+       ":Nonce_hash",
+       ":Delegate_services",
+       ":Contract_services",
+       ":Constants_services",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Amendment",
+    struct   = "amendment.ml",
+    sig      = ":Amendment_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Raw_context",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Amendment_cmi",
+    src      = "amendment.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Saturation_repr",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Apply",
+    struct   = "apply.ml",
+    sig      = ":Apply_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_tc_errors",
+       ":Script_ir_translator",
+       ":Script_interpreter",
+       ":Raw_context",
+       ":Michelson_v1_primitives",
+       ":Michelson_v1_gas",
+       ":Blinded_public_key_hash",
+       ":Baking",
+       ":Apply_results",
+       ":Amendment",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Apply_cmi",
+    src      = "apply.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_ir_translator",
+       ":Saturation_repr",
+       ":Apply_results",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Apply_results",
+    struct   = "apply_results.ml",
+    sig      = ":Apply_results_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Raw_context",
+       ":Nonce_hash",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Apply_results_cmi",
+    src      = "apply_results.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Saturation_repr",
+       ":Nonce_hash",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Baking",
+    struct   = "baking.ml",
+    sig      = ":Baking_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Raw_context",
+       ":Misc",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Baking_cmi",
+    src      = "baking.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Saturation_repr",
+       ":Misc",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Blinded_public_key_hash",
+    struct   = "blinded_public_key_hash.ml",
+    sig      = ":Blinded_public_key_hash_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Blinded_public_key_hash_cmi",
+    src      = "blinded_public_key_hash.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Storage_description",
+    ]
+)
+
+ocaml_module(
+    name     = "Block_header_repr",
+    struct   = "block_header_repr.ml",
+    sig      = ":Block_header_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Nonce_hash",
+       ":Fitness_repr",
+       ":Constants_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Block_header_repr_cmi",
+    src      = "block_header_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Nonce_hash",
+    ]
+)
+
+ocaml_module(
+    name     = "Bootstrap_storage",
+    struct   = "bootstrap_storage.ml",
+    sig      = ":Bootstrap_storage_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Storage",
+       ":Raw_context",
+       ":Parameters_repr",
+       ":Misc",
+       ":Delegate_storage",
+       ":Cycle_repr",
+       ":Contract_storage",
+       ":Contract_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Bootstrap_storage_cmi",
+    src      = "bootstrap_storage.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_repr",
+       ":Raw_context",
+       ":Parameters_repr",
+       ":Michelson_v1_primitives",
+       ":Lazy_storage_diff",
+       ":Cycle_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Commitment_repr",
+    struct   = "commitment_repr.ml",
+    sig      = ":Commitment_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Blinded_public_key_hash",
+    ]
+)
+
+ocaml_signature(
+    name     = "Commitment_repr_cmi",
+    src      = "commitment_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Blinded_public_key_hash",
+    ]
+)
+
+ocaml_module(
+    name     = "Commitment_storage",
+    struct   = "commitment_storage.ml",
+    sig      = ":Commitment_storage_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Storage",
+       ":Commitment_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Commitment_storage_cmi",
+    src      = "commitment_storage.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Raw_context",
+       ":Commitment_repr",
+       ":Blinded_public_key_hash",
+    ]
+)
+
+ocaml_module(
+    name     = "Constants_repr",
+    struct   = "constants_repr.ml",
+    sig      = ":Constants_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Period_repr",
+       ":Gas_limit_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Constants_repr_cmi",
+    src      = "constants_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Saturation_repr",
+       ":Period_repr",
+       ":Gas_limit_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Constants_services",
+    struct   = "constants_services.ml",
+    sig      = ":Constants_services_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Services_registration",
+       ":Raw_context",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Constants_services_cmi",
+    src      = "constants_services.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Saturation_repr",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Constants_storage",
+    struct   = "constants_storage.ml",
+    sig      = ":Constants_storage_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Raw_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Constants_storage_cmi",
+    src      = "constants_storage.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Saturation_repr",
+       ":Raw_context",
+       ":Period_repr",
+       ":Gas_limit_repr",
+       ":Constants_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Contract_hash",
+    struct   = "contract_hash.ml",
+    sig      = ":Contract_hash_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Contract_hash_cmi",
+    src      = "contract_hash.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Contract_repr",
+    struct   = "contract_repr.ml",
+    sig      = ":Contract_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Contract_hash",
+    ]
+)
+
+ocaml_signature(
+    name     = "Contract_repr_cmi",
+    src      = "contract_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Storage_description",
+       ":Contract_hash",
+    ]
+)
+
+ocaml_module(
+    name     = "Contract_services",
+    struct   = "contract_services.ml",
+    sig      = ":Contract_services_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Services_registration",
+       ":Script_ir_translator",
+       ":Script_expr_hash",
+       ":Sapling_services",
+       ":Raw_context",
+       ":Michelson_v1_primitives",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Contract_services_cmi",
+    src      = "contract_services.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_expr_hash",
+       ":Saturation_repr",
+       ":Michelson_v1_primitives",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Contract_storage",
+    struct   = "contract_storage.ml",
+    sig      = ":Contract_storage_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Storage_costs",
+       ":Storage",
+       ":Script_repr",
+       ":Script_expr_hash",
+       ":Roll_storage",
+       ":Raw_context",
+       ":Manager_repr",
+       ":Lazy_storage_kind",
+       ":Lazy_storage_diff",
+       ":Delegate_storage",
+       ":Contract_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Contract_storage_cmi",
+    src      = "contract_storage.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Script_repr",
+       ":Script_expr_hash",
+       ":Raw_context",
+       ":Michelson_v1_primitives",
+       ":Lazy_storage_diff",
+       ":Contract_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Cycle_repr",
+    struct   = "cycle_repr.ml",
+    sig      = ":Cycle_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Cycle_repr_cmi",
+    src      = "cycle_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Storage_description",
+    ]
+)
+
+ocaml_module(
+    name     = "Delegate_services",
+    struct   = "delegate_services.ml",
+    sig      = ":Delegate_services_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Services_registration",
+       ":Raw_context",
+       ":Misc",
+       ":Baking",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Delegate_services_cmi",
+    src      = "delegate_services.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Saturation_repr",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Delegate_storage",
+    struct   = "delegate_storage.ml",
+    sig      = ":Delegate_storage_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Storage",
+       ":Roll_storage",
+       ":Receipt_repr",
+       ":Nonce_storage",
+       ":Manager_repr",
+       ":Level_storage",
+       ":Level_repr",
+       ":Cycle_repr",
+       ":Contract_repr",
+       ":Constants_storage",
+    ]
+)
+
+ocaml_signature(
+    name     = "Delegate_storage_cmi",
+    src      = "delegate_storage.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Seed_repr",
+       ":Receipt_repr",
+       ":Raw_context",
+       ":Nonce_storage",
+       ":Cycle_repr",
+       ":Contract_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Environment",
+    struct   = "environment.ml",
+    deps     = TEZOS_PROTOCOL_ALPHA_ENVIRONMENT_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Fees_storage",
+    struct   = "fees_storage.ml",
+    sig      = ":Fees_storage_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Raw_context",
+       ":Contract_storage",
+       ":Constants_storage",
+    ]
+)
+
+ocaml_signature(
+    name     = "Fees_storage_cmi",
+    src      = "fees_storage.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Raw_context",
+       ":Contract_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Fitness_repr",
+    struct   = "fitness_repr.ml",
+    sig      = ":Fitness_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Constants_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Fitness_repr_cmi",
+    src      = "fitness_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Fitness_storage",
+    struct   = "fitness_storage.ml",
+    sig      = ":Fitness_storage_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Raw_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Fitness_storage_cmi",
+    src      = "fitness_storage.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Raw_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Fixed_point_repr",
+    struct   = "fixed_point_repr.ml",
+    sig      = ":Fixed_point_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Fixed_point_repr_cmi",
+    src      = "fixed_point_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Functor",
+    struct   = "functor.ml",
+    opts     = TEZOS_PROTOCOL_FUNCTOR_ALPHA_OPTS,
+    deps     = TEZOS_PROTOCOL_FUNCTOR_ALPHA_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Gas_limit_repr",
+    struct   = "gas_limit_repr.ml",
+    sig      = ":Gas_limit_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Saturation_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Gas_limit_repr_cmi",
+    src      = "gas_limit_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Saturation_repr",
+       ":Fixed_point_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Init_storage",
+    struct   = "init_storage.ml",
+    sig      = ":Init_storage_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Voting_period_storage",
+       ":Vote_storage",
+       ":Storage",
+       ":Seed_storage",
+       ":Roll_storage",
+       ":Raw_context",
+       ":Liquidity_baking_migration",
+       ":Level_storage",
+       ":Lazy_storage_diff",
+       ":Contract_storage",
+       ":Commitment_storage",
+       ":Bootstrap_storage",
+    ]
+)
+
+ocaml_signature(
+    name     = "Init_storage_cmi",
+    src      = "init_storage.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_repr",
+       ":Receipt_repr",
+       ":Raw_context",
+       ":Migration_repr",
+       ":Michelson_v1_primitives",
+       ":Lazy_storage_diff",
+    ]
+)
+
+ocaml_module(
+    name     = "Lazy_storage_diff",
+    struct   = "lazy_storage_diff.ml",
+    sig      = ":Lazy_storage_diff_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Storage",
+       ":Script_repr",
+       ":Sapling_storage",
+       ":Raw_context",
+       ":Lazy_storage_kind",
+    ]
+)
+
+ocaml_signature(
+    name     = "Lazy_storage_diff_cmi",
+    src      = "lazy_storage_diff.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Sapling_repr",
+       ":Raw_context",
+       ":Lazy_storage_kind",
+    ]
+)
+
+ocaml_module(
+    name     = "Lazy_storage_kind",
+    struct   = "lazy_storage_kind.ml",
+    sig      = ":Lazy_storage_kind_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_repr",
+       ":Script_expr_hash",
+       ":Sapling_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Lazy_storage_kind_cmi",
+    src      = "lazy_storage_kind.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_repr",
+       ":Script_expr_hash",
+       ":Sapling_repr",
+       ":Michelson_v1_primitives",
+    ]
+)
+
+ocaml_module(
+    name     = "Level_repr",
+    struct   = "level_repr.ml",
+    sig      = ":Level_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Raw_level_repr",
+       ":Cycle_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Level_repr_cmi",
+    src      = "level_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Raw_level_repr",
+       ":Cycle_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Level_storage",
+    struct   = "level_storage.ml",
+    sig      = ":Level_storage_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Raw_level_repr",
+       ":Raw_context",
+       ":Level_repr",
+       ":Cycle_repr",
+       ":Constants_storage",
+    ]
+)
+
+ocaml_signature(
+    name     = "Level_storage_cmi",
+    src      = "level_storage.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Raw_level_repr",
+       ":Raw_context",
+       ":Level_repr",
+       ":Cycle_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Liquidity_baking_cpmm",
+    struct   = "liquidity_baking_cpmm.ml",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_repr",
+       ":Michelson_v1_primitives",
+    ]
+)
+
+ocaml_module(
+    name     = "Liquidity_baking_lqt",
+    struct   = "liquidity_baking_lqt.ml",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_repr",
+       ":Michelson_v1_primitives",
+    ]
+)
+
+ocaml_module(
+    name     = "Liquidity_baking_migration",
+    struct   = "liquidity_baking_migration.ml",
+    sig      = ":Liquidity_baking_migration_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Storage",
+       ":Script_repr",
+       ":Receipt_repr",
+       ":Raw_level_repr",
+       ":Raw_context",
+       ":Migration_repr",
+       ":Michelson_v1_primitives",
+       ":Liquidity_baking_lqt",
+       ":Liquidity_baking_cpmm",
+       ":Level_storage",
+       ":Fees_storage",
+       ":Contract_storage",
+       ":Contract_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Liquidity_baking_migration_cmi",
+    src      = "liquidity_baking_migration.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_repr",
+       ":Raw_context",
+       ":Migration_repr",
+       ":Michelson_v1_primitives",
+       ":Lazy_storage_diff",
+    ]
+)
+
+ocaml_module(
+    name     = "Liquidity_baking_repr",
+    struct   = "liquidity_baking_repr.ml",
+    sig      = ":Liquidity_baking_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Storage",
+       ":Raw_level_repr",
+       ":Level_storage",
+       ":Contract_storage",
+       ":Constants_storage",
+    ]
+)
+
+ocaml_signature(
+    name     = "Liquidity_baking_repr_cmi",
+    src      = "liquidity_baking_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Raw_context",
+       ":Contract_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Main",
+    struct   = "main.ml",
+    sig      = ":Main_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Services_registration",
+       ":Script_ir_translator",
+       ":Raw_context",
+       ":Apply_results",
+       ":Apply",
+       ":Alpha_services",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Main_cmi",
+    src      = "main.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Saturation_repr",
+       ":Apply_results",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Manager_repr",
+    struct   = "manager_repr.ml",
+    sig      = ":Manager_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Manager_repr_cmi",
+    src      = "manager_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_v1_gas",
+    struct   = "michelson_v1_gas.ml",
+    sig      = ":Michelson_v1_gas_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Storage_costs",
+       ":Script_typed_ir",
+       ":Script_expr_hash",
+       ":Saturation_repr",
+       ":Raw_context",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Michelson_v1_gas_cmi",
+    src      = "michelson_v1_gas.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_typed_ir",
+       ":Script_expr_hash",
+       ":Saturation_repr",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_v1_primitives",
+    struct   = "michelson_v1_primitives.ml",
+    sig      = ":Michelson_v1_primitives_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Michelson_v1_primitives_cmi",
+    src      = "michelson_v1_primitives.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Migration_repr",
+    struct   = "migration_repr.ml",
+    sig      = ":Migration_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Receipt_repr",
+       ":Contract_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Migration_repr_cmi",
+    src      = "migration_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Receipt_repr",
+       ":Contract_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Misc",
+    struct   = "misc.ml",
+    sig      = ":Misc_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Misc_cmi",
+    src      = "misc.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Nonce_hash",
+    struct   = "nonce_hash.ml",
+    sig      = ":Nonce_hash_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Nonce_hash_cmi",
+    src      = "nonce_hash.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Nonce_storage",
+    struct   = "nonce_storage.ml",
+    sig      = ":Nonce_storage_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Storage",
+       ":Seed_repr",
+       ":Nonce_hash",
+       ":Level_storage",
+       ":Level_repr",
+       ":Cycle_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Nonce_storage_cmi",
+    src      = "nonce_storage.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Voting_period_repr",
+       ":Vote_repr",
+       ":Tez_repr",
+       ":Storage",
+       ":Seed_repr",
+       ":Script_repr",
+       ":Script_expr_hash",
+       ":Sapling_repr",
+       ":Roll_repr",
+       ":Receipt_repr",
+       ":Raw_level_repr",
+       ":Raw_context",
+       ":Nonce_hash",
+       ":Migration_repr",
+       ":Michelson_v1_primitives",
+       ":Manager_repr",
+       ":Level_repr",
+       ":Lazy_storage_kind",
+       ":Cycle_repr",
+       ":Contract_repr",
+       ":Blinded_public_key_hash",
+    ]
+)
+
+ocaml_module(
+    name     = "Operation_repr",
+    struct   = "operation_repr.ml",
+    sig      = ":Operation_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Vote_repr",
+       ":Tez_repr",
+       ":Seed_repr",
+       ":Script_repr",
+       ":Raw_level_repr",
+       ":Gas_limit_repr",
+       ":Contract_repr",
+       ":Block_header_repr",
+       ":Blinded_public_key_hash",
+    ]
+)
+
+ocaml_signature(
+    name     = "Operation_repr_cmi",
+    src      = "operation_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Vote_repr",
+       ":Tez_repr",
+       ":Seed_repr",
+       ":Script_repr",
+       ":Saturation_repr",
+       ":Raw_level_repr",
+       ":Michelson_v1_primitives",
+       ":Gas_limit_repr",
+       ":Contract_repr",
+       ":Block_header_repr",
+       ":Blinded_public_key_hash",
+    ]
+)
+
+ocaml_module(
+    name     = "Parameters_repr",
+    struct   = "parameters_repr.ml",
+    sig      = ":Parameters_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Script_repr",
+       ":Constants_repr",
+       ":Commitment_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Parameters_repr_cmi",
+    src      = "parameters_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Script_repr",
+       ":Michelson_v1_primitives",
+       ":Constants_repr",
+       ":Commitment_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Period_repr",
+    struct   = "period_repr.ml",
+    sig      = ":Period_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Period_repr_cmi",
+    src      = "period_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Protocol",
+    struct   = "protocol.ml",
+    opts     = TEZOS_PROTOCOL_ALPHA_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Raw_context",
+    struct   = "raw_context.ml",
+    sig      = ":Raw_context_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Storage_description",
+       ":Sapling_repr",
+       ":Raw_level_repr",
+       ":Raw_context_intf",
+       ":Period_repr",
+       ":Parameters_repr",
+       ":Level_repr",
+       ":Lazy_storage_kind",
+       ":Gas_limit_repr",
+       ":Fitness_repr",
+       ":Cycle_repr",
+       ":Contract_repr",
+       ":Constants_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Raw_context_cmi",
+    src      = "raw_context.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Saturation_repr",
+       ":Sapling_repr",
+       ":Raw_context_intf",
+       ":Parameters_repr",
+       ":Level_repr",
+       ":Lazy_storage_kind",
+       ":Gas_limit_repr",
+       ":Contract_repr",
+       ":Constants_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Raw_context_intf",
+    struct   = "raw_context_intf.ml",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Storage_description",
+       ":Saturation_repr",
+       ":Gas_limit_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Raw_level_repr",
+    struct   = "raw_level_repr.ml",
+    sig      = ":Raw_level_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Raw_level_repr_cmi",
+    src      = "raw_level_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Storage_description",
+    ]
+)
+
+ocaml_module(
+    name     = "Receipt_repr",
+    struct   = "receipt_repr.ml",
+    sig      = ":Receipt_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Cycle_repr",
+       ":Contract_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Receipt_repr_cmi",
+    src      = "receipt_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Cycle_repr",
+       ":Contract_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Registerer",
+    struct   = "registerer.ml",
+    opts     = TEZOS_EMBEDDED_PROTOCOL_ALPHA_OPTS,
+    deps     = TEZOS_EMBEDDED_PROTOCOL_ALPHA_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Roll_repr",
+    struct   = "roll_repr.ml",
+    sig      = ":Roll_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Seed_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Roll_repr_cmi",
+    src      = "roll_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Storage_description",
+       ":Seed_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Roll_storage",
+    struct   = "roll_storage.ml",
+    sig      = ":Roll_storage_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Storage",
+       ":Seed_storage",
+       ":Seed_repr",
+       ":Roll_repr",
+       ":Raw_context",
+       ":Misc",
+       ":Manager_repr",
+       ":Level_repr",
+       ":Cycle_repr",
+       ":Contract_repr",
+       ":Constants_storage",
+       ":Constants_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Roll_storage_cmi",
+    src      = "roll_storage.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Tez_repr",
+       ":Roll_repr",
+       ":Raw_context",
+       ":Level_repr",
+       ":Cycle_repr",
+       ":Contract_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Sapling_repr",
+    struct   = "sapling_repr.ml",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Sapling_services",
+    struct   = "sapling_services.ml",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Services_registration",
+       ":Saturation_repr",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Sapling_storage",
+    struct   = "sapling_storage.ml",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Voting_period_repr",
+       ":Vote_repr",
+       ":Tez_repr",
+       ":Storage",
+       ":Script_repr",
+       ":Script_expr_hash",
+       ":Saturation_repr",
+       ":Sapling_repr",
+       ":Roll_repr",
+       ":Receipt_repr",
+       ":Raw_level_repr",
+       ":Raw_context",
+       ":Migration_repr",
+       ":Michelson_v1_primitives",
+       ":Manager_repr",
+       ":Level_repr",
+       ":Lazy_storage_kind",
+       ":Cycle_repr",
+       ":Contract_repr",
+       ":Blinded_public_key_hash",
+    ]
+)
+
+ocaml_module(
+    name     = "Sapling_validator",
+    struct   = "sapling_validator.ml",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Sapling_storage",
+       ":Sapling_repr",
+       ":Raw_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Saturation_repr",
+    struct   = "saturation_repr.ml",
+    sig      = ":Saturation_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Saturation_repr_cmi",
+    src      = "saturation_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Script_expr_hash",
+    struct   = "script_expr_hash.ml",
+    sig      = ":Script_expr_hash_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Script_expr_hash_cmi",
+    src      = "script_expr_hash.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Script_int_repr",
+    struct   = "script_int_repr.ml",
+    sig      = ":Script_int_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Script_int_repr_cmi",
+    src      = "script_int_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Script_interpreter",
+    struct   = "script_interpreter.ml",
+    sig      = ":Script_interpreter_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_typed_ir",
+       ":Script_ir_translator",
+       ":Script_interpreter_defs",
+       ":Saturation_repr",
+       ":Raw_context",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Script_interpreter_cmi",
+    src      = "script_interpreter.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_typed_ir",
+       ":Script_ir_translator",
+       ":Script_expr_hash",
+       ":Saturation_repr",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Script_interpreter_defs",
+    struct   = "script_interpreter_defs.ml",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_typed_ir",
+       ":Script_ir_translator",
+       ":Script_expr_hash",
+       ":Saturation_repr",
+       ":Michelson_v1_gas",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Script_ir_annot",
+    struct   = "script_ir_annot.ml",
+    sig      = ":Script_ir_annot_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_typed_ir",
+       ":Script_tc_errors",
+       ":Raw_context",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Script_ir_annot_cmi",
+    src      = "script_ir_annot.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_typed_ir",
+       ":Script_expr_hash",
+       ":Saturation_repr",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Script_ir_translator",
+    struct   = "script_ir_translator.ml",
+    sig      = ":Script_ir_translator_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_typed_ir",
+       ":Script_tc_errors",
+       ":Script_ir_annot",
+       ":Script_expr_hash",
+       ":Raw_context",
+       ":Michelson_v1_primitives",
+       ":Michelson_v1_gas",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Script_ir_translator_cmi",
+    src      = "script_ir_translator.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_typed_ir",
+       ":Script_tc_errors",
+       ":Script_expr_hash",
+       ":Saturation_repr",
+       ":Michelson_v1_primitives",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Script_repr",
+    struct   = "script_repr.ml",
+    sig      = ":Script_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Saturation_repr",
+       ":Michelson_v1_primitives",
+       ":Gas_limit_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Script_repr_cmi",
+    src      = "script_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Saturation_repr",
+       ":Michelson_v1_primitives",
+       ":Gas_limit_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Script_tc_errors",
+    struct   = "script_tc_errors.ml",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Saturation_repr",
+       ":Michelson_v1_primitives",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Script_tc_errors_registration",
+    struct   = "script_tc_errors_registration.ml",
+    sig      = ":Script_tc_errors_registration_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_tc_errors",
+       ":Raw_context",
+       ":Michelson_v1_primitives",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Script_tc_errors_registration_cmi",
+    src      = "script_tc_errors_registration.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Saturation_repr",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Script_timestamp_repr",
+    struct   = "script_timestamp_repr.ml",
+    sig      = ":Script_timestamp_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Time_repr",
+       ":Script_int_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Script_timestamp_repr_cmi",
+    src      = "script_timestamp_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_int_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Script_typed_ir",
+    struct   = "script_typed_ir.ml",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Script_expr_hash",
+       ":Saturation_repr",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Seed_repr",
+    struct   = "seed_repr.ml",
+    sig      = ":Seed_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":State_hash",
+       ":Nonce_hash",
+       ":Constants_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Seed_repr_cmi",
+    src      = "seed_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Nonce_hash",
+    ]
+)
+
+ocaml_module(
+    name     = "Seed_storage",
+    struct   = "seed_storage.ml",
+    sig      = ":Seed_storage_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Storage",
+       ":Seed_repr",
+       ":Misc",
+       ":Level_storage",
+       ":Cycle_repr",
+       ":Constants_storage",
+    ]
+)
+
+ocaml_signature(
+    name     = "Seed_storage_cmi",
+    src      = "seed_storage.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Seed_repr",
+       ":Raw_context",
+       ":Nonce_storage",
+       ":Cycle_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Services_registration",
+    struct   = "services_registration.ml",
+    sig      = ":Services_registration_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Storage_description",
+       ":Raw_context",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Services_registration_cmi",
+    src      = "services_registration.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Saturation_repr",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_module(
+    name     = "State_hash",
+    struct   = "state_hash.ml",
+    sig      = ":State_hash_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "State_hash_cmi",
+    src      = "state_hash.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Storage",
+    struct   = "storage.ml",
+    sig      = ":Storage_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Voting_period_repr",
+       ":Vote_repr",
+       ":Tez_repr",
+       ":Storage_sigs",
+       ":Storage_functors",
+       ":Storage_description",
+       ":Seed_repr",
+       ":Script_repr",
+       ":Script_expr_hash",
+       ":Sapling_repr",
+       ":Roll_repr",
+       ":Receipt_repr",
+       ":Raw_level_repr",
+       ":Raw_context",
+       ":Nonce_hash",
+       ":Misc",
+       ":Migration_repr",
+       ":Michelson_v1_primitives",
+       ":Manager_repr",
+       ":Level_repr",
+       ":Lazy_storage_kind",
+       ":Cycle_repr",
+       ":Contract_repr",
+       ":Blinded_public_key_hash",
+    ]
+)
+
+ocaml_signature(
+    name     = "Storage_cmi",
+    src      = "storage.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Voting_period_repr",
+       ":Vote_repr",
+       ":Tez_repr",
+       ":Storage_sigs",
+       ":Seed_repr",
+       ":Script_repr",
+       ":Script_expr_hash",
+       ":Sapling_repr",
+       ":Roll_repr",
+       ":Receipt_repr",
+       ":Raw_level_repr",
+       ":Raw_context",
+       ":Nonce_hash",
+       ":Migration_repr",
+       ":Michelson_v1_primitives",
+       ":Manager_repr",
+       ":Level_repr",
+       ":Lazy_storage_kind",
+       ":Cycle_repr",
+       ":Contract_repr",
+       ":Blinded_public_key_hash",
+    ]
+)
+
+ocaml_module(
+    name     = "Storage_costs",
+    struct   = "storage_costs.ml",
+    sig      = ":Storage_costs_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Saturation_repr",
+       ":Gas_limit_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Storage_costs_cmi",
+    src      = "storage_costs.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Saturation_repr",
+       ":Gas_limit_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Storage_description",
+    struct   = "storage_description.ml",
+    sig      = ":Storage_description_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Storage_description_cmi",
+    src      = "storage_description.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Storage_functors",
+    struct   = "storage_functors.ml",
+    sig      = ":Storage_functors_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Storage_sigs",
+       ":Storage_description",
+       ":Storage_costs",
+       ":Raw_context",
+       ":Misc",
+       ":Gas_limit_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Storage_functors_cmi",
+    src      = "storage_functors.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Storage_sigs",
+       ":Storage_description",
+       ":Raw_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Storage_sigs",
+    struct   = "storage_sigs.ml",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Raw_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Tez_repr",
+    struct   = "tez_repr.ml",
+    sig      = ":Tez_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Tez_repr_cmi",
+    src      = "tez_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Time_repr",
+    struct   = "time_repr.ml",
+    sig      = ":Time_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Period_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Time_repr_cmi",
+    src      = "time_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Period_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Vote_repr",
+    struct   = "vote_repr.ml",
+    sig      = ":Vote_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Vote_repr_cmi",
+    src      = "vote_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Vote_storage",
+    struct   = "vote_storage.ml",
+    sig      = ":Vote_storage_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Voting_period_storage",
+       ":Voting_period_repr",
+       ":Vote_repr",
+       ":Tez_repr",
+       ":Storage_costs",
+       ":Storage",
+       ":Seed_repr",
+       ":Script_repr",
+       ":Sapling_repr",
+       ":Roll_storage",
+       ":Receipt_repr",
+       ":Raw_context",
+       ":Migration_repr",
+       ":Michelson_v1_primitives",
+       ":Lazy_storage_kind",
+       ":Cycle_repr",
+       ":Contract_repr",
+       ":Constants_storage",
+    ]
+)
+
+ocaml_signature(
+    name     = "Vote_storage_cmi",
+    src      = "vote_storage.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Vote_repr",
+       ":Raw_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Voting_period_repr",
+    struct   = "voting_period_repr.ml",
+    sig      = ":Voting_period_repr_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Level_repr",
+    ]
+)
+
+ocaml_signature(
+    name     = "Voting_period_repr_cmi",
+    src      = "voting_period_repr.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Level_repr",
+    ]
+)
+
+ocaml_module(
+    name     = "Voting_period_storage",
+    struct   = "voting_period_storage.ml",
+    sig      = ":Voting_period_storage_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Voting_period_repr",
+       ":Vote_repr",
+       ":Tez_repr",
+       ":Storage",
+       ":Seed_repr",
+       ":Script_repr",
+       ":Sapling_repr",
+       ":Receipt_repr",
+       ":Raw_context",
+       ":Migration_repr",
+       ":Michelson_v1_primitives",
+       ":Level_storage",
+       ":Lazy_storage_kind",
+       ":Cycle_repr",
+       ":Contract_repr",
+       ":Constants_storage",
+    ]
+)
+
+ocaml_signature(
+    name     = "Voting_period_storage_cmi",
+    src      = "voting_period_storage.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Voting_period_repr",
+       ":Raw_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Voting_services",
+    struct   = "voting_services.ml",
+    sig      = ":Voting_services_cmi",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Services_registration",
+       ":Raw_context",
+       ":Alpha_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Voting_services_cmi",
+    src      = "voting_services.mli",
+    opts     = TEZOS_PROTOCOL_ALPHA_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_ALPHA_RAW_DEPS + [
+       ":Saturation_repr",
+       ":Alpha_context",
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+###########
+write_file(
+    name     = "write_environment.ml",
+    out      = "environment.ml",
+    content  = """
+module Name = struct let name = "alpha" end
+include Tezos_protocol_environment.MakeV2(Name)()
+module CamlinternalFormatBasics = struct include CamlinternalFormatBasics end
+""")
+
+######## with-stdout-to ########
+genrule(
+    name = "__registerer.ml",
+    outs  = [
+        "registerer.ml"
+    ],
+    tools  = ["//src/lib_protocol_compiler:tezos-embedded-protocol-packer.exe"],
+    cmd  = " ".join([
+        "$(execpath //src/lib_protocol_compiler:tezos-embedded-protocol-packer.exe) ",
+        "$(location //src/proto_alpha/lib_protocol:TEZOS_PROTOCOL)",
+        "alpha",
+        "> $@"
+        ]),
+    srcs  = [
+        "//src/proto_alpha/lib_protocol:misc.mli",
+        "//src/proto_alpha/lib_protocol:misc.ml",
+        "//src/proto_alpha/lib_protocol:storage_description.mli",
+        "//src/proto_alpha/lib_protocol:storage_description.ml",
+        "//src/proto_alpha/lib_protocol:state_hash.mli",
+        "//src/proto_alpha/lib_protocol:state_hash.ml",
+        "//src/proto_alpha/lib_protocol:nonce_hash.mli",
+        "//src/proto_alpha/lib_protocol:nonce_hash.ml",
+        "//src/proto_alpha/lib_protocol:script_expr_hash.mli",
+        "//src/proto_alpha/lib_protocol:script_expr_hash.ml",
+        "//src/proto_alpha/lib_protocol:contract_hash.mli",
+        "//src/proto_alpha/lib_protocol:contract_hash.ml",
+        "//src/proto_alpha/lib_protocol:blinded_public_key_hash.mli",
+        "//src/proto_alpha/lib_protocol:blinded_public_key_hash.ml",
+        "//src/proto_alpha/lib_protocol:tez_repr.mli",
+        "//src/proto_alpha/lib_protocol:tez_repr.ml",
+        "//src/proto_alpha/lib_protocol:period_repr.mli",
+        "//src/proto_alpha/lib_protocol:period_repr.ml",
+        "//src/proto_alpha/lib_protocol:time_repr.mli",
+        "//src/proto_alpha/lib_protocol:time_repr.ml",
+        "//src/proto_alpha/lib_protocol:fixed_point_repr.mli",
+        "//src/proto_alpha/lib_protocol:fixed_point_repr.ml",
+        "//src/proto_alpha/lib_protocol:saturation_repr.mli",
+        "//src/proto_alpha/lib_protocol:saturation_repr.ml",
+        "//src/proto_alpha/lib_protocol:gas_limit_repr.mli",
+        "//src/proto_alpha/lib_protocol:gas_limit_repr.ml",
+        "//src/proto_alpha/lib_protocol:constants_repr.mli",
+        "//src/proto_alpha/lib_protocol:constants_repr.ml",
+        "//src/proto_alpha/lib_protocol:fitness_repr.mli",
+        "//src/proto_alpha/lib_protocol:fitness_repr.ml",
+        "//src/proto_alpha/lib_protocol:raw_level_repr.mli",
+        "//src/proto_alpha/lib_protocol:raw_level_repr.ml",
+        "//src/proto_alpha/lib_protocol:cycle_repr.mli",
+        "//src/proto_alpha/lib_protocol:cycle_repr.ml",
+        "//src/proto_alpha/lib_protocol:level_repr.mli",
+        "//src/proto_alpha/lib_protocol:level_repr.ml",
+        "//src/proto_alpha/lib_protocol:seed_repr.mli",
+        "//src/proto_alpha/lib_protocol:seed_repr.ml",
+        "//src/proto_alpha/lib_protocol:voting_period_repr.mli",
+        "//src/proto_alpha/lib_protocol:voting_period_repr.ml",
+        "//src/proto_alpha/lib_protocol:script_int_repr.mli",
+        "//src/proto_alpha/lib_protocol:script_int_repr.ml",
+        "//src/proto_alpha/lib_protocol:script_timestamp_repr.mli",
+        "//src/proto_alpha/lib_protocol:script_timestamp_repr.ml",
+        "//src/proto_alpha/lib_protocol:michelson_v1_primitives.mli",
+        "//src/proto_alpha/lib_protocol:michelson_v1_primitives.ml",
+        "//src/proto_alpha/lib_protocol:script_repr.mli",
+        "//src/proto_alpha/lib_protocol:script_repr.ml",
+        "//src/proto_alpha/lib_protocol:contract_repr.mli",
+        "//src/proto_alpha/lib_protocol:contract_repr.ml",
+        "//src/proto_alpha/lib_protocol:roll_repr.mli",
+        "//src/proto_alpha/lib_protocol:roll_repr.ml",
+        "//src/proto_alpha/lib_protocol:vote_repr.mli",
+        "//src/proto_alpha/lib_protocol:vote_repr.ml",
+        "//src/proto_alpha/lib_protocol:block_header_repr.mli",
+        "//src/proto_alpha/lib_protocol:block_header_repr.ml",
+        "//src/proto_alpha/lib_protocol:operation_repr.mli",
+        "//src/proto_alpha/lib_protocol:operation_repr.ml",
+        "//src/proto_alpha/lib_protocol:manager_repr.mli",
+        "//src/proto_alpha/lib_protocol:manager_repr.ml",
+        "//src/proto_alpha/lib_protocol:commitment_repr.mli",
+        "//src/proto_alpha/lib_protocol:commitment_repr.ml",
+        "//src/proto_alpha/lib_protocol:parameters_repr.mli",
+        "//src/proto_alpha/lib_protocol:parameters_repr.ml",
+        "//src/proto_alpha/lib_protocol:sapling_repr.ml",
+        "//src/proto_alpha/lib_protocol:lazy_storage_kind.mli",
+        "//src/proto_alpha/lib_protocol:lazy_storage_kind.ml",
+        "//src/proto_alpha/lib_protocol:receipt_repr.mli",
+        "//src/proto_alpha/lib_protocol:receipt_repr.ml",
+        "//src/proto_alpha/lib_protocol:migration_repr.mli",
+        "//src/proto_alpha/lib_protocol:migration_repr.ml",
+        "//src/proto_alpha/lib_protocol:raw_context_intf.ml",
+        "//src/proto_alpha/lib_protocol:raw_context.mli",
+        "//src/proto_alpha/lib_protocol:raw_context.ml",
+        "//src/proto_alpha/lib_protocol:storage_costs.mli",
+        "//src/proto_alpha/lib_protocol:storage_costs.ml",
+        "//src/proto_alpha/lib_protocol:storage_sigs.ml",
+        "//src/proto_alpha/lib_protocol:storage_functors.mli",
+        "//src/proto_alpha/lib_protocol:storage_functors.ml",
+        "//src/proto_alpha/lib_protocol:storage.mli",
+        "//src/proto_alpha/lib_protocol:storage.ml",
+        "//src/proto_alpha/lib_protocol:constants_storage.mli",
+        "//src/proto_alpha/lib_protocol:constants_storage.ml",
+        "//src/proto_alpha/lib_protocol:level_storage.mli",
+        "//src/proto_alpha/lib_protocol:level_storage.ml",
+        "//src/proto_alpha/lib_protocol:nonce_storage.mli",
+        "//src/proto_alpha/lib_protocol:nonce_storage.ml",
+        "//src/proto_alpha/lib_protocol:seed_storage.mli",
+        "//src/proto_alpha/lib_protocol:seed_storage.ml",
+        "//src/proto_alpha/lib_protocol:roll_storage.mli",
+        "//src/proto_alpha/lib_protocol:roll_storage.ml",
+        "//src/proto_alpha/lib_protocol:delegate_storage.mli",
+        "//src/proto_alpha/lib_protocol:delegate_storage.ml",
+        "//src/proto_alpha/lib_protocol:sapling_storage.ml",
+        "//src/proto_alpha/lib_protocol:lazy_storage_diff.mli",
+        "//src/proto_alpha/lib_protocol:lazy_storage_diff.ml",
+        "//src/proto_alpha/lib_protocol:contract_storage.mli",
+        "//src/proto_alpha/lib_protocol:contract_storage.ml",
+        "//src/proto_alpha/lib_protocol:bootstrap_storage.mli",
+        "//src/proto_alpha/lib_protocol:bootstrap_storage.ml",
+        "//src/proto_alpha/lib_protocol:fitness_storage.mli",
+        "//src/proto_alpha/lib_protocol:fitness_storage.ml",
+        "//src/proto_alpha/lib_protocol:voting_period_storage.mli",
+        "//src/proto_alpha/lib_protocol:voting_period_storage.ml",
+        "//src/proto_alpha/lib_protocol:vote_storage.mli",
+        "//src/proto_alpha/lib_protocol:vote_storage.ml",
+        "//src/proto_alpha/lib_protocol:commitment_storage.mli",
+        "//src/proto_alpha/lib_protocol:commitment_storage.ml",
+        "//src/proto_alpha/lib_protocol:fees_storage.mli",
+        "//src/proto_alpha/lib_protocol:fees_storage.ml",
+        "//src/proto_alpha/lib_protocol:liquidity_baking_repr.mli",
+        "//src/proto_alpha/lib_protocol:liquidity_baking_repr.ml",
+        "//src/proto_alpha/lib_protocol:liquidity_baking_cpmm.ml",
+        "//src/proto_alpha/lib_protocol:liquidity_baking_lqt.ml",
+        "//src/proto_alpha/lib_protocol:liquidity_baking_migration.mli",
+        "//src/proto_alpha/lib_protocol:liquidity_baking_migration.ml",
+        "//src/proto_alpha/lib_protocol:init_storage.mli",
+        "//src/proto_alpha/lib_protocol:init_storage.ml",
+        "//src/proto_alpha/lib_protocol:sapling_validator.ml",
+        "//src/proto_alpha/lib_protocol:alpha_context.mli",
+        "//src/proto_alpha/lib_protocol:alpha_context.ml",
+        "//src/proto_alpha/lib_protocol:script_typed_ir.ml",
+        "//src/proto_alpha/lib_protocol:script_tc_errors.ml",
+        "//src/proto_alpha/lib_protocol:michelson_v1_gas.mli",
+        "//src/proto_alpha/lib_protocol:michelson_v1_gas.ml",
+        "//src/proto_alpha/lib_protocol:script_ir_annot.mli",
+        "//src/proto_alpha/lib_protocol:script_ir_annot.ml",
+        "//src/proto_alpha/lib_protocol:script_ir_translator.mli",
+        "//src/proto_alpha/lib_protocol:script_ir_translator.ml",
+        "//src/proto_alpha/lib_protocol:script_tc_errors_registration.mli",
+        "//src/proto_alpha/lib_protocol:script_tc_errors_registration.ml",
+        "//src/proto_alpha/lib_protocol:script_interpreter_defs.ml",
+        "//src/proto_alpha/lib_protocol:script_interpreter.mli",
+        "//src/proto_alpha/lib_protocol:script_interpreter.ml",
+        "//src/proto_alpha/lib_protocol:baking.mli",
+        "//src/proto_alpha/lib_protocol:baking.ml",
+        "//src/proto_alpha/lib_protocol:amendment.mli",
+        "//src/proto_alpha/lib_protocol:amendment.ml",
+        "//src/proto_alpha/lib_protocol:apply_results.mli",
+        "//src/proto_alpha/lib_protocol:apply_results.ml",
+        "//src/proto_alpha/lib_protocol:apply.mli",
+        "//src/proto_alpha/lib_protocol:apply.ml",
+        "//src/proto_alpha/lib_protocol:services_registration.mli",
+        "//src/proto_alpha/lib_protocol:services_registration.ml",
+        "//src/proto_alpha/lib_protocol:constants_services.mli",
+        "//src/proto_alpha/lib_protocol:constants_services.ml",
+        "//src/proto_alpha/lib_protocol:sapling_services.ml",
+        "//src/proto_alpha/lib_protocol:contract_services.mli",
+        "//src/proto_alpha/lib_protocol:contract_services.ml",
+        "//src/proto_alpha/lib_protocol:delegate_services.mli",
+        "//src/proto_alpha/lib_protocol:delegate_services.ml",
+        "//src/proto_alpha/lib_protocol:voting_services.mli",
+        "//src/proto_alpha/lib_protocol:voting_services.ml",
+        "//src/proto_alpha/lib_protocol:alpha_services.mli",
+        "//src/proto_alpha/lib_protocol:alpha_services.ml",
+        "//src/proto_alpha/lib_protocol:main.mli",
+        "//src/proto_alpha/lib_protocol:main.ml",
+        "//src/proto_alpha/lib_protocol:TEZOS_PROTOCOL",
+    ],
+)
+######## with-stdout-to ########
+genrule(
+    name = "__functor.ml",
+    outs  = [
+        "functor.ml"
+    ],
+    tools  = ["//src/lib_protocol_compiler:tezos-protocol-compiler.tezos-protocol-packer.exe"],
+    cmd  = " ".join([
+        "$(execpath //src/lib_protocol_compiler:tezos-protocol-compiler.tezos-protocol-packer.exe) ",
+        "$(location //src/proto_alpha/lib_protocol:TEZOS_PROTOCOL)",
+        "> $@"
+        ]),
+    srcs  = [
+        "//src/proto_alpha/lib_protocol:misc.mli",
+        "//src/proto_alpha/lib_protocol:misc.ml",
+        "//src/proto_alpha/lib_protocol:storage_description.mli",
+        "//src/proto_alpha/lib_protocol:storage_description.ml",
+        "//src/proto_alpha/lib_protocol:state_hash.mli",
+        "//src/proto_alpha/lib_protocol:state_hash.ml",
+        "//src/proto_alpha/lib_protocol:nonce_hash.mli",
+        "//src/proto_alpha/lib_protocol:nonce_hash.ml",
+        "//src/proto_alpha/lib_protocol:script_expr_hash.mli",
+        "//src/proto_alpha/lib_protocol:script_expr_hash.ml",
+        "//src/proto_alpha/lib_protocol:contract_hash.mli",
+        "//src/proto_alpha/lib_protocol:contract_hash.ml",
+        "//src/proto_alpha/lib_protocol:blinded_public_key_hash.mli",
+        "//src/proto_alpha/lib_protocol:blinded_public_key_hash.ml",
+        "//src/proto_alpha/lib_protocol:tez_repr.mli",
+        "//src/proto_alpha/lib_protocol:tez_repr.ml",
+        "//src/proto_alpha/lib_protocol:period_repr.mli",
+        "//src/proto_alpha/lib_protocol:period_repr.ml",
+        "//src/proto_alpha/lib_protocol:time_repr.mli",
+        "//src/proto_alpha/lib_protocol:time_repr.ml",
+        "//src/proto_alpha/lib_protocol:fixed_point_repr.mli",
+        "//src/proto_alpha/lib_protocol:fixed_point_repr.ml",
+        "//src/proto_alpha/lib_protocol:saturation_repr.mli",
+        "//src/proto_alpha/lib_protocol:saturation_repr.ml",
+        "//src/proto_alpha/lib_protocol:gas_limit_repr.mli",
+        "//src/proto_alpha/lib_protocol:gas_limit_repr.ml",
+        "//src/proto_alpha/lib_protocol:constants_repr.mli",
+        "//src/proto_alpha/lib_protocol:constants_repr.ml",
+        "//src/proto_alpha/lib_protocol:fitness_repr.mli",
+        "//src/proto_alpha/lib_protocol:fitness_repr.ml",
+        "//src/proto_alpha/lib_protocol:raw_level_repr.mli",
+        "//src/proto_alpha/lib_protocol:raw_level_repr.ml",
+        "//src/proto_alpha/lib_protocol:cycle_repr.mli",
+        "//src/proto_alpha/lib_protocol:cycle_repr.ml",
+        "//src/proto_alpha/lib_protocol:level_repr.mli",
+        "//src/proto_alpha/lib_protocol:level_repr.ml",
+        "//src/proto_alpha/lib_protocol:seed_repr.mli",
+        "//src/proto_alpha/lib_protocol:seed_repr.ml",
+        "//src/proto_alpha/lib_protocol:voting_period_repr.mli",
+        "//src/proto_alpha/lib_protocol:voting_period_repr.ml",
+        "//src/proto_alpha/lib_protocol:script_int_repr.mli",
+        "//src/proto_alpha/lib_protocol:script_int_repr.ml",
+        "//src/proto_alpha/lib_protocol:script_timestamp_repr.mli",
+        "//src/proto_alpha/lib_protocol:script_timestamp_repr.ml",
+        "//src/proto_alpha/lib_protocol:michelson_v1_primitives.mli",
+        "//src/proto_alpha/lib_protocol:michelson_v1_primitives.ml",
+        "//src/proto_alpha/lib_protocol:script_repr.mli",
+        "//src/proto_alpha/lib_protocol:script_repr.ml",
+        "//src/proto_alpha/lib_protocol:contract_repr.mli",
+        "//src/proto_alpha/lib_protocol:contract_repr.ml",
+        "//src/proto_alpha/lib_protocol:roll_repr.mli",
+        "//src/proto_alpha/lib_protocol:roll_repr.ml",
+        "//src/proto_alpha/lib_protocol:vote_repr.mli",
+        "//src/proto_alpha/lib_protocol:vote_repr.ml",
+        "//src/proto_alpha/lib_protocol:block_header_repr.mli",
+        "//src/proto_alpha/lib_protocol:block_header_repr.ml",
+        "//src/proto_alpha/lib_protocol:operation_repr.mli",
+        "//src/proto_alpha/lib_protocol:operation_repr.ml",
+        "//src/proto_alpha/lib_protocol:manager_repr.mli",
+        "//src/proto_alpha/lib_protocol:manager_repr.ml",
+        "//src/proto_alpha/lib_protocol:commitment_repr.mli",
+        "//src/proto_alpha/lib_protocol:commitment_repr.ml",
+        "//src/proto_alpha/lib_protocol:parameters_repr.mli",
+        "//src/proto_alpha/lib_protocol:parameters_repr.ml",
+        "//src/proto_alpha/lib_protocol:sapling_repr.ml",
+        "//src/proto_alpha/lib_protocol:lazy_storage_kind.mli",
+        "//src/proto_alpha/lib_protocol:lazy_storage_kind.ml",
+        "//src/proto_alpha/lib_protocol:receipt_repr.mli",
+        "//src/proto_alpha/lib_protocol:receipt_repr.ml",
+        "//src/proto_alpha/lib_protocol:migration_repr.mli",
+        "//src/proto_alpha/lib_protocol:migration_repr.ml",
+        "//src/proto_alpha/lib_protocol:raw_context_intf.ml",
+        "//src/proto_alpha/lib_protocol:raw_context.mli",
+        "//src/proto_alpha/lib_protocol:raw_context.ml",
+        "//src/proto_alpha/lib_protocol:storage_costs.mli",
+        "//src/proto_alpha/lib_protocol:storage_costs.ml",
+        "//src/proto_alpha/lib_protocol:storage_sigs.ml",
+        "//src/proto_alpha/lib_protocol:storage_functors.mli",
+        "//src/proto_alpha/lib_protocol:storage_functors.ml",
+        "//src/proto_alpha/lib_protocol:storage.mli",
+        "//src/proto_alpha/lib_protocol:storage.ml",
+        "//src/proto_alpha/lib_protocol:constants_storage.mli",
+        "//src/proto_alpha/lib_protocol:constants_storage.ml",
+        "//src/proto_alpha/lib_protocol:level_storage.mli",
+        "//src/proto_alpha/lib_protocol:level_storage.ml",
+        "//src/proto_alpha/lib_protocol:nonce_storage.mli",
+        "//src/proto_alpha/lib_protocol:nonce_storage.ml",
+        "//src/proto_alpha/lib_protocol:seed_storage.mli",
+        "//src/proto_alpha/lib_protocol:seed_storage.ml",
+        "//src/proto_alpha/lib_protocol:roll_storage.mli",
+        "//src/proto_alpha/lib_protocol:roll_storage.ml",
+        "//src/proto_alpha/lib_protocol:delegate_storage.mli",
+        "//src/proto_alpha/lib_protocol:delegate_storage.ml",
+        "//src/proto_alpha/lib_protocol:sapling_storage.ml",
+        "//src/proto_alpha/lib_protocol:lazy_storage_diff.mli",
+        "//src/proto_alpha/lib_protocol:lazy_storage_diff.ml",
+        "//src/proto_alpha/lib_protocol:contract_storage.mli",
+        "//src/proto_alpha/lib_protocol:contract_storage.ml",
+        "//src/proto_alpha/lib_protocol:bootstrap_storage.mli",
+        "//src/proto_alpha/lib_protocol:bootstrap_storage.ml",
+        "//src/proto_alpha/lib_protocol:fitness_storage.mli",
+        "//src/proto_alpha/lib_protocol:fitness_storage.ml",
+        "//src/proto_alpha/lib_protocol:voting_period_storage.mli",
+        "//src/proto_alpha/lib_protocol:voting_period_storage.ml",
+        "//src/proto_alpha/lib_protocol:vote_storage.mli",
+        "//src/proto_alpha/lib_protocol:vote_storage.ml",
+        "//src/proto_alpha/lib_protocol:commitment_storage.mli",
+        "//src/proto_alpha/lib_protocol:commitment_storage.ml",
+        "//src/proto_alpha/lib_protocol:fees_storage.mli",
+        "//src/proto_alpha/lib_protocol:fees_storage.ml",
+        "//src/proto_alpha/lib_protocol:liquidity_baking_repr.mli",
+        "//src/proto_alpha/lib_protocol:liquidity_baking_repr.ml",
+        "//src/proto_alpha/lib_protocol:liquidity_baking_cpmm.ml",
+        "//src/proto_alpha/lib_protocol:liquidity_baking_lqt.ml",
+        "//src/proto_alpha/lib_protocol:liquidity_baking_migration.mli",
+        "//src/proto_alpha/lib_protocol:liquidity_baking_migration.ml",
+        "//src/proto_alpha/lib_protocol:init_storage.mli",
+        "//src/proto_alpha/lib_protocol:init_storage.ml",
+        "//src/proto_alpha/lib_protocol:sapling_validator.ml",
+        "//src/proto_alpha/lib_protocol:alpha_context.mli",
+        "//src/proto_alpha/lib_protocol:alpha_context.ml",
+        "//src/proto_alpha/lib_protocol:script_typed_ir.ml",
+        "//src/proto_alpha/lib_protocol:script_tc_errors.ml",
+        "//src/proto_alpha/lib_protocol:michelson_v1_gas.mli",
+        "//src/proto_alpha/lib_protocol:michelson_v1_gas.ml",
+        "//src/proto_alpha/lib_protocol:script_ir_annot.mli",
+        "//src/proto_alpha/lib_protocol:script_ir_annot.ml",
+        "//src/proto_alpha/lib_protocol:script_ir_translator.mli",
+        "//src/proto_alpha/lib_protocol:script_ir_translator.ml",
+        "//src/proto_alpha/lib_protocol:script_tc_errors_registration.mli",
+        "//src/proto_alpha/lib_protocol:script_tc_errors_registration.ml",
+        "//src/proto_alpha/lib_protocol:script_interpreter_defs.ml",
+        "//src/proto_alpha/lib_protocol:script_interpreter.mli",
+        "//src/proto_alpha/lib_protocol:script_interpreter.ml",
+        "//src/proto_alpha/lib_protocol:baking.mli",
+        "//src/proto_alpha/lib_protocol:baking.ml",
+        "//src/proto_alpha/lib_protocol:amendment.mli",
+        "//src/proto_alpha/lib_protocol:amendment.ml",
+        "//src/proto_alpha/lib_protocol:apply_results.mli",
+        "//src/proto_alpha/lib_protocol:apply_results.ml",
+        "//src/proto_alpha/lib_protocol:apply.mli",
+        "//src/proto_alpha/lib_protocol:apply.ml",
+        "//src/proto_alpha/lib_protocol:services_registration.mli",
+        "//src/proto_alpha/lib_protocol:services_registration.ml",
+        "//src/proto_alpha/lib_protocol:constants_services.mli",
+        "//src/proto_alpha/lib_protocol:constants_services.ml",
+        "//src/proto_alpha/lib_protocol:sapling_services.ml",
+        "//src/proto_alpha/lib_protocol:contract_services.mli",
+        "//src/proto_alpha/lib_protocol:contract_services.ml",
+        "//src/proto_alpha/lib_protocol:delegate_services.mli",
+        "//src/proto_alpha/lib_protocol:delegate_services.ml",
+        "//src/proto_alpha/lib_protocol:voting_services.mli",
+        "//src/proto_alpha/lib_protocol:voting_services.ml",
+        "//src/proto_alpha/lib_protocol:alpha_services.mli",
+        "//src/proto_alpha/lib_protocol:alpha_services.ml",
+        "//src/proto_alpha/lib_protocol:main.mli",
+        "//src/proto_alpha/lib_protocol:main.ml",
+        "//src/proto_alpha/lib_protocol:TEZOS_PROTOCOL",
+    ],
+)
+###########
+write_file(
+    name     = "write_protocol.ml",
+    out      = "protocol.ml",
+    content  = """
+module Environment = Tezos_protocol_environment_alpha.Environment
+let hash = Tezos_crypto.Protocol_hash.of_b58check_exn "ProtoALphaALphaALphaALphaALphaALphaALphaALphaDdp3zK"
+let name = Environment.Name.name
+include Tezos_raw_protocol_alpha
+include Tezos_raw_protocol_alpha.Main
+""")
+
+################  rule  ################
+## (
+##   (alias runtest_sandbox)
+##   (deps .tezos_protocol_alpha.objs/native/tezos_protocol_alpha.cmx)
+##   (action (progn))
+## )
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-protocol-alpha)
+##   (deps (alias runtest_sandbox))
+##   (action (progn))
+## )
+######## run cmd ########
+genrule(
+    name = "__dune.inc.gen",
+    outs  = [
+        "dune.inc.gen"
+    ],
+    tools  = ["////src/lib_protocol_compiler:replace.exe"],
+    cmd  = (),
+    srcs  = [
+    ],
+)
+## (
+##   (:out "dune.inc.gen")
+##   (:cmd ((:tool %{libexec:tezos-protocol-compiler:replace}) (:deps ((:_static "src/proto_alpha/lib_protocol" "TEZOS_PROTOCOL") (:_static "src/proto_alpha/lib_protocol" "storage_description.ml") (:_static "src/proto_alpha/lib_protocol" "sapling_services.ml") (:_static "src/proto_alpha/lib_protocol" "commitment_repr.ml") (:_static "src/proto_alpha/lib_protocol" "script_expr_hash.ml") (:_static "src/proto_alpha/lib_protocol" "liquidity_baking_migration.ml") (:_static "src/proto_alpha/lib_protocol" "fitness_storage.ml") (:_static "src/proto_alpha/lib_protocol" "michelson_v1_primitives.ml") (:_static "src/proto_alpha/lib_protocol" "lazy_storage_kind.ml") (:_static "src/proto_alpha/lib_protocol" "fitness_repr.ml") (:_static "src/proto_alpha/lib_protocol" "storage.ml") (:_static "src/proto_alpha/lib_protocol" "script_interpreter.ml") (:_static "src/proto_alpha/lib_protocol" "alpha_context.ml") (:_static "src/proto_alpha/lib_protocol" "constants_storage.ml") (:_static "src/proto_alpha/lib_protocol" "seed_repr.ml") (:_static "src/proto_alpha/lib_protocol" "sapling_storage.ml") (:_static "src/proto_alpha/lib_protocol" "tez_repr.ml") (:_static "src/proto_alpha/lib_protocol" "script_typed_ir.ml") (:_static "src/proto_alpha/lib_protocol" "delegate_storage.ml") (:_static "src/proto_alpha/lib_protocol" "script_tc_errors_registration.ml") (:_static "src/proto_alpha/lib_protocol" "script_repr.ml") (:_static "src/proto_alpha/lib_protocol" "commitment_storage.ml") (:_static "src/proto_alpha/lib_protocol" "nonce_hash.ml") (:_static "src/proto_alpha/lib_protocol" "vote_storage.ml") (:_static "src/proto_alpha/lib_protocol" "contract_services.ml") (:_static "src/proto_alpha/lib_protocol" "baking.ml") (:_static "src/proto_alpha/lib_protocol" "gas_limit_repr.ml") (:_static "src/proto_alpha/lib_protocol" "roll_storage.ml") (:_static "src/proto_alpha/lib_protocol" "block_header_repr.ml") (:_static "src/proto_alpha/lib_protocol" "cycle_repr.ml") (:_static "src/proto_alpha/lib_protocol" "apply.ml") (:_static "src/proto_alpha/lib_protocol" "roll_repr.ml") ...)) (:args ((:_generated "src/proto_alpha/lib_protocol" "%{libexec:tezos-protocol-compiler:dune_protocol.template}") "dune.inc.gen" (:_generated "src/proto_alpha/lib_protocol" "%{libexec:tezos-protocol-compiler:final_protocol_versions}"))) (:foo #t) (:raw ((run %{libexec:tezos-protocol-compiler:replace} %{libexec:tezos-protocol-compiler:dune_protocol.template} "dune.inc.gen" %{libexec:tezos-protocol-compiler:final_protocol_versions})))))
+##   (:vars ())
+##   (:raw (rule (targets "dune.inc.gen") (deps TEZOS_PROTOCOL (glob_files *.ml) (glob_files *.mli)) (action (run %{libexec:tezos-protocol-compiler:replace} %{libexec:tezos-protocol-compiler:dune_protocol.template} "dune.inc.gen" %{libexec:tezos-protocol-compiler:final_protocol_versions}))))
+## )
+################  rule  ################
+## (
+##   (alias runtest_dune_template)
+##   (action (diff dune.inc dune.inc.gen))
+## )

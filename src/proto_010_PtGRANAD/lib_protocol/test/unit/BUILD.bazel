@@ -1,0 +1,96 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+MAIN_OPTS = [
+    "-open", "Test_services",
+    "-open", "Tezos_010_PtGRANAD_test_helpers",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_010_PtGRANAD",
+    "-open", "Tezos_micheline",
+    "-open", "Tezos_protocol_010_PtGRANAD",
+    "-open", "Tezos_protocol_environment_010_PtGRANAD",
+    "-open", "Tezos_test_services",
+]
+
+MAIN_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_test_services:tezos-test-services",
+    "//src/proto_010_PtGRANAD/lib_parameters:tezos-protocol-010-PtGRANAD-parameters",
+    "//src/proto_010_PtGRANAD/lib_protocol/test/helpers:tezos-010-PtGRANAD-test-helpers",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+#################
+ocaml_executable(
+    name    = "main.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main",
+    main    = ":Main",
+    deps = MAIN_DEPS + [
+        ":Test_alpha_context",
+        ":Test_contract_repr",
+        ":Test_operation_repr",
+        ":Test_raw_level_repr",
+        ":Test_tez_repr",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Main",
+    struct   = "main.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_alpha_context",
+    struct   = "test_alpha_context.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_contract_repr",
+    struct   = "test_contract_repr.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_operation_repr",
+    struct   = "test_operation_repr.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_raw_level_repr",
+    struct   = "test_raw_level_repr.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_tez_repr",
+    struct   = "test_tez_repr.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+

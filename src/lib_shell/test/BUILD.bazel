@@ -1,0 +1,277 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_SHELL_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_context",
+    "-open", "Tezos_p2p",
+    "-open", "Tezos_p2p_services",
+    "-open", "Tezos_protocol_updater",
+    "-open", "Tezos_shell",
+    "-open", "Tezos_shell_context",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_store",
+    "-open", "Tezos_test_services",
+    "-open", "Tezos_validation",
+]
+
+TEST_SHELL_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_context:tezos-context",
+    "//src/lib_p2p:tezos-p2p",
+    "//src/lib_p2p_services:tezos-p2p-services",
+    "//src/lib_protocol_environment:tezos-shell-context",
+    "//src/lib_protocol_updater:tezos-protocol-updater",
+    "//src/lib_shell:tezos-shell",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_store:tezos-store",
+    "//src/lib_test:tezos-test-helpers",
+    "//src/lib_test_services:tezos-test-services",
+    "//src/lib_validation:tezos-validation",
+    "//src/proto_demo_noops/lib_protocol:tezos-embedded-protocol-demo-noops",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@crowbar//:crowbar",
+]
+
+#################
+ocaml_executable(
+    name    = "test_shell.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_shell",
+    main    = ":Test_shell",
+    deps = TEST_SHELL_DEPS + [
+        ":Assert",
+        ":Shell_test_helpers",
+        ":Test_consensus_heuristic",
+        ":Test_locator",
+        ":Test_node",
+        ":Test_protocol_validator",
+        ":Test_synchronisation_heuristic",
+        ":Test_synchronisation_heuristic_fuzzy",
+        ":Test_validator",
+    ],
+)
+
+TEST_LOCATOR_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_context",
+    "-open", "Tezos_p2p",
+    "-open", "Tezos_p2p_services",
+    "-open", "Tezos_protocol_updater",
+    "-open", "Tezos_shell",
+    "-open", "Tezos_shell_context",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_store",
+    "-open", "Tezos_test_services",
+    "-open", "Tezos_validation",
+]
+
+TEST_LOCATOR_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_context:tezos-context",
+    "//src/lib_p2p:tezos-p2p",
+    "//src/lib_p2p_services:tezos-p2p-services",
+    "//src/lib_protocol_environment:tezos-shell-context",
+    "//src/lib_protocol_updater:tezos-protocol-updater",
+    "//src/lib_shell:tezos-shell",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_store:tezos-store",
+    "//src/lib_test:tezos-test-helpers",
+    "//src/lib_test_services:tezos-test-services",
+    "//src/lib_validation:tezos-validation",
+    "//src/proto_demo_noops/lib_protocol:tezos-embedded-protocol-demo-noops",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@crowbar//:crowbar",
+]
+
+#################
+ocaml_executable(
+    name    = "test_locator.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_locator",
+    main    = ":Test_locator",
+    deps = TEST_LOCATOR_DEPS + [
+        ":Assert",
+        ":Shell_test_helpers",
+        ":Test_consensus_heuristic",
+        ":Test_node",
+        ":Test_protocol_validator",
+        ":Test_shell",
+        ":Test_synchronisation_heuristic",
+        ":Test_synchronisation_heuristic_fuzzy",
+        ":Test_validator",
+    ],
+)
+
+TEST_SYNCHRONISATION_HEURISTIC_FUZZY_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_context",
+    "-open", "Tezos_p2p",
+    "-open", "Tezos_p2p_services",
+    "-open", "Tezos_protocol_updater",
+    "-open", "Tezos_shell",
+    "-open", "Tezos_shell_context",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_store",
+    "-open", "Tezos_test_services",
+    "-open", "Tezos_validation",
+]
+
+TEST_SYNCHRONISATION_HEURISTIC_FUZZY_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_context:tezos-context",
+    "//src/lib_p2p:tezos-p2p",
+    "//src/lib_p2p_services:tezos-p2p-services",
+    "//src/lib_protocol_environment:tezos-shell-context",
+    "//src/lib_protocol_updater:tezos-protocol-updater",
+    "//src/lib_shell:tezos-shell",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_store:tezos-store",
+    "//src/lib_test:tezos-test-helpers",
+    "//src/lib_test_services:tezos-test-services",
+    "//src/lib_validation:tezos-validation",
+    "//src/proto_demo_noops/lib_protocol:tezos-embedded-protocol-demo-noops",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@crowbar//:crowbar",
+]
+
+#################
+ocaml_executable(
+    name    = "test_synchronisation_heuristic_fuzzy.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_synchronisation_heuristic_fuzzy",
+    main    = ":Test_synchronisation_heuristic_fuzzy",
+    deps = TEST_SYNCHRONISATION_HEURISTIC_FUZZY_DEPS + [
+        ":Assert",
+        ":Shell_test_helpers",
+        ":Test_consensus_heuristic",
+        ":Test_locator",
+        ":Test_node",
+        ":Test_protocol_validator",
+        ":Test_shell",
+        ":Test_synchronisation_heuristic",
+        ":Test_validator",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Assert",
+    struct   = "assert.ml",
+    opts     = TEST_SHELL_OPTS,
+    deps     = TEST_SHELL_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Shell_test_helpers",
+    struct   = "shell_test_helpers.ml",
+    opts     = TEST_SHELL_OPTS,
+    deps     = TEST_SHELL_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_consensus_heuristic",
+    struct   = "test_consensus_heuristic.ml",
+    opts     = TEST_SHELL_OPTS,
+    deps     = TEST_SHELL_DEPS + [
+       ":Assert",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_locator",
+    struct   = "test_locator.ml",
+    opts     = TEST_SHELL_OPTS,
+    deps     = TEST_SHELL_DEPS + [
+       ":Shell_test_helpers",
+       ":Assert",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_node",
+    struct   = "test_node.ml",
+    opts     = TEST_SHELL_OPTS,
+    deps     = TEST_SHELL_DEPS + [
+       ":Shell_test_helpers",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_protocol_validator",
+    struct   = "test_protocol_validator.ml",
+    opts     = TEST_SHELL_OPTS,
+    deps     = TEST_SHELL_DEPS + [
+       ":Shell_test_helpers",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_shell",
+    struct   = "test_shell.ml",
+    opts     = TEST_SHELL_OPTS,
+    deps     = TEST_SHELL_DEPS + [
+       ":Test_validator",
+       ":Test_synchronisation_heuristic",
+       ":Test_protocol_validator",
+       ":Test_node",
+       ":Test_consensus_heuristic",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_synchronisation_heuristic",
+    struct   = "test_synchronisation_heuristic.ml",
+    opts     = TEST_SHELL_OPTS,
+    deps     = TEST_SHELL_DEPS + [
+       ":Assert",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_synchronisation_heuristic_fuzzy",
+    struct   = "test_synchronisation_heuristic_fuzzy.ml",
+    opts     = TEST_SHELL_OPTS,
+    deps     = TEST_SHELL_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_validator",
+    struct   = "test_validator.ml",
+    opts     = TEST_SHELL_OPTS,
+    deps     = TEST_SHELL_DEPS + [
+       ":Shell_test_helpers",
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias buildtest)
+##   (deps test_shell.exe test_locator.exe test_synchronisation_heuristic_fuzzy.exe)
+##   (action (progn))
+## )
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-shell)
+##   (deps (alias runtest_shell) (alias runtest_locator) (alias runtest_synchronisation))
+##   (action (progn))
+## )

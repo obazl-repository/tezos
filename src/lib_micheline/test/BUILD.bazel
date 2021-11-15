@@ -1,0 +1,63 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_PARSER_OPTS = [
+    "-open", "Tezos_micheline",
+]
+
+TEST_PARSER_DEPS = [
+    "//src/lib_micheline:tezos-micheline",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+#################
+ocaml_executable(
+    name    = "test_parser.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_parser",
+    main    = ":Test_parser",
+    deps = TEST_PARSER_DEPS + [
+        ":Assert",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Assert",
+    struct   = "assert.ml",
+    opts     = TEST_PARSER_OPTS,
+    deps     = TEST_PARSER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_parser",
+    struct   = "test_parser.ml",
+    opts     = TEST_PARSER_OPTS,
+    deps     = TEST_PARSER_DEPS + [
+       ":Assert",
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias buildtest)
+##   (deps test_parser.exe)
+##   (action progn)
+## )
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-micheline)
+##   (deps (alias runtest_micheline_parser))
+##   (action progn)
+## )

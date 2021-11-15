@@ -1,0 +1,85 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+    "ocaml_signature",
+)
+
+##############################
+####  Executable Targets  ####
+TEZOS_PROXY_SERVER_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_PROXY_SERVER_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_proxy:tezos-proxy",
+    "//src/lib_proxy_server_config:tezos-proxy-server-config",
+    "//src/lib_rpc_http:tezos-rpc-http-client-unix",
+    "//src/lib_rpc_http:tezos-rpc-http-server",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_version:tezos-version",
+    "@cmdliner//:cmdliner",
+    "@lwt-exit//:lwt-exit",
+]
+
+#################
+ocaml_executable(
+    name    = "tezos-proxy-server.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main_proxy_server",
+    main    = ":Main_proxy_server",
+    deps = TEZOS_PROXY_SERVER_DEPS + [
+        ":Proxy_server_main_run",
+        ":Proxy_server_run_events",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Main_proxy_server",
+    struct   = "main_proxy_server.ml",
+    opts     = TEZOS_PROXY_SERVER_OPTS,
+    deps     = TEZOS_PROXY_SERVER_DEPS + [
+       ":Proxy_server_main_run",
+    ]
+)
+
+ocaml_module(
+    name     = "Proxy_server_main_run",
+    struct   = "proxy_server_main_run.ml",
+    sig      = ":Proxy_server_main_run_cmi",
+    opts     = TEZOS_PROXY_SERVER_OPTS,
+    deps     = TEZOS_PROXY_SERVER_DEPS + [
+       ":Proxy_server_run_events",
+    ]
+)
+
+ocaml_signature(
+    name     = "Proxy_server_main_run_cmi",
+    src      = "proxy_server_main_run.mli",
+    opts     = TEZOS_PROXY_SERVER_OPTS,
+    deps     = TEZOS_PROXY_SERVER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Proxy_server_run_events",
+    struct   = "proxy_server_run_events.ml",
+    opts     = TEZOS_PROXY_SERVER_OPTS,
+    deps     = TEZOS_PROXY_SERVER_DEPS + [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (action (progn (write-file void_for_linking-genesis.empty "") (write-file void_for_linking-genesis-carthagenet.empty "") (write-file void_for_linking-000-Ps9mPmXa.empty "") (write-file void_for_linking-001-PtCJ7pwo.empty "") (write-file void_for_linking-002-PsYLVpVv.empty "") (write-file void_for_linking-003-PsddFKi3.empty "") (write-file void_for_linking-004-Pt24m4xi.empty "") (write-file void_for_linking-005-PsBabyM1.empty "") (write-file void_for_linking-006-PsCARTHA.empty "") (write-file void_for_linking-007-PsDELPH1.empty "") (write-file void_for_linking-008-PtEdo2Zk.empty "") (write-file void_for_linking-009-PsFLoren.empty "") (write-file void_for_linking-alpha.empty "") (write-file void_for_linking-demo-counter.empty "") (write-file void_for_linking-baking-alpha.empty "") (write-file void_for_linking-baking-008-PtEdo2Zk.empty "") (write-file void_for_linking-baking-009-PsFLoren.empty "")))
+## )

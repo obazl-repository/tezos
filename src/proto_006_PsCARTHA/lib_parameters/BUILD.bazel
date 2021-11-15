@@ -1,0 +1,136 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_executable",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+##############################
+####  Executable Targets  ####
+GEN_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_protocol_006_PsCARTHA_parameters",
+]
+
+GEN_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/proto_006_PsCARTHA/lib_parameters:tezos-protocol-006-PsCARTHA-parameters",
+]
+
+#################
+ocaml_executable(
+    name    = "gen.exe",
+    visibility = ["//visibility:public"],
+    exe     = "gen",
+    main    = ":Gen",
+    deps = GEN_DEPS + [
+    ],
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-protocol-006-PsCARTHA-parameters ########
+TEZOS_PROTOCOL_006_PSCARTHA_PARAMETERS_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_protocol_006_PsCARTHA",
+]
+
+TEZOS_PROTOCOL_006_PSCARTHA_PARAMETERS_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/proto_006_PsCARTHA/lib_protocol:tezos-protocol-006-PsCARTHA",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-006-PsCARTHA-parameters",
+    ns         = "Tezos_protocol_006_PsCARTHA_parameters",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Default_parameters",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Default_parameters",
+    struct   = "default_parameters.ml",
+    sig      = ":Default_parameters_cmi",
+    opts     = TEZOS_PROTOCOL_006_PSCARTHA_PARAMETERS_OPTS,
+    deps     = TEZOS_PROTOCOL_006_PSCARTHA_PARAMETERS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Default_parameters_cmi",
+    src      = "default_parameters.mli",
+    opts     = TEZOS_PROTOCOL_006_PSCARTHA_PARAMETERS_OPTS,
+    deps     = TEZOS_PROTOCOL_006_PSCARTHA_PARAMETERS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Gen",
+    struct   = "gen.ml",
+    opts     = GEN_OPTS,
+    deps     = GEN_DEPS + [
+    ]
+)
+
+######## run cmd ########
+genrule(
+    name = "__sandbox-parameters.json",
+    outs  = [
+        "sandbox-parameters.json"
+    ],
+    tools  = ["//#f"],
+    cmd  = (),
+    srcs  = [
+    ],
+)
+## (
+##   (:out sandbox-parameters.json)
+##   (:cmd ((:tool %{deps}) (:deps ((:_generated "src/proto_006_PsCARTHA/lib_parameters" "gen.exe"))) (:args ("--sandbox")) (:foo #t) (:raw ((run %{deps} --sandbox)))))
+##   (:vars ())
+##   (:raw (rule (targets sandbox-parameters.json) (deps gen.exe) (action (run %{deps} --sandbox))))
+## )
+######## run cmd ########
+genrule(
+    name = "__test-parameters.json",
+    outs  = [
+        "test-parameters.json"
+    ],
+    tools  = ["//#f"],
+    cmd  = (),
+    srcs  = [
+    ],
+)
+## (
+##   (:out test-parameters.json)
+##   (:cmd ((:tool %{deps}) (:deps ((:_generated "src/proto_006_PsCARTHA/lib_parameters" "gen.exe"))) (:args ("--test")) (:foo #t) (:raw ((run %{deps} --test)))))
+##   (:vars ())
+##   (:raw (rule (targets test-parameters.json) (deps gen.exe) (action (run %{deps} --test))))
+## )
+######## run cmd ########
+genrule(
+    name = "__mainnet-parameters.json",
+    outs  = [
+        "mainnet-parameters.json"
+    ],
+    tools  = ["//#f"],
+    cmd  = (),
+    srcs  = [
+    ],
+)
+## (
+##   (:out mainnet-parameters.json)
+##   (:cmd ((:tool %{deps}) (:deps ((:_generated "src/proto_006_PsCARTHA/lib_parameters" "gen.exe"))) (:args ("--mainnet")) (:foo #t) (:raw ((run %{deps} --mainnet)))))
+##   (:vars ())
+##   (:raw (rule (targets mainnet-parameters.json) (deps gen.exe) (action (run %{deps} --mainnet))))
+## )

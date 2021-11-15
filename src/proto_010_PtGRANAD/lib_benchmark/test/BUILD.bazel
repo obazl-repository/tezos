@@ -1,0 +1,140 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_SAMPLING_DATA_OPTS = [
+    "-open", "Tezos_benchmark_010_PtGRANAD",
+    "-open", "Tezos_benchmark_type_inference_010_PtGRANAD",
+    "-open", "Tezos_micheline",
+    "-open", "Tezos_protocol_010_PtGRANAD",
+]
+
+TEST_SAMPLING_DATA_DEPS = [
+    "//src/lib_benchmark/lib_micheline_rewriting:tezos-micheline-rewriting",
+    "//src/lib_benchmark:tezos-benchmark",
+    "//src/lib_error_monad:tezos-error-monad",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/proto_010_PtGRANAD/lib_benchmark/lib_benchmark_type_inference:tezos-benchmark-type-inference-010-PtGRANAD",
+    "//src/proto_010_PtGRANAD/lib_benchmark:tezos-benchmark-010-PtGRANAD",
+    "//src/proto_010_PtGRANAD/lib_protocol/test/helpers:tezos-010-PtGRANAD-test-helpers",
+    "//src/proto_010_PtGRANAD/lib_protocol:tezos-protocol-010-PtGRANAD",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+#################
+ocaml_executable(
+    name    = "test_sampling_data.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_sampling_data",
+    main    = ":Test_sampling_data",
+    deps = TEST_SAMPLING_DATA_DEPS + [
+        ":Test_autocompletion",
+        ":Test_helpers",
+        ":Test_sampling_code",
+    ],
+)
+
+TEST_SAMPLING_CODE_OPTS = [
+    "-open", "Tezos_benchmark_010_PtGRANAD",
+    "-open", "Tezos_benchmark_type_inference_010_PtGRANAD",
+    "-open", "Tezos_micheline",
+    "-open", "Tezos_protocol_010_PtGRANAD",
+]
+
+TEST_SAMPLING_CODE_DEPS = [
+    "//src/lib_benchmark/lib_micheline_rewriting:tezos-micheline-rewriting",
+    "//src/lib_benchmark:tezos-benchmark",
+    "//src/lib_error_monad:tezos-error-monad",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/proto_010_PtGRANAD/lib_benchmark/lib_benchmark_type_inference:tezos-benchmark-type-inference-010-PtGRANAD",
+    "//src/proto_010_PtGRANAD/lib_benchmark:tezos-benchmark-010-PtGRANAD",
+    "//src/proto_010_PtGRANAD/lib_protocol/test/helpers:tezos-010-PtGRANAD-test-helpers",
+    "//src/proto_010_PtGRANAD/lib_protocol:tezos-protocol-010-PtGRANAD",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+#################
+ocaml_executable(
+    name    = "test_sampling_code.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_sampling_code",
+    main    = ":Test_sampling_code",
+    deps = TEST_SAMPLING_CODE_DEPS + [
+        ":Test_autocompletion",
+        ":Test_helpers",
+        ":Test_sampling_data",
+    ],
+)
+
+TEST_AUTOCOMPLETION_OPTS = [
+    "-open", "Tezos_benchmark_010_PtGRANAD",
+    "-open", "Tezos_benchmark_type_inference_010_PtGRANAD",
+    "-open", "Tezos_micheline",
+    "-open", "Tezos_protocol_010_PtGRANAD",
+]
+
+TEST_AUTOCOMPLETION_DEPS = [
+    "//src/lib_benchmark/lib_micheline_rewriting:tezos-micheline-rewriting",
+    "//src/lib_benchmark:tezos-benchmark",
+    "//src/lib_error_monad:tezos-error-monad",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/proto_010_PtGRANAD/lib_benchmark/lib_benchmark_type_inference:tezos-benchmark-type-inference-010-PtGRANAD",
+    "//src/proto_010_PtGRANAD/lib_benchmark:tezos-benchmark-010-PtGRANAD",
+    "//src/proto_010_PtGRANAD/lib_protocol/test/helpers:tezos-010-PtGRANAD-test-helpers",
+    "//src/proto_010_PtGRANAD/lib_protocol:tezos-protocol-010-PtGRANAD",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+#################
+ocaml_executable(
+    name    = "test_autocompletion.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_autocompletion",
+    main    = ":Test_autocompletion",
+    deps = TEST_AUTOCOMPLETION_DEPS + [
+        ":Test_helpers",
+        ":Test_sampling_code",
+        ":Test_sampling_data",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Test_autocompletion",
+    struct   = "test_autocompletion.ml",
+    opts     = TEST_SAMPLING_DATA_OPTS,
+    deps     = TEST_SAMPLING_DATA_DEPS + [
+       ":Test_helpers",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_helpers",
+    struct   = "test_helpers.ml",
+    opts     = TEST_SAMPLING_DATA_OPTS,
+    deps     = TEST_SAMPLING_DATA_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_sampling_code",
+    struct   = "test_sampling_code.ml",
+    opts     = TEST_SAMPLING_DATA_OPTS,
+    deps     = TEST_SAMPLING_DATA_DEPS + [
+       ":Test_helpers",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_sampling_data",
+    struct   = "test_sampling_data.ml",
+    opts     = TEST_SAMPLING_DATA_OPTS,
+    deps     = TEST_SAMPLING_DATA_DEPS + [
+    ]
+)
+

@@ -1,0 +1,36 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_TEZOS_DEPS = [
+    "#UNRESOLVED 3: #f: tweetnacl
+",
+    "//vendors/ocaml-ledger-wallet/src:ledgerwallet-tezos",
+    "@alcotest//:alcotest",
+    "@hex//:hex",
+    "@uecc//:uecc",
+]
+
+#################
+ocaml_executable(
+    name    = "test_tezos.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_tezos",
+    main    = ":Test_tezos",
+    deps = TEST_TEZOS_DEPS + [
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Test_tezos",
+    struct   = "test_tezos.ml",
+    deps     = TEST_TEZOS_DEPS + [
+    ]
+)
+

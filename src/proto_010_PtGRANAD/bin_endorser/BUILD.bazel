@@ -1,0 +1,44 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEZOS_ENDORSER_010_PTGRANAD_OPTS = [
+    "-open", "Tezos_baking_010_PtGRANAD_commands",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_010_PtGRANAD",
+    "-open", "Tezos_client_base_unix",
+    "-open", "Tezos_client_commands",
+    "-open", "Tezos_protocol_010_PtGRANAD",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_ENDORSER_010_PTGRANAD_DEPS = [
+    "//src/lib_client_base_unix:tezos-client-base-unix",
+    "//src/lib_client_commands:tezos-client-commands",
+    "//src/proto_010_PtGRANAD/lib_delegate:tezos-baking-010-PtGRANAD-commands",
+]
+
+#################
+ocaml_executable(
+    name    = "tezos-endorser-010-PtGRANAD.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main_endorser_010_PtGRANAD",
+    main    = ":Main_endorser_010_PtGRANAD",
+    deps = TEZOS_ENDORSER_010_PTGRANAD_DEPS + [
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Main_endorser_010_PtGRANAD",
+    struct   = "main_endorser_010_PtGRANAD.ml",
+    opts     = TEZOS_ENDORSER_010_PTGRANAD_OPTS,
+    deps     = TEZOS_ENDORSER_010_PTGRANAD_DEPS + [
+    ]
+)
+

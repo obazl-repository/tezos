@@ -1,0 +1,424 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+    "ocaml_signature",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_P2P_SOCKET_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_p2p",
+    "-open", "Tezos_p2p_services",
+    "-open", "Tezos_stdlib",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_test_services",
+]
+
+TEST_P2P_SOCKET_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_p2p:tezos-p2p",
+    "//src/lib_p2p_services:tezos-p2p-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_test_services:tezos-test-services",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@astring//:astring",
+]
+
+#################
+ocaml_executable(
+    name    = "test_p2p_socket.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_p2p_socket",
+    main    = ":Test_p2p_socket",
+    deps = TEST_P2P_SOCKET_DEPS + [
+        ":Node",
+        ":P2p_test_utils",
+        ":Process",
+        ":Test_p2p_banned_peers",
+        ":Test_p2p_io_scheduler",
+        ":Test_p2p_logging",
+        ":Test_p2p_node",
+        ":Test_p2p_peerset",
+        ":Test_p2p_pool",
+    ],
+)
+
+TEST_P2P_POOL_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_p2p",
+    "-open", "Tezos_p2p_services",
+    "-open", "Tezos_stdlib",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_test_services",
+]
+
+TEST_P2P_POOL_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_p2p:tezos-p2p",
+    "//src/lib_p2p_services:tezos-p2p-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_test_services:tezos-test-services",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@astring//:astring",
+]
+
+#################
+ocaml_executable(
+    name    = "test_p2p_pool.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_p2p_pool",
+    main    = ":Test_p2p_pool",
+    deps = TEST_P2P_POOL_DEPS + [
+        ":Node",
+        ":P2p_test_utils",
+        ":Process",
+        ":Test_p2p_banned_peers",
+        ":Test_p2p_io_scheduler",
+        ":Test_p2p_logging",
+        ":Test_p2p_node",
+        ":Test_p2p_peerset",
+        ":Test_p2p_socket",
+    ],
+)
+
+TEST_P2P_IO_SCHEDULER_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_p2p",
+    "-open", "Tezos_p2p_services",
+    "-open", "Tezos_stdlib",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_test_services",
+]
+
+TEST_P2P_IO_SCHEDULER_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_p2p:tezos-p2p",
+    "//src/lib_p2p_services:tezos-p2p-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_test_services:tezos-test-services",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@astring//:astring",
+]
+
+#################
+ocaml_executable(
+    name    = "test_p2p_io_scheduler.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_p2p_io_scheduler",
+    main    = ":Test_p2p_io_scheduler",
+    deps = TEST_P2P_IO_SCHEDULER_DEPS + [
+        ":Node",
+        ":P2p_test_utils",
+        ":Process",
+        ":Test_p2p_banned_peers",
+        ":Test_p2p_logging",
+        ":Test_p2p_node",
+        ":Test_p2p_peerset",
+        ":Test_p2p_pool",
+        ":Test_p2p_socket",
+    ],
+)
+
+TEST_P2P_PEERSET_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_p2p",
+    "-open", "Tezos_p2p_services",
+    "-open", "Tezos_stdlib",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_test_services",
+]
+
+TEST_P2P_PEERSET_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_p2p:tezos-p2p",
+    "//src/lib_p2p_services:tezos-p2p-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_test_services:tezos-test-services",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@astring//:astring",
+]
+
+#################
+ocaml_executable(
+    name    = "test_p2p_peerset.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_p2p_peerset",
+    main    = ":Test_p2p_peerset",
+    deps = TEST_P2P_PEERSET_DEPS + [
+        ":Node",
+        ":P2p_test_utils",
+        ":Process",
+        ":Test_p2p_banned_peers",
+        ":Test_p2p_io_scheduler",
+        ":Test_p2p_logging",
+        ":Test_p2p_node",
+        ":Test_p2p_pool",
+        ":Test_p2p_socket",
+    ],
+)
+
+TEST_P2P_BANNED_PEERS_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_p2p",
+    "-open", "Tezos_p2p_services",
+    "-open", "Tezos_stdlib",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_test_services",
+]
+
+TEST_P2P_BANNED_PEERS_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_p2p:tezos-p2p",
+    "//src/lib_p2p_services:tezos-p2p-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_test_services:tezos-test-services",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@astring//:astring",
+]
+
+#################
+ocaml_executable(
+    name    = "test_p2p_banned_peers.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_p2p_banned_peers",
+    main    = ":Test_p2p_banned_peers",
+    deps = TEST_P2P_BANNED_PEERS_DEPS + [
+        ":Node",
+        ":P2p_test_utils",
+        ":Process",
+        ":Test_p2p_io_scheduler",
+        ":Test_p2p_logging",
+        ":Test_p2p_node",
+        ":Test_p2p_peerset",
+        ":Test_p2p_pool",
+        ":Test_p2p_socket",
+    ],
+)
+
+TEST_P2P_NODE_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_p2p",
+    "-open", "Tezos_p2p_services",
+    "-open", "Tezos_stdlib",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_test_services",
+]
+
+TEST_P2P_NODE_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_p2p:tezos-p2p",
+    "//src/lib_p2p_services:tezos-p2p-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_test_services:tezos-test-services",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@astring//:astring",
+]
+
+#################
+ocaml_executable(
+    name    = "test_p2p_node.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_p2p_node",
+    main    = ":Test_p2p_node",
+    deps = TEST_P2P_NODE_DEPS + [
+        ":Node",
+        ":P2p_test_utils",
+        ":Process",
+        ":Test_p2p_banned_peers",
+        ":Test_p2p_io_scheduler",
+        ":Test_p2p_logging",
+        ":Test_p2p_peerset",
+        ":Test_p2p_pool",
+        ":Test_p2p_socket",
+    ],
+)
+
+TEST_P2P_LOGGING_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_p2p",
+    "-open", "Tezos_p2p_services",
+    "-open", "Tezos_stdlib",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_test_services",
+]
+
+TEST_P2P_LOGGING_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_p2p:tezos-p2p",
+    "//src/lib_p2p_services:tezos-p2p-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_test_services:tezos-test-services",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@astring//:astring",
+]
+
+#################
+ocaml_executable(
+    name    = "test_p2p_logging.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_p2p_logging",
+    main    = ":Test_p2p_logging",
+    deps = TEST_P2P_LOGGING_DEPS + [
+        ":Node",
+        ":P2p_test_utils",
+        ":Process",
+        ":Test_p2p_banned_peers",
+        ":Test_p2p_io_scheduler",
+        ":Test_p2p_node",
+        ":Test_p2p_peerset",
+        ":Test_p2p_pool",
+        ":Test_p2p_socket",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Node",
+    struct   = "node.ml",
+    sig      = ":Node_cmi",
+    opts     = TEST_P2P_SOCKET_OPTS,
+    deps     = TEST_P2P_SOCKET_DEPS + [
+       ":Process",
+    ]
+)
+
+ocaml_signature(
+    name     = "Node_cmi",
+    src      = "node.mli",
+    opts     = TEST_P2P_SOCKET_OPTS,
+    deps     = TEST_P2P_SOCKET_DEPS + [
+       ":Process",
+    ]
+)
+
+ocaml_module(
+    name     = "P2p_test_utils",
+    struct   = "p2p_test_utils.ml",
+    sig      = ":P2p_test_utils_cmi",
+    opts     = TEST_P2P_SOCKET_OPTS,
+    deps     = TEST_P2P_SOCKET_DEPS + [
+       ":Process",
+    ]
+)
+
+ocaml_signature(
+    name     = "P2p_test_utils_cmi",
+    src      = "p2p_test_utils.mli",
+    opts     = TEST_P2P_SOCKET_OPTS,
+    deps     = TEST_P2P_SOCKET_DEPS + [
+       ":Process",
+    ]
+)
+
+ocaml_module(
+    name     = "Process",
+    struct   = "process.ml",
+    sig      = ":Process_cmi",
+    opts     = TEST_P2P_SOCKET_OPTS,
+    deps     = TEST_P2P_SOCKET_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Process_cmi",
+    src      = "process.mli",
+    opts     = TEST_P2P_SOCKET_OPTS,
+    deps     = TEST_P2P_SOCKET_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_p2p_banned_peers",
+    struct   = "test_p2p_banned_peers.ml",
+    opts     = TEST_P2P_SOCKET_OPTS,
+    deps     = TEST_P2P_SOCKET_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_p2p_io_scheduler",
+    struct   = "test_p2p_io_scheduler.ml",
+    opts     = TEST_P2P_SOCKET_OPTS,
+    deps     = TEST_P2P_SOCKET_DEPS + [
+       ":Process",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_p2p_logging",
+    struct   = "test_p2p_logging.ml",
+    opts     = TEST_P2P_SOCKET_OPTS,
+    deps     = TEST_P2P_SOCKET_DEPS + [
+       ":P2p_test_utils",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_p2p_node",
+    struct   = "test_p2p_node.ml",
+    opts     = TEST_P2P_SOCKET_OPTS,
+    deps     = TEST_P2P_SOCKET_DEPS + [
+       ":Node",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_p2p_peerset",
+    struct   = "test_p2p_peerset.ml",
+    opts     = TEST_P2P_SOCKET_OPTS,
+    deps     = TEST_P2P_SOCKET_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_p2p_pool",
+    struct   = "test_p2p_pool.ml",
+    opts     = TEST_P2P_SOCKET_OPTS,
+    deps     = TEST_P2P_SOCKET_DEPS + [
+       ":Node",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_p2p_socket",
+    struct   = "test_p2p_socket.ml",
+    opts     = TEST_P2P_SOCKET_OPTS,
+    deps     = TEST_P2P_SOCKET_DEPS + [
+       ":Process",
+       ":P2p_test_utils",
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias buildtest)
+##   (deps test_p2p_socket.exe test_p2p_pool.exe test_p2p_io_scheduler.exe test_p2p_peerset.exe test_p2p_banned_peers.exe test_p2p_node.exe test_p2p_logging.exe)
+##   (action (progn))
+## )
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-p2p)
+##   (deps (alias runtest_p2p_socket_ipv4) (alias runtest_p2p_pool_ipv4) (alias runtest_p2p_io_scheduler_ipv4) (alias runtest_p2p_peerset) (alias runtest_p2p_banned_peers) (alias runtest_p2p_node))
+##   (action (progn))
+## )

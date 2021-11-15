@@ -1,0 +1,164 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+MAIN_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+]
+
+MAIN_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_benchmark/example:tezos-benchmark-examples",
+    "//src/lib_benchmark:tezos-benchmark",
+    "//src/lib_crypto:tezos-crypto",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+#################
+ocaml_executable(
+    name    = "main.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main",
+    main    = ":Main",
+    deps = MAIN_DEPS + [
+        ":Main_ci",
+        ":Test",
+        ":Test_blake2b",
+        ":Test_costlang",
+        ":Test_inference",
+        ":Test_probe",
+        ":Test_sparse_vec",
+    ],
+)
+
+MAIN_CI_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+]
+
+MAIN_CI_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_benchmark/example:tezos-benchmark-examples",
+    "//src/lib_benchmark:tezos-benchmark",
+    "//src/lib_crypto:tezos-crypto",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+#################
+ocaml_executable(
+    name    = "main_ci.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main_ci",
+    main    = ":Main_ci",
+    deps = MAIN_CI_DEPS + [
+        ":Main",
+        ":Test",
+        ":Test_blake2b",
+        ":Test_costlang",
+        ":Test_inference",
+        ":Test_probe",
+        ":Test_sparse_vec",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Main",
+    struct   = "main.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+       ":Test_sparse_vec",
+       ":Test_inference",
+       ":Test_costlang",
+    ]
+)
+
+ocaml_module(
+    name     = "Main_ci",
+    struct   = "main_ci.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+       ":Test_sparse_vec",
+       ":Test_probe",
+       ":Test_costlang",
+    ]
+)
+
+ocaml_module(
+    name     = "Test",
+    struct   = "test.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_blake2b",
+    struct   = "test_blake2b.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_costlang",
+    struct   = "test_costlang.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+       ":Test",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_inference",
+    struct   = "test_inference.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+       ":Test",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_probe",
+    struct   = "test_probe.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+       ":Test",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_sparse_vec",
+    struct   = "test_sparse_vec.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+       ":Test",
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias buildtest)
+##   (deps main.exe main_ci.exe)
+##   (action (progn))
+## )
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-benchmark-tests)
+##   (deps (alias runtest_lib_bench))
+##   (action (progn))
+## )

@@ -1,0 +1,15 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+)
+
+#############################
+####  Singleton Targets  ####
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias runtest_out_of_opam)
+##   (deps (alias runtest_rejections))
+##   (action (progn))
+## )

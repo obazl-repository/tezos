@@ -1,0 +1,75 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-protocol-plugin-009-PsFLoren ########
+TEZOS_PROTOCOL_PLUGIN_009_PSFLOREN_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_protocol_009_PsFLoren",
+]
+
+TEZOS_PROTOCOL_PLUGIN_009_PSFLOREN_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/proto_009_PsFLoren/lib_protocol:tezos-protocol-009-PsFLoren",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-plugin-009-PsFLoren",
+    ns         = "Tezos_protocol_plugin_009_PsFLoren",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Plugin",
+        ":Plugin_registerer",
+        ":\",
+    ],
+)
+
+######## tezos-protocol-plugin-009-PsFLoren-registerer ########
+TEZOS_PROTOCOL_PLUGIN_009_PSFLOREN_REGISTERER_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_embedded_protocol_009_PsFLoren",
+    "-open", "Tezos_protocol_plugin_009_PsFLoren",
+    "-open", "Tezos_shell",
+]
+
+TEZOS_PROTOCOL_PLUGIN_009_PSFLOREN_REGISTERER_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_shell:tezos-shell",
+    "//src/proto_009_PsFLoren/lib_plugin:tezos-protocol-plugin-009-PsFLoren",
+    "//src/proto_009_PsFLoren/lib_protocol:tezos-embedded-protocol-009-PsFLoren",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-plugin-009-PsFLoren-registerer",
+    ns         = "Tezos_protocol_plugin_009_PsFLoren_registerer",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Plugin_registerer",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Plugin",
+    struct   = "plugin.ml",
+    opts     = TEZOS_PROTOCOL_PLUGIN_009_PSFLOREN_OPTS,
+    deps     = TEZOS_PROTOCOL_PLUGIN_009_PSFLOREN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Plugin_registerer",
+    struct   = "plugin_registerer.ml",
+    opts     = TEZOS_PROTOCOL_PLUGIN_009_PSFLOREN_OPTS,
+    deps     = TEZOS_PROTOCOL_PLUGIN_009_PSFLOREN_DEPS + [
+       ":Plugin",
+    ]
+)
+

@@ -1,0 +1,661 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-crypto ########
+TEZOS_CRYPTO_OPTS = [
+    "-open", "Data_encoding",
+    "-open", "Tezos_error_monad",
+    "-open", "Tezos_error_monad.TzLwtreslib",
+    "-open", "Tezos_rpc",
+    "-open", "Tezos_stdlib",
+]
+
+TEZOS_CRYPTO_DEPS = [
+    "//src/lib_error_monad:tezos-error-monad",
+    "//src/lib_hacl_glue:tezos-hacl-glue",
+    "//src/lib_lwt_result_stdlib:tezos-lwt-result-stdlib",
+    "//src/lib_rpc:tezos-rpc",
+    "//src/lib_stdlib:tezos-stdlib",
+    "@data-encoding//:data-encoding",
+    "@lwt//:lwt",
+    "@ringo//:ringo",
+    "@secp256k1-internal//:secp256k1-internal",
+    "@zarith//:zarith",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-crypto",
+    ns         = "Tezos_crypto",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":BLS12_381",
+        ":Base58",
+        ":Blake2B",
+        ":Block_hash",
+        ":Block_metadata_hash",
+        ":Chain_id",
+        ":Context_hash",
+        ":Crypto_box",
+        ":Ed25519",
+        ":Hacl",
+        ":Helpers",
+        ":Operation_hash",
+        ":Operation_list_hash",
+        ":Operation_list_list_hash",
+        ":Operation_metadata_hash",
+        ":Operation_metadata_list_hash",
+        ":Operation_metadata_list_list_hash",
+        ":P256",
+        ":Protocol_hash",
+        ":Pvss",
+        ":Pvss_secp256k1",
+        ":Rand",
+        ":S",
+        ":Secp256k1",
+        ":Secp256k1_group",
+        ":Signature",
+        ":Timelock",
+        ":Znz",
+        ":Zplus",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "BLS12_381",
+    struct   = "BLS12_381.ml",
+    sig      = ":BLS12_381_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+        "@bls12-381//:bls12-381",
+    ] + select({
+        ## FIXME: this is a deferred dep, needed to link an executable
+        "//conditions:default": ["@bls12-381-unix//:bls12-381-unix"],
+    })
+)
+
+ocaml_signature(
+    name     = "BLS12_381_cmi",
+    src      = "BLS12_381.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+        "@bls12-381//:bls12-381",
+    ] + select({
+        ## FIXME: this is a deferred dep, needed to link an executable
+        "//conditions:default": ["@bls12-381-unix//:bls12-381-unix"],
+    })
+)
+
+ocaml_module(
+    name     = "Base58",
+    struct   = "base58.ml",
+    sig      = ":Base58_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Hacl",
+    ]
+)
+
+ocaml_signature(
+    name     = "Base58_cmi",
+    src      = "base58.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Blake2B",
+    struct   = "blake2B.ml",
+    sig      = ":Blake2B_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Helpers",
+       ":Hacl",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Blake2B_cmi",
+    src      = "blake2B.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+       ":Base58",
+    ]
+)
+
+ocaml_module(
+    name     = "Block_hash",
+    struct   = "block_hash.ml",
+    sig      = ":Block_hash_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Blake2B",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Block_hash_cmi",
+    src      = "block_hash.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+    ]
+)
+
+ocaml_module(
+    name     = "Block_metadata_hash",
+    struct   = "block_metadata_hash.ml",
+    sig      = ":Block_metadata_hash_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Blake2B",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Block_metadata_hash_cmi",
+    src      = "block_metadata_hash.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+    ]
+)
+
+ocaml_module(
+    name     = "Chain_id",
+    struct   = "chain_id.ml",
+    sig      = ":Chain_id_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Helpers",
+       ":Block_hash",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Chain_id_cmi",
+    src      = "chain_id.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+       ":Block_hash",
+    ]
+)
+
+ocaml_module(
+    name     = "Context_hash",
+    struct   = "context_hash.ml",
+    sig      = ":Context_hash_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Blake2B",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Context_hash_cmi",
+    src      = "context_hash.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+    ]
+)
+
+ocaml_module(
+    name     = "Crypto_box",
+    struct   = "crypto_box.ml",
+    sig      = ":Crypto_box_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Hacl",
+       ":Blake2B",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Crypto_box_cmi",
+    src      = "crypto_box.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+    ]
+)
+
+ocaml_module(
+    name     = "Ed25519",
+    struct   = "ed25519.ml",
+    sig      = ":Ed25519_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Helpers",
+       ":Hacl",
+       ":Blake2B",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Ed25519_cmi",
+    src      = "ed25519.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+    ]
+)
+
+ocaml_module(
+    name     = "Hacl",
+    struct   = "hacl.ml",
+    sig      = ":Hacl_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Hacl_cmi",
+    src      = "hacl.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Helpers",
+    struct   = "helpers.ml",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Base58",
+    ]
+)
+
+ocaml_module(
+    name     = "Operation_hash",
+    struct   = "operation_hash.ml",
+    sig      = ":Operation_hash_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Blake2B",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Operation_hash_cmi",
+    src      = "operation_hash.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+    ]
+)
+
+ocaml_module(
+    name     = "Operation_list_hash",
+    struct   = "operation_list_hash.ml",
+    sig      = ":Operation_list_hash_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Operation_hash",
+       ":Blake2B",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Operation_list_hash_cmi",
+    src      = "operation_list_hash.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+       ":Operation_hash",
+    ]
+)
+
+ocaml_module(
+    name     = "Operation_list_list_hash",
+    struct   = "operation_list_list_hash.ml",
+    sig      = ":Operation_list_list_hash_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Operation_list_hash",
+       ":Blake2B",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Operation_list_list_hash_cmi",
+    src      = "operation_list_list_hash.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+       ":Operation_list_hash",
+       ":Operation_hash",
+    ]
+)
+
+ocaml_module(
+    name     = "Operation_metadata_hash",
+    struct   = "operation_metadata_hash.ml",
+    sig      = ":Operation_metadata_hash_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Blake2B",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Operation_metadata_hash_cmi",
+    src      = "operation_metadata_hash.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+    ]
+)
+
+ocaml_module(
+    name     = "Operation_metadata_list_hash",
+    struct   = "operation_metadata_list_hash.ml",
+    sig      = ":Operation_metadata_list_hash_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Operation_metadata_hash",
+       ":Blake2B",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Operation_metadata_list_hash_cmi",
+    src      = "operation_metadata_list_hash.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+       ":Operation_metadata_hash",
+    ]
+)
+
+ocaml_module(
+    name     = "Operation_metadata_list_list_hash",
+    struct   = "operation_metadata_list_list_hash.ml",
+    sig      = ":Operation_metadata_list_list_hash_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Operation_metadata_list_hash",
+       ":Blake2B",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Operation_metadata_list_list_hash_cmi",
+    src      = "operation_metadata_list_list_hash.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+       ":Operation_metadata_list_hash",
+       ":Operation_metadata_hash",
+    ]
+)
+
+ocaml_module(
+    name     = "P256",
+    struct   = "p256.ml",
+    sig      = ":P256_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Helpers",
+       ":Hacl",
+       ":Blake2B",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "P256_cmi",
+    src      = "p256.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+    ]
+)
+
+ocaml_module(
+    name     = "Protocol_hash",
+    struct   = "protocol_hash.ml",
+    sig      = ":Protocol_hash_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Blake2B",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Protocol_hash_cmi",
+    src      = "protocol_hash.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+    ]
+)
+
+ocaml_module(
+    name     = "Pvss",
+    struct   = "pvss.ml",
+    sig      = ":Pvss_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Znz",
+       ":S",
+       ":Blake2B",
+    ]
+)
+
+ocaml_signature(
+    name     = "Pvss_cmi",
+    src      = "pvss.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Znz",
+       ":S",
+    ]
+)
+
+ocaml_module(
+    name     = "Pvss_secp256k1",
+    struct   = "pvss_secp256k1.ml",
+    sig      = ":Pvss_secp256k1_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Secp256k1_group",
+       ":Pvss",
+       ":Hacl",
+    ]
+)
+
+ocaml_signature(
+    name     = "Pvss_secp256k1_cmi",
+    src      = "pvss_secp256k1.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Pvss",
+    ]
+)
+
+ocaml_module(
+    name     = "Rand",
+    struct   = "rand.ml",
+    sig      = ":Rand_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Hacl",
+    ]
+)
+
+ocaml_signature(
+    name     = "Rand_cmi",
+    src      = "rand.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "S",
+    struct   = "s.ml",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Base58",
+    ]
+)
+
+ocaml_module(
+    name     = "Secp256k1",
+    struct   = "secp256k1.ml",
+    sig      = ":Secp256k1_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Helpers",
+       ":Hacl",
+       ":Blake2B",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Secp256k1_cmi",
+    src      = "secp256k1.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+    ]
+)
+
+ocaml_module(
+    name     = "Secp256k1_group",
+    struct   = "secp256k1_group.ml",
+    sig      = ":Secp256k1_group_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+       ":Helpers",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Secp256k1_group_cmi",
+    src      = "secp256k1_group.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+    ]
+)
+
+ocaml_module(
+    name     = "Signature",
+    struct   = "signature.ml",
+    sig      = ":Signature_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Secp256k1",
+       ":P256",
+       ":Helpers",
+       ":Hacl",
+       ":Ed25519",
+       ":Chain_id",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Signature_cmi",
+    src      = "signature.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Secp256k1",
+       ":S",
+       ":P256",
+       ":Ed25519",
+       ":Chain_id",
+    ]
+)
+
+ocaml_module(
+    name     = "Timelock",
+    struct   = "timelock.ml",
+    sig      = ":Timelock_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Crypto_box",
+       ":Blake2B",
+    ]
+)
+
+ocaml_signature(
+    name     = "Timelock_cmi",
+    src      = "timelock.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Znz",
+    struct   = "znz.ml",
+    sig      = ":Znz_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":Zplus",
+       ":S",
+       ":Helpers",
+       ":Base58",
+    ]
+)
+
+ocaml_signature(
+    name     = "Znz_cmi",
+    src      = "znz.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+       ":S",
+    ]
+)
+
+ocaml_module(
+    name     = "Zplus",
+    struct   = "zplus.ml",
+    sig      = ":Zplus_cmi",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Zplus_cmi",
+    src      = "zplus.mli",
+    opts     = TEZOS_CRYPTO_OPTS,
+    deps     = TEZOS_CRYPTO_DEPS + [
+    ]
+)
+

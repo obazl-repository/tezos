@@ -1,0 +1,30 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+BIP39_GENERATOR_DEPS = [
+]
+
+#################
+ocaml_executable(
+    name    = "bip39_generator.exe",
+    visibility = ["//visibility:public"],
+    exe     = "bip39_generator",
+    main    = ":Bip39_generator",
+    deps = [
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Bip39_generator",
+    struct   = "bip39_generator.ml",
+    deps     = BIP39_GENERATOR_DEPS + [
+    ]
+)
+

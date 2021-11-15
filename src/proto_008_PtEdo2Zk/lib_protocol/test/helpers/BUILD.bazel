@@ -1,0 +1,233 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-008-PtEdo2Zk-test-helpers ########
+TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_008_PtEdo2Zk",
+    "-open", "Tezos_micheline",
+    "-open", "Tezos_protocol_008_PtEdo2Zk",
+    "-open", "Tezos_protocol_environment_008_PtEdo2Zk",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/proto_008_PtEdo2Zk/lib_client:tezos-client-008-PtEdo2Zk",
+    "//src/proto_008_PtEdo2Zk/lib_parameters:tezos-protocol-008-PtEdo2Zk-parameters",
+    "//src/proto_008_PtEdo2Zk/lib_protocol:tezos-protocol-008-PtEdo2Zk",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-008-PtEdo2Zk-test-helpers",
+    ns         = "Tezos_008_PtEdo2Zk_test_helpers",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Account",
+        ":Assert",
+        ":Block",
+        ":Context",
+        ":Expr",
+        ":Incremental",
+        ":Nonce",
+        ":Op",
+        ":Rewards",
+        ":Sapling_helpers",
+        ":Test_tez",
+        ":Testable",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Account",
+    struct   = "account.ml",
+    sig      = ":Account_cmi",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Account_cmi",
+    src      = "account.mli",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Assert",
+    struct   = "assert.ml",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+       ":Context",
+    ]
+)
+
+ocaml_module(
+    name     = "Block",
+    struct   = "block.ml",
+    sig      = ":Block_cmi",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+       ":Nonce",
+       ":Context",
+       ":Account",
+    ]
+)
+
+ocaml_signature(
+    name     = "Block_cmi",
+    src      = "block.mli",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+       ":Context",
+       ":Account",
+    ]
+)
+
+ocaml_module(
+    name     = "Context",
+    struct   = "context.ml",
+    sig      = ":Context_cmi",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+       ":Test_tez",
+       ":Incremental",
+       ":Context",
+       ":Block",
+       ":Account",
+    ]
+)
+
+ocaml_signature(
+    name     = "Context_cmi",
+    src      = "context.mli",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+       ":Incremental",
+       ":Block",
+       ":Account",
+    ]
+)
+
+ocaml_module(
+    name     = "Expr",
+    struct   = "expr.ml",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Incremental",
+    struct   = "incremental.ml",
+    sig      = ":Incremental_cmi",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+       ":Block",
+       ":Account",
+    ]
+)
+
+ocaml_signature(
+    name     = "Incremental_cmi",
+    src      = "incremental.mli",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+       ":Block",
+    ]
+)
+
+ocaml_module(
+    name     = "Nonce",
+    struct   = "nonce.ml",
+    sig      = ":Nonce_cmi",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Nonce_cmi",
+    src      = "nonce.mli",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Op",
+    struct   = "op.ml",
+    sig      = ":Op_cmi",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+       ":Test_tez",
+       ":Context",
+       ":Account",
+    ]
+)
+
+ocaml_signature(
+    name     = "Op_cmi",
+    src      = "op.mli",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+       ":Test_tez",
+       ":Nonce",
+       ":Context",
+    ]
+)
+
+ocaml_module(
+    name     = "Rewards",
+    struct   = "rewards.ml",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Sapling_helpers",
+    struct   = "sapling_helpers.ml",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+       ":Test_tez",
+       ":Op",
+       ":Incremental",
+       ":Context",
+       ":Block",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_tez",
+    struct   = "test_tez.ml",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Testable",
+    struct   = "testable.ml",
+    opts     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_OPTS,
+    deps     = TEZOS_008_PTEDO2ZK_TEST_HELPERS_DEPS + [
+    ]
+)
+

@@ -1,0 +1,65 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+RUSTZCASH_CTYPES_GEN_DEPS = [
+    "@ctypes//:ctypes",
+    "@ctypes//stubs",
+]
+
+#################
+ocaml_executable(
+    name    = "rustzcash_ctypes_gen.exe",
+    visibility = ["//visibility:public"],
+    exe     = "rustzcash_ctypes_gen",
+    main    = ":Rustzcash_ctypes_gen",
+    deps = RUSTZCASH_CTYPES_GEN_DEPS + [
+        ":Rustzcash_ctypes_bindings",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Rustzcash_ctypes_bindings",
+    struct   = "rustzcash_ctypes_bindings.ml",
+    deps     = RUSTZCASH_CTYPES_GEN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Rustzcash_ctypes_gen",
+    struct   = "rustzcash_ctypes_gen.ml",
+    deps     = RUSTZCASH_CTYPES_GEN_DEPS + [
+       ":Rustzcash_ctypes_bindings",
+    ]
+)
+
+ocaml_module(
+    name     = "Rustzcash_ctypes_stubs",
+    struct   = "rustzcash_ctypes_stubs.ml",
+    deps     = [
+    ]
+)
+
+######## run cmd ########
+genrule(
+    name = "__rustzcash_ctypes_stubs.ml",
+    outs  = [
+        "rustzcash_ctypes_stubs.ml"
+    ],
+    tools  = ["//#f"],
+    cmd  = (),
+    srcs  = [
+    ],
+)
+## (
+##   (:out rustzcash_ctypes_stubs.ml)
+##   (:cmd ((:tool %{gen}) (:deps ()) (:args ("%{targets}")) (:foo #t) (:raw ((run %{gen} %{targets})))))
+##   (:vars ((:gen "src/lib_sapling/bindings" "rustzcash_ctypes_gen.exe")))
+##   (:raw (rule (targets rustzcash_ctypes_stubs.ml rustzcash_ctypes_c_stubs.c) (deps (:gen ./rustzcash_ctypes_gen.exe)) (action (run %{gen} %{targets}))))
+## )

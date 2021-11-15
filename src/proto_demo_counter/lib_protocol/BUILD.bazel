@@ -1,0 +1,461 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-protocol-demo-counter.environment ########
+TEZOS_PROTOCOL_DEMO_COUNTER_ENVIRONMENT_DEPS = [
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-demo-counter.environment",
+    ns         = "Tezos_protocol_environment_demo_counter",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Environment",
+    ],
+)
+
+######## tezos-protocol-demo-counter.raw ########
+TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS = [
+    "-nopervasives",
+    "-nostdlib",
+    "-w",
+    "+a-4-6-7-9-29-32-40..42-44-45-48-60-67",
+    "-warn-error",
+    "+a",
+    "-open", "Error_monad",
+    "-open", "Pervasives",
+    "-open", "Tezos_protocol_environment_demo_counter__Environment",
+]
+
+TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS = [
+    "//src/proto_demo_counter/lib_protocol:tezos-protocol-demo-counter.environment",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-demo-counter.raw",
+    ns         = "Tezos_raw_protocol_demo_counter",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Apply",
+        ":Error",
+        ":Header",
+        ":Main",
+        ":Proto_operation",
+        ":Proto_params",
+        ":Receipt",
+        ":Services",
+        ":State",
+    ],
+)
+
+######## tezos-protocol-demo-counter ########
+TEZOS_PROTOCOL_DEMO_COUNTER_OPTS = [
+    "-w",
+    "+a-4-6-7-9-29-40..42-44-45-48-60-67",
+    "-warn-error",
+    "+a",
+    "-nopervasives",
+]
+
+TEZOS_PROTOCOL_DEMO_COUNTER_DEPS = [
+    "//src/lib_protocol_environment/sigs:tezos-protocol-environment-sigs",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/proto_demo_counter/lib_protocol:tezos-protocol-demo-counter.raw",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-demo-counter",
+    ns         = "Tezos_protocol_demo_counter",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Protocol",
+    ],
+)
+
+######## tezos-protocol-functor-demo-counter ########
+TEZOS_PROTOCOL_FUNCTOR_DEMO_COUNTER_OPTS = [
+    "-w",
+    "+a-4-6-7-9-29-40..42-44-45-48-60-67",
+    "-warn-error",
+    "+a",
+    "-nopervasives",
+]
+
+TEZOS_PROTOCOL_FUNCTOR_DEMO_COUNTER_DEPS = [
+    "//src/lib_protocol_environment/sigs:tezos-protocol-environment-sigs",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/proto_demo_counter/lib_protocol:tezos-protocol-demo-counter.raw",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-functor-demo-counter",
+    ns         = "Tezos_protocol_demo_counter_functor",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Functor",
+    ],
+)
+
+######## tezos-embedded-protocol-demo-counter ########
+TEZOS_EMBEDDED_PROTOCOL_DEMO_COUNTER_OPTS = [
+    "-w",
+    "+a-4-6-7-9-29-32-40..42-44-45-48-60-67",
+    "-warn-error",
+    "+a",
+]
+
+TEZOS_EMBEDDED_PROTOCOL_DEMO_COUNTER_DEPS = [
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_protocol_updater:tezos-protocol-updater",
+    "//src/proto_demo_counter/lib_protocol:tezos-protocol-demo-counter",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-embedded-protocol-demo-counter",
+    ns         = "Tezos_embedded_protocol_demo_counter",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Registerer",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Apply",
+    struct   = "apply.ml",
+    sig      = ":Apply_cmi",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+       ":State",
+       ":Proto_operation",
+    ]
+)
+
+ocaml_signature(
+    name     = "Apply_cmi",
+    src      = "apply.mli",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+       ":State",
+       ":Proto_operation",
+    ]
+)
+
+ocaml_module(
+    name     = "Environment",
+    struct   = "environment.ml",
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_ENVIRONMENT_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Error",
+    struct   = "error.ml",
+    sig      = ":Error_cmi",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Error_cmi",
+    src      = "error.mli",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Functor",
+    struct   = "functor.ml",
+    opts     = TEZOS_PROTOCOL_FUNCTOR_DEMO_COUNTER_OPTS,
+    deps     = TEZOS_PROTOCOL_FUNCTOR_DEMO_COUNTER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Header",
+    struct   = "header.ml",
+    sig      = ":Header_cmi",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Header_cmi",
+    src      = "header.mli",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Main",
+    struct   = "main.ml",
+    sig      = ":Main_cmi",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+       ":State",
+       ":Services",
+       ":Receipt",
+       ":Proto_params",
+       ":Proto_operation",
+       ":Header",
+       ":Error",
+       ":Apply",
+    ]
+)
+
+ocaml_signature(
+    name     = "Main_cmi",
+    src      = "main.mli",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+       ":Receipt",
+       ":Proto_operation",
+       ":Header",
+    ]
+)
+
+ocaml_module(
+    name     = "Proto_operation",
+    struct   = "proto_operation.ml",
+    sig      = ":Proto_operation_cmi",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Proto_operation_cmi",
+    src      = "proto_operation.mli",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Proto_params",
+    struct   = "proto_params.ml",
+    sig      = ":Proto_params_cmi",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Proto_params_cmi",
+    src      = "proto_params.mli",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Protocol",
+    struct   = "protocol.ml",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Receipt",
+    struct   = "receipt.ml",
+    sig      = ":Receipt_cmi",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Receipt_cmi",
+    src      = "receipt.mli",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Registerer",
+    struct   = "registerer.ml",
+    opts     = TEZOS_EMBEDDED_PROTOCOL_DEMO_COUNTER_OPTS,
+    deps     = TEZOS_EMBEDDED_PROTOCOL_DEMO_COUNTER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Services",
+    struct   = "services.ml",
+    sig      = ":Services_cmi",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+       ":State",
+    ]
+)
+
+ocaml_signature(
+    name     = "Services_cmi",
+    src      = "services.mli",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "State",
+    struct   = "state.ml",
+    sig      = ":State_cmi",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "State_cmi",
+    src      = "state.mli",
+    opts     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_OPTS,
+    deps     = TEZOS_PROTOCOL_DEMO_COUNTER_RAW_DEPS + [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+###########
+write_file(
+    name     = "write_environment.ml",
+    out      = "environment.ml",
+    content  = """
+module Name = struct let name = "demo-counter" end
+include Tezos_protocol_environment.MakeV0(Name)()
+module CamlinternalFormatBasics = struct include CamlinternalFormatBasics end
+""")
+
+######## with-stdout-to ########
+genrule(
+    name = "__registerer.ml",
+    outs  = [
+        "registerer.ml"
+    ],
+    tools  = ["//src/lib_protocol_compiler:tezos-embedded-protocol-packer.exe"],
+    cmd  = " ".join([
+        "$(execpath //src/lib_protocol_compiler:tezos-embedded-protocol-packer.exe) ",
+        "$(location //src/proto_demo_counter/lib_protocol:TEZOS_PROTOCOL)",
+        "demo_counter",
+        "> $@"
+        ]),
+    srcs  = [
+        "//src/proto_demo_counter/lib_protocol:error.mli",
+        "//src/proto_demo_counter/lib_protocol:error.ml",
+        "//src/proto_demo_counter/lib_protocol:proto_params.mli",
+        "//src/proto_demo_counter/lib_protocol:proto_params.ml",
+        "//src/proto_demo_counter/lib_protocol:header.mli",
+        "//src/proto_demo_counter/lib_protocol:header.ml",
+        "//src/proto_demo_counter/lib_protocol:state.mli",
+        "//src/proto_demo_counter/lib_protocol:state.ml",
+        "//src/proto_demo_counter/lib_protocol:proto_operation.mli",
+        "//src/proto_demo_counter/lib_protocol:proto_operation.ml",
+        "//src/proto_demo_counter/lib_protocol:receipt.mli",
+        "//src/proto_demo_counter/lib_protocol:receipt.ml",
+        "//src/proto_demo_counter/lib_protocol:apply.mli",
+        "//src/proto_demo_counter/lib_protocol:apply.ml",
+        "//src/proto_demo_counter/lib_protocol:services.mli",
+        "//src/proto_demo_counter/lib_protocol:services.ml",
+        "//src/proto_demo_counter/lib_protocol:main.mli",
+        "//src/proto_demo_counter/lib_protocol:main.ml",
+        "//src/proto_demo_counter/lib_protocol:TEZOS_PROTOCOL",
+    ],
+)
+######## with-stdout-to ########
+genrule(
+    name = "__functor.ml",
+    outs  = [
+        "functor.ml"
+    ],
+    tools  = ["//src/lib_protocol_compiler:tezos-protocol-compiler.tezos-protocol-packer.exe"],
+    cmd  = " ".join([
+        "$(execpath //src/lib_protocol_compiler:tezos-protocol-compiler.tezos-protocol-packer.exe) ",
+        "$(location //src/proto_demo_counter/lib_protocol:TEZOS_PROTOCOL)",
+        "> $@"
+        ]),
+    srcs  = [
+        "//src/proto_demo_counter/lib_protocol:error.mli",
+        "//src/proto_demo_counter/lib_protocol:error.ml",
+        "//src/proto_demo_counter/lib_protocol:proto_params.mli",
+        "//src/proto_demo_counter/lib_protocol:proto_params.ml",
+        "//src/proto_demo_counter/lib_protocol:header.mli",
+        "//src/proto_demo_counter/lib_protocol:header.ml",
+        "//src/proto_demo_counter/lib_protocol:state.mli",
+        "//src/proto_demo_counter/lib_protocol:state.ml",
+        "//src/proto_demo_counter/lib_protocol:proto_operation.mli",
+        "//src/proto_demo_counter/lib_protocol:proto_operation.ml",
+        "//src/proto_demo_counter/lib_protocol:receipt.mli",
+        "//src/proto_demo_counter/lib_protocol:receipt.ml",
+        "//src/proto_demo_counter/lib_protocol:apply.mli",
+        "//src/proto_demo_counter/lib_protocol:apply.ml",
+        "//src/proto_demo_counter/lib_protocol:services.mli",
+        "//src/proto_demo_counter/lib_protocol:services.ml",
+        "//src/proto_demo_counter/lib_protocol:main.mli",
+        "//src/proto_demo_counter/lib_protocol:main.ml",
+        "//src/proto_demo_counter/lib_protocol:TEZOS_PROTOCOL",
+    ],
+)
+###########
+write_file(
+    name     = "write_protocol.ml",
+    out      = "protocol.ml",
+    content  = """
+module Environment = Tezos_protocol_environment_demo_counter.Environment
+let hash = Tezos_crypto.Protocol_hash.of_b58check_exn "ProtoDemoCounterDemoCounterDemoCounterDemoCou4LSpdT"
+let name = Environment.Name.name
+include Tezos_raw_protocol_demo_counter
+include Tezos_raw_protocol_demo_counter.Main
+""")
+
+################  rule  ################
+## (
+##   (alias runtest_sandbox)
+##   (deps .tezos_protocol_demo_counter.objs/native/tezos_protocol_demo_counter.cmx)
+##   (action (progn))
+## )
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-protocol-demo-counter)
+##   (deps (alias runtest_sandbox))
+##   (action (progn))
+## )
+######## run cmd ########
+genrule(
+    name = "__dune.inc.gen",
+    outs  = [
+        "dune.inc.gen"
+    ],
+    tools  = ["////src/lib_protocol_compiler:replace.exe"],
+    cmd  = (),
+    srcs  = [
+    ],
+)
+## (
+##   (:out "dune.inc.gen")
+##   (:cmd ((:tool %{libexec:tezos-protocol-compiler:replace}) (:deps ((:_static "src/proto_demo_counter/lib_protocol" "TEZOS_PROTOCOL") (:_static "src/proto_demo_counter/lib_protocol" "receipt.ml") (:_static "src/proto_demo_counter/lib_protocol" "apply.ml") (:_static "src/proto_demo_counter/lib_protocol" "state.ml") (:_static "src/proto_demo_counter/lib_protocol" "proto_operation.ml") (:_static "src/proto_demo_counter/lib_protocol" "main.ml") (:_static "src/proto_demo_counter/lib_protocol" "header.ml") (:_static "src/proto_demo_counter/lib_protocol" "error.ml") (:_static "src/proto_demo_counter/lib_protocol" "services.ml") (:_static "src/proto_demo_counter/lib_protocol" "proto_params.ml") (:_generated "src/proto_demo_counter/lib_protocol" "protocol.ml") (:_generated "src/proto_demo_counter/lib_protocol" "functor.ml") (:_generated "src/proto_demo_counter/lib_protocol" "registerer.ml") (:_generated "src/proto_demo_counter/lib_protocol" "environment.ml") (:_static "src/proto_demo_counter/lib_protocol" "main.mli") (:_static "src/proto_demo_counter/lib_protocol" "apply.mli") (:_static "src/proto_demo_counter/lib_protocol" "proto_operation.mli") (:_static "src/proto_demo_counter/lib_protocol" "services.mli") (:_static "src/proto_demo_counter/lib_protocol" "receipt.mli") (:_static "src/proto_demo_counter/lib_protocol" "proto_params.mli") (:_static "src/proto_demo_counter/lib_protocol" "header.mli") (:_static "src/proto_demo_counter/lib_protocol" "error.mli") (:_static "src/proto_demo_counter/lib_protocol" "state.mli"))) (:args ((:_generated "src/proto_demo_counter/lib_protocol" "%{libexec:tezos-protocol-compiler:dune_protocol.template}") "dune.inc.gen" (:_generated "src/proto_demo_counter/lib_protocol" "%{libexec:tezos-protocol-compiler:final_protocol_versions}"))) (:foo #t) (:raw ((run %{libexec:tezos-protocol-compiler:replace} %{libexec:tezos-protocol-compiler:dune_protocol.template} "dune.inc.gen" %{libexec:tezos-protocol-compiler:final_protocol_versions})))))
+##   (:vars ())
+##   (:raw (rule (targets "dune.inc.gen") (deps TEZOS_PROTOCOL (glob_files *.ml) (glob_files *.mli)) (action (run %{libexec:tezos-protocol-compiler:replace} %{libexec:tezos-protocol-compiler:dune_protocol.template} "dune.inc.gen" %{libexec:tezos-protocol-compiler:final_protocol_versions}))))
+## )
+################  rule  ################
+## (
+##   (alias runtest_dune_template)
+##   (action (diff dune.inc dune.inc.gen))
+## )

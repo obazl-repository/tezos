@@ -1,0 +1,131 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## numerics ########
+NUMERICS_DEPS = [
+]
+
+ocaml_ns_archive(
+    name       = "numerics",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Dense_complex64_mat",
+        ":Dense_complex64_vec",
+        ":Dense_float64_mat",
+        ":Dense_float64_vec",
+        ":Errors",
+        ":Fft",
+        ":Numerics",
+        ":Sigs",
+        ":Stubs",
+        ":Utils",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Dense_complex64_mat",
+    struct   = "dense_complex64_mat.ml",
+    deps     = NUMERICS_DEPS + [
+       ":Utils",
+       ":Stubs",
+       ":Errors",
+    ]
+)
+
+ocaml_module(
+    name     = "Dense_complex64_vec",
+    struct   = "dense_complex64_vec.ml",
+    deps     = NUMERICS_DEPS + [
+       ":Stubs",
+    ]
+)
+
+ocaml_module(
+    name     = "Dense_float64_mat",
+    struct   = "dense_float64_mat.ml",
+    deps     = NUMERICS_DEPS + [
+       ":Utils",
+       ":Stubs",
+       ":Errors",
+    ]
+)
+
+ocaml_module(
+    name     = "Dense_float64_vec",
+    struct   = "dense_float64_vec.ml",
+    deps     = NUMERICS_DEPS + [
+       ":Stubs",
+    ]
+)
+
+ocaml_module(
+    name     = "Errors",
+    struct   = "errors.ml",
+    deps     = NUMERICS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Fft",
+    struct   = "fft.ml",
+    sig      = ":Fft_cmi",
+    deps     = NUMERICS_DEPS + [
+       ":Stubs",
+       ":Dense_float64_vec",
+       ":Dense_complex64_vec",
+    ]
+)
+
+ocaml_signature(
+    name     = "Fft_cmi",
+    src      = "fft.mli",
+    deps     = NUMERICS_DEPS + [
+       ":Dense_float64_vec",
+       ":Dense_complex64_vec",
+    ]
+)
+
+ocaml_module(
+    name     = "Numerics",
+    struct   = "numerics.ml",
+    deps     = NUMERICS_DEPS + [
+       ":Sigs",
+       ":Fft",
+       ":Dense_float64_vec",
+       ":Dense_float64_mat",
+       ":Dense_complex64_vec",
+       ":Dense_complex64_mat",
+    ]
+)
+
+ocaml_module(
+    name     = "Sigs",
+    struct   = "sigs.ml",
+    deps     = NUMERICS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Stubs",
+    struct   = "stubs.ml",
+    deps     = NUMERICS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Utils",
+    struct   = "utils.ml",
+    deps     = NUMERICS_DEPS + [
+    ]
+)
+

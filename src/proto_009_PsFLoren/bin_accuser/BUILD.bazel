@@ -1,0 +1,44 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEZOS_ACCUSER_009_PSFLOREN_OPTS = [
+    "-open", "Tezos_baking_009_PsFLoren_commands",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_009_PsFLoren",
+    "-open", "Tezos_client_base_unix",
+    "-open", "Tezos_client_commands",
+    "-open", "Tezos_protocol_009_PsFLoren",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_ACCUSER_009_PSFLOREN_DEPS = [
+    "//src/lib_client_base_unix:tezos-client-base-unix",
+    "//src/lib_client_commands:tezos-client-commands",
+    "//src/proto_009_PsFLoren/lib_delegate:tezos-baking-009-PsFLoren-commands",
+]
+
+#################
+ocaml_executable(
+    name    = "tezos-accuser-009-PsFLoren.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main_accuser_009_PsFLoren",
+    main    = ":Main_accuser_009_PsFLoren",
+    deps = TEZOS_ACCUSER_009_PSFLOREN_DEPS + [
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Main_accuser_009_PsFLoren",
+    struct   = "main_accuser_009_PsFLoren.ml",
+    opts     = TEZOS_ACCUSER_009_PSFLOREN_OPTS,
+    deps     = TEZOS_ACCUSER_009_PSFLOREN_DEPS + [
+    ]
+)
+

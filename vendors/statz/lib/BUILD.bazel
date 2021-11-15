@@ -1,0 +1,179 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## staTz ########
+STATZ_DEPS = [
+    "//vendors/numerics/lib:numerics",
+]
+
+ocaml_ns_archive(
+    name       = "staTz",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Finbij",
+        ":Fourier",
+        ":Graph",
+        ":Grid",
+        ":Mh",
+        ":Result",
+        ":Series",
+        ":StaTz",
+        ":Stats",
+        ":Structures",
+        ":Tools",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Finbij",
+    struct   = "finbij.ml",
+    deps     = STATZ_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Fourier",
+    struct   = "fourier.ml",
+    sig      = ":Fourier_cmi",
+    deps     = STATZ_DEPS + [
+       ":Series",
+       ":Grid",
+    ]
+)
+
+ocaml_signature(
+    name     = "Fourier_cmi",
+    src      = "fourier.mli",
+    deps     = STATZ_DEPS + [
+       ":Series",
+       ":Grid",
+    ]
+)
+
+ocaml_module(
+    name     = "Graph",
+    struct   = "graph.ml",
+    deps     = STATZ_DEPS + [
+       ":Finbij",
+    ]
+)
+
+ocaml_module(
+    name     = "Grid",
+    struct   = "grid.ml",
+    sig      = ":Grid_cmi",
+    deps     = STATZ_DEPS + [
+       ":Result",
+    ]
+)
+
+ocaml_signature(
+    name     = "Grid_cmi",
+    src      = "grid.mli",
+    deps     = STATZ_DEPS + [
+       ":Result",
+    ]
+)
+
+ocaml_module(
+    name     = "Mh",
+    struct   = "mh.ml",
+    sig      = ":Mh_cmi",
+    deps     = STATZ_DEPS + [
+       ":Tools",
+       ":Structures",
+       ":Stats",
+    ]
+)
+
+ocaml_signature(
+    name     = "Mh_cmi",
+    src      = "mh.mli",
+    deps     = STATZ_DEPS + [
+       ":Structures",
+       ":Stats",
+    ]
+)
+
+ocaml_module(
+    name     = "Result",
+    struct   = "result.ml",
+    deps     = STATZ_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Series",
+    struct   = "series.ml",
+    sig      = ":Series_cmi",
+    deps     = STATZ_DEPS + [
+       ":Result",
+       ":Grid",
+    ]
+)
+
+ocaml_signature(
+    name     = "Series_cmi",
+    src      = "series.mli",
+    deps     = STATZ_DEPS + [
+       ":Result",
+       ":Grid",
+    ]
+)
+
+ocaml_module(
+    name     = "StaTz",
+    struct   = "staTz.ml",
+    deps     = STATZ_DEPS + [
+       ":Structures",
+       ":Stats",
+       ":Series",
+       ":Mh",
+       ":Grid",
+       ":Graph",
+       ":Fourier",
+       ":Finbij",
+    ]
+)
+
+ocaml_module(
+    name     = "Stats",
+    struct   = "stats.ml",
+    sig      = ":Stats_cmi",
+    deps     = STATZ_DEPS + [
+       ":Structures",
+    ]
+)
+
+ocaml_signature(
+    name     = "Stats_cmi",
+    src      = "stats.mli",
+    deps     = STATZ_DEPS + [
+       ":Structures",
+    ]
+)
+
+ocaml_module(
+    name     = "Structures",
+    struct   = "structures.ml",
+    deps     = STATZ_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Tools",
+    struct   = "tools.ml",
+    deps     = STATZ_DEPS + [
+    ]
+)
+

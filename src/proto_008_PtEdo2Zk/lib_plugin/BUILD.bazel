@@ -1,0 +1,75 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-protocol-plugin-008-PtEdo2Zk ########
+TEZOS_PROTOCOL_PLUGIN_008_PTEDO2ZK_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_protocol_008_PtEdo2Zk",
+]
+
+TEZOS_PROTOCOL_PLUGIN_008_PTEDO2ZK_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/proto_008_PtEdo2Zk/lib_protocol:tezos-protocol-008-PtEdo2Zk",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-plugin-008-PtEdo2Zk",
+    ns         = "Tezos_protocol_plugin_008_PtEdo2Zk",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Plugin",
+        ":Plugin_registerer",
+        ":\",
+    ],
+)
+
+######## tezos-protocol-plugin-008-PtEdo2Zk-registerer ########
+TEZOS_PROTOCOL_PLUGIN_008_PTEDO2ZK_REGISTERER_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_embedded_protocol_008_PtEdo2Zk",
+    "-open", "Tezos_protocol_plugin_008_PtEdo2Zk",
+    "-open", "Tezos_shell",
+]
+
+TEZOS_PROTOCOL_PLUGIN_008_PTEDO2ZK_REGISTERER_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_shell:tezos-shell",
+    "//src/proto_008_PtEdo2Zk/lib_plugin:tezos-protocol-plugin-008-PtEdo2Zk",
+    "//src/proto_008_PtEdo2Zk/lib_protocol:tezos-embedded-protocol-008-PtEdo2Zk",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-plugin-008-PtEdo2Zk-registerer",
+    ns         = "Tezos_protocol_plugin_008_PtEdo2Zk_registerer",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Plugin_registerer",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Plugin",
+    struct   = "plugin.ml",
+    opts     = TEZOS_PROTOCOL_PLUGIN_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_PROTOCOL_PLUGIN_008_PTEDO2ZK_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Plugin_registerer",
+    struct   = "plugin_registerer.ml",
+    opts     = TEZOS_PROTOCOL_PLUGIN_008_PTEDO2ZK_OPTS,
+    deps     = TEZOS_PROTOCOL_PLUGIN_008_PTEDO2ZK_DEPS + [
+       ":Plugin",
+    ]
+)
+

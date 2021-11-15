@@ -1,0 +1,283 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+MAIN_OPTS = [
+    "-open", "Tezos_008_PtEdo2Zk_test_helpers",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_008_PtEdo2Zk",
+    "-open", "Tezos_micheline",
+    "-open", "Tezos_protocol_008_PtEdo2Zk",
+    "-open", "Tezos_protocol_environment_008_PtEdo2Zk",
+    "-open", "Tezos_test_services",
+]
+
+MAIN_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_sapling:tezos-sapling",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_test_services:tezos-test-services",
+    "//src/proto_008_PtEdo2Zk/lib_parameters:tezos-protocol-008-PtEdo2Zk-parameters",
+    "//src/proto_008_PtEdo2Zk/lib_protocol/test/helpers:tezos-008-PtEdo2Zk-test-helpers",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+#################
+ocaml_executable(
+    name    = "main.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main",
+    main    = ":Main",
+    deps = MAIN_DEPS + [
+        ":Activation",
+        ":Baking",
+        ":Combined_operations",
+        ":Delegation",
+        ":Double_baking",
+        ":Double_endorsement",
+        ":Endorsement",
+        ":Fixed_point",
+        ":Gas_costs",
+        ":Gas_properties",
+        ":Interpretation",
+        ":Lazy_storage_diff",
+        ":Origination",
+        ":Qty",
+        ":Reveal",
+        ":Rolls",
+        ":Script_gas",
+        ":Seed",
+        ":Test_helpers_rpcs",
+        ":Test_sapling",
+        ":Transfer",
+        ":Typechecking",
+        ":Voting",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Activation",
+    struct   = "activation.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Baking",
+    struct   = "baking.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+       ":Baking",
+    ]
+)
+
+ocaml_module(
+    name     = "Combined_operations",
+    struct   = "combined_operations.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Delegation",
+    struct   = "delegation.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Double_baking",
+    struct   = "double_baking.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+       ":Baking",
+    ]
+)
+
+ocaml_module(
+    name     = "Double_endorsement",
+    struct   = "double_endorsement.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+       ":Baking",
+    ]
+)
+
+ocaml_module(
+    name     = "Endorsement",
+    struct   = "endorsement.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+       ":Baking",
+    ]
+)
+
+ocaml_module(
+    name     = "Fixed_point",
+    struct   = "fixed_point.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Gas_costs",
+    struct   = "gas_costs.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Gas_properties",
+    struct   = "gas_properties.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Interpretation",
+    struct   = "interpretation.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Lazy_storage_diff",
+    struct   = "lazy_storage_diff.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Main",
+    struct   = "main.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Origination",
+    struct   = "origination.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Qty",
+    struct   = "qty.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Reveal",
+    struct   = "reveal.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Rolls",
+    struct   = "rolls.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Script_gas",
+    struct   = "script_gas.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Seed",
+    struct   = "seed.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_helpers_rpcs",
+    struct   = "test_helpers_rpcs.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_sapling",
+    struct   = "test_sapling.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Transfer",
+    struct   = "transfer.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Typechecking",
+    struct   = "typechecking.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Voting",
+    struct   = "voting.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias buildtest)
+##   (package tezos-protocol-008-PtEdo2Zk-tests)
+##   (deps main.exe)
+##   (action (progn))
+## )
+################  rule  ################
+## (
+##   (copy %{lib:tezos-protocol-008-PtEdo2Zk-parameters:test-parameters.json} protocol_parameters.json)
+## )
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-protocol-008-PtEdo2Zk-tests)
+##   (deps (alias runtest_proto_008_PtEdo2Zk))
+##   (action (progn))
+## )

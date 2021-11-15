@@ -1,0 +1,179 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-benchmark-010-PtGRANAD ########
+TEZOS_BENCHMARK_010_PTGRANAD_OPTS = [
+    "-open", "Tezos_010_PtGRANAD_test_helpers",
+    "-open", "Tezos_base",
+    "-open", "Tezos_benchmark",
+    "-open", "Tezos_benchmark_type_inference_010_PtGRANAD",
+    "-open", "Tezos_crypto",
+    "-open", "Tezos_error_monad",
+    "-open", "Tezos_micheline",
+    "-open", "Tezos_micheline_rewriting",
+    "-open", "Tezos_protocol_010_PtGRANAD",
+    "-open", "Tezos_stdlib",
+]
+
+TEZOS_BENCHMARK_010_PTGRANAD_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_benchmark/lib_micheline_rewriting:tezos-micheline-rewriting",
+    "//src/lib_benchmark:tezos-benchmark",
+    "//src/proto_010_PtGRANAD/lib_benchmark/lib_benchmark_type_inference:tezos-benchmark-type-inference-010-PtGRANAD",
+    "//src/proto_010_PtGRANAD/lib_parameters:tezos-protocol-010-PtGRANAD-parameters",
+    "//src/proto_010_PtGRANAD/lib_protocol/test/helpers:tezos-010-PtGRANAD-test-helpers",
+    "//src/proto_010_PtGRANAD/lib_protocol:tezos-protocol-010-PtGRANAD",
+    "//vendors/benchmark-utils:benchmark-utils",
+    "//vendors/statz/lib:staTz",
+    "@hashcons//:hashcons",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-benchmark-010-PtGRANAD",
+    ns         = "Tezos_benchmark_010_PtGRANAD",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Autocomp",
+        ":Execution_context",
+        ":Generators",
+        ":Kernel",
+        ":Michelson",
+        ":Michelson_samplers",
+        ":Michelson_samplers_base",
+        ":Michelson_samplers_parameters",
+        ":Rules",
+        ":Sampler",
+        ":Sampling_helpers",
+        ":State_space",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Autocomp",
+    struct   = "autocomp.ml",
+    opts     = TEZOS_BENCHMARK_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_010_PTGRANAD_DEPS + [
+       ":Sampling_helpers",
+       ":Michelson_samplers_parameters",
+       ":Michelson_samplers_base",
+       ":Kernel",
+    ]
+)
+
+ocaml_module(
+    name     = "Execution_context",
+    struct   = "execution_context.ml",
+    opts     = TEZOS_BENCHMARK_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Generators",
+    struct   = "generators.ml",
+    opts     = TEZOS_BENCHMARK_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_010_PTGRANAD_DEPS + [
+       ":State_space",
+       ":Sampler",
+       ":Rules",
+       ":Michelson_samplers_base",
+       ":Michelson",
+       ":Autocomp",
+    ]
+)
+
+ocaml_module(
+    name     = "Kernel",
+    struct   = "kernel.ml",
+    opts     = TEZOS_BENCHMARK_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson",
+    struct   = "michelson.ml",
+    opts     = TEZOS_BENCHMARK_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_010_PTGRANAD_DEPS + [
+       ":Kernel",
+       ":Autocomp",
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_samplers",
+    struct   = "michelson_samplers.ml",
+    opts     = TEZOS_BENCHMARK_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_010_PTGRANAD_DEPS + [
+       ":Sampling_helpers",
+       ":Michelson_samplers_parameters",
+       ":Michelson_samplers_base",
+       ":Execution_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_samplers_base",
+    struct   = "michelson_samplers_base.ml",
+    opts     = TEZOS_BENCHMARK_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_010_PTGRANAD_DEPS + [
+       ":Sampling_helpers",
+       ":Michelson_samplers_parameters",
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_samplers_parameters",
+    struct   = "michelson_samplers_parameters.ml",
+    opts     = TEZOS_BENCHMARK_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Rules",
+    struct   = "rules.ml",
+    opts     = TEZOS_BENCHMARK_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_010_PTGRANAD_DEPS + [
+       ":State_space",
+       ":Michelson_samplers_base",
+       ":Kernel",
+    ]
+)
+
+ocaml_module(
+    name     = "Sampler",
+    struct   = "sampler.ml",
+    opts     = TEZOS_BENCHMARK_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_010_PTGRANAD_DEPS + [
+       ":State_space",
+       ":Rules",
+       ":Kernel",
+    ]
+)
+
+ocaml_module(
+    name     = "Sampling_helpers",
+    struct   = "sampling_helpers.ml",
+    opts     = TEZOS_BENCHMARK_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "State_space",
+    struct   = "state_space.ml",
+    opts     = TEZOS_BENCHMARK_010_PTGRANAD_OPTS,
+    deps     = TEZOS_BENCHMARK_010_PTGRANAD_DEPS + [
+    ]
+)
+

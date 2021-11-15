@@ -1,0 +1,132 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Key_encoding_vectors",
+    struct   = "key_encoding_vectors.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Roundtrips",
+    struct   = "roundtrips.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_base58",
+    struct   = "test_base58.ml",
+    deps     = [
+       ":Roundtrips",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_blake2b",
+    struct   = "test_blake2b.ml",
+    deps     = [
+       ":Roundtrips",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_crypto_box",
+    struct   = "test_crypto_box.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_deterministic_nonce",
+    struct   = "test_deterministic_nonce.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_ed25519",
+    struct   = "test_ed25519.ml",
+    deps     = [
+       ":Roundtrips",
+       ":Key_encoding_vectors",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_hacl",
+    struct   = "test_hacl.ml",
+    deps     = [
+       ":Vectors_p256",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_merkle",
+    struct   = "test_merkle.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_p256",
+    struct   = "test_p256.ml",
+    deps     = [
+       ":Roundtrips",
+       ":Key_encoding_vectors",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_prop_hacl_hash",
+    struct   = "test_prop_hacl_hash.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_prop_signature",
+    struct   = "test_prop_signature.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_prop_signature_pk",
+    struct   = "test_prop_signature_pk.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_pvss",
+    struct   = "test_pvss.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_signature",
+    struct   = "test_signature.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_timelock",
+    struct   = "test_timelock.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Vectors_p256",
+    struct   = "vectors_p256.ml",
+    deps     = [
+    ]
+)
+

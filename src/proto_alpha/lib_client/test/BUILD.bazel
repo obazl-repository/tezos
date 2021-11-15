@@ -1,0 +1,68 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_MICHELSON_V1_MACROS_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_alpha",
+    "-open", "Tezos_micheline",
+    "-open", "Tezos_protocol_alpha",
+]
+
+TEST_MICHELSON_V1_MACROS_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/proto_alpha/lib_client:tezos-client-alpha",
+    "//src/proto_alpha/lib_protocol:tezos-protocol-alpha",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+#################
+ocaml_executable(
+    name    = "test_michelson_v1_macros.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_michelson_v1_macros",
+    main    = ":Test_michelson_v1_macros",
+    deps = TEST_MICHELSON_V1_MACROS_DEPS + [
+        ":Assert",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Assert",
+    struct   = "assert.ml",
+    opts     = TEST_MICHELSON_V1_MACROS_OPTS,
+    deps     = TEST_MICHELSON_V1_MACROS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_michelson_v1_macros",
+    struct   = "test_michelson_v1_macros.ml",
+    opts     = TEST_MICHELSON_V1_MACROS_OPTS,
+    deps     = TEST_MICHELSON_V1_MACROS_DEPS + [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias buildtest)
+##   (deps test_michelson_v1_macros.exe)
+##   (action (progn))
+## )
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-client-alpha)
+##   (deps (alias runtest_michelson_v1_macros))
+##   (action (progn))
+## )

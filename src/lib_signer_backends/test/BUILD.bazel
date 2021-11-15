@@ -1,0 +1,60 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_ENCRYPTED_OPTS = [
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_crypto",
+    "-open", "Tezos_error_monad",
+    "-open", "Tezos_error_monad.TzLwtreslib",
+    "-open", "Tezos_signer_backends",
+    "-open", "Tezos_stdlib",
+]
+
+TEST_ENCRYPTED_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_signer_backends:tezos-signer-backends",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+#################
+ocaml_executable(
+    name    = "test_encrypted.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_encrypted",
+    main    = ":Test_encrypted",
+    deps = TEST_ENCRYPTED_DEPS + [
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Test_encrypted",
+    struct   = "test_encrypted.ml",
+    opts     = TEST_ENCRYPTED_OPTS,
+    deps     = TEST_ENCRYPTED_DEPS + [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias buildtest)
+##   (deps test_encrypted.exe)
+##   (action (progn))
+## )
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-signer-backends)
+##   (deps (alias runtest_signer_encrypted))
+##   (action (progn))
+## )

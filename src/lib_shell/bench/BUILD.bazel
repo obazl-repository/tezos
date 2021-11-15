@@ -1,0 +1,101 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+BENCH_SIMPLE_OPTS = [
+    "-open", "Tezos_alpha_test_helpers",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_protocol_alpha",
+    "-open", "Tezos_protocol_alpha_parameters",
+    "-open", "Tezos_protocol_plugin_alpha",
+    "-open", "Tezos_shell",
+]
+
+BENCH_SIMPLE_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_shell:tezos-shell",
+    "//src/proto_alpha/lib_plugin:tezos-protocol-plugin-alpha",
+    "//src/proto_alpha/lib_protocol/test/helpers:tezos-alpha-test-helpers",
+]
+
+#################
+ocaml_executable(
+    name    = "bench_simple.exe",
+    visibility = ["//visibility:public"],
+    exe     = "bench_simple",
+    main    = ":Bench_simple",
+    deps = BENCH_SIMPLE_DEPS + [
+        ":Bench_tool",
+    ],
+)
+
+BENCH_TOOL_OPTS = [
+    "-open", "Tezos_alpha_test_helpers",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_protocol_alpha",
+    "-open", "Tezos_protocol_alpha_parameters",
+    "-open", "Tezos_protocol_plugin_alpha",
+    "-open", "Tezos_shell",
+]
+
+BENCH_TOOL_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_shell:tezos-shell",
+    "//src/proto_alpha/lib_plugin:tezos-protocol-plugin-alpha",
+    "//src/proto_alpha/lib_protocol/test/helpers:tezos-alpha-test-helpers",
+]
+
+#################
+ocaml_executable(
+    name    = "bench_tool.exe",
+    visibility = ["//visibility:public"],
+    exe     = "bench_tool",
+    main    = ":Bench_tool",
+    deps = BENCH_TOOL_DEPS + [
+        ":Bench_simple",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Bench_simple",
+    struct   = "bench_simple.ml",
+    opts     = BENCH_SIMPLE_OPTS,
+    deps     = BENCH_SIMPLE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Bench_tool",
+    struct   = "bench_tool.ml",
+    opts     = BENCH_SIMPLE_OPTS,
+    deps     = BENCH_SIMPLE_DEPS + [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias buildtest)
+##   (deps bench_tool.exe bench_simple.exe)
+##   (action progn)
+## )
+################  rule  ################
+## (
+##   (alias runbench_alpha_simple)
+##   (deps bench_simple.exe)
+##   (action (chdir %{workspace_root} (run %{exe:bench_simple.exe})))
+## )
+################  rule  ################
+## (
+##   (alias runbench_alpha)
+##   (deps bench_tool.exe)
+##   (action (chdir %{workspace_root} (run %{exe:bench_tool.exe})))
+## )

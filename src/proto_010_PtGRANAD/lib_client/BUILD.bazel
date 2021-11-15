@@ -1,0 +1,532 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-client-010-PtGRANAD ########
+TEZOS_CLIENT_010_PTGRANAD_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_protocol_010_PtGRANAD",
+    "-open", "Tezos_protocol_010_PtGRANAD_parameters",
+    "-open", "Tezos_protocol_plugin_010_PtGRANAD",
+    "-open", "Tezos_rpc",
+    "-open", "Tezos_shell_services",
+]
+
+TEZOS_CLIENT_010_PTGRANAD_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_mockup:tezos-mockup-registration",
+    "//src/lib_proxy:tezos-proxy",
+    "//src/lib_rpc:tezos-rpc",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_signer_backends:tezos-signer-backends",
+    "//src/proto_010_PtGRANAD/lib_parameters:tezos-protocol-010-PtGRANAD-parameters",
+    "//src/proto_010_PtGRANAD/lib_plugin:tezos-protocol-plugin-010-PtGRANAD",
+    "//src/proto_010_PtGRANAD/lib_protocol:tezos-protocol-010-PtGRANAD",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-client-010-PtGRANAD",
+    ns         = "Tezos_client_010_PtGRANAD",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Annotated_manager_operation",
+        ":Client_proto_args",
+        ":Client_proto_context",
+        ":Client_proto_contracts",
+        ":Client_proto_multisig",
+        ":Client_proto_programs",
+        ":Client_proto_utils",
+        ":Injection",
+        ":Light",
+        ":Limit",
+        ":Managed_contract",
+        ":Michelson_v1_emacs",
+        ":Michelson_v1_entrypoints",
+        ":Michelson_v1_error_reporter",
+        ":Michelson_v1_helpers",
+        ":Michelson_v1_macros",
+        ":Michelson_v1_parser",
+        ":Michelson_v1_printer",
+        ":Mockup",
+        ":Operation_result",
+        ":Protocol_client_context",
+        ":Proxy",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Annotated_manager_operation",
+    struct   = "annotated_manager_operation.ml",
+    sig      = ":Annotated_manager_operation_cmi",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Limit",
+    ]
+)
+
+ocaml_signature(
+    name     = "Annotated_manager_operation_cmi",
+    src      = "annotated_manager_operation.mli",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Limit",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_proto_args",
+    struct   = "client_proto_args.ml",
+    sig      = ":Client_proto_args_cmi",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_proto_args_cmi",
+    src      = "client_proto_args.mli",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_proto_context",
+    struct   = "client_proto_context.ml",
+    sig      = ":Client_proto_context_cmi",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+       ":Operation_result",
+       ":Michelson_v1_parser",
+       ":Limit",
+       ":Injection",
+       ":Client_proto_contracts",
+       ":Client_proto_args",
+       ":Annotated_manager_operation",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_proto_context_cmi",
+    src      = "client_proto_context.mli",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+       ":Injection",
+       ":Annotated_manager_operation",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_proto_contracts",
+    struct   = "client_proto_contracts.ml",
+    sig      = ":Client_proto_contracts_cmi",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_proto_contracts_cmi",
+    src      = "client_proto_contracts.mli",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_proto_multisig",
+    struct   = "client_proto_multisig.ml",
+    sig      = ":Client_proto_multisig_cmi",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+       ":Michelson_v1_printer",
+       ":Michelson_v1_parser",
+       ":Michelson_v1_helpers",
+       ":Managed_contract",
+       ":Client_proto_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_proto_multisig_cmi",
+    src      = "client_proto_multisig.mli",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+       ":Injection",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_proto_programs",
+    struct   = "client_proto_programs.ml",
+    sig      = ":Client_proto_programs_cmi",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+       ":Operation_result",
+       ":Michelson_v1_printer",
+       ":Michelson_v1_parser",
+       ":Michelson_v1_error_reporter",
+       ":Michelson_v1_entrypoints",
+       ":Michelson_v1_emacs",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_proto_programs_cmi",
+    src      = "client_proto_programs.mli",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+       ":Michelson_v1_parser",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_proto_utils",
+    struct   = "client_proto_utils.ml",
+    sig      = ":Client_proto_utils_cmi",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_proto_utils_cmi",
+    src      = "client_proto_utils.mli",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Injection",
+    struct   = "injection.ml",
+    sig      = ":Injection_cmi",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+       ":Operation_result",
+       ":Limit",
+       ":Client_proto_args",
+       ":Annotated_manager_operation",
+    ]
+)
+
+ocaml_signature(
+    name     = "Injection_cmi",
+    src      = "injection.mli",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+       ":Limit",
+       ":Annotated_manager_operation",
+    ]
+)
+
+ocaml_module(
+    name     = "Light",
+    struct   = "light.ml",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Limit",
+    struct   = "limit.ml",
+    sig      = ":Limit_cmi",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Limit_cmi",
+    src      = "limit.mli",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Managed_contract",
+    struct   = "managed_contract.ml",
+    sig      = ":Managed_contract_cmi",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+       ":Michelson_v1_printer",
+       ":Michelson_v1_parser",
+       ":Michelson_v1_entrypoints",
+       ":Limit",
+       ":Injection",
+       ":Client_proto_context",
+       ":Annotated_manager_operation",
+    ]
+)
+
+ocaml_signature(
+    name     = "Managed_contract_cmi",
+    src      = "managed_contract.mli",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+       ":Injection",
+       ":Annotated_manager_operation",
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_v1_emacs",
+    struct   = "michelson_v1_emacs.ml",
+    sig      = ":Michelson_v1_emacs_cmi",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Michelson_v1_parser",
+       ":Michelson_v1_macros",
+       ":Michelson_v1_error_reporter",
+    ]
+)
+
+ocaml_signature(
+    name     = "Michelson_v1_emacs_cmi",
+    src      = "michelson_v1_emacs.mli",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Michelson_v1_parser",
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_v1_entrypoints",
+    struct   = "michelson_v1_entrypoints.ml",
+    sig      = ":Michelson_v1_entrypoints_cmi",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+       ":Michelson_v1_printer",
+       ":Michelson_v1_emacs",
+    ]
+)
+
+ocaml_signature(
+    name     = "Michelson_v1_entrypoints_cmi",
+    src      = "michelson_v1_entrypoints.mli",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_v1_error_reporter",
+    struct   = "michelson_v1_error_reporter.ml",
+    sig      = ":Michelson_v1_error_reporter_cmi",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Operation_result",
+       ":Michelson_v1_printer",
+       ":Michelson_v1_parser",
+       ":Michelson_v1_macros",
+    ]
+)
+
+ocaml_signature(
+    name     = "Michelson_v1_error_reporter_cmi",
+    src      = "michelson_v1_error_reporter.mli",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Michelson_v1_parser",
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_v1_helpers",
+    struct   = "michelson_v1_helpers.ml",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Michelson_v1_parser",
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_v1_macros",
+    struct   = "michelson_v1_macros.ml",
+    sig      = ":Michelson_v1_macros_cmi",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Michelson_v1_macros_cmi",
+    src      = "michelson_v1_macros.mli",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_v1_parser",
+    struct   = "michelson_v1_parser.ml",
+    sig      = ":Michelson_v1_parser_cmi",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Michelson_v1_macros",
+    ]
+)
+
+ocaml_signature(
+    name     = "Michelson_v1_parser_cmi",
+    src      = "michelson_v1_parser.mli",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_v1_printer",
+    struct   = "michelson_v1_printer.ml",
+    sig      = ":Michelson_v1_printer_cmi",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Michelson_v1_parser",
+       ":Michelson_v1_macros",
+    ]
+)
+
+ocaml_signature(
+    name     = "Michelson_v1_printer_cmi",
+    src      = "michelson_v1_printer.mli",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Michelson_v1_parser",
+    ]
+)
+
+ocaml_module(
+    name     = "Mockup",
+    struct   = "mockup.ml",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+       ":Client_proto_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Operation_result",
+    struct   = "operation_result.ml",
+    sig      = ":Operation_result_cmi",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Michelson_v1_printer",
+       ":Michelson_v1_parser",
+       ":Client_proto_args",
+    ]
+)
+
+ocaml_signature(
+    name     = "Operation_result_cmi",
+    src      = "operation_result.mli",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Protocol_client_context",
+    struct   = "protocol_client_context.ml",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Proxy",
+    struct   = "proxy.ml",
+    ppx      = ":ppx_tezos_client_010_PtGRANAD",
+    opts     = TEZOS_CLIENT_010_PTGRANAD_OPTS,
+    deps     = TEZOS_CLIENT_010_PTGRANAD_DEPS + [
+       ":Protocol_client_context",
+       ":Light",
+    ]
+)
+
+###########################
+####  PPX Executables  ####
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ppx_executable")
+
+###############
+ppx_executable(
+    name    = "ppx_tezos_client_010_PtGRANAD",
+    main    = "@ppx//driver",
+    args    = [
+        "-inline-test-lib",
+        "tezos_client_010_PtGRANAD",
+    ],
+    deps = [
+        "@ppx_inline_test//:ppx_inline_test",
+    ],
+)

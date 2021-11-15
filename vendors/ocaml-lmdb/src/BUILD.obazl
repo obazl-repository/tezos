@@ -1,0 +1,44 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+     "ocaml_module",
+     "ocaml_ns_library",
+     "ocaml_signature")
+
+cc_library(
+    name = "lmdb_c",
+    srcs = [
+        "lmdb.h",
+        "lmdb_stubs.c",
+        "mdb.c",
+        "midl.h",
+        "midl.c",
+    ],
+    deps = [
+        "@ocaml//ffi"
+    ],
+)
+
+ocaml_signature(
+    name = "lmdb__sig",
+    src = "lmdb.mli",
+    deps = ["@rresult//:rresult"],
+)
+
+ocaml_module(
+    name = "tezos-lmdb",
+    opts = ["-linkall"],
+    deps = [
+        "@rresult//:rresult",
+        ":lmdb_c"
+    ],
+    # cc_deps = { "lmdb_c": "default" },
+    sig = "lmdb__sig",
+    struct = "lmdb.ml",
+    visibility = ["//visibility:public"],
+)
+
+# okapi:public_name tezos-lmdb
+# ocaml_ns_library(
+#     name = "Tezos_lmdb",
+#     submodules = [":lmdb"],
+#     visibility = ["//visibility:public"],
+# )

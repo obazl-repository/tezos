@@ -1,0 +1,57 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_CROUCHING_OPTS = [
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_crypto",
+    "-open", "Tezos_error_monad",
+    "-open", "Tezos_signer_backends_unix",
+    "-open", "Tezos_stdlib",
+]
+
+TEST_CROUCHING_DEPS = [
+    "//src/lib_signer_backends/unix:tezos-signer-backends.unix",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+#################
+ocaml_executable(
+    name    = "test_crouching.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_crouching",
+    main    = ":Test_crouching",
+    deps = TEST_CROUCHING_DEPS + [
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Test_crouching",
+    struct   = "test_crouching.ml",
+    opts     = TEST_CROUCHING_OPTS,
+    deps     = TEST_CROUCHING_DEPS + [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias buildtest)
+##   (deps test_crouching.exe)
+##   (action (progn))
+## )
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-signer-backends)
+##   (deps (alias runtest_crouching))
+##   (action (progn))
+## )

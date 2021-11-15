@@ -1,0 +1,75 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-protocol-plugin-010-PtGRANAD ########
+TEZOS_PROTOCOL_PLUGIN_010_PTGRANAD_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_protocol_010_PtGRANAD",
+]
+
+TEZOS_PROTOCOL_PLUGIN_010_PTGRANAD_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/proto_010_PtGRANAD/lib_protocol:tezos-protocol-010-PtGRANAD",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-plugin-010-PtGRANAD",
+    ns         = "Tezos_protocol_plugin_010_PtGRANAD",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Plugin",
+        ":Plugin_registerer",
+        ":\",
+    ],
+)
+
+######## tezos-protocol-plugin-010-PtGRANAD-registerer ########
+TEZOS_PROTOCOL_PLUGIN_010_PTGRANAD_REGISTERER_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_embedded_protocol_010_PtGRANAD",
+    "-open", "Tezos_protocol_plugin_010_PtGRANAD",
+    "-open", "Tezos_shell",
+]
+
+TEZOS_PROTOCOL_PLUGIN_010_PTGRANAD_REGISTERER_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_shell:tezos-shell",
+    "//src/proto_010_PtGRANAD/lib_plugin:tezos-protocol-plugin-010-PtGRANAD",
+    "//src/proto_010_PtGRANAD/lib_protocol:tezos-embedded-protocol-010-PtGRANAD",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-plugin-010-PtGRANAD-registerer",
+    ns         = "Tezos_protocol_plugin_010_PtGRANAD_registerer",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Plugin_registerer",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Plugin",
+    struct   = "plugin.ml",
+    opts     = TEZOS_PROTOCOL_PLUGIN_010_PTGRANAD_OPTS,
+    deps     = TEZOS_PROTOCOL_PLUGIN_010_PTGRANAD_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Plugin_registerer",
+    struct   = "plugin_registerer.ml",
+    opts     = TEZOS_PROTOCOL_PLUGIN_010_PTGRANAD_OPTS,
+    deps     = TEZOS_PROTOCOL_PLUGIN_010_PTGRANAD_DEPS + [
+       ":Plugin",
+    ]
+)
+

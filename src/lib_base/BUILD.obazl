@@ -1,0 +1,636 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_lex",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-base ########
+TEZOS_BASE_OPTS = [
+    "-open", "Data_encoding",
+    "-open", "Tezos_clic",
+    "-open", "Tezos_crypto",
+    "-open", "Tezos_error_monad",
+    "-open", "Tezos_error_monad.TzLwtreslib",
+    "-open", "Tezos_event_logging",
+    "-open", "Tezos_micheline",
+    "-open", "Tezos_rpc",
+    "-open", "Tezos_stdlib",
+]
+
+TEZOS_BASE_DEPS = [
+    "//src/lib_clic:tezos-clic",
+    "//src/lib_crypto:tezos-crypto",
+    "//src/lib_error_monad:tezos-error-monad",
+    "//src/lib_event_logging:tezos-event-logging",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/lib_rpc:tezos-rpc",
+    "//src/lib_stdlib:tezos-stdlib",
+    "@data-encoding//:data-encoding",
+    "@ezjsonm//:ezjsonm",
+    "@ipaddr//:ipaddr",
+    "@lwt//:lwt",
+    "@ptime//:ptime",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-base",
+    ns         = "Tezos_base",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Block_header",
+        ":Block_locator",
+        ":Data_encoding_wrapper",
+        ":Distributed_db_version",
+        ":Fitness",
+        ":Genesis",
+        ":Mempool",
+        ":Network_version",
+        ":Operation",
+        ":P2p_addr",
+        ":P2p_connection",
+        ":P2p_identity",
+        ":P2p_peer",
+        ":P2p_peer_id",
+        ":P2p_point",
+        ":P2p_rejection",
+        ":P2p_stat",
+        ":P2p_version",
+        ":Point_parser",
+        ":Preapply_result",
+        ":Protocol",
+        ":S",
+        ":Test_chain_status",
+        ":Time",
+        ":TzPervasives",
+        ":User_activated",
+        ":Worker_intf",
+        ":Worker_types",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Block_header",
+    struct   = "block_header.ml",
+    sig      = ":Block_header_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":Time",
+       ":Fitness",
+    ]
+)
+
+ocaml_signature(
+    name     = "Block_header_cmi",
+    src      = "block_header.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":User_activated",
+       ":Time",
+       ":S",
+       ":Fitness",
+    ]
+)
+
+ocaml_module(
+    name     = "Block_locator",
+    struct   = "block_locator.ml",
+    sig      = ":Block_locator_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":P2p_peer",
+       ":Block_header",
+    ]
+)
+
+ocaml_signature(
+    name     = "Block_locator_cmi",
+    src      = "block_locator.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":P2p_peer",
+       ":Block_header",
+    ]
+)
+
+ocaml_module(
+    name     = "Data_encoding_wrapper",
+    struct   = "data_encoding_wrapper.ml",
+    sig      = ":Data_encoding_wrapper_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Data_encoding_wrapper_cmi",
+    src      = "data_encoding_wrapper.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Distributed_db_version",
+    struct   = "distributed_db_version.ml",
+    sig      = ":Distributed_db_version_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Distributed_db_version_cmi",
+    src      = "distributed_db_version.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Fitness",
+    struct   = "fitness.ml",
+    sig      = ":Fitness_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Fitness_cmi",
+    src      = "fitness.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":S",
+    ]
+)
+
+ocaml_module(
+    name     = "Genesis",
+    struct   = "genesis.ml",
+    sig      = ":Genesis_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":Time",
+    ]
+)
+
+ocaml_signature(
+    name     = "Genesis_cmi",
+    src      = "genesis.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":Time",
+    ]
+)
+
+ocaml_module(
+    name     = "Mempool",
+    struct   = "mempool.ml",
+    sig      = ":Mempool_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Mempool_cmi",
+    src      = "mempool.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Network_version",
+    struct   = "network_version.ml",
+    sig      = ":Network_version_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":P2p_version",
+       ":P2p_rejection",
+       ":Distributed_db_version",
+    ]
+)
+
+ocaml_signature(
+    name     = "Network_version_cmi",
+    src      = "network_version.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":P2p_version",
+       ":Distributed_db_version",
+    ]
+)
+
+ocaml_module(
+    name     = "Operation",
+    struct   = "operation.ml",
+    sig      = ":Operation_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Operation_cmi",
+    src      = "operation.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":S",
+    ]
+)
+
+ocaml_module(
+    name     = "P2p_addr",
+    struct   = "p2p_addr.ml",
+    sig      = ":P2p_addr_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "P2p_addr_cmi",
+    src      = "p2p_addr.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "P2p_connection",
+    struct   = "p2p_connection.ml",
+    sig      = ":P2p_connection_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":P2p_point",
+       ":P2p_peer_id",
+       ":P2p_addr",
+       ":Network_version",
+    ]
+)
+
+ocaml_signature(
+    name     = "P2p_connection_cmi",
+    src      = "p2p_connection.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":Time",
+       ":P2p_point",
+       ":P2p_peer_id",
+       ":P2p_addr",
+       ":Network_version",
+    ]
+)
+
+ocaml_module(
+    name     = "P2p_identity",
+    struct   = "p2p_identity.ml",
+    sig      = ":P2p_identity_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":P2p_peer_id",
+       ":P2p_peer",
+    ]
+)
+
+ocaml_signature(
+    name     = "P2p_identity_cmi",
+    src      = "p2p_identity.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":P2p_peer",
+    ]
+)
+
+ocaml_module(
+    name     = "P2p_peer",
+    struct   = "p2p_peer.ml",
+    sig      = ":P2p_peer_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":Time",
+       ":P2p_stat",
+       ":P2p_peer_id",
+       ":P2p_connection",
+       ":P2p_addr",
+    ]
+)
+
+ocaml_signature(
+    name     = "P2p_peer_cmi",
+    src      = "p2p_peer.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":Time",
+       ":P2p_stat",
+       ":P2p_peer_id",
+       ":P2p_connection",
+       ":P2p_addr",
+    ]
+)
+
+ocaml_module(
+    name     = "P2p_peer_id",
+    struct   = "p2p_peer_id.ml",
+    sig      = ":P2p_peer_id_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "P2p_peer_id_cmi",
+    src      = "p2p_peer_id.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "P2p_point",
+    struct   = "p2p_point.ml",
+    sig      = ":P2p_point_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":Time",
+       ":Point_parser",
+       ":P2p_peer_id",
+       ":P2p_addr",
+    ]
+)
+
+ocaml_signature(
+    name     = "P2p_point_cmi",
+    src      = "p2p_point.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":Time",
+       ":P2p_peer_id",
+       ":P2p_addr",
+    ]
+)
+
+ocaml_module(
+    name     = "P2p_rejection",
+    struct   = "p2p_rejection.ml",
+    sig      = ":P2p_rejection_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "P2p_rejection_cmi",
+    src      = "p2p_rejection.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "P2p_stat",
+    struct   = "p2p_stat.ml",
+    sig      = ":P2p_stat_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "P2p_stat_cmi",
+    src      = "p2p_stat.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "P2p_version",
+    struct   = "p2p_version.ml",
+    sig      = ":P2p_version_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "P2p_version_cmi",
+    src      = "p2p_version.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Point_parser",
+    struct   = "point_parser.ml",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+        ":P2p_peer_id"
+    ]
+)
+
+ocaml_module(
+    name     = "Preapply_result",
+    struct   = "preapply_result.ml",
+    sig      = ":Preapply_result_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":Operation",
+    ]
+)
+
+ocaml_signature(
+    name     = "Preapply_result_cmi",
+    src      = "preapply_result.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":Operation",
+    ]
+)
+
+ocaml_module(
+    name     = "Protocol",
+    struct   = "protocol.ml",
+    sig      = ":Protocol_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Protocol_cmi",
+    src      = "protocol.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":S",
+    ]
+)
+
+ocaml_module(
+    name     = "S",
+    struct   = "s.ml",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_chain_status",
+    struct   = "test_chain_status.ml",
+    sig      = ":Test_chain_status_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":Time",
+    ]
+)
+
+ocaml_signature(
+    name     = "Test_chain_status_cmi",
+    src      = "test_chain_status.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":Time",
+    ]
+)
+
+ocaml_module(
+    name     = "Time",
+    struct   = "time.ml",
+    sig      = ":Time_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Time_cmi",
+    src      = "time.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "TzPervasives",
+    struct   = "tzPervasives.ml",
+    sig      = ":TzPervasives_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":User_activated",
+       ":Time",
+       ":Test_chain_status",
+       ":Protocol",
+       ":Preapply_result",
+       ":P2p_version",
+       ":P2p_stat",
+       ":P2p_rejection",
+       ":P2p_point",
+       ":P2p_peer",
+       ":P2p_identity",
+       ":P2p_connection",
+       ":P2p_addr",
+       ":Operation",
+       ":Network_version",
+       ":Mempool",
+       ":Genesis",
+       ":Fitness",
+       ":Distributed_db_version",
+       ":Block_locator",
+       ":Block_header",
+    ]
+)
+
+ocaml_signature(
+    name     = "TzPervasives_cmi",
+    src      = "tzPervasives.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":User_activated",
+       ":Time",
+       ":Test_chain_status",
+       ":Protocol",
+       ":Preapply_result",
+       ":P2p_version",
+       ":P2p_stat",
+       ":P2p_rejection",
+       ":P2p_point",
+       ":P2p_peer",
+       ":P2p_identity",
+       ":P2p_connection",
+       ":P2p_addr",
+       ":Operation",
+       ":Network_version",
+       ":Mempool",
+       ":Genesis",
+       ":Fitness",
+       ":Distributed_db_version",
+       ":Block_locator",
+       ":Block_header",
+    ]
+)
+
+ocaml_module(
+    name     = "User_activated",
+    struct   = "user_activated.ml",
+    sig      = ":User_activated_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "User_activated_cmi",
+    src      = "user_activated.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Worker_intf",
+    struct   = "worker_intf.ml",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":Worker_types",
+       ":Time",
+    ]
+)
+
+ocaml_module(
+    name     = "Worker_types",
+    struct   = "worker_types.ml",
+    sig      = ":Worker_types_cmi",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":Time",
+    ]
+)
+
+ocaml_signature(
+    name     = "Worker_types_cmi",
+    src      = "worker_types.mli",
+    opts     = TEZOS_BASE_OPTS,
+    deps     = TEZOS_BASE_DEPS + [
+       ":Time",
+    ]
+)
+
+########################
+####  File Generators  ####
+
+##########
+ocaml_lex(
+    name  = "lex_point_parser",
+    src   = "point_parser.mll",
+    out   = "point_parser.ml",
+)

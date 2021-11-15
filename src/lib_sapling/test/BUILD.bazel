@@ -1,0 +1,56 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Example",
+    struct   = "example.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Keys",
+    struct   = "keys.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_keys",
+    struct   = "test_keys.ml",
+    deps     = [
+       ":Keys",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_merkle",
+    struct   = "test_merkle.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_roots",
+    struct   = "test_roots.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_rustzcash",
+    struct   = "test_rustzcash.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_sapling",
+    struct   = "test_sapling.ml",
+    deps     = [
+    ]
+)
+

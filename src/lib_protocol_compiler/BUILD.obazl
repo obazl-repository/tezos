@@ -1,0 +1,404 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_executable",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+##############################
+####  Executable Targets  ####
+TEZOS_PROTOCOL_COMPILER_BYTE_OPTS = [
+    "-linkall",
+]
+
+TEZOS_PROTOCOL_COMPILER_BYTE_DEPS = [
+    "//src/lib_protocol_compiler:tezos-protocol-compiler.byte",
+]
+
+#################
+ocaml_executable(
+    name    = "tezos-protocol-compiler-byte.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main_byte",
+    main    = ":Main_byte",
+    deps = TEZOS_PROTOCOL_COMPILER_BYTE_DEPS + [
+    ],
+)
+
+TEZOS_PROTOCOL_COMPILER_OPTS = [
+    "-linkall",
+]
+
+TEZOS_PROTOCOL_COMPILER_DEPS = [
+    "//src/lib_protocol_compiler:tezos-protocol-compiler.native",
+]
+
+#################
+ocaml_executable(
+    name    = "tezos-protocol-compiler.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main_native",
+    main    = ":Main_native",
+    deps = TEZOS_PROTOCOL_COMPILER_DEPS + [
+    ],
+)
+
+TEZOS_PROTOCOL_COMPILER_TEZOS_PROTOCOL_PACKER_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_protocol_compiler",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_PROTOCOL_COMPILER_TEZOS_PROTOCOL_PACKER_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_protocol_compiler:tezos-protocol-compiler",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+]
+
+#################
+ocaml_executable(
+    name    = "tezos-protocol-compiler.tezos-protocol-packer.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main_packer",
+    main    = ":Main_packer",
+    deps = TEZOS_PROTOCOL_COMPILER_TEZOS_PROTOCOL_PACKER_DEPS + [
+    ],
+)
+
+TEZOS_EMBEDDED_PROTOCOL_PACKER_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_base_unix",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_EMBEDDED_PROTOCOL_PACKER_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+]
+
+#################
+ocaml_executable(
+    name    = "tezos-embedded-protocol-packer.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main_embedded_packer",
+    main    = ":Main_embedded_packer",
+    deps = TEZOS_EMBEDDED_PROTOCOL_PACKER_DEPS + [
+    ],
+)
+
+REPLACE_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_stdlib_unix",
+]
+
+REPLACE_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "@re//str",
+]
+
+#################
+ocaml_executable(
+    name    = "replace.exe",
+    visibility = ["//visibility:public"],
+    exe     = "replace",
+    main    = ":Replace",
+    deps = REPLACE_DEPS + [
+    ],
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-protocol-compiler.registerer ########
+TEZOS_PROTOCOL_COMPILER_REGISTERER_OPTS = [
+    "-opaque",
+    "-open", "Tezos_base__TzPervasives",
+]
+
+TEZOS_PROTOCOL_COMPILER_REGISTERER_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_protocol_environment/sigs:tezos-protocol-environment-sigs",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-compiler.registerer",
+    ns         = "Tezos_protocol_registerer",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Registerer",
+    ],
+)
+
+######## tezos-protocol-compiler ########
+TEZOS_PROTOCOL_COMPILER_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_base_unix",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_PROTOCOL_COMPILER_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_protocol_environment/sigs:tezos-protocol-environment-sigs",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_version:tezos-version",
+    "@lwt//unix",
+    "@ocaml//compiler-libs/common",
+    "@ocaml//unix",
+    "@ocplib-ocamlres//:ocplib-ocamlres",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-compiler",
+    ns         = "Tezos_protocol_compiler",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Compiler",
+        ":Embedded_cmis",
+        ":Packer",
+    ],
+)
+
+######## tezos-protocol-compiler.byte ########
+TEZOS_PROTOCOL_COMPILER_BYTE_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_protocol_compiler",
+]
+
+TEZOS_PROTOCOL_COMPILER_BYTE_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_protocol_compiler:tezos-protocol-compiler",
+    "@ocaml//compiler-libs/bytecomp",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-compiler.byte",
+    ns         = "Tezos_protocol_compiler_byte",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Byte",
+    ],
+)
+
+######## tezos-protocol-compiler.native ########
+TEZOS_PROTOCOL_COMPILER_NATIVE_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_protocol_compiler",
+]
+
+TEZOS_PROTOCOL_COMPILER_NATIVE_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_protocol_compiler:tezos-protocol-compiler",
+    "@ocaml//compiler-libs/optcomp",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-protocol-compiler.native",
+    ns         = "Tezos_protocol_compiler_native",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Native",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Byte",
+    struct   = "byte.ml",
+    sig      = ":Byte_cmi",
+    opts     = TEZOS_PROTOCOL_COMPILER_BYTE_OPTS,
+    deps     = TEZOS_PROTOCOL_COMPILER_BYTE_DEPS + [
+       ":Compiler",
+    ]
+)
+
+ocaml_signature(
+    name     = "Byte_cmi",
+    src      = "byte.mli",
+    opts     = TEZOS_PROTOCOL_COMPILER_BYTE_OPTS,
+    deps     = TEZOS_PROTOCOL_COMPILER_BYTE_DEPS + [
+       ":Compiler",
+    ]
+)
+
+ocaml_module(
+    name     = "Compiler",
+    struct   = "compiler.ml",
+    opts     = TEZOS_PROTOCOL_COMPILER_OPTS,
+    deps     = TEZOS_PROTOCOL_COMPILER_DEPS + [
+       ":Packer",
+       ":Embedded_cmis",
+    ]
+)
+
+ocaml_module(
+    name     = "Embedded_cmis",
+    struct   = "embedded_cmis.ml",
+    sig      = ":Embedded_cmis_cmi",
+    opts     = TEZOS_PROTOCOL_COMPILER_OPTS,
+    deps     = TEZOS_PROTOCOL_COMPILER_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Embedded_cmis_cmi",
+    src      = "embedded_cmis.mli",
+    opts     = TEZOS_PROTOCOL_COMPILER_OPTS,
+    deps     = TEZOS_PROTOCOL_COMPILER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Main_byte",
+    struct   = "main_byte.ml",
+    opts     = TEZOS_PROTOCOL_COMPILER_BYTE_OPTS,
+    deps     = TEZOS_PROTOCOL_COMPILER_BYTE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Main_embedded_packer",
+    struct   = "main_embedded_packer.ml",
+    sig      = ":Main_embedded_packer_cmi",
+    opts     = TEZOS_EMBEDDED_PROTOCOL_PACKER_OPTS,
+    deps     = TEZOS_EMBEDDED_PROTOCOL_PACKER_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Main_embedded_packer_cmi",
+    src      = "main_embedded_packer.mli",
+    opts     = TEZOS_EMBEDDED_PROTOCOL_PACKER_OPTS,
+    deps     = TEZOS_EMBEDDED_PROTOCOL_PACKER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Main_native",
+    struct   = "main_native.ml",
+    opts     = TEZOS_PROTOCOL_COMPILER_OPTS,
+    deps     = TEZOS_PROTOCOL_COMPILER_DEPS + [
+       ":Compiler",
+    ]
+)
+
+ocaml_module(
+    name     = "Main_packer",
+    struct   = "main_packer.ml",
+    opts     = TEZOS_PROTOCOL_COMPILER_TEZOS_PROTOCOL_PACKER_OPTS,
+    deps     = TEZOS_PROTOCOL_COMPILER_TEZOS_PROTOCOL_PACKER_DEPS + [
+       ":Packer",
+    ]
+)
+
+ocaml_module(
+    name     = "Native",
+    struct   = "native.ml",
+    sig      = ":Native_cmi",
+    opts     = TEZOS_PROTOCOL_COMPILER_NATIVE_OPTS,
+    deps     = TEZOS_PROTOCOL_COMPILER_NATIVE_DEPS + [
+       ":Compiler",
+    ]
+)
+
+ocaml_signature(
+    name     = "Native_cmi",
+    src      = "native.mli",
+    opts     = TEZOS_PROTOCOL_COMPILER_NATIVE_OPTS,
+    deps     = TEZOS_PROTOCOL_COMPILER_NATIVE_DEPS + [
+       ":Compiler",
+    ]
+)
+
+ocaml_module(
+    name     = "Packer",
+    struct   = "packer.ml",
+    sig      = ":Packer_cmi",
+    opts     = TEZOS_PROTOCOL_COMPILER_OPTS,
+    deps     = TEZOS_PROTOCOL_COMPILER_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Packer_cmi",
+    src      = "packer.mli",
+    opts     = TEZOS_PROTOCOL_COMPILER_OPTS,
+    deps     = TEZOS_PROTOCOL_COMPILER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Registerer",
+    struct   = "registerer.ml",
+    sig      = ":Registerer_cmi",
+    opts     = TEZOS_PROTOCOL_COMPILER_REGISTERER_OPTS,
+    deps     = TEZOS_PROTOCOL_COMPILER_REGISTERER_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Registerer_cmi",
+    src      = "registerer.mli",
+    opts     = TEZOS_PROTOCOL_COMPILER_REGISTERER_OPTS,
+    deps     = TEZOS_PROTOCOL_COMPILER_REGISTERER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Replace",
+    struct   = "replace.ml",
+    opts     = REPLACE_OPTS,
+    deps     = REPLACE_DEPS + [
+    ]
+)
+
+######## run cmd ########
+ocaml_signature(
+    name = "tezos-protocol-compiler.registerer_cmi",
+    ns_submodule = {
+        ":tezos-protocol-compiler.registerer": "Registerer"
+    },
+    as_cmi = "tezos_protocol_registerer__Registerer.cmi",
+    visibility = ["//visibility:public"],
+)
+
+genrule(
+    name = "__embedded_cmis.ml",
+    outs  = [
+        "embedded_cmis.ml"
+    ],
+    tools = ["@ocaml//bin:ocp-ocamlres"],
+    cmd = " ".join([
+        "$(execpath @ocaml//bin:ocp-ocamlres)",
+        "-format ocaml -o $(@)",
+        "$(location :tezos-protocol-compiler.registerer_cmi)",
+        "$(location @ocaml//lib:camlinternalFormatBasics.cmi)",
+        "$(location //src/lib_protocol_environment/sigs:sigs_cmi)",
+        "$(location //src/lib_protocol_environment/sigs:v0_cmi)",
+        "$(location //src/lib_protocol_environment/sigs:v1_cmi)",
+        "$(location //src/lib_protocol_environment/sigs:v2_cmi)",
+        "$(location //src/lib_protocol_environment/sigs:v3_cmi)",
+    ]),
+    srcs  = [
+        ":tezos-protocol-compiler.registerer_cmi",
+        "@ocaml//lib:camlinternalFormatBasics.cmi",
+        "//src/lib_protocol_environment/sigs:sigs_cmi",
+        "//src/lib_protocol_environment/sigs:v0_cmi",
+        "//src/lib_protocol_environment/sigs:v1_cmi",
+        "//src/lib_protocol_environment/sigs:v2_cmi",
+        "//src/lib_protocol_environment/sigs:v3_cmi",
+    ],
+)
+## (
+##   (:out embedded_cmis.ml)
+##   (:cmd ((:tool %{bin:ocp-ocamlres}) (:deps ()) (:args ("-format" "ocaml" "-o" "%{targets}" (:_generated "src/lib_protocol_compiler" "%{lib:stdlib:camlinternalFormatBasics.cmi}") (:fixme "%{dep:.tezos_protocol_registerer.objs/byte/tezos_protocol_registerer__Registerer.cmi}") (:_generated "src/lib_protocol_compiler" "%{lib:tezos-protocol-environment-sigs:tezos_protocol_environment_sigs.cmi}") (:_generated "src/lib_protocol_compiler" "%{lib:tezos-protocol-environment-sigs:tezos_protocol_environment_sigs__V0.cmi}") (:_generated "src/lib_protocol_compiler" "%{lib:tezos-protocol-environment-sigs:tezos_protocol_environment_sigs__V1.cmi}") (:_generated "src/lib_protocol_compiler" "%{lib:tezos-protocol-environment-sigs:tezos_protocol_environment_sigs__V2.cmi}"))) (:foo #t) (:raw ((run %{bin:ocp-ocamlres} -format ocaml -o %{targets} %{lib:stdlib:camlinternalFormatBasics.cmi} %{dep:.tezos_protocol_registerer.objs/byte/tezos_protocol_registerer__Registerer.cmi} %{lib:tezos-protocol-environment-sigs:tezos_protocol_environment_sigs.cmi} %{lib:tezos-protocol-environment-sigs:tezos_protocol_environment_sigs__V0.cmi} %{lib:tezos-protocol-environment-sigs:tezos_protocol_environment_sigs__V1.cmi} %{lib:tezos-protocol-environment-sigs:tezos_protocol_environment_sigs__V2.cmi})))))
+##   (:vars #f)
+##   (:raw (rule (targets embedded_cmis.ml) (action (run %{bin:ocp-ocamlres} -format ocaml -o %{targets} %{lib:stdlib:camlinternalFormatBasics.cmi} %{dep:.tezos_protocol_registerer.objs/byte/tezos_protocol_registerer__Registerer.cmi} %{lib:tezos-protocol-environment-sigs:tezos_protocol_environment_sigs.cmi} %{lib:tezos-protocol-environment-sigs:tezos_protocol_environment_sigs__V0.cmi} %{lib:tezos-protocol-environment-sigs:tezos_protocol_environment_sigs__V1.cmi} %{lib:tezos-protocol-environment-sigs:tezos_protocol_environment_sigs__V2.cmi}))))
+## )

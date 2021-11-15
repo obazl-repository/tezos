@@ -1,0 +1,97 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_TIME_OPTS = [
+    "-open", "Tezos_base",
+    "-open", "Tezos_error_monad",
+]
+
+TEST_TIME_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_test:tezos-test-helpers",
+    "@data-encoding//:data-encoding",
+    "@qcheck-alcotest//:qcheck-alcotest",
+]
+
+#################
+ocaml_executable(
+    name    = "test_time.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_time",
+    main    = ":Test_time",
+    deps = TEST_TIME_DEPS + [
+        ":Test_p2p_addr",
+    ],
+)
+
+TEST_P2P_ADDR_OPTS = [
+    "-open", "Tezos_base",
+    "-open", "Tezos_error_monad",
+]
+
+TEST_P2P_ADDR_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_test:tezos-test-helpers",
+    "@data-encoding//:data-encoding",
+    "@qcheck-alcotest//:qcheck-alcotest",
+]
+
+#################
+ocaml_executable(
+    name    = "test_p2p_addr.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_p2p_addr",
+    main    = ":Test_p2p_addr",
+    deps = TEST_P2P_ADDR_DEPS + [
+        ":Test_time",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Test_p2p_addr",
+    struct   = "test_p2p_addr.ml",
+    opts     = TEST_TIME_OPTS,
+    deps     = TEST_TIME_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_time",
+    struct   = "test_time.ml",
+    opts     = TEST_TIME_OPTS,
+    deps     = TEST_TIME_DEPS + [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias buildtest)
+##   (deps test_time.exe test_p2p_addr.exe)
+##   (action (progn))
+## )
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-base)
+##   (deps (alias runtest_time) (alias runtest_p2p_addr))
+##   (action (progn))
+## )
+################  rule  ################
+## (
+##   (alias runtest_p2p_addr)
+##   (package tezos-base)
+##   (deps (file points.ok) (file points.ko))
+##   (action (progn))
+## )

@@ -1,0 +1,644 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## flextesa ########
+FLEXTESA_OPTS = [
+    "-safe-string",
+]
+
+FLEXTESA_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_crypto:tezos-crypto",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "@base//:base",
+    "@cmdliner//:cmdliner",
+    "@cohttp-lwt-unix//:cohttp-lwt-unix",
+    "@dum//:dum",
+    "@easy-format//:easy-format",
+    "@ezjsonm//:ezjsonm",
+    "@fmt//:fmt",
+    "@genspio//:genspio",
+    "@lwt//unix",
+]
+
+ocaml_ns_archive(
+    name       = "flextesa",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Console",
+        ":Dump_files",
+        ":Environment_configuration",
+        ":Experiments",
+        ":Hard_fork",
+        ":Helpers",
+        ":Interactive_mini_network",
+        ":Interactive_test",
+        ":Internal_pervasives",
+        ":Kiln",
+        ":Liquidity",
+        ":Log_recorder",
+        ":Paths",
+        ":Running_processes",
+        ":Test_api",
+        ":Test_command_line",
+        ":Test_scenario",
+        ":Tezos_admin_client",
+        ":Tezos_client",
+        ":Tezos_daemon",
+        ":Tezos_executable",
+        ":Tezos_node",
+        ":Tezos_protocol",
+        ":Traffic_generation",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Console",
+    struct   = "console.ml",
+    sig      = ":Console_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Internal_pervasives",
+    ]
+)
+
+ocaml_signature(
+    name     = "Console_cmi",
+    src      = "console.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Internal_pervasives",
+    ]
+)
+
+ocaml_module(
+    name     = "Dump_files",
+    struct   = "dump_files.ml",
+    sig      = ":Dump_files_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Running_processes",
+       ":Internal_pervasives",
+    ]
+)
+
+ocaml_signature(
+    name     = "Dump_files_cmi",
+    src      = "dump_files.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Running_processes",
+       ":Paths",
+       ":Internal_pervasives",
+    ]
+)
+
+ocaml_module(
+    name     = "Environment_configuration",
+    struct   = "environment_configuration.ml",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Internal_pervasives",
+    ]
+)
+
+ocaml_module(
+    name     = "Experiments",
+    struct   = "experiments.ml",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Internal_pervasives",
+    ]
+)
+
+ocaml_module(
+    name     = "Hard_fork",
+    struct   = "hard_fork.ml",
+    sig      = ":Hard_fork_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_executable",
+       ":Tezos_daemon",
+       ":Internal_pervasives",
+    ]
+)
+
+ocaml_signature(
+    name     = "Hard_fork_cmi",
+    src      = "hard_fork.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_node",
+       ":Tezos_executable",
+       ":Tezos_daemon",
+       ":Tezos_client",
+       ":Internal_pervasives",
+    ]
+)
+
+ocaml_module(
+    name     = "Helpers",
+    struct   = "helpers.ml",
+    sig      = ":Helpers_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_node",
+       ":Tezos_executable",
+       ":Tezos_client",
+       ":Running_processes",
+       ":Paths",
+       ":Internal_pervasives",
+       ":Console",
+    ]
+)
+
+ocaml_signature(
+    name     = "Helpers_cmi",
+    src      = "helpers.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_node",
+       ":Tezos_executable",
+       ":Tezos_client",
+       ":Running_processes",
+       ":Paths",
+       ":Internal_pervasives",
+       ":Environment_configuration",
+       ":Console",
+    ]
+)
+
+ocaml_module(
+    name     = "Interactive_mini_network",
+    struct   = "interactive_mini_network.ml",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Traffic_generation",
+       ":Tezos_protocol",
+       ":Tezos_node",
+       ":Tezos_executable",
+       ":Tezos_daemon",
+       ":Tezos_client",
+       ":Test_scenario",
+       ":Test_command_line",
+       ":Running_processes",
+       ":Paths",
+       ":Kiln",
+       ":Internal_pervasives",
+       ":Interactive_test",
+       ":Helpers",
+       ":Hard_fork",
+       ":Environment_configuration",
+       ":Console",
+    ]
+)
+
+ocaml_module(
+    name     = "Interactive_test",
+    struct   = "interactive_test.ml",
+    sig      = ":Interactive_test_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Traffic_generation",
+       ":Tezos_protocol",
+       ":Tezos_node",
+       ":Tezos_client",
+       ":Tezos_admin_client",
+       ":Test_scenario",
+       ":Running_processes",
+       ":Paths",
+       ":Internal_pervasives",
+       ":Helpers",
+       ":Environment_configuration",
+       ":Console",
+    ]
+)
+
+ocaml_signature(
+    name     = "Interactive_test_cmi",
+    src      = "interactive_test.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_protocol",
+       ":Tezos_node",
+       ":Tezos_client",
+       ":Tezos_admin_client",
+       ":Running_processes",
+       ":Paths",
+       ":Log_recorder",
+       ":Internal_pervasives",
+       ":Environment_configuration",
+       ":Console",
+    ]
+)
+
+ocaml_module(
+    name     = "Internal_pervasives",
+    struct   = "internal_pervasives.ml",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Kiln",
+    struct   = "kiln.ml",
+    sig      = ":Kiln_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_executable",
+       ":Running_processes",
+       ":Internal_pervasives",
+    ]
+)
+
+ocaml_signature(
+    name     = "Kiln_cmi",
+    src      = "kiln.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_executable",
+       ":Running_processes",
+       ":Paths",
+       ":Internal_pervasives",
+    ]
+)
+
+ocaml_module(
+    name     = "Liquidity",
+    struct   = "liquidity.ml",
+    sig      = ":Liquidity_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_protocol",
+       ":Tezos_client",
+       ":Running_processes",
+       ":Paths",
+       ":Internal_pervasives",
+       ":Experiments",
+       ":Console",
+    ]
+)
+
+ocaml_signature(
+    name     = "Liquidity_cmi",
+    src      = "liquidity.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_protocol",
+       ":Tezos_client",
+       ":Running_processes",
+       ":Paths",
+       ":Log_recorder",
+       ":Internal_pervasives",
+       ":Environment_configuration",
+       ":Console",
+    ]
+)
+
+ocaml_module(
+    name     = "Log_recorder",
+    struct   = "log_recorder.ml",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Internal_pervasives",
+       ":Console",
+    ]
+)
+
+ocaml_module(
+    name     = "Paths",
+    struct   = "paths.ml",
+    sig      = ":Paths_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Internal_pervasives",
+    ]
+)
+
+ocaml_signature(
+    name     = "Paths_cmi",
+    src      = "paths.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Running_processes",
+    struct   = "running_processes.ml",
+    sig      = ":Running_processes_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Paths",
+       ":Internal_pervasives",
+    ]
+)
+
+ocaml_signature(
+    name     = "Running_processes_cmi",
+    src      = "running_processes.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Paths",
+       ":Internal_pervasives",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_api",
+    struct   = "test_api.ml",
+    sig      = ":Test_api_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Internal_pervasives",
+       ":Console",
+    ]
+)
+
+ocaml_signature(
+    name     = "Test_api_cmi",
+    src      = "test_api.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Internal_pervasives",
+       ":Console",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_command_line",
+    struct   = "test_command_line.ml",
+    sig      = ":Test_command_line_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Test_scenario",
+       ":Running_processes",
+       ":Paths",
+       ":Log_recorder",
+       ":Internal_pervasives",
+       ":Interactive_test",
+       ":Helpers",
+       ":Environment_configuration",
+       ":Console",
+    ]
+)
+
+ocaml_signature(
+    name     = "Test_command_line_cmi",
+    src      = "test_command_line.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_protocol",
+       ":Tezos_node",
+       ":Test_scenario",
+       ":Running_processes",
+       ":Paths",
+       ":Log_recorder",
+       ":Internal_pervasives",
+       ":Interactive_test",
+       ":Environment_configuration",
+       ":Console",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_scenario",
+    struct   = "test_scenario.ml",
+    sig      = ":Test_scenario_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_protocol",
+       ":Tezos_node",
+       ":Tezos_client",
+       ":Running_processes",
+       ":Internal_pervasives",
+       ":Helpers",
+       ":Console",
+    ]
+)
+
+ocaml_signature(
+    name     = "Test_scenario_cmi",
+    src      = "test_scenario.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_protocol",
+       ":Tezos_node",
+       ":Tezos_executable",
+       ":Running_processes",
+       ":Paths",
+       ":Internal_pervasives",
+       ":Environment_configuration",
+       ":Console",
+    ]
+)
+
+ocaml_module(
+    name     = "Tezos_admin_client",
+    struct   = "tezos_admin_client.ml",
+    sig      = ":Tezos_admin_client_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_node",
+       ":Tezos_executable",
+       ":Tezos_client",
+       ":Running_processes",
+       ":Paths",
+       ":Internal_pervasives",
+       ":Console",
+    ]
+)
+
+ocaml_signature(
+    name     = "Tezos_admin_client_cmi",
+    src      = "tezos_admin_client.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_node",
+       ":Tezos_executable",
+       ":Tezos_client",
+       ":Running_processes",
+       ":Paths",
+       ":Internal_pervasives",
+       ":Environment_configuration",
+       ":Console",
+    ]
+)
+
+ocaml_module(
+    name     = "Tezos_client",
+    struct   = "tezos_client.ml",
+    sig      = ":Tezos_client_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_protocol",
+       ":Tezos_node",
+       ":Tezos_executable",
+       ":Running_processes",
+       ":Paths",
+       ":Log_recorder",
+       ":Internal_pervasives",
+       ":Console",
+    ]
+)
+
+ocaml_signature(
+    name     = "Tezos_client_cmi",
+    src      = "tezos_client.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_protocol",
+       ":Tezos_node",
+       ":Tezos_executable",
+       ":Running_processes",
+       ":Paths",
+       ":Log_recorder",
+       ":Internal_pervasives",
+       ":Environment_configuration",
+       ":Console",
+    ]
+)
+
+ocaml_module(
+    name     = "Tezos_daemon",
+    struct   = "tezos_daemon.ml",
+    sig      = ":Tezos_daemon_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_node",
+       ":Tezos_executable",
+       ":Tezos_client",
+       ":Running_processes",
+       ":Internal_pervasives",
+    ]
+)
+
+ocaml_signature(
+    name     = "Tezos_daemon_cmi",
+    src      = "tezos_daemon.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_node",
+       ":Tezos_executable",
+       ":Tezos_client",
+       ":Running_processes",
+       ":Paths",
+       ":Environment_configuration",
+    ]
+)
+
+ocaml_module(
+    name     = "Tezos_executable",
+    struct   = "tezos_executable.ml",
+    sig      = ":Tezos_executable_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Internal_pervasives",
+       ":Environment_configuration",
+    ]
+)
+
+ocaml_signature(
+    name     = "Tezos_executable_cmi",
+    src      = "tezos_executable.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Internal_pervasives",
+       ":Environment_configuration",
+    ]
+)
+
+ocaml_module(
+    name     = "Tezos_node",
+    struct   = "tezos_node.ml",
+    sig      = ":Tezos_node_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_protocol",
+       ":Tezos_executable",
+       ":Running_processes",
+       ":Paths",
+       ":Internal_pervasives",
+       ":Environment_configuration",
+    ]
+)
+
+ocaml_signature(
+    name     = "Tezos_node_cmi",
+    src      = "tezos_node.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_protocol",
+       ":Tezos_executable",
+       ":Running_processes",
+       ":Paths",
+       ":Internal_pervasives",
+       ":Environment_configuration",
+    ]
+)
+
+ocaml_module(
+    name     = "Tezos_protocol",
+    struct   = "tezos_protocol.ml",
+    sig      = ":Tezos_protocol_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Running_processes",
+       ":Paths",
+       ":Internal_pervasives",
+    ]
+)
+
+ocaml_signature(
+    name     = "Tezos_protocol_cmi",
+    src      = "tezos_protocol.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Running_processes",
+       ":Paths",
+       ":Internal_pervasives",
+    ]
+)
+
+ocaml_module(
+    name     = "Traffic_generation",
+    struct   = "traffic_generation.ml",
+    sig      = ":Traffic_generation_cmi",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_protocol",
+       ":Tezos_node",
+       ":Tezos_client",
+       ":Test_scenario",
+       ":Internal_pervasives",
+       ":Console",
+    ]
+)
+
+ocaml_signature(
+    name     = "Traffic_generation_cmi",
+    src      = "traffic_generation.mli",
+    opts     = FLEXTESA_OPTS,
+    deps     = FLEXTESA_DEPS + [
+       ":Tezos_protocol",
+       ":Tezos_node",
+       ":Tezos_client",
+       ":Running_processes",
+       ":Paths",
+       ":Internal_pervasives",
+       ":Environment_configuration",
+       ":Console",
+    ]
+)
+

@@ -1,0 +1,74 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEST_UF_OPTS = [
+    "-open", "Tezos_micheline",
+]
+
+TEST_UF_DEPS = [
+    "//src/lib_benchmark/lib_micheline_rewriting:tezos-micheline-rewriting",
+    "//src/lib_error_monad:tezos-error-monad",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/proto_alpha/lib_benchmark/lib_benchmark_type_inference:tezos-benchmark-type-inference-alpha",
+    "//src/proto_alpha/lib_client:tezos-client-alpha",
+    "//src/proto_alpha/lib_protocol:tezos-protocol-alpha",
+]
+
+#################
+ocaml_executable(
+    name    = "test_uf.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_uf",
+    main    = ":Test_uf",
+    deps = TEST_UF_DEPS + [
+        ":Test_inference",
+    ],
+)
+
+TEST_INFERENCE_OPTS = [
+    "-open", "Tezos_micheline",
+]
+
+TEST_INFERENCE_DEPS = [
+    "//src/lib_benchmark/lib_micheline_rewriting:tezos-micheline-rewriting",
+    "//src/lib_error_monad:tezos-error-monad",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/proto_alpha/lib_benchmark/lib_benchmark_type_inference:tezos-benchmark-type-inference-alpha",
+    "//src/proto_alpha/lib_client:tezos-client-alpha",
+    "//src/proto_alpha/lib_protocol:tezos-protocol-alpha",
+]
+
+#################
+ocaml_executable(
+    name    = "test_inference.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test_inference",
+    main    = ":Test_inference",
+    deps = TEST_INFERENCE_DEPS + [
+        ":Test_uf",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Test_inference",
+    struct   = "test_inference.ml",
+    opts     = TEST_UF_OPTS,
+    deps     = TEST_UF_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_uf",
+    struct   = "test_uf.ml",
+    opts     = TEST_UF_OPTS,
+    deps     = TEST_UF_DEPS + [
+    ]
+)
+

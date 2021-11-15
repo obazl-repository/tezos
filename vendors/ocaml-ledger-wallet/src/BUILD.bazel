@@ -1,0 +1,91 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## ledgerwallet ########
+LEDGERWALLET_DEPS = [
+    "#UNRESOLVED 3: #f: hidapi
+",
+    "@cstruct//:cstruct",
+    "@rresult//:rresult",
+]
+
+ocaml_ns_archive(
+    name       = "ledgerwallet",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Apdu",
+        ":Transport",
+    ],
+)
+
+######## ledgerwallet-tezos ########
+LEDGERWALLET_TEZOS_DEPS = [
+    "//vendors/ocaml-ledger-wallet/src:ledgerwallet",
+]
+
+ocaml_ns_archive(
+    name       = "ledgerwallet-tezos",
+    ns         = "Ledgerwallet_tezos",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Ledgerwallet_tezos",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Apdu",
+    struct   = "apdu.ml",
+    sig      = ":Apdu_cmi",
+    deps     = LEDGERWALLET_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Apdu_cmi",
+    src      = "apdu.mli",
+    deps     = LEDGERWALLET_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Ledgerwallet_tezos",
+    struct   = "ledgerwallet_tezos.ml",
+    sig      = ":Ledgerwallet_tezos_cmi",
+    deps     = LEDGERWALLET_TEZOS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Ledgerwallet_tezos_cmi",
+    src      = "ledgerwallet_tezos.mli",
+    deps     = LEDGERWALLET_TEZOS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Transport",
+    struct   = "transport.ml",
+    sig      = ":Transport_cmi",
+    deps     = LEDGERWALLET_DEPS + [
+       ":Apdu",
+    ]
+)
+
+ocaml_signature(
+    name     = "Transport_cmi",
+    src      = "transport.mli",
+    deps     = LEDGERWALLET_DEPS + [
+       ":Apdu",
+    ]
+)
+

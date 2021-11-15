@@ -1,0 +1,101 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+MAIN_OPTS = [
+    ##FIXME: dune (:standard)
+]
+
+MAIN_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//vendors/flextesa-lib:flextesa",
+]
+
+#################
+ocaml_executable(
+    name    = "main.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main",
+    main    = ":Main",
+    deps = MAIN_DEPS + [
+        ":Command_accusations",
+        ":Command_daemons_protocol_change",
+        ":Command_ledger_baking",
+        ":Command_ledger_wallet",
+        ":Command_node_synchronization",
+        ":Command_prevalidation",
+        ":Command_voting",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Command_accusations",
+    struct   = "command_accusations.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Command_daemons_protocol_change",
+    struct   = "command_daemons_protocol_change.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Command_ledger_baking",
+    struct   = "command_ledger_baking.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Command_ledger_wallet",
+    struct   = "command_ledger_wallet.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Command_node_synchronization",
+    struct   = "command_node_synchronization.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Command_prevalidation",
+    struct   = "command_prevalidation.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Command_voting",
+    struct   = "command_voting.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Main",
+    struct   = "main.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+

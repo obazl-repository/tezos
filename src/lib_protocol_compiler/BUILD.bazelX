@@ -1,0 +1,393 @@
+load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+     "ocaml_executable",
+     "ocaml_module",
+     "ocaml_ns_archive",
+     "ocaml_ns_library",
+     "ocaml_signature")
+
+DEPS_OPAM = [
+    "@ocaml//compiler-libs/common",
+    "@lwt//unix",
+    "@ocplib-ocamlres//:ocplib-ocamlres",
+    "@unix//:unix",
+]
+
+## there must be a better way...
+copy_file(
+    name = "embed_registerer_cmi",
+    src = ":registerer__sig",
+    out = "embed/tezos_protocol_registerer__Registerer.cmi",
+)
+
+ocaml_module(
+    name = "embedded_cmis",
+    opts = [
+        # "-opaque",
+        # "-open",
+        # "Tezos_base__TzPervasives",
+    ],
+    sig = ":embedded_cmis__sig",
+    struct = ":embedded_cmis.ml",
+    deps = [
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
+    ],
+)
+
+genrule(
+    name = "embedded_cmis_ml",
+    srcs = [
+        # dune: %{lib:stdlib:camlinternalFormatBasics.cmi} obazl:
+        # everything in ${OPAMSWITCH}/lib is accessible via the
+        # quasi-hidden package @ocaml//_lib:
+        "@ocaml//lib:camlinternalFormatBasics.cmi",
+        # "@opam_libs//:ocaml/camlinternalFormatBasics.cmi",
+
+        ":embed_registerer_cmi",
+        "//src/lib_protocol_environment/sigs:embed_v0_cmi",
+        "//src/lib_protocol_environment/sigs:embed_v1_cmi",
+        "//src/lib_protocol_environment/sigs:embed_v2_cmi",
+        "//src/lib_protocol_environment/sigs:embed_v3_cmi",
+    ],
+    outs = ["embedded_cmis.ml"],
+    # echo $(SRCS) &&
+    cmd = "$(execpath @ocaml//bin:ocp-ocamlres) -format ocaml -o $(@) $(SRCS)",
+    tools = ["@ocaml//bin:ocp-ocamlres"],
+)
+
+ocaml_signature(
+    name = "embedded_cmis__sig",
+    src = ":embedded_cmis.mli",
+    opts = [
+        # "-opaque",
+        # "-open",
+        # "Tezos_base__TzPervasives",
+    ],
+    deps = [
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
+    ],
+)
+
+ocaml_signature(
+    name = "registerer__sig",
+    src = ":registerer.mli",
+    opts = [
+        "-opaque",
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    deps = [
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
+    ],
+)
+
+ocaml_module(
+    name = "registerer",
+    opts = [
+        "-opaque",
+        "-open",
+        "Tezos_base__TzPervasives",
+    ],
+    sig = ":registerer__sig",
+    struct = ":registerer.ml",
+    deps = [
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
+    ],
+)
+
+# okapi:public_name tezos-protocol-compiler.registerer
+ocaml_ns_archive(
+# ocaml_ns_library(
+    name = "Tezos_protocol_registerer",
+    submodules = [":registerer"],
+    visibility = ["//visibility:public"],
+)
+
+ocaml_module(
+    name = "compiler",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base_unix",
+        "-open",
+        "Tezos_stdlib_unix",
+    ],
+    struct = ":compiler.ml",
+    deps = [
+        ":embedded_cmis",
+        ":packer",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_base/unix:Tezos_base_unix",
+        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
+        "@tezos//src/lib_version:Tezos_version",
+    ] + DEPS_OPAM,
+)
+
+ocaml_signature(
+    name = "packer__sig",
+    src = ":packer.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base_unix",
+        "-open",
+        "Tezos_stdlib_unix",
+    ],
+    deps = DEPS_OPAM + [
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_base/unix:Tezos_base_unix",
+        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
+        "@tezos//src/lib_version:Tezos_version",
+    ],
+)
+
+ocaml_module(
+    name = "packer",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base_unix",
+        "-open",
+        "Tezos_stdlib_unix",
+    ],
+    sig = ":packer__sig",
+    struct = ":packer.ml",
+    deps = DEPS_OPAM + [
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_base/unix:Tezos_base_unix",
+        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
+        "@tezos//src/lib_version:Tezos_version",
+    ],
+)
+
+# okapi:public_name tezos-protocol-compiler
+ocaml_ns_archive(
+#ocaml_ns_library(
+    name = "Tezos_protocol_compiler",
+    submodules = [
+        ":embedded_cmis",
+        # ":packer",
+        ":compiler",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+ocaml_signature(
+    name = "byte__sig",
+    src = ":byte.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_protocol_compiler",
+    ],
+    deps = [
+        # ":compiler",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_protocol_compiler:Tezos_protocol_compiler",
+        "@ocaml//compiler-libs/bytecomp",
+    ],
+)
+
+ocaml_module(
+    name = "byte",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_protocol_compiler",
+    ],
+    sig = ":byte__sig",
+    struct = ":byte.ml",
+    deps = [
+        # ":compiler",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_protocol_compiler:Tezos_protocol_compiler",
+        "@ocaml//compiler-libs/bytecomp"
+    ],
+)
+
+# okapi:public_name tezos-protocol-compiler.byte
+ocaml_ns_archive(
+#ocaml_ns_library(
+    name = "Tezos_protocol_compiler_byte",
+    submodules = [":byte"],
+    visibility = ["//visibility:public"],
+)
+
+ocaml_signature(
+    name = "native__sig",
+    src = ":native.mli",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_protocol_compiler",
+    ],
+    deps = [
+        # ":compiler",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_protocol_compiler:Tezos_protocol_compiler",
+        "@ocaml//compiler-libs:optcomp"
+    ],
+)
+
+ocaml_module(
+    name = "native",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_protocol_compiler",
+    ],
+    sig = ":native__sig",
+    struct = ":native.ml",
+    deps = [
+        # ":compiler",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_protocol_compiler:Tezos_protocol_compiler",
+        "@ocaml//compiler-libs:optcomp"
+    ],
+)
+
+# okapi:public_name tezos-protocol-compiler.native
+ocaml_ns_archive(
+#ocaml_ns_library(
+    name = "Tezos_protocol_compiler_native",
+    submodules = [":native"],
+    visibility = ["//visibility:public"],
+)
+
+ocaml_module(
+    name = "main_byte",
+    deps = ["@tezos_protocol_compiler_byte//:tezos_protocol_compiler_byte"],
+    opts = ["-linkall"],
+    struct = ":main_byte.ml",
+)
+
+# okapi:public_name tezos-protocol-compiler-byte
+ocaml_executable(
+    name = "exe-tezos-protocol-compiler-byte",
+    main = "main_byte",
+    visibility = ["//visibility:public"],
+)
+
+ocaml_module(
+    name = "main_native",
+    deps = ["@ocaml//lib/tezos_protocol_compiler_native"],
+    opts = ["-linkall"],
+    struct = ":main_native.ml",
+)
+
+# okapi:public_name tezos-protocol-compiler
+ocaml_executable(
+    name = "exe-tezos-protocol-compiler",
+    main = "main_native",
+    visibility = ["//visibility:public"],
+)
+
+ocaml_module(
+    name = "main_packer",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+        "-open",
+        "Tezos_protocol_compiler",
+    ],
+    struct = ":main_packer.ml",
+    deps = [
+        ":packer",
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_protocol_compiler:Tezos_protocol_compiler",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
+    ],
+)
+
+# okapi:public_name tezos-protocol-compiler.tezos-protocol-packer
+ocaml_executable(
+    name = "exe-tezos-protocol-compiler.tezos-protocol-packer",
+    main = "main_packer",
+    visibility = ["//visibility:public"],
+)
+
+ocaml_signature(
+    name = "main_embedded_packer__sig",
+    src = ":main_embedded_packer.mli",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base_unix",
+        "-open",
+        "Tezos_stdlib_unix",
+    ],
+    deps = [
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_base/unix:Tezos_base_unix",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
+    ],
+)
+
+ocaml_module(
+    name = "main_embedded_packer",
+    opts = [
+        "-linkall",
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_base_unix",
+        "-open",
+        "Tezos_stdlib_unix",
+    ],
+    sig = ":main_embedded_packer__sig",
+    struct = ":main_embedded_packer.ml",
+    deps = [
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_base/unix:Tezos_base_unix",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
+    ],
+)
+
+# okapi:public_name tezos-embedded-protocol-packer
+ocaml_executable(
+    name = "exe-tezos-embedded-protocol-packer",
+    main = "main_embedded_packer",
+    visibility = ["//visibility:public"],
+)
+
+ocaml_module(
+    name = "replace",
+    opts = [
+        "-open",
+        "Tezos_base__TzPervasives",
+        "-open",
+        "Tezos_stdlib_unix",
+    ],
+    struct = ":replace.ml",
+    deps = [
+        "@tezos//src/lib_base:Tezos_base",
+        "@tezos//src/lib_base/unix:Tezos_base_unix",
+        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
+        "@re//:re/str"
+    ],
+)
+
+# okapi:public_name replace
+ocaml_executable(
+    name = "exe-replace",
+    main = "replace",
+    visibility = ["//visibility:public"],
+)

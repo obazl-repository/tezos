@@ -1,0 +1,147 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+    "ocaml_signature",
+)
+
+##############################
+####  Executable Targets  ####
+TEZOS_CLIENT_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_client_base_unix",
+    "-open", "Tezos_client_commands",
+    "-open", "Tezos_mockup_commands",
+    "-open", "Tezos_rpc_http_client",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_CLIENT_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_client_base_unix:tezos-client-base-unix",
+    "//src/lib_client_commands:tezos-client-commands",
+    "//src/lib_mockup:tezos-mockup-commands",
+    "//src/lib_rpc_http:tezos-rpc-http-client",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_signer_backends/unix:tezos-signer-backends.unix",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+]
+
+#################
+ocaml_executable(
+    name    = "tezos-client.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main_client",
+    main    = ":Main_client",
+    deps = TEZOS_CLIENT_DEPS + [
+        ":Client_protocols_commands",
+        ":Client_rpc_commands",
+        ":Main_admin",
+    ],
+)
+
+TEZOS_ADMIN_CLIENT_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_client_base_unix",
+    "-open", "Tezos_client_commands",
+    "-open", "Tezos_mockup_commands",
+    "-open", "Tezos_rpc_http_client",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_ADMIN_CLIENT_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_client_base_unix:tezos-client-base-unix",
+    "//src/lib_client_commands:tezos-client-commands",
+    "//src/lib_mockup:tezos-mockup-commands",
+    "//src/lib_rpc_http:tezos-rpc-http-client",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_signer_backends/unix:tezos-signer-backends.unix",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+]
+
+#################
+ocaml_executable(
+    name    = "tezos-admin-client.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main_admin",
+    main    = ":Main_admin",
+    deps = TEZOS_ADMIN_CLIENT_DEPS + [
+        ":Client_protocols_commands",
+        ":Client_rpc_commands",
+        ":Main_client",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Client_protocols_commands",
+    struct   = "client_protocols_commands.ml",
+    sig      = ":Client_protocols_commands_cmi",
+    opts     = TEZOS_CLIENT_OPTS,
+    deps     = TEZOS_CLIENT_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_protocols_commands_cmi",
+    src      = "client_protocols_commands.mli",
+    opts     = TEZOS_CLIENT_OPTS,
+    deps     = TEZOS_CLIENT_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Client_rpc_commands",
+    struct   = "client_rpc_commands.ml",
+    sig      = ":Client_rpc_commands_cmi",
+    opts     = TEZOS_CLIENT_OPTS,
+    deps     = TEZOS_CLIENT_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_rpc_commands_cmi",
+    src      = "client_rpc_commands.mli",
+    opts     = TEZOS_CLIENT_OPTS,
+    deps     = TEZOS_CLIENT_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Main_admin",
+    struct   = "main_admin.ml",
+    opts     = TEZOS_CLIENT_OPTS,
+    deps     = TEZOS_CLIENT_DEPS + [
+       ":Client_rpc_commands",
+       ":Client_protocols_commands",
+    ]
+)
+
+ocaml_module(
+    name     = "Main_client",
+    struct   = "main_client.ml",
+    opts     = TEZOS_CLIENT_OPTS,
+    deps     = TEZOS_CLIENT_DEPS + [
+       ":Client_rpc_commands",
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (action (progn (write-file void_for_linking-genesis.empty "") (write-file void_for_linking-genesis.empty "") (write-file void_for_linking-genesis-carthagenet.empty "") (write-file void_for_linking-000-Ps9mPmXa.empty "") (write-file void_for_linking-001-PtCJ7pwo.empty "") (write-file void_for_linking-002-PsYLVpVv.empty "") (write-file void_for_linking-003-PsddFKi3.empty "") (write-file void_for_linking-004-Pt24m4xi.empty "") (write-file void_for_linking-005-PsBabyM1.empty "") (write-file void_for_linking-006-PsCARTHA.empty "") (write-file void_for_linking-007-PsDELPH1.empty "") (write-file void_for_linking-008-PtEdo2Zk.empty "") (write-file void_for_linking-009-PsFLoren.empty "") (write-file void_for_linking-010-PtGRANAD.empty "") (write-file void_for_linking-alpha.empty "") (write-file void_for_linking-demo-counter.empty "") (write-file void_for_linking-baking-alpha.empty "") (write-file void_for_linking-baking-008-PtEdo2Zk.empty "") (write-file void_for_linking-baking-009-PsFLoren.empty "") (write-file void_for_linking-baking-010-PtGRANAD.empty "") (write-file void_for_linking-007-PsDELPH1-protocol-plugin.empty "") (write-file void_for_linking-008-PtEdo2Zk-protocol-plugin.empty "") (write-file void_for_linking-009-PsFLoren-protocol-plugin.empty "") (write-file void_for_linking-010-PtGRANAD-protocol-plugin.empty "") (write-file void_for_linking-alpha-protocol-plugin.empty "")))
+## )

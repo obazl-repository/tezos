@@ -1,0 +1,389 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+MAIN_OPTS = [
+    "-open", "Tezos_009_PsFLoren_test_helpers",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_009_PsFLoren",
+    "-open", "Tezos_micheline",
+    "-open", "Tezos_protocol_009_PsFLoren",
+    "-open", "Tezos_protocol_environment_009_PsFLoren",
+    "-open", "Tezos_test_services",
+]
+
+MAIN_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_sapling:tezos-sapling",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_test_services:tezos-test-services",
+    "//src/proto_009_PsFLoren/lib_parameters:tezos-protocol-009-PsFLoren-parameters",
+    "//src/proto_009_PsFLoren/lib_protocol/test/helpers:tezos-009-PsFLoren-test-helpers",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@astring//:astring",
+    "@crowbar//:crowbar",
+]
+
+#################
+ocaml_executable(
+    name    = "main.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main",
+    main    = ":Main",
+    deps = MAIN_DEPS + [
+        ":Saturation_fuzzing",
+        ":Test_activation",
+        ":Test_baking",
+        ":Test_combined_operations",
+        ":Test_delegation",
+        ":Test_double_baking",
+        ":Test_double_endorsement",
+        ":Test_endorsement",
+        ":Test_failing_noop",
+        ":Test_fixed_point",
+        ":Test_gas_costs",
+        ":Test_gas_levels",
+        ":Test_gas_properties",
+        ":Test_helpers_rpcs",
+        ":Test_interpretation",
+        ":Test_lazy_storage_diff",
+        ":Test_origination",
+        ":Test_qty",
+        ":Test_reveal",
+        ":Test_rolls",
+        ":Test_sapling",
+        ":Test_saturation",
+        ":Test_script_gas",
+        ":Test_seed",
+        ":Test_storage",
+        ":Test_transfer",
+        ":Test_typechecking",
+        ":Test_voting",
+    ],
+)
+
+SATURATION_FUZZING_OPTS = [
+    "-open", "Tezos_009_PsFLoren_test_helpers",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_009_PsFLoren",
+    "-open", "Tezos_micheline",
+    "-open", "Tezos_protocol_009_PsFLoren",
+    "-open", "Tezos_protocol_environment_009_PsFLoren",
+    "-open", "Tezos_test_services",
+]
+
+SATURATION_FUZZING_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_sapling:tezos-sapling",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_test_services:tezos-test-services",
+    "//src/proto_009_PsFLoren/lib_parameters:tezos-protocol-009-PsFLoren-parameters",
+    "//src/proto_009_PsFLoren/lib_protocol/test/helpers:tezos-009-PsFLoren-test-helpers",
+    "@alcotest-lwt//:alcotest-lwt",
+    "@astring//:astring",
+    "@crowbar//:crowbar",
+]
+
+#################
+ocaml_executable(
+    name    = "saturation_fuzzing.exe",
+    visibility = ["//visibility:public"],
+    exe     = "saturation_fuzzing",
+    main    = ":Saturation_fuzzing",
+    deps = SATURATION_FUZZING_DEPS + [
+        ":Main",
+        ":Test_activation",
+        ":Test_baking",
+        ":Test_combined_operations",
+        ":Test_delegation",
+        ":Test_double_baking",
+        ":Test_double_endorsement",
+        ":Test_endorsement",
+        ":Test_failing_noop",
+        ":Test_fixed_point",
+        ":Test_gas_costs",
+        ":Test_gas_levels",
+        ":Test_gas_properties",
+        ":Test_helpers_rpcs",
+        ":Test_interpretation",
+        ":Test_lazy_storage_diff",
+        ":Test_origination",
+        ":Test_qty",
+        ":Test_reveal",
+        ":Test_rolls",
+        ":Test_sapling",
+        ":Test_saturation",
+        ":Test_script_gas",
+        ":Test_seed",
+        ":Test_storage",
+        ":Test_transfer",
+        ":Test_typechecking",
+        ":Test_voting",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Main",
+    struct   = "main.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Saturation_fuzzing",
+    struct   = "saturation_fuzzing.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_activation",
+    struct   = "test_activation.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_baking",
+    struct   = "test_baking.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_combined_operations",
+    struct   = "test_combined_operations.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_delegation",
+    struct   = "test_delegation.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_double_baking",
+    struct   = "test_double_baking.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_double_endorsement",
+    struct   = "test_double_endorsement.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_endorsement",
+    struct   = "test_endorsement.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_failing_noop",
+    struct   = "test_failing_noop.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_fixed_point",
+    struct   = "test_fixed_point.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_gas_costs",
+    struct   = "test_gas_costs.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_gas_levels",
+    struct   = "test_gas_levels.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_gas_properties",
+    struct   = "test_gas_properties.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_helpers_rpcs",
+    struct   = "test_helpers_rpcs.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_interpretation",
+    struct   = "test_interpretation.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_lazy_storage_diff",
+    struct   = "test_lazy_storage_diff.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_origination",
+    struct   = "test_origination.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_qty",
+    struct   = "test_qty.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_reveal",
+    struct   = "test_reveal.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_rolls",
+    struct   = "test_rolls.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_sapling",
+    struct   = "test_sapling.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_saturation",
+    struct   = "test_saturation.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_script_gas",
+    struct   = "test_script_gas.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_seed",
+    struct   = "test_seed.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_storage",
+    struct   = "test_storage.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_transfer",
+    struct   = "test_transfer.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_typechecking",
+    struct   = "test_typechecking.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_voting",
+    struct   = "test_voting.ml",
+    opts     = MAIN_OPTS,
+    deps     = MAIN_DEPS + [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+################  rule  ################
+## (
+##   (alias buildtest)
+##   (package tezos-protocol-009-PsFLoren-tests)
+##   (deps main.exe)
+##   (action (progn))
+## )
+################  rule  ################
+## (
+##   (copy %{lib:tezos-protocol-009-PsFLoren-parameters:test-parameters.json} protocol_parameters.json)
+## )
+################  rule  ################
+## (
+##   (alias runtest)
+##   (package tezos-protocol-009-PsFLoren-tests)
+##   (deps (alias runtest_proto_009_PsFLoren) (alias runtest_saturation_fuzzing))
+##   (action (progn))
+## )

@@ -1,0 +1,49 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-lwt-result-stdlib.bare.functor-outputs ########
+TEZOS_LWT_RESULT_STDLIB_BARE_FUNCTOR_OUTPUTS_DEPS = [
+    "@lwt//:lwt",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-lwt-result-stdlib.bare.functor-outputs",
+    ns         = "Bare_functor_outputs",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Hashtbl",
+        ":Map",
+        ":Set",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Hashtbl",
+    struct   = "hashtbl.ml",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_FUNCTOR_OUTPUTS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Map",
+    struct   = "map.ml",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_FUNCTOR_OUTPUTS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Set",
+    struct   = "set.ml",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_FUNCTOR_OUTPUTS_DEPS + [
+    ]
+)
+

@@ -1,0 +1,134 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Assert",
+    struct   = "assert.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Support",
+    struct   = "support.ml",
+    deps     = [
+    ]
+)
+
+ocaml_module(
+    name     = "Test_fuzzing_helpers",
+    struct   = "test_fuzzing_helpers.ml",
+    deps     = [
+       ":Support",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_fuzzing_list",
+    struct   = "test_fuzzing_list.ml",
+    deps     = [
+       ":Test_fuzzing_tests",
+       ":Support",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_fuzzing_option",
+    struct   = "test_fuzzing_option.ml",
+    deps     = [
+       ":Test_fuzzing_helpers",
+       ":Support",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_fuzzing_seq",
+    struct   = "test_fuzzing_seq.ml",
+    deps     = [
+       ":Test_fuzzing_tests",
+       ":Support",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_fuzzing_seq_tiered",
+    struct   = "test_fuzzing_seq_tiered.ml",
+    deps     = [
+       ":Test_fuzzing_helpers",
+       ":Support",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_fuzzing_set",
+    struct   = "test_fuzzing_set.ml",
+    deps     = [
+       ":Test_fuzzing_tests",
+       ":Support",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_fuzzing_tests",
+    struct   = "test_fuzzing_tests.ml",
+    deps     = [
+       ":Traits",
+       ":Test_fuzzing_helpers",
+       ":Support",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_generic",
+    struct   = "test_generic.ml",
+    deps     = [
+       ":Traits",
+       ":Support",
+       ":Assert",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_hashtbl",
+    struct   = "test_hashtbl.ml",
+    deps     = [
+       ":Support",
+       ":Assert",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_list_basic",
+    struct   = "test_list_basic.ml",
+    deps     = [
+       ":Support",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_seq_basic",
+    struct   = "test_seq_basic.ml",
+    deps     = [
+       ":Support",
+    ]
+)
+
+ocaml_module(
+    name     = "Traits",
+    struct   = "traits.ml",
+    deps     = [
+       ":Support",
+    ]
+)
+
+ocaml_module(
+    name     = "Traits_tiered",
+    struct   = "traits_tiered.ml",
+    deps     = [
+       ":Support",
+    ]
+)
+

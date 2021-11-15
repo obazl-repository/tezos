@@ -1,0 +1,98 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-client-sapling-009-PsFLoren ########
+TEZOS_CLIENT_SAPLING_009_PSFLOREN_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_009_PsFLoren",
+    "-open", "Tezos_client_009_PsFLoren_commands",
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_protocol_009_PsFLoren",
+    "-open", "Tezos_protocol_environment_009_PsFLoren",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_CLIENT_SAPLING_009_PSFLOREN_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_crypto:tezos-crypto",
+    "//src/lib_signer_backends:tezos-signer-backends",
+    "//src/proto_009_PsFLoren/lib_client:tezos-client-009-PsFLoren",
+    "//src/proto_009_PsFLoren/lib_client_commands:tezos-client-009-PsFLoren-commands",
+    "//src/proto_009_PsFLoren/lib_protocol:tezos-protocol-009-PsFLoren",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-client-sapling-009-PsFLoren",
+    ns         = "Tezos_client_sapling_009_PsFLoren",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Client_sapling_commands",
+        ":Context",
+        ":Wallet",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Client_sapling_commands",
+    struct   = "client_sapling_commands.ml",
+    sig      = ":Client_sapling_commands_cmi",
+    opts     = TEZOS_CLIENT_SAPLING_009_PSFLOREN_OPTS,
+    deps     = TEZOS_CLIENT_SAPLING_009_PSFLOREN_DEPS + [
+       ":Wallet",
+       ":Context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_sapling_commands_cmi",
+    src      = "client_sapling_commands.mli",
+    opts     = TEZOS_CLIENT_SAPLING_009_PSFLOREN_OPTS,
+    deps     = TEZOS_CLIENT_SAPLING_009_PSFLOREN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Context",
+    struct   = "context.ml",
+    sig      = ":Context_cmi",
+    opts     = TEZOS_CLIENT_SAPLING_009_PSFLOREN_OPTS,
+    deps     = TEZOS_CLIENT_SAPLING_009_PSFLOREN_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Context_cmi",
+    src      = "context.mli",
+    opts     = TEZOS_CLIENT_SAPLING_009_PSFLOREN_OPTS,
+    deps     = TEZOS_CLIENT_SAPLING_009_PSFLOREN_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Wallet",
+    struct   = "wallet.ml",
+    sig      = ":Wallet_cmi",
+    opts     = TEZOS_CLIENT_SAPLING_009_PSFLOREN_OPTS,
+    deps     = TEZOS_CLIENT_SAPLING_009_PSFLOREN_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Wallet_cmi",
+    src      = "wallet.mli",
+    opts     = TEZOS_CLIENT_SAPLING_009_PSFLOREN_OPTS,
+    deps     = TEZOS_CLIENT_SAPLING_009_PSFLOREN_DEPS + [
+    ]
+)
+

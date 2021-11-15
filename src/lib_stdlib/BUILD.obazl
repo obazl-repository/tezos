@@ -1,0 +1,391 @@
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-stdlib ########
+TEZOS_STDLIB_OPTS = [
+    ##FIXME dune (:standard)
+    "-linkall"
+]
+
+TEZOS_STDLIB_DEPS = [
+    "@hex//:hex",
+    "@lwt//:lwt",
+    "@zarith//:zarith",
+    "@ppx_inline_test//runtime-lib"
+]
+
+ocaml_ns_archive(
+    name       = "tezos-stdlib",
+    ns         = "Tezos_stdlib",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Bits",
+        ":Bloomer",
+        ":Bounded_heap",
+        ":Circular_buffer",
+        ":Compare",
+        ":FallbackArray",
+        ":Lwt_dropbox",
+        ":Lwt_idle_waiter",
+        ":Lwt_pipe",
+        ":Lwt_utils",
+        ":Memory",
+        ":Tag",
+        ":TzEndian",
+        ":TzFilename",
+        ":TzList",
+        ":TzString",
+        ":Utils",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Bits",
+    struct   = "bits.ml",
+    sig      = ":Bits_cmi",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Bits_cmi",
+    src      = "bits.mli",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Bloomer",
+    struct   = "bloomer.ml",
+    sig      = ":Bloomer_cmi",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Bloomer_cmi",
+    src      = "bloomer.mli",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Bounded_heap",
+    struct   = "bounded_heap.ml",
+    sig      = ":Bounded_heap_cmi",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Bounded_heap_cmi",
+    src      = "bounded_heap.mli",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Circular_buffer",
+    struct   = "circular_buffer.ml",
+    sig      = ":Circular_buffer_cmi",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Circular_buffer_cmi",
+    src      = "circular_buffer.mli",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Compare",
+    struct   = "compare.ml",
+    sig      = ":Compare_cmi",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Compare_cmi",
+    src      = "compare.mli",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "FallbackArray",
+    struct   = "fallbackArray.ml",
+    sig      = ":FallbackArray_cmi",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "FallbackArray_cmi",
+    src      = "fallbackArray.mli",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Lwt_dropbox",
+    struct   = "lwt_dropbox.ml",
+    sig      = ":Lwt_dropbox_cmi",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Lwt_dropbox_cmi",
+    src      = "lwt_dropbox.mli",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Lwt_idle_waiter",
+    struct   = "lwt_idle_waiter.ml",
+    sig      = ":Lwt_idle_waiter_cmi",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Lwt_idle_waiter_cmi",
+    src      = "lwt_idle_waiter.mli",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Lwt_pipe",
+    struct   = "lwt_pipe.ml",
+    sig      = ":Lwt_pipe_cmi",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Lwt_pipe_cmi",
+    src      = "lwt_pipe.mli",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Lwt_utils",
+    struct   = "lwt_utils.ml",
+    sig      = ":Lwt_utils_cmi",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Lwt_utils_cmi",
+    src      = "lwt_utils.mli",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Memory",
+    struct   = "memory.ml",
+    sig      = ":Memory_cmi",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Memory_cmi",
+    src      = "memory.mli",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Tag",
+    struct   = "tag.ml",
+    sig      = ":Tag_cmi",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Tag_cmi",
+    src      = "tag.mli",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "TzEndian",
+    struct   = "tzEndian.ml",
+    sig      = ":TzEndian_cmi",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "TzEndian_cmi",
+    src      = "tzEndian.mli",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "TzFilename",
+    struct   = "tzFilename.ml",
+    sig      = ":TzFilename_cmi",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "TzFilename_cmi",
+    src      = "tzFilename.mli",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "TzList",
+    struct   = "tzList.ml",
+    sig      = ":TzList_cmi",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+       ":Bounded_heap",
+    ]
+)
+
+ocaml_signature(
+    name     = "TzList_cmi",
+    src      = "tzList.mli",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "TzString",
+    struct   = "tzString.ml",
+    sig      = ":TzString_cmi",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "TzString_cmi",
+    src      = "tzString.mli",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Utils",
+    struct   = "utils.ml",
+    sig      = ":Utils_cmi",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Utils_cmi",
+    src      = "utils.mli",
+    ppx      = ":ppx_tezos_stdlib",
+    opts     = TEZOS_STDLIB_OPTS,
+    deps     = TEZOS_STDLIB_DEPS + [
+    ]
+)
+
+###########################
+####  PPX Executables  ####
+load("@obazl_rules_ocaml//ocaml:rules.bzl", "ppx_executable")
+
+###############
+ppx_executable(
+    name    = "ppx_tezos_stdlib",
+    main    = "@ppx//driver",
+    args    = [
+        "-inline-test-lib",
+        "tezos_stdlib",
+    ],
+    deps = [
+        "@ppx_inline_test//:ppx_inline_test",
+    ],
+)
