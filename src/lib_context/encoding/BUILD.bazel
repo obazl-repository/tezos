@@ -1,42 +1,53 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
 
-ocaml_signature(
-    name = "context__sig",
-    src = ":context.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib",
-    ],
-    deps = [
-        "@irmin//:irmin",
-        "@irmin//mem",
-        "@tezos//src/lib_base:Tezos_base",
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-context.encoding ########
+TEZOS_CONTEXT_ENCODING_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_stdlib",
+]
+
+TEZOS_CONTEXT_ENCODING_DEPS = [
+    "//src/lib_base:tezos-base",
+    ## irmin depends on digestif sig, so we must provide an impl:
+    "@digestif//c",
+    "@irmin//:irmin",
+    "@irmin//mem",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-context.encoding",
+    ns         = "Tezos_context_encoding",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Context",
     ],
 )
+
+#############################
+####  Singleton Targets  ####
 
 ocaml_module(
-    name = "context",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib",
-    ],
-    sig = ":context__sig",
-    struct = ":context.ml",
-    deps = [
-        "@irmin//:irmin",
-        "@irmin//mem",
-        "@tezos//src/lib_base:Tezos_base",
-    ],
+    name     = "Context",
+    struct   = "context.ml",
+    sig      = ":Context_cmi",
+    opts     = TEZOS_CONTEXT_ENCODING_OPTS,
+    deps     = TEZOS_CONTEXT_ENCODING_DEPS + [
+    ]
 )
 
-# okapi:auto
-# okapi:public_name tezos-context.encoding
-ocaml_ns_library(
-    name = "Tezos_context_encoding",
-    submodules = [":context"],
-    visibility = ["//visibility:public"],
+ocaml_signature(
+    name     = "Context_cmi",
+    src      = "context.mli",
+    opts     = TEZOS_CONTEXT_ENCODING_OPTS,
+    deps     = TEZOS_CONTEXT_ENCODING_DEPS + [
+    ]
 )
+

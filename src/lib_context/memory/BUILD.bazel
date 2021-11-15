@@ -1,46 +1,53 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
 
-ocaml_signature(
-    name = "context__sig",
-    src = ":context.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib",
-    ],
-    deps = [
-        "@irmin//mem",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/encoding:Tezos_context_encoding",
-        "@tezos//src/lib_context/helpers:Tezos_context_helpers",
-        "@tezos//src/lib_context/sigs:Tezos_context_sigs",
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-context.memory ########
+TEZOS_CONTEXT_MEMORY_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_stdlib",
+]
+
+TEZOS_CONTEXT_MEMORY_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_context/encoding:tezos-context.encoding",
+    "//src/lib_context/helpers:tezos-context.helpers",
+    "//src/lib_context/sigs:tezos-context.sigs",
+    "@irmin//mem",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-context.memory",
+    ns         = "Tezos_context_memory",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Context",
     ],
 )
+
+#############################
+####  Singleton Targets  ####
 
 ocaml_module(
-    name = "context",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib",
-    ],
-    sig = ":context__sig",
-    struct = ":context.ml",
-    deps = [
-        "@irmin//mem",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/encoding:Tezos_context_encoding",
-        "@tezos//src/lib_context/helpers:Tezos_context_helpers",
-        "@tezos//src/lib_context/sigs:Tezos_context_sigs",
-    ],
+    name     = "Context",
+    struct   = "context.ml",
+    sig      = ":Context_cmi",
+    opts     = TEZOS_CONTEXT_MEMORY_OPTS,
+    deps     = TEZOS_CONTEXT_MEMORY_DEPS + [
+    ]
 )
 
-# okapi:auto
-# okapi:public_name tezos-context.memory
-ocaml_ns_library(
-    name = "Tezos_context_memory",
-    submodules = [":context"],
-    visibility = ["//visibility:public"],
+ocaml_signature(
+    name     = "Context_cmi",
+    src      = "context.mli",
+    opts     = TEZOS_CONTEXT_MEMORY_OPTS,
+    deps     = TEZOS_CONTEXT_MEMORY_DEPS + [
+    ]
 )
+

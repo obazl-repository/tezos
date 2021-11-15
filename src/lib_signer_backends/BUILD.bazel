@@ -1,346 +1,143 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
-
-ocaml_signature(
-    name = "encrypted__sig",
-    src = ":encrypted.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_rpc_http",
-        "-open",
-        "Tezos_rpc_http_client",
-        "-open",
-        "Tezos_signer_services",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    deps = [
-        ":unencrypted",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_services:Tezos_signer_services",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
 )
 
-ocaml_module(
-    name = "encrypted",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_rpc_http",
-        "-open",
-        "Tezos_rpc_http_client",
-        "-open",
-        "Tezos_signer_services",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    sig = ":encrypted__sig",
-    struct = ":encrypted.ml",
-    deps = [
-        ":unencrypted",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_services:Tezos_signer_services",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_signature(
-    name = "http__sig",
-    src = ":http.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_rpc_http",
-        "-open",
-        "Tezos_rpc_http_client",
-        "-open",
-        "Tezos_signer_services",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    deps = [
-        ":http_gen",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_services:Tezos_signer_services",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
+######## tezos-signer-backends ########
+TEZOS_SIGNER_BACKENDS_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_rpc_http",
+    "-open", "Tezos_rpc_http_client",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_signer_services",
+    "-open", "Tezos_stdlib",
+]
 
-ocaml_module(
-    name = "http",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_rpc_http",
-        "-open",
-        "Tezos_rpc_http_client",
-        "-open",
-        "Tezos_signer_services",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    sig = ":http__sig",
-    struct = ":http.ml",
-    deps = [
-        ":http_gen",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_services:Tezos_signer_services",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
+TEZOS_SIGNER_BACKENDS_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_rpc_http:tezos-rpc-http-client",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_signer_services:tezos-signer-services",
+    "//src/lib_stdlib:tezos-stdlib",
+]
 
-ocaml_signature(
-    name = "http_gen__sig",
-    src = ":http_gen.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_rpc_http",
-        "-open",
-        "Tezos_rpc_http_client",
-        "-open",
-        "Tezos_signer_services",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_services:Tezos_signer_services",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "http_gen",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_rpc_http",
-        "-open",
-        "Tezos_rpc_http_client",
-        "-open",
-        "Tezos_signer_services",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    sig = ":http_gen__sig",
-    struct = ":http_gen.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_services:Tezos_signer_services",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_signature(
-    name = "https__sig",
-    src = ":https.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_rpc_http",
-        "-open",
-        "Tezos_rpc_http_client",
-        "-open",
-        "Tezos_signer_services",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    deps = [
-        ":http_gen",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_services:Tezos_signer_services",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "https",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_rpc_http",
-        "-open",
-        "Tezos_rpc_http_client",
-        "-open",
-        "Tezos_signer_services",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    sig = ":https__sig",
-    struct = ":https.ml",
-    deps = [
-        ":http_gen",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_services:Tezos_signer_services",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "signer_events",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_rpc_http",
-        "-open",
-        "Tezos_rpc_http_client",
-        "-open",
-        "Tezos_signer_services",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    struct = ":signer_events.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_services:Tezos_signer_services",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_signature(
-    name = "unencrypted__sig",
-    src = ":unencrypted.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_rpc_http",
-        "-open",
-        "Tezos_rpc_http_client",
-        "-open",
-        "Tezos_signer_services",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_services:Tezos_signer_services",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "unencrypted",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_rpc_http",
-        "-open",
-        "Tezos_rpc_http_client",
-        "-open",
-        "Tezos_signer_services",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    sig = ":unencrypted__sig",
-    struct = ":unencrypted.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_services:Tezos_signer_services",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-# okapi:auto
-# okapi:public_name tezos-signer-backends
-ocaml_ns_library(
-    name = "Tezos_signer_backends",
-    submodules = [
-        ":encrypted",
-        ":http",
-        ":http_gen",
-        ":https",
-        ":signer_events",
-        ":unencrypted",
-    ],
+ocaml_ns_archive(
+    name       = "tezos-signer-backends",
+    ns         = "Tezos_signer_backends",
     visibility = ["//visibility:public"],
+    submodules = [
+        ":Encrypted",
+        ":Http",
+        ":Http_gen",
+        ":Https",
+        ":Signer_events",
+        ":Unencrypted",
+    ],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Encrypted",
+    struct   = "encrypted.ml",
+    sig      = ":Encrypted_cmi",
+    opts     = TEZOS_SIGNER_BACKENDS_OPTS,
+    deps     = TEZOS_SIGNER_BACKENDS_DEPS + [
+       ":Unencrypted",
+    ]
+)
+
+ocaml_signature(
+    name     = "Encrypted_cmi",
+    src      = "encrypted.mli",
+    opts     = TEZOS_SIGNER_BACKENDS_OPTS,
+    deps     = TEZOS_SIGNER_BACKENDS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Http",
+    struct   = "http.ml",
+    sig      = ":Http_cmi",
+    opts     = TEZOS_SIGNER_BACKENDS_OPTS,
+    deps     = TEZOS_SIGNER_BACKENDS_DEPS + [
+       ":Http_gen",
+    ]
+)
+
+ocaml_signature(
+    name     = "Http_cmi",
+    src      = "http.mli",
+    opts     = TEZOS_SIGNER_BACKENDS_OPTS,
+    deps     = TEZOS_SIGNER_BACKENDS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Http_gen",
+    struct   = "http_gen.ml",
+    sig      = ":Http_gen_cmi",
+    opts     = TEZOS_SIGNER_BACKENDS_OPTS,
+    deps     = TEZOS_SIGNER_BACKENDS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Http_gen_cmi",
+    src      = "http_gen.mli",
+    opts     = TEZOS_SIGNER_BACKENDS_OPTS,
+    deps     = TEZOS_SIGNER_BACKENDS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Https",
+    struct   = "https.ml",
+    sig      = ":Https_cmi",
+    opts     = TEZOS_SIGNER_BACKENDS_OPTS,
+    deps     = TEZOS_SIGNER_BACKENDS_DEPS + [
+       ":Http_gen",
+    ]
+)
+
+ocaml_signature(
+    name     = "Https_cmi",
+    src      = "https.mli",
+    opts     = TEZOS_SIGNER_BACKENDS_OPTS,
+    deps     = TEZOS_SIGNER_BACKENDS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Signer_events",
+    struct   = "signer_events.ml",
+    opts     = TEZOS_SIGNER_BACKENDS_OPTS,
+    deps     = TEZOS_SIGNER_BACKENDS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Unencrypted",
+    struct   = "unencrypted.ml",
+    sig      = ":Unencrypted_cmi",
+    opts     = TEZOS_SIGNER_BACKENDS_OPTS,
+    deps     = TEZOS_SIGNER_BACKENDS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Unencrypted_cmi",
+    src      = "unencrypted.mli",
+    opts     = TEZOS_SIGNER_BACKENDS_OPTS,
+    deps     = TEZOS_SIGNER_BACKENDS_DEPS + [
+    ]
+)
+

@@ -1,44 +1,50 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl",
-     "ocaml_module",
-     "ocaml_ns_archive",
-     "ocaml_ns_library")
-
-ocaml_module(
-    name = "hashtbl",
-    struct = ":hashtbl.ml",
-    deps = [
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
 )
 
-ocaml_module(
-    name = "map",
-    struct = ":map.ml",
-    deps = [
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_module(
-    name = "set",
-    struct = ":set.ml",
-    deps = [
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
+######## tezos-lwt-result-stdlib.traced.functor-outputs ########
+TEZOS_LWT_RESULT_STDLIB_TRACED_FUNCTOR_OUTPUTS_DEPS = [
+    "//src/lib_lwt_result_stdlib/bare/sigs:tezos-lwt-result-stdlib.bare.sigs",
+    "@lwt//:lwt",
+]
 
-# okapi:auto
-# okapi:public_name tezos-lwt-result-stdlib.traced.functor-outputs
 ocaml_ns_archive(
-#ocaml_ns_library(
-    name = "Traced_functor_outputs",
-    submodules = [
-        ":hashtbl",
-        ":map",
-        ":set",
-    ],
+    name       = "tezos-lwt-result-stdlib.traced.functor-outputs",
+    ns         = "Traced_functor_outputs",
     visibility = ["//visibility:public"],
+    submodules = [
+        ":Hashtbl",
+        ":Map",
+        ":Set",
+    ],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Hashtbl",
+    struct   = "hashtbl.ml",
+    deps     = TEZOS_LWT_RESULT_STDLIB_TRACED_FUNCTOR_OUTPUTS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Map",
+    struct   = "map.ml",
+    deps     = TEZOS_LWT_RESULT_STDLIB_TRACED_FUNCTOR_OUTPUTS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Set",
+    struct   = "set.ml",
+    deps     = TEZOS_LWT_RESULT_STDLIB_TRACED_FUNCTOR_OUTPUTS_DEPS + [
+    ]
+)
+

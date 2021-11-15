@@ -1,209 +1,98 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
-
-ocaml_module(
-    name = "client_config",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc_http",
-        "-open",
-        "Tezos_rpc_http_client_unix",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_client_commands",
-        "-open",
-        "Tezos_mockup_commands",
-        "-linkall",
-    ],
-    struct = ":client_config.ml",
-    deps = [
-        "@lwt-exit//:lwt-exit",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_client_commands:Tezos_client_commands",
-        "@tezos//src/lib_mockup:Tezos_mockup",
-        "@tezos//src/lib_mockup:Tezos_mockup_commands",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-        "@tezos//src/lib_proxy:Tezos_proxy",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client_unix",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends/unix:Tezos_signer_backends_unix",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
 )
 
-ocaml_signature(
-    name = "client_context_unix__sig",
-    src = ":client_context_unix.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc_http",
-        "-open",
-        "Tezos_rpc_http_client_unix",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_client_commands",
-        "-open",
-        "Tezos_mockup_commands",
-        "-linkall",
-    ],
-    deps = [
-        "@lwt-exit//:lwt-exit",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_client_commands:Tezos_client_commands",
-        "@tezos//src/lib_mockup:Tezos_mockup",
-        "@tezos//src/lib_mockup:Tezos_mockup_commands",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-        "@tezos//src/lib_proxy:Tezos_proxy",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client_unix",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends/unix:Tezos_signer_backends_unix",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_module(
-    name = "client_context_unix",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc_http",
-        "-open",
-        "Tezos_rpc_http_client_unix",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_client_commands",
-        "-open",
-        "Tezos_mockup_commands",
-        "-linkall",
-    ],
-    sig = ":client_context_unix__sig",
-    struct = ":client_context_unix.ml",
-    deps = [
-        "@lwt-exit//:lwt-exit",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_client_commands:Tezos_client_commands",
-        "@tezos//src/lib_mockup:Tezos_mockup",
-        "@tezos//src/lib_mockup:Tezos_mockup_commands",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-        "@tezos//src/lib_proxy:Tezos_proxy",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client_unix",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends/unix:Tezos_signer_backends_unix",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+######## tezos-client-base-unix ########
+TEZOS_CLIENT_BASE_UNIX_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_client_commands",
+    "-open", "Tezos_mockup_commands",
+    "-open", "Tezos_rpc_http",
+    "-open", "Tezos_rpc_http_client_unix",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib_unix",
+]
 
-ocaml_signature(
-    name = "client_main_run__sig",
-    src = ":client_main_run.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc_http",
-        "-open",
-        "Tezos_rpc_http_client_unix",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_client_commands",
-        "-open",
-        "Tezos_mockup_commands",
-        "-linkall",
-    ],
-    deps = [
-        ":client_config",
-        ":client_context_unix",
-        "@lwt-exit//:lwt-exit",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_client_commands:Tezos_client_commands",
-        "@tezos//src/lib_mockup:Tezos_mockup",
-        "@tezos//src/lib_mockup:Tezos_mockup_commands",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-        "@tezos//src/lib_proxy:Tezos_proxy",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client_unix",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends/unix:Tezos_signer_backends_unix",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+TEZOS_CLIENT_BASE_UNIX_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_client_commands:tezos-client-commands",
+    "//src/lib_mockup:tezos-mockup",
+    "//src/lib_mockup:tezos-mockup-commands",
+    "//src/lib_mockup:tezos-mockup-registration",
+    "//src/lib_proxy:tezos-proxy",
+    "//src/lib_rpc_http:tezos-rpc-http-client-unix",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_signer_backends/unix:tezos-signer-backends.unix",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "@lwt-exit//:lwt-exit",
+]
 
-ocaml_module(
-    name = "client_main_run",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc_http",
-        "-open",
-        "Tezos_rpc_http_client_unix",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_client_commands",
-        "-open",
-        "Tezos_mockup_commands",
-        "-linkall",
-    ],
-    sig = ":client_main_run__sig",
-    struct = ":client_main_run.ml",
-    deps = [
-        ":client_config",
-        ":client_context_unix",
-        "@lwt-exit//:lwt-exit",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_client_commands:Tezos_client_commands",
-        "@tezos//src/lib_mockup:Tezos_mockup",
-        "@tezos//src/lib_mockup:Tezos_mockup_commands",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-        "@tezos//src/lib_proxy:Tezos_proxy",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client_unix",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends/unix:Tezos_signer_backends_unix",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-# okapi:auto
-# okapi:public_name tezos-client-base-unix
-ocaml_ns_library(
-    name = "Tezos_client_base_unix",
-    submodules = [
-        ":client_config",
-        ":client_context_unix",
-        ":client_main_run",
-    ],
+ocaml_ns_archive(
+    name       = "tezos-client-base-unix",
+    ns         = "Tezos_client_base_unix",
     visibility = ["//visibility:public"],
+    submodules = [
+        ":Client_config",
+        ":Client_context_unix",
+        ":Client_main_run",
+    ],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Client_config",
+    struct   = "client_config.ml",
+    opts     = TEZOS_CLIENT_BASE_UNIX_OPTS,
+    deps     = TEZOS_CLIENT_BASE_UNIX_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Client_context_unix",
+    struct   = "client_context_unix.ml",
+    sig      = ":Client_context_unix_cmi",
+    opts     = TEZOS_CLIENT_BASE_UNIX_OPTS,
+    deps     = TEZOS_CLIENT_BASE_UNIX_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_context_unix_cmi",
+    src      = "client_context_unix.mli",
+    opts     = TEZOS_CLIENT_BASE_UNIX_OPTS,
+    deps     = TEZOS_CLIENT_BASE_UNIX_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Client_main_run",
+    struct   = "client_main_run.ml",
+    sig      = ":Client_main_run_cmi",
+    opts     = TEZOS_CLIENT_BASE_UNIX_OPTS,
+    deps     = TEZOS_CLIENT_BASE_UNIX_DEPS + [
+       ":Client_context_unix",
+       ":Client_config",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_main_run_cmi",
+    src      = "client_main_run.mli",
+    opts     = TEZOS_CLIENT_BASE_UNIX_OPTS,
+    deps     = TEZOS_CLIENT_BASE_UNIX_DEPS + [
+       ":Client_context_unix",
+       ":Client_config",
+    ]
+)
+

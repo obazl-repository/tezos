@@ -1,8 +1,179 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_ns_library")
-
-# okapi:public_name tezos-client-base
-ocaml_ns_library(
-    name = "Tezos_client_base",
-    submodules = [],
-    visibility = ["//visibility:public"],
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
 )
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-client-base ########
+TEZOS_CLIENT_BASE_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_rpc",
+    "-open", "Tezos_shell_services",
+]
+
+TEZOS_CLIENT_BASE_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_rpc:tezos-rpc",
+    "//src/lib_sapling:tezos-sapling",
+    "//src/lib_shell_services:tezos-shell-services",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-client-base",
+    ns         = "Tezos_client_base",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Bip39",
+        ":Bip39_english",
+        ":Client_aliases",
+        ":Client_confirmations",
+        ":Client_context",
+        ":Client_keys",
+        ":Pbkdf",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Bip39",
+    struct   = "bip39.ml",
+    sig      = ":Bip39_cmi",
+    opts     = TEZOS_CLIENT_BASE_OPTS,
+    deps     = TEZOS_CLIENT_BASE_DEPS + [
+       ":Pbkdf",
+       ":Bip39_english",
+    ]
+)
+
+ocaml_signature(
+    name     = "Bip39_cmi",
+    src      = "bip39.mli",
+    opts     = TEZOS_CLIENT_BASE_OPTS,
+    deps     = TEZOS_CLIENT_BASE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Bip39_english",
+    struct   = "bip39_english.ml",
+    opts     = TEZOS_CLIENT_BASE_OPTS,
+    deps     = TEZOS_CLIENT_BASE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Client_aliases",
+    struct   = "client_aliases.ml",
+    sig      = ":Client_aliases_cmi",
+    opts     = TEZOS_CLIENT_BASE_OPTS,
+    deps     = TEZOS_CLIENT_BASE_DEPS + [
+       ":Client_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_aliases_cmi",
+    src      = "client_aliases.mli",
+    opts     = TEZOS_CLIENT_BASE_OPTS,
+    deps     = TEZOS_CLIENT_BASE_DEPS + [
+       ":Client_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_confirmations",
+    struct   = "client_confirmations.ml",
+    sig      = ":Client_confirmations_cmi",
+    opts     = TEZOS_CLIENT_BASE_OPTS,
+    deps     = TEZOS_CLIENT_BASE_DEPS + [
+       ":Client_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_confirmations_cmi",
+    src      = "client_confirmations.mli",
+    opts     = TEZOS_CLIENT_BASE_OPTS,
+    deps     = TEZOS_CLIENT_BASE_DEPS + [
+       ":Client_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_context",
+    struct   = "client_context.ml",
+    sig      = ":Client_context_cmi",
+    opts     = TEZOS_CLIENT_BASE_OPTS,
+    deps     = TEZOS_CLIENT_BASE_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_context_cmi",
+    src      = "client_context.mli",
+    opts     = TEZOS_CLIENT_BASE_OPTS,
+    deps     = TEZOS_CLIENT_BASE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Client_keys",
+    struct   = "client_keys.ml",
+    sig      = ":Client_keys_cmi",
+    opts     = TEZOS_CLIENT_BASE_OPTS,
+    deps     = TEZOS_CLIENT_BASE_DEPS + [
+       ":Client_context",
+       ":Client_aliases",
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_keys_cmi",
+    src      = "client_keys.mli",
+    opts     = TEZOS_CLIENT_BASE_OPTS,
+    deps     = TEZOS_CLIENT_BASE_DEPS + [
+       ":Client_context",
+       ":Client_aliases",
+    ]
+)
+
+ocaml_module(
+    name     = "Pbkdf",
+    struct   = "pbkdf.ml",
+    sig      = ":Pbkdf_cmi",
+    opts     = TEZOS_CLIENT_BASE_OPTS,
+    deps     = TEZOS_CLIENT_BASE_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Pbkdf_cmi",
+    src      = "pbkdf.mli",
+    opts     = TEZOS_CLIENT_BASE_OPTS,
+    deps     = TEZOS_CLIENT_BASE_DEPS + [
+    ]
+)
+
+######## run cmd ########
+genrule(
+    name = "__bip39_english.ml",
+    outs  = [
+        "bip39_english.ml"
+    ],
+    tools  = ["//#f"],
+    cmd  = (),
+    srcs  = [
+    ],
+)
+## (
+##   (:out bip39_english.ml)
+##   (:cmd ((:tool %{exe}) (:deps ((:_static "src/lib_client_base/gen" "bip39_english.txt"))) (:args ("%{targets}")) (:foo #t) (:raw ((run %{exe} %{targets})))))
+##   (:vars ((:exe "src/lib_client_base/gen" "bip39_generator.exe")))
+##   (:raw (rule (targets bip39_english.ml) (deps (:exe gen/bip39_generator.exe) gen/bip39_english.txt) (action (run %{exe} %{targets}))))
+## )

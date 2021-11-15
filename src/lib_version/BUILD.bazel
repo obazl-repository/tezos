@@ -1,129 +1,127 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
-
-ocaml_signature(
-    name = "bin_version__sig",
-    src = ":bin_version.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = [
-        ":current_git_info",
-        ":version",
-        "@tezos//src/lib_base:Tezos_base",
-    ],
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
 )
 
-ocaml_module(
-    name = "bin_version",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":bin_version__sig",
-    struct = ":bin_version.ml",
-    deps = [
-        ":current_git_info",
-        ":version",
-        "@tezos//src/lib_base:Tezos_base",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_signature(
-    name = "current_git_info__sig",
-    src = ":current_git_info.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = [
-        ":generated_git_info",
-        "@tezos//src/lib_base:Tezos_base",
-    ],
-)
+######## tezos-version ########
+TEZOS_VERSION_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+]
 
-ocaml_module(
-    name = "current_git_info",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":current_git_info__sig",
-    struct = ":current_git_info.ml",
-    deps = [
-        ":generated_git_info",
-        "@tezos//src/lib_base:Tezos_base",
-    ],
-)
+TEZOS_VERSION_DEPS = [
+    "//src/lib_base:tezos-base",
+]
 
-ocaml_module(
-    name = "generated_git_info",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    struct = ":generated_git_info.ml",
-    deps = ["@tezos//src/lib_base:Tezos_base"],
-)
-
-ocaml_signature(
-    name = "node_version__sig",
-    src = ":node_version.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = [
-        ":version",
-        "@tezos//src/lib_base:Tezos_base",
-    ],
-)
-
-ocaml_module(
-    name = "node_version",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":node_version__sig",
-    struct = ":node_version.ml",
-    deps = [
-        ":version",
-        "@tezos//src/lib_base:Tezos_base",
-    ],
-)
-
-ocaml_signature(
-    name = "version__sig",
-    src = ":version.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = ["@tezos//src/lib_base:Tezos_base"],
-)
-
-ocaml_module(
-    name = "version",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":version__sig",
-    struct = ":version.ml",
-    deps = ["@tezos//src/lib_base:Tezos_base"],
-)
-
-# okapi:auto
-# okapi:public_name tezos-version
-ocaml_ns_library(
-    name = "Tezos_version",
-    submodules = [
-        ":bin_version",
-        ":current_git_info",
-        ":generated_git_info",
-        ":node_version",
-        ":version",
-    ],
+ocaml_ns_archive(
+    name       = "tezos-version",
+    ns         = "Tezos_version",
     visibility = ["//visibility:public"],
+    submodules = [
+        ":Bin_version",
+        ":Current_git_info",
+        ":Generated_git_info",
+        ":Node_version",
+        ":Version",
+    ],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Bin_version",
+    struct   = "bin_version.ml",
+    sig      = ":Bin_version_cmi",
+    opts     = TEZOS_VERSION_OPTS,
+    deps     = TEZOS_VERSION_DEPS + [
+       ":Version",
+       ":Current_git_info",
+    ]
+)
+
+ocaml_signature(
+    name     = "Bin_version_cmi",
+    src      = "bin_version.mli",
+    opts     = TEZOS_VERSION_OPTS,
+    deps     = TEZOS_VERSION_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Current_git_info",
+    struct   = "current_git_info.ml",
+    sig      = ":Current_git_info_cmi",
+    opts     = TEZOS_VERSION_OPTS,
+    deps     = TEZOS_VERSION_DEPS + [
+       ":Generated_git_info",
+    ]
+)
+
+ocaml_signature(
+    name     = "Current_git_info_cmi",
+    src      = "current_git_info.mli",
+    opts     = TEZOS_VERSION_OPTS,
+    deps     = TEZOS_VERSION_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Generated_git_info",
+    struct   = "generated_git_info.ml",
+    opts     = TEZOS_VERSION_OPTS,
+    deps     = TEZOS_VERSION_DEPS + [
+    ]
+)
+
+# ocaml_module(
+#     name     = "Generated_git_info",
+#     struct   = "generated_git_info.ml",
+#     opts     = TEZOS_VERSION_OPTS,
+#     deps     = TEZOS_VERSION_DEPS + [
+#     ]
+# )
+
+ocaml_module(
+    name     = "Node_version",
+    struct   = "node_version.ml",
+    sig      = ":Node_version_cmi",
+    opts     = TEZOS_VERSION_OPTS,
+    deps     = TEZOS_VERSION_DEPS + [
+       ":Version",
+    ]
+)
+
+ocaml_signature(
+    name     = "Node_version_cmi",
+    src      = "node_version.mli",
+    opts     = TEZOS_VERSION_OPTS,
+    deps     = TEZOS_VERSION_DEPS + [
+       ":Version",
+    ]
+)
+
+ocaml_module(
+    name     = "Version",
+    struct   = "version.ml",
+    sig      = ":Version_cmi",
+    opts     = TEZOS_VERSION_OPTS,
+    deps     = TEZOS_VERSION_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Version_cmi",
+    src      = "version.mli",
+    opts     = TEZOS_VERSION_OPTS,
+    deps     = TEZOS_VERSION_DEPS + [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+

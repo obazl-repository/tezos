@@ -1,628 +1,246 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl",
-     "ocaml_executable",
-     "ocaml_module",
-     "ocaml_ns_library",
-     "ocaml_signature")
-
-ocaml_signature(
-    name = "legacy_chain__sig",
-    src = ":legacy_chain.mli",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_protocol_updater",
-    ],
-    deps = [
-        ":legacy_chain_traversal",
-        ":legacy_state",
-        ":legacy_store",
-        # "//vendors/ocaml-lmdb/src:lmdb",
-        "@lwt-watcher//:lwt-watcher",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
+    "ocaml_archive",
+    "ocaml_executable",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
 )
 
-ocaml_module(
-    name = "legacy_chain",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_protocol_updater",
-    ],
-    sig = ":legacy_chain__sig",
-    struct = ":legacy_chain.ml",
-    deps = [
-        ":legacy_chain_traversal",
-        ":legacy_state",
-        ":legacy_store",
-        ## "//vendors/ocaml-lmdb/src:lmdb",
-        "@lwt-watcher//:lwt-watcher",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
-)
+##############################
+####  Executable Targets  ####
+LEGACY_STORE_BUILDER_OPTS = [
+    "-open", "Tezos_base",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_context",
+    "-open", "Tezos_legacy_store",
+    "-open", "Tezos_protocol_updater",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_validation",
+]
 
-ocaml_signature(
-    name = "legacy_chain_traversal__sig",
-    src = ":legacy_chain_traversal.mli",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_protocol_updater",
-    ],
-    deps = [
-        ":legacy_state",
-        ## "//vendors/ocaml-lmdb/src:lmdb",
-        "@lwt-watcher//:lwt-watcher",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
-)
+LEGACY_STORE_BUILDER_DEPS = [
+    "//src/lib_protocol_updater:tezos-protocol-updater",
+    "//src/lib_store/legacy_store:tezos-legacy-store",
+    "//src/lib_validation:tezos-validation",
+    "//src/proto_alpha/lib_protocol:tezos-embedded-protocol-alpha",
+    "//src/proto_genesis/lib_protocol:tezos-embedded-protocol-genesis",
+]
 
-ocaml_module(
-    name = "legacy_chain_traversal",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_protocol_updater",
-    ],
-    sig = ":legacy_chain_traversal__sig",
-    struct = ":legacy_chain_traversal.ml",
-    deps = [
-        ":legacy_state",
-        ## "//vendors/ocaml-lmdb/src:lmdb",
-        "@lwt-watcher//:lwt-watcher",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
-)
-
-ocaml_signature(
-    name = "legacy_snapshots__sig",
-    src = ":legacy_snapshots.mli",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_protocol_updater",
-    ],
-    deps = [
-        ":legacy_state",
-        ":legacy_store",
-        ## "//vendors/ocaml-lmdb/src:lmdb",
-        "@lwt-watcher//:lwt-watcher",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
-)
-
-ocaml_module(
-    name = "legacy_snapshots",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_protocol_updater",
-    ],
-    sig = ":legacy_snapshots__sig",
-    struct = ":legacy_snapshots.ml",
-    deps = [
-        ":legacy_state",
-        ":legacy_store",
-        ## "//vendors/ocaml-lmdb/src:lmdb",
-        "@lwt-watcher//:lwt-watcher",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
-)
-
-ocaml_signature(
-    name = "legacy_state__sig",
-    src = ":legacy_state.mli",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_protocol_updater",
-    ],
-    deps = [
-        ":legacy_store",
-        ## "//vendors/ocaml-lmdb/src:lmdb",
-        "@lwt-watcher//:lwt-watcher",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
-)
-
-ocaml_module(
-    name = "legacy_state",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_protocol_updater",
-    ],
-    sig = ":legacy_state__sig",
-    struct = ":legacy_state.ml",
-    deps = [
-        ":legacy_store",
-        ## "//vendors/ocaml-lmdb/src:lmdb",
-        "@lwt-watcher//:lwt-watcher",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
-)
-
-ocaml_signature(
-    name = "legacy_store__sig",
-    src = ":legacy_store.mli",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_protocol_updater",
-    ],
-    deps = [
-        ":raw_store",
-        ":store_helpers",
-        ":store_sigs",
-        ## "//vendors/ocaml-lmdb/src:lmdb",
-        "@lwt-watcher//:lwt-watcher",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
-)
-
-ocaml_module(
-    name = "legacy_store",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_protocol_updater",
-    ],
-    sig = ":legacy_store__sig",
-    struct = ":legacy_store.ml",
-    deps = [
-        ":raw_store",
-        ":store_helpers",
-        ":store_sigs",
-        ## "//vendors/ocaml-lmdb/src:lmdb",
-        "@lwt-watcher//:lwt-watcher",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
-)
-
-ocaml_signature(
-    name = "raw_store__sig",
-    src = ":raw_store.mli",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_protocol_updater",
-    ],
-    deps = [
-        ":store_sigs",
-        ## "//vendors/ocaml-lmdb/src:lmdb",
-        "@lwt-watcher//:lwt-watcher",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
-)
-
-ocaml_module(
-    name = "raw_store",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_protocol_updater",
-    ],
-    sig = ":raw_store__sig",
-    struct = ":raw_store.ml",
-    deps = [
-        ":store_sigs",
-        "//vendors/ocaml-lmdb/src:lmdb",
-        "@lwt-watcher//:lwt-watcher",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
-)
-
-ocaml_module(
-    name = "store_events",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_protocol_updater",
-    ],
-    struct = ":store_events.ml",
-    deps = [
-        ## "//vendors/ocaml-lmdb/src:lmdb",
-        "@lwt-watcher//:lwt-watcher",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
-)
-
-ocaml_signature(
-    name = "store_helpers__sig",
-    src = ":store_helpers.mli",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_protocol_updater",
-    ],
-    deps = [
-        ":store_events",
-        ":store_sigs",
-        ## "//vendors/ocaml-lmdb/src:lmdb",
-        "@lwt-watcher//:lwt-watcher",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
-)
-
-ocaml_module(
-    name = "store_helpers",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_protocol_updater",
-    ],
-    sig = ":store_helpers__sig",
-    struct = ":store_helpers.ml",
-    deps = [
-        ":store_events",
-        ":store_sigs",
-        ## "//vendors/ocaml-lmdb/src:lmdb",
-        "@lwt-watcher//:lwt-watcher",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
-)
-
-ocaml_module(
-    name = "store_sigs",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_protocol_updater",
-    ],
-    struct = ":store_sigs.ml",
-    deps = [
-        ## "//vendors/ocaml-lmdb/src:lmdb",
-        "@lwt-watcher//:lwt-watcher",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
-)
-
-# okapi:auto
-# okapi:public_name tezos-legacy-store
-# ocaml_ns_library(
-ocaml_ns_library(
-    name = "Tezos_legacy_store",
-    # deps = ["//vendors/ocaml-lmdb/src:lmdb"],
-    submodules = [
-        ":legacy_chain",
-        ":legacy_chain_traversal",
-        ":legacy_snapshots",
-        ":legacy_state",
-        ":legacy_store",
-        ":raw_store",
-        ":store_events",
-        ":store_helpers",
-        ":store_sigs",
-    ],
-    visibility = ["//visibility:public"],
-)
-
-ocaml_module(
-    name = "legacy_store_builder",
-    opts = [
-        "-open",
-        "Tezos_legacy_store",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_protocol_updater",
-    ],
-    struct = ":legacy_store_builder.ml",
-    deps = [
-        ":legacy_chain",
-        ":legacy_state",
-        "@tezos-embedded-protocol-alpha//:tezos-embedded-protocol-alpha",
-        "@ocaml//lib/tezos-embedded-protocol-genesis",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_store/legacy_store:Tezos_legacy_store",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
-)
-
-# okapi:public_name legacy_store_builder
+#################
 ocaml_executable(
-    name = "exe-legacy_store_builder",
-    main = "legacy_store_builder",
+    name    = "legacy_store_builder.exe",
     visibility = ["//visibility:public"],
-    deps = [":legacy_store_builder"],
+    exe     = "legacy_store_builder",
+    main    = ":Legacy_store_builder",
+    deps = LEGACY_STORE_BUILDER_DEPS + [
+    ],
 )
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-legacy-store ########
+TEZOS_LEGACY_STORE_OPTS = [
+    "-open", "Tezos_base",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_context",
+    "-open", "Tezos_protocol_updater",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_validation",
+]
+
+TEZOS_LEGACY_STORE_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_context:tezos-context",
+    "//src/lib_protocol_updater:tezos-protocol-updater",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_validation:tezos-validation",
+    "//vendors/ocaml-lmdb/src:tezos-lmdb",
+    "@lwt-watcher//:lwt-watcher",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-legacy-store",
+    ns         = "Tezos_legacy_store",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Legacy_chain",
+        ":Legacy_chain_traversal",
+        ":Legacy_snapshots",
+        ":Legacy_state",
+        ":Legacy_store",
+        ":Raw_store",
+        ":Store_events",
+        ":Store_helpers",
+        ":Store_sigs",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Legacy_chain",
+    struct   = "legacy_chain.ml",
+    sig      = ":Legacy_chain_cmi",
+    opts     = TEZOS_LEGACY_STORE_OPTS,
+    deps     = TEZOS_LEGACY_STORE_DEPS + [
+       ":Legacy_store",
+       ":Legacy_state",
+       ":Legacy_chain_traversal",
+    ]
+)
+
+ocaml_signature(
+    name     = "Legacy_chain_cmi",
+    src      = "legacy_chain.mli",
+    opts     = TEZOS_LEGACY_STORE_OPTS,
+    deps     = TEZOS_LEGACY_STORE_DEPS + [
+       ":Legacy_state",
+    ]
+)
+
+ocaml_module(
+    name     = "Legacy_chain_traversal",
+    struct   = "legacy_chain_traversal.ml",
+    sig      = ":Legacy_chain_traversal_cmi",
+    opts     = TEZOS_LEGACY_STORE_OPTS,
+    deps     = TEZOS_LEGACY_STORE_DEPS + [
+       ":Legacy_state",
+    ]
+)
+
+ocaml_signature(
+    name     = "Legacy_chain_traversal_cmi",
+    src      = "legacy_chain_traversal.mli",
+    opts     = TEZOS_LEGACY_STORE_OPTS,
+    deps     = TEZOS_LEGACY_STORE_DEPS + [
+       ":Legacy_state",
+    ]
+)
+
+ocaml_module(
+    name     = "Legacy_snapshots",
+    struct   = "legacy_snapshots.ml",
+    sig      = ":Legacy_snapshots_cmi",
+    opts     = TEZOS_LEGACY_STORE_OPTS,
+    deps     = TEZOS_LEGACY_STORE_DEPS + [
+       ":Legacy_store",
+       ":Legacy_state",
+    ]
+)
+
+ocaml_signature(
+    name     = "Legacy_snapshots_cmi",
+    src      = "legacy_snapshots.mli",
+    opts     = TEZOS_LEGACY_STORE_OPTS,
+    deps     = TEZOS_LEGACY_STORE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Legacy_state",
+    struct   = "legacy_state.ml",
+    sig      = ":Legacy_state_cmi",
+    opts     = TEZOS_LEGACY_STORE_OPTS,
+    deps     = TEZOS_LEGACY_STORE_DEPS + [
+       ":Legacy_store",
+    ]
+)
+
+ocaml_signature(
+    name     = "Legacy_state_cmi",
+    src      = "legacy_state.mli",
+    opts     = TEZOS_LEGACY_STORE_OPTS,
+    deps     = TEZOS_LEGACY_STORE_DEPS + [
+       ":Legacy_store",
+    ]
+)
+
+ocaml_module(
+    name     = "Legacy_store",
+    struct   = "legacy_store.ml",
+    sig      = ":Legacy_store_cmi",
+    opts     = TEZOS_LEGACY_STORE_OPTS,
+    deps     = TEZOS_LEGACY_STORE_DEPS + [
+       ":Store_helpers",
+       ":Raw_store",
+    ]
+)
+
+ocaml_signature(
+    name     = "Legacy_store_cmi",
+    src      = "legacy_store.mli",
+    opts     = TEZOS_LEGACY_STORE_OPTS,
+    deps     = TEZOS_LEGACY_STORE_DEPS + [
+       ":Store_sigs",
+    ]
+)
+
+ocaml_module(
+    name     = "Legacy_store_builder",
+    struct   = "legacy_store_builder.ml",
+    opts     = LEGACY_STORE_BUILDER_OPTS,
+    deps     = LEGACY_STORE_BUILDER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Raw_store",
+    struct   = "raw_store.ml",
+    sig      = ":Raw_store_cmi",
+    opts     = TEZOS_LEGACY_STORE_OPTS,
+    deps     = TEZOS_LEGACY_STORE_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Raw_store_cmi",
+    src      = "raw_store.mli",
+    opts     = TEZOS_LEGACY_STORE_OPTS,
+    deps     = TEZOS_LEGACY_STORE_DEPS + [
+       ":Store_sigs",
+    ]
+)
+
+ocaml_module(
+    name     = "Store_events",
+    struct   = "store_events.ml",
+    opts     = TEZOS_LEGACY_STORE_OPTS,
+    deps     = TEZOS_LEGACY_STORE_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Store_helpers",
+    struct   = "store_helpers.ml",
+    sig      = ":Store_helpers_cmi",
+    opts     = TEZOS_LEGACY_STORE_OPTS,
+    deps     = TEZOS_LEGACY_STORE_DEPS + [
+       ":Store_sigs",
+       ":Store_events",
+    ]
+)
+
+ocaml_signature(
+    name     = "Store_helpers_cmi",
+    src      = "store_helpers.mli",
+    opts     = TEZOS_LEGACY_STORE_OPTS,
+    deps     = TEZOS_LEGACY_STORE_DEPS + [
+       ":Store_sigs",
+    ]
+)
+
+ocaml_module(
+    name     = "Store_sigs",
+    struct   = "store_sigs.ml",
+    opts     = TEZOS_LEGACY_STORE_OPTS,
+    deps     = TEZOS_LEGACY_STORE_DEPS + [
+    ]
+)
+

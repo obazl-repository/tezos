@@ -1,677 +1,308 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
-
-ocaml_signature(
-    name = "base_samplers__sig",
-    src = ":base_samplers.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    deps = [
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
 )
 
-ocaml_module(
-    name = "base_samplers",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    sig = ":base_samplers__sig",
-    struct = ":base_samplers.ml",
-    deps = [
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_module(
-    name = "benchmark",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    struct = ":benchmark.ml",
-    deps = [
-        ":generator",
-        ":model",
-        ":sparse_vec",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+######## tezos-benchmark ########
+TEZOS_BENCHMARK_OPTS = [
+    "-open", "StaTz",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_stdlib_unix",
+]
 
-ocaml_module(
-    name = "benchmark_helpers",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    struct = ":benchmark_helpers.ml",
-    deps = [
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+TEZOS_BENCHMARK_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_clic:tezos-clic",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//vendors/benchmark-utils:benchmark-utils",
+    "//vendors/pyml-plot/lib:pyml-plot",
+    "//vendors/statz/lib:staTz",
+    "@data-encoding//:data-encoding",
+    "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
+]
 
-ocaml_module(
-    name = "builtin_benchmarks",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    struct = ":builtin_benchmarks.ml",
-    deps = [
-        ":benchmark",
-        ":free_variable",
-        ":generator",
-        ":model",
-        ":registration",
-        ":sparse_vec",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "codegen",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    struct = ":codegen.ml",
-    deps = [
-        ":costlang",
-        ":fixed_point_transform",
-        ":free_variable",
-        ":model",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "costlang__sig",
-    src = ":costlang.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    deps = [
-        ":free_variable",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "costlang",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    sig = ":costlang__sig",
-    struct = ":costlang.ml",
-    deps = [
-        ":free_variable",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "crypto_samplers__sig",
-    src = ":crypto_samplers.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    deps = [
-        ":base_samplers",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "crypto_samplers",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    sig = ":crypto_samplers__sig",
-    struct = ":crypto_samplers.ml",
-    deps = [
-        ":base_samplers",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "csv",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    struct = ":csv.ml",
-    deps = [
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "fixed_point_transform",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    struct = ":fixed_point_transform.ml",
-    deps = [
-        ":costlang",
-        ":free_variable",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "free_variable__sig",
-    src = ":free_variable.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    deps = [
-        ":sparse_vec",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "free_variable",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    sig = ":free_variable__sig",
-    struct = ":free_variable.ml",
-    deps = [
-        ":sparse_vec",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "generator",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    struct = ":generator.ml",
-    deps = [
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "inference",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    struct = ":inference.ml",
-    deps = [
-        ":benchmark_helpers",
-        ":costlang",
-        ":csv",
-        ":free_variable",
-        ":measure",
-        ":model",
-        ":scikit",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "measure",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    struct = ":measure.ml",
-    deps = [
-        ":benchmark",
-        ":benchmark_helpers",
-        ":csv",
-        ":generator",
-        ":registration",
-        ":sparse_vec",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "model",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    struct = ":model.ml",
-    deps = [
-        ":costlang",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "override",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    struct = ":override.ml",
-    deps = [
-        ":csv",
-        ":free_variable",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "pyinit",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    struct = ":pyinit.ml",
-    deps = [
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "registration",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    struct = ":registration.ml",
-    deps = [
-        ":benchmark",
-        ":model",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "scikit",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    struct = ":scikit.ml",
-    deps = [
-        ":pyinit",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "sparse_vec",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    struct = ":sparse_vec.ml",
-    deps = [
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "structure_samplers__sig",
-    src = ":structure_samplers.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    deps = [
-        ":base_samplers",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "structure_samplers",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "StaTz",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    sig = ":structure_samplers__sig",
-    struct = ":structure_samplers.ml",
-    deps = [
-        ":base_samplers",
-        "@ocaml//lib/benchmark-utils",
-        "@data-encoding//:data-encoding",
-        "@ocaml-migrate-parsetree//:ocaml-migrate-parsetree",
-        "@ocaml//lib/pyml-plot",
-        "@ocaml//lib/staTz",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-# okapi:auto
-# okapi:public_name tezos-benchmark
-ocaml_ns_library(
-    name = "Tezos_benchmark",
-    submodules = [
-        ":base_samplers",
-        ":benchmark",
-        ":benchmark_helpers",
-        ":builtin_benchmarks",
-        ":codegen",
-        ":costlang",
-        ":crypto_samplers",
-        ":csv",
-        ":fixed_point_transform",
-        ":free_variable",
-        ":generator",
-        ":inference",
-        ":measure",
-        ":model",
-        ":override",
-        ":pyinit",
-        ":registration",
-        ":scikit",
-        ":sparse_vec",
-        ":structure_samplers",
-    ],
+ocaml_ns_archive(
+    name       = "tezos-benchmark",
+    ns         = "Tezos_benchmark",
     visibility = ["//visibility:public"],
+    submodules = [
+        ":Base_samplers",
+        ":Benchmark",
+        ":Benchmark_helpers",
+        ":Builtin_benchmarks",
+        ":Codegen",
+        ":Costlang",
+        ":Crypto_samplers",
+        ":Csv",
+        ":Fixed_point_transform",
+        ":Free_variable",
+        ":Generator",
+        ":Inference",
+        ":Measure",
+        ":Model",
+        ":Override",
+        ":Pyinit",
+        ":Registration",
+        ":Scikit",
+        ":Sparse_vec",
+        ":Structure_samplers",
+    ],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Base_samplers",
+    struct   = "base_samplers.ml",
+    sig      = ":Base_samplers_cmi",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Base_samplers_cmi",
+    src      = "base_samplers.mli",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Benchmark",
+    struct   = "benchmark.ml",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Sparse_vec",
+       ":Model",
+       ":Generator",
+    ]
+)
+
+ocaml_module(
+    name     = "Benchmark_helpers",
+    struct   = "benchmark_helpers.ml",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Builtin_benchmarks",
+    struct   = "builtin_benchmarks.ml",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Sparse_vec",
+       ":Registration",
+       ":Model",
+       ":Generator",
+       ":Free_variable",
+       ":Benchmark",
+    ]
+)
+
+ocaml_module(
+    name     = "Codegen",
+    struct   = "codegen.ml",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Model",
+       ":Free_variable",
+       ":Fixed_point_transform",
+       ":Costlang",
+    ]
+)
+
+ocaml_module(
+    name     = "Costlang",
+    struct   = "costlang.ml",
+    sig      = ":Costlang_cmi",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Free_variable",
+    ]
+)
+
+ocaml_signature(
+    name     = "Costlang_cmi",
+    src      = "costlang.mli",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Free_variable",
+    ]
+)
+
+ocaml_module(
+    name     = "Crypto_samplers",
+    struct   = "crypto_samplers.ml",
+    sig      = ":Crypto_samplers_cmi",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Base_samplers",
+    ]
+)
+
+ocaml_signature(
+    name     = "Crypto_samplers_cmi",
+    src      = "crypto_samplers.mli",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Base_samplers",
+    ]
+)
+
+ocaml_module(
+    name     = "Csv",
+    struct   = "csv.ml",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Fixed_point_transform",
+    struct   = "fixed_point_transform.ml",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Free_variable",
+       ":Costlang",
+    ]
+)
+
+ocaml_module(
+    name     = "Free_variable",
+    struct   = "free_variable.ml",
+    sig      = ":Free_variable_cmi",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Sparse_vec",
+    ]
+)
+
+ocaml_signature(
+    name     = "Free_variable_cmi",
+    src      = "free_variable.mli",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Sparse_vec",
+    ]
+)
+
+ocaml_module(
+    name     = "Generator",
+    struct   = "generator.ml",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Inference",
+    struct   = "inference.ml",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Scikit",
+       ":Model",
+       ":Measure",
+       ":Free_variable",
+       ":Csv",
+       ":Costlang",
+       ":Benchmark_helpers",
+    ]
+)
+
+ocaml_module(
+    name     = "Measure",
+    struct   = "measure.ml",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Sparse_vec",
+       ":Registration",
+       ":Generator",
+       ":Csv",
+       ":Benchmark_helpers",
+       ":Benchmark",
+    ]
+)
+
+ocaml_module(
+    name     = "Model",
+    struct   = "model.ml",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Free_variable",
+       ":Costlang",
+    ]
+)
+
+ocaml_module(
+    name     = "Override",
+    struct   = "override.ml",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Free_variable",
+       ":Csv",
+    ]
+)
+
+ocaml_module(
+    name     = "Pyinit",
+    struct   = "pyinit.ml",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Registration",
+    struct   = "registration.ml",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Model",
+       ":Benchmark",
+    ]
+)
+
+ocaml_module(
+    name     = "Scikit",
+    struct   = "scikit.ml",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Pyinit",
+    ]
+)
+
+ocaml_module(
+    name     = "Sparse_vec",
+    struct   = "sparse_vec.ml",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Structure_samplers",
+    struct   = "structure_samplers.ml",
+    sig      = ":Structure_samplers_cmi",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Base_samplers",
+    ]
+)
+
+ocaml_signature(
+    name     = "Structure_samplers_cmi",
+    src      = "structure_samplers.mli",
+    opts     = TEZOS_BENCHMARK_OPTS,
+    deps     = TEZOS_BENCHMARK_DEPS + [
+       ":Base_samplers",
+    ]
+)
+

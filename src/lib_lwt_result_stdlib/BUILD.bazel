@@ -1,37 +1,46 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl",
-     "ocaml_module",
-     "ocaml_ns_library",
-     "ocaml_signature")
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
 
-ocaml_signature(
-    name = "lwtreslib__sig",
-    src = ":lwtreslib.mli",
-    deps = [
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-        "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
-        "@tezos//src/lib_lwt_result_stdlib/traced/sigs:Traced_sigs",
-        "@tezos//src/lib_lwt_result_stdlib/traced/structs:Traced_structs",
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-lwt-result-stdlib ########
+TEZOS_LWT_RESULT_STDLIB_DEPS = [
+    "//src/lib_lwt_result_stdlib/bare/sigs:tezos-lwt-result-stdlib.bare.sigs",
+    "//src/lib_lwt_result_stdlib/bare/structs:tezos-lwt-result-stdlib.bare.structs",
+    "//src/lib_lwt_result_stdlib/traced/sigs:tezos-lwt-result-stdlib.traced.sigs",
+    "//src/lib_lwt_result_stdlib/traced/structs:tezos-lwt-result-stdlib.traced.structs",
+    "@lwt//:lwt",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-lwt-result-stdlib",
+    ns         = "Tezos_lwt_result_stdlib",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Lwtreslib",
     ],
 )
+
+#############################
+####  Singleton Targets  ####
 
 ocaml_module(
-    name = "lwtreslib",
-    sig = ":lwtreslib__sig",
-    struct = ":lwtreslib.ml",
-    deps = [
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-        "@tezos//src/lib_lwt_result_stdlib/bare/structs:Bare_structs",
-        "@tezos//src/lib_lwt_result_stdlib/traced/sigs:Traced_sigs",
-        "@tezos//src/lib_lwt_result_stdlib/traced/structs:Traced_structs",
-    ],
+    name     = "Lwtreslib",
+    struct   = "lwtreslib.ml",
+    sig      = ":Lwtreslib_cmi",
+    deps     = TEZOS_LWT_RESULT_STDLIB_DEPS + [
+    ]
 )
 
-# okapi:auto
-# okapi:public_name tezos-lwt-result-stdlib
-ocaml_ns_library(
-    name = "Tezos_lwt_result_stdlib",
-    submodules = [":lwtreslib"],
-    visibility = ["//visibility:public"],
+ocaml_signature(
+    name     = "Lwtreslib_cmi",
+    src      = "lwtreslib.mli",
+    deps     = TEZOS_LWT_RESULT_STDLIB_DEPS + [
+    ]
 )
+

@@ -1,478 +1,173 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
-
-ocaml_signature(
-    name = "client_admin_commands__sig",
-    src = ":client_admin_commands.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_clic_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        "@data-encoding//:data-encoding",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic/unix:Tezos_clic_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends:Tezos_signer_backends",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
 )
 
-ocaml_module(
-    name = "client_admin_commands",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_clic_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":client_admin_commands__sig",
-    struct = ":client_admin_commands.ml",
-    deps = [
-        "@data-encoding//:data-encoding",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic/unix:Tezos_clic_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends:Tezos_signer_backends",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_signature(
-    name = "client_commands__sig",
-    src = ":client_commands.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_clic_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        "@data-encoding//:data-encoding",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic/unix:Tezos_clic_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends:Tezos_signer_backends",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+######## tezos-client-commands ########
+TEZOS_CLIENT_COMMANDS_OPTS = [
+    "-open", "Data_encoding",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_clic_unix",
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_p2p_services",
+    "-open", "Tezos_rpc",
+    "-open", "Tezos_shell_services",
+]
 
-ocaml_module(
-    name = "client_commands",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_clic_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":client_commands__sig",
-    struct = ":client_commands.ml",
-    deps = [
-        "@data-encoding//:data-encoding",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic/unix:Tezos_clic_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends:Tezos_signer_backends",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+TEZOS_CLIENT_COMMANDS_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_clic/unix:tezos-clic.unix",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_p2p_services:tezos-p2p-services",
+    "//src/lib_rpc:tezos-rpc",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_signer_backends:tezos-signer-backends",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "@data-encoding//:data-encoding",
+]
 
-ocaml_signature(
-    name = "client_event_logging_commands__sig",
-    src = ":client_event_logging_commands.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_clic_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        ":client_commands",
-        "@data-encoding//:data-encoding",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic/unix:Tezos_clic_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends:Tezos_signer_backends",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "client_event_logging_commands",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_clic_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":client_event_logging_commands__sig",
-    struct = ":client_event_logging_commands.ml",
-    deps = [
-        ":client_commands",
-        "@data-encoding//:data-encoding",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic/unix:Tezos_clic_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends:Tezos_signer_backends",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "client_helpers_commands__sig",
-    src = ":client_helpers_commands.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_clic_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        ":client_commands",
-        "@data-encoding//:data-encoding",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic/unix:Tezos_clic_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends:Tezos_signer_backends",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "client_helpers_commands",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_clic_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":client_helpers_commands__sig",
-    struct = ":client_helpers_commands.ml",
-    deps = [
-        ":client_commands",
-        "@data-encoding//:data-encoding",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic/unix:Tezos_clic_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends:Tezos_signer_backends",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "client_keys_commands__sig",
-    src = ":client_keys_commands.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_clic_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        "@data-encoding//:data-encoding",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic/unix:Tezos_clic_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends:Tezos_signer_backends",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "client_keys_commands",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_clic_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":client_keys_commands__sig",
-    struct = ":client_keys_commands.ml",
-    deps = [
-        "@data-encoding//:data-encoding",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic/unix:Tezos_clic_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends:Tezos_signer_backends",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "client_p2p_commands__sig",
-    src = ":client_p2p_commands.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_clic_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        ":client_commands",
-        "@data-encoding//:data-encoding",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic/unix:Tezos_clic_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends:Tezos_signer_backends",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "client_p2p_commands",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_clic_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":client_p2p_commands__sig",
-    struct = ":client_p2p_commands.ml",
-    deps = [
-        ":client_commands",
-        "@data-encoding//:data-encoding",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic/unix:Tezos_clic_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends:Tezos_signer_backends",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "client_report_commands__sig",
-    src = ":client_report_commands.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_clic_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        "@data-encoding//:data-encoding",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic/unix:Tezos_clic_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends:Tezos_signer_backends",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "client_report_commands",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_clic_unix",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_p2p_services",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":client_report_commands__sig",
-    struct = ":client_report_commands.ml",
-    deps = [
-        "@data-encoding//:data-encoding",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_clic/unix:Tezos_clic_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_signer_backends:Tezos_signer_backends",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-# okapi:auto
-# okapi:public_name tezos-client-commands
-ocaml_ns_library(
-    name = "Tezos_client_commands",
-    submodules = [
-        ":client_admin_commands",
-        ":client_commands",
-        ":client_event_logging_commands",
-        ":client_helpers_commands",
-        ":client_keys_commands",
-        ":client_p2p_commands",
-        ":client_report_commands",
-    ],
+ocaml_ns_archive(
+    name       = "tezos-client-commands",
+    ns         = "Tezos_client_commands",
     visibility = ["//visibility:public"],
+    submodules = [
+        ":Client_admin_commands",
+        ":Client_commands",
+        ":Client_event_logging_commands",
+        ":Client_helpers_commands",
+        ":Client_keys_commands",
+        ":Client_p2p_commands",
+        ":Client_report_commands",
+    ],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Client_admin_commands",
+    struct   = "client_admin_commands.ml",
+    sig      = ":Client_admin_commands_cmi",
+    opts     = TEZOS_CLIENT_COMMANDS_OPTS,
+    deps     = TEZOS_CLIENT_COMMANDS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_admin_commands_cmi",
+    src      = "client_admin_commands.mli",
+    opts     = TEZOS_CLIENT_COMMANDS_OPTS,
+    deps     = TEZOS_CLIENT_COMMANDS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Client_commands",
+    struct   = "client_commands.ml",
+    sig      = ":Client_commands_cmi",
+    opts     = TEZOS_CLIENT_COMMANDS_OPTS,
+    deps     = TEZOS_CLIENT_COMMANDS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_commands_cmi",
+    src      = "client_commands.mli",
+    opts     = TEZOS_CLIENT_COMMANDS_OPTS,
+    deps     = TEZOS_CLIENT_COMMANDS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Client_event_logging_commands",
+    struct   = "client_event_logging_commands.ml",
+    sig      = ":Client_event_logging_commands_cmi",
+    opts     = TEZOS_CLIENT_COMMANDS_OPTS,
+    deps     = TEZOS_CLIENT_COMMANDS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_event_logging_commands_cmi",
+    src      = "client_event_logging_commands.mli",
+    opts     = TEZOS_CLIENT_COMMANDS_OPTS,
+    deps     = TEZOS_CLIENT_COMMANDS_DEPS + [
+       ":Client_commands",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_helpers_commands",
+    struct   = "client_helpers_commands.ml",
+    sig      = ":Client_helpers_commands_cmi",
+    opts     = TEZOS_CLIENT_COMMANDS_OPTS,
+    deps     = TEZOS_CLIENT_COMMANDS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_helpers_commands_cmi",
+    src      = "client_helpers_commands.mli",
+    opts     = TEZOS_CLIENT_COMMANDS_OPTS,
+    deps     = TEZOS_CLIENT_COMMANDS_DEPS + [
+       ":Client_commands",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_keys_commands",
+    struct   = "client_keys_commands.ml",
+    sig      = ":Client_keys_commands_cmi",
+    opts     = TEZOS_CLIENT_COMMANDS_OPTS,
+    deps     = TEZOS_CLIENT_COMMANDS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_keys_commands_cmi",
+    src      = "client_keys_commands.mli",
+    opts     = TEZOS_CLIENT_COMMANDS_OPTS,
+    deps     = TEZOS_CLIENT_COMMANDS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Client_p2p_commands",
+    struct   = "client_p2p_commands.ml",
+    sig      = ":Client_p2p_commands_cmi",
+    opts     = TEZOS_CLIENT_COMMANDS_OPTS,
+    deps     = TEZOS_CLIENT_COMMANDS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_p2p_commands_cmi",
+    src      = "client_p2p_commands.mli",
+    opts     = TEZOS_CLIENT_COMMANDS_OPTS,
+    deps     = TEZOS_CLIENT_COMMANDS_DEPS + [
+       ":Client_commands",
+    ]
+)
+
+ocaml_module(
+    name     = "Client_report_commands",
+    struct   = "client_report_commands.ml",
+    sig      = ":Client_report_commands_cmi",
+    opts     = TEZOS_CLIENT_COMMANDS_OPTS,
+    deps     = TEZOS_CLIENT_COMMANDS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Client_report_commands_cmi",
+    src      = "client_report_commands.mli",
+    opts     = TEZOS_CLIENT_COMMANDS_OPTS,
+    deps     = TEZOS_CLIENT_COMMANDS_DEPS + [
+    ]
+)
+

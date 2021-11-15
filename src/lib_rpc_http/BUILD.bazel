@@ -1,247 +1,210 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
-
-ocaml_signature(
-    name = "RPC_client_errors__sig",
-    src = ":RPC_client_errors.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = [
-        "@resto-cohttp//:resto-cohttp",
-        "@tezos//src/lib_base:Tezos_base",
-    ],
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
 )
 
-ocaml_module(
-    name = "RPC_client_errors",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":RPC_client_errors__sig",
-    struct = ":RPC_client_errors.ml",
-    deps = [
-        "@resto-cohttp//:resto-cohttp",
-        "@tezos//src/lib_base:Tezos_base",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_signature(
-    name = "media_type__sig",
-    src = ":media_type.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = [
-        "@resto-cohttp//:resto-cohttp",
-        "@tezos//src/lib_base:Tezos_base",
-    ],
-)
+######## tezos-rpc-http ########
+TEZOS_RPC_HTTP_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+]
 
-ocaml_module(
-    name = "media_type",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":media_type__sig",
-    struct = ":media_type.ml",
-    deps = [
-        "@resto-cohttp//:resto-cohttp",
-        "@tezos//src/lib_base:Tezos_base",
-    ],
-)
+TEZOS_RPC_HTTP_DEPS = [
+    "//src/lib_base:tezos-base",
+    "@resto-cohttp//:resto-cohttp",
+]
 
-# okapi:public_name tezos-rpc-http
-ocaml_ns_library(
-    name = "Tezos_rpc_http",
+ocaml_ns_archive(
+    name       = "tezos-rpc-http",
+    ns         = "Tezos_rpc_http",
+    visibility = ["//visibility:public"],
     submodules = [
+        ":Media_type",
         ":RPC_client_errors",
-        ":media_type",
     ],
+)
+
+######## tezos-rpc-http-client ########
+TEZOS_RPC_HTTP_CLIENT_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_rpc_http",
+]
+
+TEZOS_RPC_HTTP_CLIENT_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_rpc_http:tezos-rpc-http",
+    "@resto-cohttp-client//:resto-cohttp-client",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-rpc-http-client",
+    ns         = "Tezos_rpc_http_client",
     visibility = ["//visibility:public"],
-)
-
-ocaml_signature(
-    name = "RPC_client__sig",
-    src = ":RPC_client.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc_http",
-    ],
-    deps = [
-        ":RPC_client_errors",
-        ":media_type",
-        "@resto-cohttp-client//:resto-cohttp-client",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
-    ],
-)
-
-ocaml_module(
-    name = "RPC_client",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc_http",
-    ],
-    sig = ":RPC_client__sig",
-    struct = ":RPC_client.ml",
-    deps = [
-        ":RPC_client_errors",
-        ":media_type",
-        "@resto-cohttp-client//:resto-cohttp-client",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
-    ],
-)
-
-# okapi:public_name tezos-rpc-http-client
-ocaml_ns_library(
-    name = "Tezos_rpc_http_client",
-    submodules = [":RPC_client"],
-    visibility = ["//visibility:public"],
-)
-
-ocaml_signature(
-    name = "RPC_client_unix__sig",
-    src = ":RPC_client_unix.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc_http_client",
-    ],
-    deps = [
+    submodules = [
         ":RPC_client",
-        "@cohttp-lwt-unix//:cohttp-lwt-unix",
-        "@resto-cohttp-client//:resto-cohttp-client",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
     ],
 )
 
-ocaml_module(
-    name = "RPC_client_unix",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc_http_client",
-    ],
-    sig = ":RPC_client_unix__sig",
-    struct = ":RPC_client_unix.ml",
-    deps = [
-        ":RPC_client",
-        "@cohttp-lwt-unix//:cohttp-lwt-unix",
-        "@resto-cohttp-client//:resto-cohttp-client",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+######## tezos-rpc-http-client-unix ########
+TEZOS_RPC_HTTP_CLIENT_UNIX_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_rpc_http_client",
+]
 
-# okapi:public_name tezos-rpc-http-client-unix
-ocaml_ns_library(
-    name = "Tezos_rpc_http_client_unix",
-    submodules = [":RPC_client_unix"],
+TEZOS_RPC_HTTP_CLIENT_UNIX_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_rpc_http:tezos-rpc-http-client",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "@cohttp-lwt-unix//:cohttp-lwt-unix",
+    "@resto-cohttp-client//:resto-cohttp-client",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-rpc-http-client-unix",
+    ns         = "Tezos_rpc_http_client_unix",
     visibility = ["//visibility:public"],
-)
-
-ocaml_signature(
-    name = "RPC_logging__sig",
-    src = ":RPC_logging.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_rpc_http",
-    ],
-    deps = [
-        "@resto-acl//:resto-acl",
-        "@resto-cohttp-server//:resto-cohttp-server",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
+    submodules = [
+        ":RPC_client_unix",
     ],
 )
 
-ocaml_module(
-    name = "RPC_logging",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_rpc_http",
-    ],
-    sig = ":RPC_logging__sig",
-    struct = ":RPC_logging.ml",
-    deps = [
-        "@resto-acl//:resto-acl",
-        "@resto-cohttp-server//:resto-cohttp-server",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
-    ],
-)
+######## tezos-rpc-http-server ########
+TEZOS_RPC_HTTP_SERVER_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_rpc",
+    "-open", "Tezos_rpc_http",
+]
 
-ocaml_signature(
-    name = "RPC_server__sig",
-    src = ":RPC_server.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_rpc_http",
-    ],
-    deps = [
-        ":RPC_logging",
-        ":media_type",
-        "@resto-acl//:resto-acl",
-        "@resto-cohttp-server//:resto-cohttp-server",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
-    ],
-)
+TEZOS_RPC_HTTP_SERVER_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_rpc_http:tezos-rpc-http",
+    "@resto-acl//:resto-acl",
+    "@resto-cohttp-server//:resto-cohttp-server",
+]
 
-ocaml_module(
-    name = "RPC_server",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_rpc_http",
-    ],
-    sig = ":RPC_server__sig",
-    struct = ":RPC_server.ml",
-    deps = [
-        ":RPC_logging",
-        ":media_type",
-        "@resto-acl//:resto-acl",
-        "@resto-cohttp-server//:resto-cohttp-server",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
-    ],
-)
-
-# okapi:public_name tezos-rpc-http-server
-ocaml_ns_library(
-    name = "Tezos_rpc_http_server",
+ocaml_ns_archive(
+    name       = "tezos-rpc-http-server",
+    ns         = "Tezos_rpc_http_server",
+    visibility = ["//visibility:public"],
     submodules = [
         ":RPC_logging",
         ":RPC_server",
     ],
-    visibility = ["//visibility:public"],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "RPC_client",
+    struct   = "RPC_client.ml",
+    sig      = ":RPC_client_cmi",
+    opts     = TEZOS_RPC_HTTP_CLIENT_OPTS,
+    deps     = TEZOS_RPC_HTTP_CLIENT_DEPS + [
+       ":RPC_client_errors",
+       ":Media_type",
+    ]
+)
+
+ocaml_signature(
+    name     = "RPC_client_cmi",
+    src      = "RPC_client.mli",
+    opts     = TEZOS_RPC_HTTP_CLIENT_OPTS,
+    deps     = TEZOS_RPC_HTTP_CLIENT_DEPS + [
+       ":Media_type",
+    ]
+)
+
+ocaml_module(
+    name     = "RPC_client_errors",
+    struct   = "RPC_client_errors.ml",
+    sig      = ":RPC_client_errors_cmi",
+    opts     = TEZOS_RPC_HTTP_OPTS,
+    deps     = TEZOS_RPC_HTTP_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "RPC_client_errors_cmi",
+    src      = "RPC_client_errors.mli",
+    opts     = TEZOS_RPC_HTTP_OPTS,
+    deps     = TEZOS_RPC_HTTP_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "RPC_client_unix",
+    struct   = "RPC_client_unix.ml",
+    sig      = ":RPC_client_unix_cmi",
+    opts     = TEZOS_RPC_HTTP_CLIENT_UNIX_OPTS,
+    deps     = TEZOS_RPC_HTTP_CLIENT_UNIX_DEPS + [
+       ":RPC_client",
+    ]
+)
+
+ocaml_signature(
+    name     = "RPC_client_unix_cmi",
+    src      = "RPC_client_unix.mli",
+    opts     = TEZOS_RPC_HTTP_CLIENT_UNIX_OPTS,
+    deps     = TEZOS_RPC_HTTP_CLIENT_UNIX_DEPS + [
+       ":RPC_client",
+    ]
+)
+
+ocaml_module(
+    name     = "RPC_logging",
+    struct   = "RPC_logging.ml",
+    sig      = ":RPC_logging_cmi",
+    opts     = TEZOS_RPC_HTTP_SERVER_OPTS,
+    deps     = TEZOS_RPC_HTTP_SERVER_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "RPC_logging_cmi",
+    src      = "RPC_logging.mli",
+    opts     = TEZOS_RPC_HTTP_SERVER_OPTS,
+    deps     = TEZOS_RPC_HTTP_SERVER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "RPC_server",
+    struct   = "RPC_server.ml",
+    sig      = ":RPC_server_cmi",
+    opts     = TEZOS_RPC_HTTP_SERVER_OPTS,
+    deps     = TEZOS_RPC_HTTP_SERVER_DEPS + [
+       ":RPC_logging",
+    ]
+)
+
+ocaml_signature(
+    name     = "RPC_server_cmi",
+    src      = "RPC_server.mli",
+    opts     = TEZOS_RPC_HTTP_SERVER_OPTS,
+    deps     = TEZOS_RPC_HTTP_SERVER_DEPS + [
+       ":Media_type",
+    ]
+)
+
+ocaml_module(
+    name     = "Media_type",
+    struct   = "media_type.ml",
+    sig      = ":Media_type_cmi",
+    opts     = TEZOS_RPC_HTTP_OPTS,
+    deps     = TEZOS_RPC_HTTP_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Media_type_cmi",
+    src      = "media_type.mli",
+    opts     = TEZOS_RPC_HTTP_OPTS,
+    deps     = TEZOS_RPC_HTTP_DEPS + [
+    ]
+)
+

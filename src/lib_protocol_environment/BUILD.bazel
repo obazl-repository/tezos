@@ -1,605 +1,330 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl",
-     "ocaml_archive",
-     "ocaml_library",
-     "ocaml_module",
-     "ocaml_ns_library",
-     "ocaml_signature")
-
-ocaml_signature(
-    name = "dummy_context__sig",
-    src = ":dummy_context.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    deps = [
-        ":environment_context",
-        ":tezos_protocol_environment",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
 )
 
-ocaml_module(
-    name = "dummy_context",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    sig = ":dummy_context__sig",
-    struct = ":dummy_context.ml",
-    deps = [
-        ":environment_context",
-        ":tezos_protocol_environment",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_signature(
-    name = "environment_V0__sig",
-    src = ":environment_V0.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    deps = [
-        ":environment_context",
-        ":environment_protocol_T",
-        ":environment_protocol_T_V0",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
+######## tezos-protocol-environment ########
+TEZOS_PROTOCOL_ENVIRONMENT_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_micheline",
+]
 
-ocaml_module(
-    name = "environment_V0",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    sig = ":environment_V0__sig",
-    struct = ":environment_V0.ml",
-    deps = [
-        ":environment_context",
-        ":environment_protocol_T",
-        ":environment_protocol_T_V0",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
+TEZOS_PROTOCOL_ENVIRONMENT_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_context/memory:tezos-context.memory",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/lib_protocol_environment/sigs:tezos-protocol-environment-sigs",
+    "//src/lib_protocol_environment/structs:tezos-protocol-environment-structs",
+    "//src/lib_sapling:tezos-sapling",
+    "@lwt-dllist//:lwt-dllist",
+]
 
-ocaml_signature(
-    name = "environment_V1__sig",
-    src = ":environment_V1.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    deps = [
-        ":environment_context",
-        ":environment_protocol_T",
-        ":environment_protocol_T_V1",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_module(
-    name = "environment_V1",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    sig = ":environment_V1__sig",
-    struct = ":environment_V1.ml",
-    deps = [
-        ":environment_context",
-        ":environment_protocol_T",
-        ":environment_protocol_T_V1",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_signature(
-    name = "environment_V2__sig",
-    src = ":environment_V2.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    deps = [
-        ":environment_context",
-        ":environment_protocol_T",
-        ":environment_protocol_T_V2",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_module(
-    name = "environment_V2",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    sig = ":environment_V2__sig",
-    struct = ":environment_V2.ml",
-    deps = [
-        ":environment_context",
-        ":environment_protocol_T",
-        ":environment_protocol_T_V2",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_signature(
-    name = "environment_V3__sig",
-    src = ":environment_V3.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    deps = [
-        ":environment_context",
-        ":environment_protocol_T",
-        ":environment_protocol_T_V3",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_module(
-    name = "environment_V3",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    sig = ":environment_V3__sig",
-    struct = ":environment_V3.ml",
-    deps = [
-        ":environment_context",
-        ":environment_protocol_T",
-        ":environment_protocol_T_V3",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_signature(
-    name = "environment_context__sig",
-    src = ":environment_context.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    deps = [
-        ":environment_context_intf",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_module(
-    name = "environment_context",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    sig = ":environment_context__sig",
-    struct = ":environment_context.ml",
-    deps = [
-        # ":environment_context_intf",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_module(
-    name = "environment_context_intf",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    struct = ":environment_context_intf.ml",
-    deps = [
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_module(
-    name = "environment_protocol_T",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    struct = ":environment_protocol_T.ml",
-    deps = [
-        # ":environment_context_intf",
-        ":environment_context",
-        ":environment_protocol_T_V0",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_module(
-    name = "environment_protocol_T_V0",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    struct = ":environment_protocol_T_V0.ml",
-    deps = [
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_module(
-    name = "environment_protocol_T_V1",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    struct = ":environment_protocol_T_V1.ml",
-    deps = [
-        ":environment_protocol_T_V0",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_module(
-    name = "environment_protocol_T_V2",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    struct = ":environment_protocol_T_V2.ml",
-    deps = [
-        ":environment_protocol_T_V1",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_module(
-    name = "environment_protocol_T_V3",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    struct = ":environment_protocol_T_V3.ml",
-    deps = [
-        ":environment_protocol_T_V2",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_signature(
-    name = "memory_context__sig",
-    src = ":memory_context.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    deps = [
-        ":environment_context",
-        ":tezos_protocol_environment",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_module(
-    name = "memory_context",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    sig = ":memory_context__sig",
-    struct = ":memory_context.ml",
-    deps = [
-        ":environment_context",
-        ":tezos_protocol_environment",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_signature(
-    name = "proxy_context__sig",
-    src = ":proxy_context.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    deps = [
-        ":environment_context",
-        ":tezos_protocol_environment",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_module(
-    name = "proxy_context",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    sig = ":proxy_context__sig",
-    struct = ":proxy_context.ml",
-    deps = [
-        ":environment_context",
-        ":tezos_protocol_environment",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_signature(
-    name = "tezos_protocol_environment__sig",
-    src = ":tezos_protocol_environment.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    deps = [
-        ":environment_V0",
-        ":environment_V1",
-        ":environment_V2",
-        ":environment_context",
-        ":environment_protocol_T",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-ocaml_module(
-    name = "tezos_protocol_environment",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-    ],
-    sig = ":tezos_protocol_environment__sig",
-    struct = ":tezos_protocol_environment.ml",
-    deps = [
-        ":environment_V0",
-        ":environment_V1",
-        ":environment_V2",
-        ":environment_context",
-        ":environment_protocol_T",
-        "@lwt-dllist//:lwt-dllist",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/memory:Tezos_context_memory",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment/sigs:Tezos_protocol_environment_sigs",
-        "@tezos//src/lib_protocol_environment/structs:Tezos_protocol_environment_structs",
-        "@tezos//src/lib_sapling:Tezos_sapling",
-    ],
-)
-
-# okapi:public_name tezos-protocol-environment
-#ocaml_archive(
-ocaml_library(
-    name = "lib-tezos_protocol_environment",
+##############
+ocaml_archive(
+    name    = "tezos-protocol-environment",
+    visibility = ["//visibility:public"],
     modules = [
-        ":dummy_context",
-        ":environment_V0",
-        ":environment_V1",
-        ":environment_V2",
-        ":environment_V3",
-        ":environment_context",
-        ":environment_protocol_T",
-        ":environment_protocol_T_V0",
-        ":environment_protocol_T_V1",
-        ":environment_protocol_T_V2",
-        ":environment_protocol_T_V3",
-        ":memory_context",
-        ":proxy_context",
-        ":tezos_protocol_environment",
+        ":Dummy_context",
+        ":Environment_V0",
+        ":Environment_V1",
+        ":Environment_V2",
+        ":Environment_V3",
+        ":Environment_context",
+        ":Environment_context_intf",
+        ":Environment_protocol_T",
+        ":Environment_protocol_T_V0",
+        ":Environment_protocol_T_V1",
+        ":Environment_protocol_T_V2",
+        ":Environment_protocol_T_V3",
+        ":Memory_context",
+        ":Proxy_context",
+        ":Tezos_protocol_environment",
     ],
+)
+
+######## tezos-shell-context ########
+TEZOS_SHELL_CONTEXT_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_context:tezos-context",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-shell-context",
+    ns         = "Tezos_shell_context",
     visibility = ["//visibility:public"],
+    submodules = [
+        ":Shell_context",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Dummy_context",
+    struct   = "dummy_context.ml",
+    sig      = ":Dummy_context_cmi",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Tezos_protocol_environment",
+       ":Environment_context",
+    ]
 )
 
 ocaml_signature(
-    name = "shell_context__sig",
-    src = ":shell_context.mli",
-    deps = [
-        ":environment_context",
-        ":tezos_protocol_environment",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-    ],
+    name     = "Dummy_context_cmi",
+    src      = "dummy_context.mli",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Tezos_protocol_environment",
+    ]
 )
 
 ocaml_module(
-    name = "shell_context",
-    sig = ":shell_context__sig",
-    struct = ":shell_context.ml",
-    deps = [
-        ":environment_context",
-        ":tezos_protocol_environment",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-    ],
+    name     = "Environment_V0",
+    struct   = "environment_V0.ml",
+    sig      = ":Environment_V0_cmi",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Environment_protocol_T_V0",
+       ":Environment_protocol_T",
+       ":Environment_context",
+    ]
 )
 
-# okapi:public_name tezos-shell-context
-# ocaml_ns_library(
-ocaml_ns_library(
-    name = "Tezos_shell_context",
-    submodules = [":shell_context"],
-    visibility = ["//visibility:public"],
+ocaml_signature(
+    name     = "Environment_V0_cmi",
+    src      = "environment_V0.mli",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Environment_protocol_T",
+       ":Environment_context",
+    ]
 )
+
+ocaml_module(
+    name     = "Environment_V1",
+    struct   = "environment_V1.ml",
+    sig      = ":Environment_V1_cmi",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Environment_protocol_T_V1",
+       ":Environment_protocol_T",
+       ":Environment_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Environment_V1_cmi",
+    src      = "environment_V1.mli",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Environment_protocol_T",
+       ":Environment_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Environment_V2",
+    struct   = "environment_V2.ml",
+    sig      = ":Environment_V2_cmi",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Environment_protocol_T_V2",
+       ":Environment_protocol_T",
+       ":Environment_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Environment_V2_cmi",
+    src      = "environment_V2.mli",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Environment_protocol_T",
+       ":Environment_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Environment_V3",
+    struct   = "environment_V3.ml",
+    sig      = ":Environment_V3_cmi",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Environment_protocol_T_V3",
+       ":Environment_protocol_T",
+       ":Environment_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Environment_V3_cmi",
+    src      = "environment_V3.mli",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Environment_protocol_T",
+       ":Environment_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Environment_context",
+    struct   = "environment_context.ml",
+    sig      = ":Environment_context_cmi",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Environment_context_intf",
+    ]
+)
+
+ocaml_signature(
+    name     = "Environment_context_cmi",
+    src      = "environment_context.mli",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Environment_context_intf",
+    ]
+)
+
+ocaml_module(
+    name     = "Environment_context_intf",
+    struct   = "environment_context_intf.ml",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Environment_protocol_T",
+    struct   = "environment_protocol_T.ml",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Environment_protocol_T_V0",
+       ":Environment_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Environment_protocol_T_V0",
+    struct   = "environment_protocol_T_V0.ml",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Environment_protocol_T_V1",
+    struct   = "environment_protocol_T_V1.ml",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Environment_protocol_T_V0",
+    ]
+)
+
+ocaml_module(
+    name     = "Environment_protocol_T_V2",
+    struct   = "environment_protocol_T_V2.ml",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Environment_protocol_T_V1",
+    ]
+)
+
+ocaml_module(
+    name     = "Environment_protocol_T_V3",
+    struct   = "environment_protocol_T_V3.ml",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Environment_protocol_T_V2",
+    ]
+)
+
+ocaml_module(
+    name     = "Memory_context",
+    struct   = "memory_context.ml",
+    sig      = ":Memory_context_cmi",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Tezos_protocol_environment",
+       ":Environment_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Memory_context_cmi",
+    src      = "memory_context.mli",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Tezos_protocol_environment",
+    ]
+)
+
+ocaml_module(
+    name     = "Proxy_context",
+    struct   = "proxy_context.ml",
+    sig      = ":Proxy_context_cmi",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Tezos_protocol_environment",
+       ":Environment_context",
+    ]
+)
+
+ocaml_signature(
+    name     = "Proxy_context_cmi",
+    src      = "proxy_context.mli",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Tezos_protocol_environment",
+    ]
+)
+
+ocaml_module(
+    name     = "Shell_context",
+    struct   = "shell_context.ml",
+    sig      = ":Shell_context_cmi",
+    deps     = TEZOS_SHELL_CONTEXT_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Shell_context_cmi",
+    src      = "shell_context.mli",
+    deps     = TEZOS_SHELL_CONTEXT_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Tezos_protocol_environment",
+    struct   = "tezos_protocol_environment.ml",
+    sig      = ":Tezos_protocol_environment_cmi",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Environment_protocol_T",
+       ":Environment_context",
+       ":Environment_V2",
+       ":Environment_V1",
+       ":Environment_V0",
+    ]
+)
+
+ocaml_signature(
+    name     = "Tezos_protocol_environment_cmi",
+    src      = "tezos_protocol_environment.mli",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_DEPS + [
+       ":Environment_protocol_T",
+       ":Environment_context",
+       ":Environment_V2",
+       ":Environment_V1",
+       ":Environment_V0",
+    ]
+)
+

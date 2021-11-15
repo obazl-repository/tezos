@@ -1,31 +1,43 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl",
-     "ocaml_module",
-     "ocaml_ns_library",
-     "ocaml_signature")
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
 
-ocaml_signature(
-    name = "hacl__sig",
-    src = ":hacl.mli",
-    deps = [
-        "@hacl-star//:hacl-star",
-        "@hacl-star-raw//:hacl-star-raw",
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-hacl-glue ########
+TEZOS_HACL_GLUE_DEPS = [
+    "@hacl-star-raw//:hacl-star-raw",
+    "@hacl-star//:hacl-star",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-hacl-glue",
+    ns         = "Tezos_hacl_glue",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Hacl",
     ],
 )
+
+#############################
+####  Singleton Targets  ####
 
 ocaml_module(
-    name = "hacl",
-    sig = ":hacl__sig",
-    struct = ":hacl.ml",
-    deps = [
-        "@hacl-star//:hacl-star",
-        "@hacl-star-raw//:hacl-star-raw",
-    ],
+    name     = "Hacl",
+    struct   = "hacl.ml",
+    sig      = ":Hacl_cmi",
+    deps     = TEZOS_HACL_GLUE_DEPS + [
+    ]
 )
 
-# okapi:public_name tezos-hacl-glue
-# ocaml_ns_library(
-ocaml_ns_library(
-    name = "Tezos_hacl_glue",
-    submodules = [":hacl"],
-    visibility = ["//visibility:public"],
+ocaml_signature(
+    name     = "Hacl_cmi",
+    src      = "hacl.mli",
+    deps     = TEZOS_HACL_GLUE_DEPS + [
+    ]
 )
+

@@ -1,230 +1,114 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
-
-ocaml_module(
-    name = "bloomer_benchmarks",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_crypto",
-    ],
-    struct = ":bloomer_benchmarks.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-    ],
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
 )
 
-ocaml_module(
-    name = "encoding_benchmarks",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_crypto",
-    ],
-    struct = ":encoding_benchmarks.ml",
-    deps = [
-        ":encoding_benchmarks_helpers",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_module(
-    name = "encoding_benchmarks_helpers",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_crypto",
-    ],
-    struct = ":encoding_benchmarks_helpers.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-    ],
-)
+######## tezos-shell-benchmarks ########
+TEZOS_SHELL_BENCHMARKS_OPTS = [
+    "-open", "Tezos_base",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_benchmark",
+    "-open", "Tezos_crypto",
+    "-open", "Tezos_error_monad",
+    "-open", "Tezos_stdlib",
+]
 
-ocaml_module(
-    name = "io_benchmarks",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_crypto",
-    ],
-    struct = ":io_benchmarks.ml",
-    deps = [
-        ":io_helpers",
-        ":io_stats",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-    ],
-)
+TEZOS_SHELL_BENCHMARKS_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_benchmark:tezos-benchmark",
+    "//src/lib_context:tezos-context",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/lib_protocol_environment:tezos-shell-context",
+]
 
-ocaml_module(
-    name = "io_helpers",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_crypto",
-    ],
-    struct = ":io_helpers.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-    ],
-)
-
-ocaml_module(
-    name = "io_stats",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_crypto",
-    ],
-    struct = ":io_stats.ml",
-    deps = [
-        ":io_helpers",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-    ],
-)
-
-ocaml_module(
-    name = "micheline_benchmarks",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_crypto",
-    ],
-    struct = ":micheline_benchmarks.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-    ],
-)
-
-ocaml_module(
-    name = "misc_benchmarks",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_crypto",
-    ],
-    struct = ":misc_benchmarks.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-    ],
-)
-
-# okapi:auto
-# okapi:public_name tezos-shell-benchmarks
-ocaml_ns_library(
-    name = "Tezos_shell_benchmarks",
-    submodules = [
-        ":bloomer_benchmarks",
-        ":encoding_benchmarks",
-        ":encoding_benchmarks_helpers",
-        ":io_benchmarks",
-        ":io_helpers",
-        ":io_stats",
-        ":micheline_benchmarks",
-        ":misc_benchmarks",
-    ],
+ocaml_ns_archive(
+    name       = "tezos-shell-benchmarks",
+    ns         = "Tezos_shell_benchmarks",
     visibility = ["//visibility:public"],
+    submodules = [
+        ":Bloomer_benchmarks",
+        ":Encoding_benchmarks",
+        ":Encoding_benchmarks_helpers",
+        ":Io_benchmarks",
+        ":Io_helpers",
+        ":Io_stats",
+        ":Micheline_benchmarks",
+        ":Misc_benchmarks",
+    ],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Bloomer_benchmarks",
+    struct   = "bloomer_benchmarks.ml",
+    opts     = TEZOS_SHELL_BENCHMARKS_OPTS,
+    deps     = TEZOS_SHELL_BENCHMARKS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Encoding_benchmarks",
+    struct   = "encoding_benchmarks.ml",
+    opts     = TEZOS_SHELL_BENCHMARKS_OPTS,
+    deps     = TEZOS_SHELL_BENCHMARKS_DEPS + [
+       ":Encoding_benchmarks_helpers",
+    ]
+)
+
+ocaml_module(
+    name     = "Encoding_benchmarks_helpers",
+    struct   = "encoding_benchmarks_helpers.ml",
+    opts     = TEZOS_SHELL_BENCHMARKS_OPTS,
+    deps     = TEZOS_SHELL_BENCHMARKS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Io_benchmarks",
+    struct   = "io_benchmarks.ml",
+    opts     = TEZOS_SHELL_BENCHMARKS_OPTS,
+    deps     = TEZOS_SHELL_BENCHMARKS_DEPS + [
+       ":Io_stats",
+       ":Io_helpers",
+    ]
+)
+
+ocaml_module(
+    name     = "Io_helpers",
+    struct   = "io_helpers.ml",
+    opts     = TEZOS_SHELL_BENCHMARKS_OPTS,
+    deps     = TEZOS_SHELL_BENCHMARKS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Io_stats",
+    struct   = "io_stats.ml",
+    opts     = TEZOS_SHELL_BENCHMARKS_OPTS,
+    deps     = TEZOS_SHELL_BENCHMARKS_DEPS + [
+       ":Io_helpers",
+    ]
+)
+
+ocaml_module(
+    name     = "Micheline_benchmarks",
+    struct   = "micheline_benchmarks.ml",
+    opts     = TEZOS_SHELL_BENCHMARKS_OPTS,
+    deps     = TEZOS_SHELL_BENCHMARKS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Misc_benchmarks",
+    struct   = "misc_benchmarks.ml",
+    opts     = TEZOS_SHELL_BENCHMARKS_OPTS,
+    deps     = TEZOS_SHELL_BENCHMARKS_DEPS + [
+    ]
+)
+

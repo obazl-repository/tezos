@@ -1,154 +1,91 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
-
-ocaml_signature(
-    name = "context__sig",
-    src = ":context.mli",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-    ],
-    deps = [
-        ":context_dump",
-        "@digestif//c",
-        "@irmin-pack//:irmin-pack",
-        # "@irmin//:irmin",
-        "@logs//fmt",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/encoding:Tezos_context_encoding",
-        "@tezos//src/lib_context/helpers:Tezos_context_helpers",
-        "@tezos//src/lib_context/sigs:Tezos_context_sigs",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
 )
 
-ocaml_module(
-    name = "context",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-    ],
-    sig = ":context__sig",
-    struct = ":context.ml",
-    deps = [
-        ":context_dump",
-        "@digestif//c",
-        "@irmin//:irmin",
-        "@irmin-pack//:irmin-pack",
-        "@logs//fmt",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/encoding:Tezos_context_encoding",
-        "@tezos//src/lib_context/helpers:Tezos_context_helpers",
-        "@tezos//src/lib_context/sigs:Tezos_context_sigs",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_signature(
-    name = "context_dump__sig",
-    src = ":context_dump.mli",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-    ],
-    deps = [
-        ":context_dump_intf",
-        "@digestif//c",
-        "@irmin//:irmin",
-        "@irmin-pack//:irmin-pack",
-        "@logs//fmt",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/encoding:Tezos_context_encoding",
-        "@tezos//src/lib_context/helpers:Tezos_context_helpers",
-        "@tezos//src/lib_context/sigs:Tezos_context_sigs",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+######## tezos-context ########
+TEZOS_CONTEXT_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib",
+    "-open", "Tezos_stdlib_unix",
+]
 
-ocaml_module(
-    name = "context_dump",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-    ],
-    sig = ":context_dump__sig",
-    struct = ":context_dump.ml",
-    deps = [
-        ":context_dump_intf",
-        "@digestif//c",
-        "@irmin//:irmin",
-        "@irmin-pack//:irmin-pack",
-        "@logs//fmt",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/encoding:Tezos_context_encoding",
-        "@tezos//src/lib_context/helpers:Tezos_context_helpers",
-        "@tezos//src/lib_context/sigs:Tezos_context_sigs",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+TEZOS_CONTEXT_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_context/encoding:tezos-context.encoding",
+    "//src/lib_context/helpers:tezos-context.helpers",
+    "//src/lib_context/sigs:tezos-context.sigs",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "@digestif//c",
+    "@digestif//:digestif",
+    "@irmin-pack//:irmin-pack",
+    "@irmin//:irmin",
+    "@logs//fmt",
+]
 
-ocaml_module(
-    name = "context_dump_intf",
-    opts = [
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_stdlib",
-    ],
-    struct = ":context_dump_intf.ml",
-    deps = [
-        "@digestif//c",
-        "@irmin//:irmin",
-        "@irmin-pack//:irmin-pack",
-        "@logs//fmt",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context/encoding:Tezos_context_encoding",
-        "@tezos//src/lib_context/helpers:Tezos_context_helpers",
-        "@tezos//src/lib_context/sigs:Tezos_context_sigs",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-# okapi:auto
-# okapi:public_name tezos-context
-ocaml_ns_library(
-    name = "Tezos_context",
-    submodules = [
-        ":context",
-        ":context_dump",
-        ":context_dump_intf",
-    ],
+ocaml_ns_archive(
+    name       = "tezos-context",
+    ns         = "Tezos_context",
     visibility = ["//visibility:public"],
+    submodules = [
+        ":Context",
+        ":Context_dump",
+        ":Context_dump_intf",
+    ],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Context",
+    struct   = "context.ml",
+    sig      = ":Context_cmi",
+    opts     = TEZOS_CONTEXT_OPTS,
+    deps     = TEZOS_CONTEXT_DEPS + [
+       ":Context_dump",
+    ]
+)
+
+ocaml_signature(
+    name     = "Context_cmi",
+    src      = "context.mli",
+    opts     = TEZOS_CONTEXT_OPTS,
+    deps     = TEZOS_CONTEXT_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Context_dump",
+    struct   = "context_dump.ml",
+    sig      = ":Context_dump_cmi",
+    opts     = TEZOS_CONTEXT_OPTS,
+    deps     = TEZOS_CONTEXT_DEPS + [
+       ":Context_dump_intf",
+    ]
+)
+
+ocaml_signature(
+    name     = "Context_dump_cmi",
+    src      = "context_dump.mli",
+    opts     = TEZOS_CONTEXT_OPTS,
+    deps     = TEZOS_CONTEXT_DEPS + [
+       ":Context_dump_intf",
+    ]
+)
+
+ocaml_module(
+    name     = "Context_dump_intf",
+    struct   = "context_dump_intf.ml",
+    opts     = TEZOS_CONTEXT_OPTS,
+    deps     = TEZOS_CONTEXT_DEPS + [
+    ]
+)
+

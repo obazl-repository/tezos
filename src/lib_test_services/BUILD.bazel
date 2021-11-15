@@ -1,43 +1,51 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
-
-ocaml_module(
-    name = "test_services",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    struct = ":test_services.ml",
-    deps = [
-        ":test_services_base",
-        "@alcotest//:alcotest-lwt",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
 )
 
-ocaml_module(
-    name = "test_services_base",
-    opts = [
-        "-linkall",
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    struct = ":test_services_base.ml",
-    deps = [
-        "@alcotest//:alcotest-lwt",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-# okapi:auto
-# okapi:public_name tezos-test-services
-ocaml_ns_library(
-    name = "Tezos_test_services",
-    submodules = [
-        ":test_services",
-        ":test_services_base",
-    ],
+######## tezos-test-services ########
+TEZOS_TEST_SERVICES_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base__TzPervasives",
+]
+
+TEZOS_TEST_SERVICES_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "@alcotest-lwt//:alcotest-lwt",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-test-services",
+    ns         = "Tezos_test_services",
     visibility = ["//visibility:public"],
+    submodules = [
+        ":Test_services",
+        ":Test_services_base",
+    ],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Test_services",
+    struct   = "test_services.ml",
+    opts     = TEZOS_TEST_SERVICES_OPTS,
+    deps     = TEZOS_TEST_SERVICES_DEPS + [
+       ":Test_services_base",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_services_base",
+    struct   = "test_services_base.ml",
+    opts     = TEZOS_TEST_SERVICES_OPTS,
+    deps     = TEZOS_TEST_SERVICES_DEPS + [
+    ]
+)
+

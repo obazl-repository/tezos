@@ -1,365 +1,211 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
-
-ocaml_signature(
-    name = "TzCore__sig",
-    src = ":TzCore.mli",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        ":core_maker",
-        ":sig",
-        "@data-encoding//:data-encoding",
-        "@lwt//:lwt",
-        "@lwt-canceler//:lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
 )
 
-ocaml_module(
-    name = "TzCore",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":TzCore__sig",
-    struct = ":TzCore.ml",
-    deps = [
-        ":core_maker",
-        ":sig",
-        "@data-encoding//:data-encoding",
-        "@lwt//:lwt",
-        "@lwt-canceler//:lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_signature(
-    name = "TzLwtreslib__sig",
-    src = ":TzLwtreslib.mli",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        ":TzTrace",
-        "@data-encoding//:data-encoding",
-        "@lwt//:lwt",
-        "@lwt-canceler//:lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
+######## tezos-error-monad ########
+TEZOS_ERROR_MONAD_OPTS = [
+    "-open", "Data_encoding",
+    "-open", "Tezos_stdlib",
+]
 
-ocaml_module(
-    name = "TzLwtreslib",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":TzLwtreslib__sig",
-    struct = ":TzLwtreslib.ml",
-    deps = [
-        ":TzTrace",
-        "@data-encoding//:data-encoding",
-        "@lwt//:lwt",
-        "@lwt-canceler//:lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
+TEZOS_ERROR_MONAD_DEPS = [
+    "//src/lib_lwt_result_stdlib:tezos-lwt-result-stdlib",
+    "//src/lib_stdlib:tezos-stdlib",
+    "@data-encoding//:data-encoding",
+    "@lwt-canceler//:lwt-canceler",
+    "@lwt//:lwt",
+]
 
-ocaml_signature(
-    name = "TzMonad__sig",
-    src = ":TzMonad.mli",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        ":TzCore",
-        ":TzTrace",
-        ":monad_ext_maker",
-        ":monad_maker",
-        ":sig",
-        "@data-encoding//:data-encoding",
-        "@lwt//:lwt",
-        "@lwt-canceler//:lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "TzMonad",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":TzMonad__sig",
-    struct = ":TzMonad.ml",
-    deps = [
-        ":TzCore",
-        ":TzTrace",
-        ":monad_ext_maker",
-        ":monad_maker",
-        ":sig",
-        "@data-encoding//:data-encoding",
-        "@lwt//:lwt",
-        "@lwt-canceler//:lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_signature(
-    name = "TzTrace__sig",
-    src = ":TzTrace.mli",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        ":sig",
-        "@data-encoding//:data-encoding",
-        "@lwt//:lwt",
-        "@lwt-canceler//:lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "TzTrace",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":TzTrace__sig",
-    struct = ":TzTrace.ml",
-    deps = [
-        ":sig",
-        "@data-encoding//:data-encoding",
-        "@lwt//:lwt",
-        "@lwt-canceler//:lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_signature(
-    name = "core_maker__sig",
-    src = ":core_maker.mli",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        ":sig",
-        "@data-encoding//:data-encoding",
-        "@lwt//:lwt",
-        "@lwt-canceler//:lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "core_maker",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":core_maker__sig",
-    struct = ":core_maker.ml",
-    deps = [
-        ":sig",
-        "@data-encoding//:data-encoding",
-        "@lwt//:lwt",
-        "@lwt-canceler//:lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_signature(
-    name = "error_monad__sig",
-    src = ":error_monad.mli",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        ":TzCore",
-        ":TzMonad",
-        ":TzTrace",
-        ":sig",
-        "@data-encoding//:data-encoding",
-        "@lwt//:lwt",
-        "@lwt-canceler//:lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "error_monad",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":error_monad__sig",
-    struct = ":error_monad.ml",
-    deps = [
-        ":TzCore",
-        ":TzMonad",
-        ":TzTrace",
-        ":sig",
-        "@data-encoding//:data-encoding",
-        "@lwt//:lwt",
-        "@lwt-canceler//:lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_signature(
-    name = "monad_ext_maker__sig",
-    src = ":monad_ext_maker.mli",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        ":sig",
-        "@data-encoding//:data-encoding",
-        "@lwt//:lwt",
-        "@lwt-canceler//:lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "monad_ext_maker",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":monad_ext_maker__sig",
-    struct = ":monad_ext_maker.ml",
-    deps = [
-        ":sig",
-        "@data-encoding//:data-encoding",
-        "@lwt//:lwt",
-        "@lwt-canceler//:lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_signature(
-    name = "monad_maker__sig",
-    src = ":monad_maker.mli",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    deps = [
-        ":sig",
-        "@data-encoding//:data-encoding",
-        "@lwt//:lwt",
-        "@lwt-canceler//:lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "monad_maker",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    sig = ":monad_maker__sig",
-    struct = ":monad_maker.ml",
-    deps = [
-        ":sig",
-        "@data-encoding//:data-encoding",
-        "@lwt//:lwt",
-        "@lwt-canceler//:lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "sig",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-    ],
-    struct = ":sig.ml",
-    deps = [
-        "@data-encoding//:data-encoding",
-        "@lwt//:lwt",
-        "@lwt-canceler//:lwt-canceler",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-# okapi:auto
-# okapi:public_name tezos-error-monad
-ocaml_ns_library(
-    name = "Tezos_error_monad",
+ocaml_ns_archive(
+    name       = "tezos-error-monad",
+    ns         = "Tezos_error_monad",
+    visibility = ["//visibility:public"],
     submodules = [
+        ":Core_maker",
+        ":Error_monad",
+        ":Monad_ext_maker",
+        ":Monad_maker",
+        ":Sig",
         ":TzCore",
         ":TzLwtreslib",
         ":TzMonad",
         ":TzTrace",
-        ":core_maker",
-        ":error_monad",
-        ":monad_ext_maker",
-        ":monad_maker",
-        ":sig",
     ],
-    visibility = ["//visibility:public"],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "TzCore",
+    struct   = "TzCore.ml",
+    sig      = ":TzCore_cmi",
+    opts     = TEZOS_ERROR_MONAD_OPTS,
+    deps     = TEZOS_ERROR_MONAD_DEPS + [
+       ":Core_maker",
+    ]
+)
+
+ocaml_signature(
+    name     = "TzCore_cmi",
+    src      = "TzCore.mli",
+    opts     = TEZOS_ERROR_MONAD_OPTS,
+    deps     = TEZOS_ERROR_MONAD_DEPS + [
+       ":Sig",
+    ]
+)
+
+ocaml_module(
+    name     = "TzLwtreslib",
+    struct   = "TzLwtreslib.ml",
+    sig      = ":TzLwtreslib_cmi",
+    opts     = TEZOS_ERROR_MONAD_OPTS,
+    deps     = TEZOS_ERROR_MONAD_DEPS + [
+       ":TzTrace",
+    ]
+)
+
+ocaml_signature(
+    name     = "TzLwtreslib_cmi",
+    src      = "TzLwtreslib.mli",
+    opts     = TEZOS_ERROR_MONAD_OPTS,
+    deps     = TEZOS_ERROR_MONAD_DEPS + [
+       ":TzTrace",
+    ]
+)
+
+ocaml_module(
+    name     = "TzMonad",
+    struct   = "TzMonad.ml",
+    sig      = ":TzMonad_cmi",
+    opts     = TEZOS_ERROR_MONAD_OPTS,
+    deps     = TEZOS_ERROR_MONAD_DEPS + [
+       ":TzTrace",
+       ":TzCore",
+       ":Monad_maker",
+       ":Monad_ext_maker",
+    ]
+)
+
+ocaml_signature(
+    name     = "TzMonad_cmi",
+    src      = "TzMonad.mli",
+    opts     = TEZOS_ERROR_MONAD_OPTS,
+    deps     = TEZOS_ERROR_MONAD_DEPS + [
+       ":TzTrace",
+       ":TzCore",
+       ":Sig",
+    ]
+)
+
+ocaml_module(
+    name     = "TzTrace",
+    struct   = "TzTrace.ml",
+    sig      = ":TzTrace_cmi",
+    opts     = TEZOS_ERROR_MONAD_OPTS,
+    deps     = TEZOS_ERROR_MONAD_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "TzTrace_cmi",
+    src      = "TzTrace.mli",
+    opts     = TEZOS_ERROR_MONAD_OPTS,
+    deps     = TEZOS_ERROR_MONAD_DEPS + [
+       ":Sig",
+    ]
+)
+
+ocaml_module(
+    name     = "Core_maker",
+    struct   = "core_maker.ml",
+    sig      = ":Core_maker_cmi",
+    opts     = TEZOS_ERROR_MONAD_OPTS,
+    deps     = TEZOS_ERROR_MONAD_DEPS + [
+       ":Sig",
+    ]
+)
+
+ocaml_signature(
+    name     = "Core_maker_cmi",
+    src      = "core_maker.mli",
+    opts     = TEZOS_ERROR_MONAD_OPTS,
+    deps     = TEZOS_ERROR_MONAD_DEPS + [
+       ":Sig",
+    ]
+)
+
+ocaml_module(
+    name     = "Error_monad",
+    struct   = "error_monad.ml",
+    sig      = ":Error_monad_cmi",
+    opts     = TEZOS_ERROR_MONAD_OPTS,
+    deps     = TEZOS_ERROR_MONAD_DEPS + [
+       ":TzTrace",
+       ":TzMonad",
+       ":TzCore",
+    ]
+)
+
+ocaml_signature(
+    name     = "Error_monad_cmi",
+    src      = "error_monad.mli",
+    opts     = TEZOS_ERROR_MONAD_OPTS,
+    deps     = TEZOS_ERROR_MONAD_DEPS + [
+       ":TzCore",
+       ":Sig",
+    ]
+)
+
+ocaml_module(
+    name     = "Monad_ext_maker",
+    struct   = "monad_ext_maker.ml",
+    sig      = ":Monad_ext_maker_cmi",
+    opts     = TEZOS_ERROR_MONAD_OPTS,
+    deps     = TEZOS_ERROR_MONAD_DEPS + [
+       ":Sig",
+    ]
+)
+
+ocaml_signature(
+    name     = "Monad_ext_maker_cmi",
+    src      = "monad_ext_maker.mli",
+    opts     = TEZOS_ERROR_MONAD_OPTS,
+    deps     = TEZOS_ERROR_MONAD_DEPS + [
+       ":Sig",
+    ]
+)
+
+ocaml_module(
+    name     = "Monad_maker",
+    struct   = "monad_maker.ml",
+    sig      = ":Monad_maker_cmi",
+    opts     = TEZOS_ERROR_MONAD_OPTS,
+    deps     = TEZOS_ERROR_MONAD_DEPS + [
+       ":Sig",
+    ]
+)
+
+ocaml_signature(
+    name     = "Monad_maker_cmi",
+    src      = "monad_maker.mli",
+    opts     = TEZOS_ERROR_MONAD_OPTS,
+    deps     = TEZOS_ERROR_MONAD_DEPS + [
+       ":Sig",
+    ]
+)
+
+ocaml_module(
+    name     = "Sig",
+    struct   = "sig.ml",
+    opts     = TEZOS_ERROR_MONAD_OPTS,
+    deps     = TEZOS_ERROR_MONAD_DEPS + [
+    ]
+)
+

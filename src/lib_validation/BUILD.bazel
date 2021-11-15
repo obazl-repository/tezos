@@ -1,135 +1,77 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl",
-     "ocaml_module",
-     "ocaml_ns_archive",
-     "ocaml_ns_library",
-     "ocaml_signature")
-
-ocaml_signature(
-    name = "block_validation__sig",
-    src = ":block_validation.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_shell_context",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_protocol_updater",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
 )
 
-ocaml_module(
-    name = "block_validation",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_shell_context",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_protocol_updater",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    sig = ":block_validation__sig",
-    struct = ":block_validation.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_signature(
-    name = "external_validation__sig",
-    src = ":external_validation.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_shell_context",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_protocol_updater",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+######## tezos-validation ########
+TEZOS_VALIDATION_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_context",
+    "-open", "Tezos_protocol_updater",
+    "-open", "Tezos_shell_context",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_stdlib_unix",
+]
 
-ocaml_module(
-    name = "external_validation",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_shell_context",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_protocol_updater",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    sig = ":external_validation__sig",
-    struct = ":external_validation.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+TEZOS_VALIDATION_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_context:tezos-context",
+    "//src/lib_protocol_environment:tezos-shell-context",
+    "//src/lib_protocol_updater:tezos-protocol-updater",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+]
 
-# okapi:auto
-# okapi:public_name tezos-validation
 ocaml_ns_archive(
-#ocaml_ns_library(
-    name = "Tezos_validation",
-    submodules = [
-        ":block_validation",
-        ":external_validation",
-    ],
+    name       = "tezos-validation",
+    ns         = "Tezos_validation",
     visibility = ["//visibility:public"],
+    submodules = [
+        ":Block_validation",
+        ":External_validation",
+    ],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Block_validation",
+    struct   = "block_validation.ml",
+    sig      = ":Block_validation_cmi",
+    opts     = TEZOS_VALIDATION_OPTS,
+    deps     = TEZOS_VALIDATION_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Block_validation_cmi",
+    src      = "block_validation.mli",
+    opts     = TEZOS_VALIDATION_OPTS,
+    deps     = TEZOS_VALIDATION_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "External_validation",
+    struct   = "external_validation.ml",
+    sig      = ":External_validation_cmi",
+    opts     = TEZOS_VALIDATION_OPTS,
+    deps     = TEZOS_VALIDATION_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "External_validation_cmi",
+    src      = "external_validation.mli",
+    opts     = TEZOS_VALIDATION_OPTS,
+    deps     = TEZOS_VALIDATION_DEPS + [
+    ]
+)
+

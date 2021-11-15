@@ -1,25 +1,30 @@
-load(
-    "@obazl_rules_ocaml//ocaml:rules.bzl",
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
     "ocaml_executable",
     "ocaml_module",
-    "ocaml_ns_library",
 )
 
+##############################
+####  Executable Targets  ####
+S_PACKER_DEPS = [
+]
+
+#################
 ocaml_executable(
-    name = "exe",
-    main = "s_packer",
+    name    = "s_packer.exe",
     visibility = ["//visibility:public"],
+    exe     = "s_packer",
+    main    = ":S_packer",
+    deps = [
+    ],
 )
+
+#############################
+####  Singleton Targets  ####
 
 ocaml_module(
-    name = "s_packer",
-    struct = "s_packer.ml",
+    name     = "S_packer",
+    struct   = "s_packer.ml",
+    deps     = S_PACKER_DEPS + [
+    ]
 )
 
-# okapi:auto
-# okapi:public_name tezos-protocol-environment-packer
-ocaml_ns_library(
-    name = "Tezos_protocol_environment_packer",
-    submodules = [":s_packer"],
-    visibility = ["//visibility:public"],
-)

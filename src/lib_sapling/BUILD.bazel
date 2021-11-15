@@ -1,246 +1,136 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module",
-     "ocaml_ns_archive",
-     "ocaml_ns_library",
-     "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
 
-DEPS_OPAM = [
-    # "@ocaml//ffi",
-    "@ctypes//foreign",
-    "@ctypes//stubs",
-    "@hex//:hex",
-    "@data-encoding//:data-encoding",
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-sapling ########
+TEZOS_SAPLING_OPTS = [
+    "-open", "Tezos_crypto",
+    "-open", "Tezos_error_monad",
+    "-open", "Tezos_error_monad.TzLwtreslib",
+    "-open", "Tezos_stdlib",
 ]
 
-ocaml_signature(
-    name = "rustzcash__sig",
-    src = ":rustzcash.mli",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_error_monad.TzLwtreslib",
-    ],
-    deps = DEPS_OPAM + [
-        ":rustzcash_sig",
-        "@tezos//src/lib_crypto:Tezos_crypto",
-        "@tezos//src/lib_error_monad:Tezos_error_monad",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
+TEZOS_SAPLING_DEPS = [
+    "//src/lib_crypto:tezos-crypto",
+    "//src/lib_error_monad:tezos-error-monad",
+    "//src/lib_lwt_result_stdlib:tezos-lwt-result-stdlib",
+    "//src/lib_stdlib:tezos-stdlib",
+    "@ctypes//:ctypes",
+    "@ctypes//foreign",
+    "@ctypes//stubs",
+    "@data-encoding//:data-encoding",
+    "@hex//:hex",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-sapling",
+    ns         = "Tezos_sapling",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Core",
+        ":Core_sig",
+        ":Forge",
+        ":Rustzcash",
+        ":Rustzcash_sig",
+        ":Storage",
+        ":Storage_sig",
     ],
 )
 
+#############################
+####  Singleton Targets  ####
+
 ocaml_module(
-    name = "rustzcash",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_error_monad.TzLwtreslib",
-        # "-ccopt", "-fvisibility=default",
-        # "-ccopt", "-fvisibility-inlines-hidden",
-    ],
-    sig = ":rustzcash__sig",
-    struct = ":rustzcash.ml",
-    # cc_deps = {
-    #     # "//src/lib_sapling/bindings:librustzcash_ctypes_c_stubs.so": "default"
-    #     "//src/lib_sapling/bindings:rustzcash_ctypes_c_stubs": "static",
-    #     # "@tezos-rust-libs//:librustzcash": "static",
-    # },
-    deps = [
-        ":rustzcash_sig",
+    name     = "Core",
+    struct   = "core.ml",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+       ":Rustzcash",
+       ":Core_sig",
+    ]
+)
+
+ocaml_module(
+    name     = "Core_sig",
+    struct   = "core_sig.ml",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Forge",
+    struct   = "forge.ml",
+    sig      = ":Forge_cmi",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+       ":Storage",
+       ":Core",
+    ]
+)
+
+ocaml_signature(
+    name     = "Forge_cmi",
+    src      = "forge.mli",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+       ":Storage",
+       ":Core",
+    ]
+)
+
+ocaml_module(
+    name     = "Rustzcash",
+    struct   = "rustzcash.ml",
+    sig      = ":Rustzcash_cmi",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+       ":Rustzcash_sig",
         "//src/lib_sapling/bindings:rustzcash_ctypes_bindings",
         "//src/lib_sapling/bindings:rustzcash_ctypes_stubs",
-        "@tezos//src/lib_crypto:Tezos_crypto",
-        "@tezos//src/lib_error_monad:Tezos_error_monad",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-        "@ocaml//ffi",
-        # "@ocaml//ffi/foreign",
-        # "@ocaml//ffi/stubs",
-        "@hex//:hex",
-        "@data-encoding//:data-encoding",
-    ],
-)
-
-ocaml_module(
-    name = "core",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_error_monad.TzLwtreslib",
-    ],
-    struct = ":core.ml",
-    deps = DEPS_OPAM + [
-        ":core_sig",
-        ":rustzcash",
-        "@tezos//src/lib_crypto:Tezos_crypto",
-        "@tezos//src/lib_error_monad:Tezos_error_monad",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "core_sig",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_error_monad.TzLwtreslib",
-    ],
-    struct = ":core_sig.ml",
-    deps = DEPS_OPAM + [
-        "@tezos//src/lib_crypto:Tezos_crypto",
-        "@tezos//src/lib_error_monad:Tezos_error_monad",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "rustzcash_sig",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_error_monad.TzLwtreslib",
-    ],
-    struct = "rustzcash_sig.ml",
-    deps = DEPS_OPAM + [
-        "@tezos//src/lib_crypto:Tezos_crypto",
-        "@tezos//src/lib_error_monad:Tezos_error_monad",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "storage",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_error_monad.TzLwtreslib",
-    ],
-    struct = ":storage.ml",
-    deps = DEPS_OPAM + [
-        ":core",
-        ":core_sig",
-        ":storage_sig",
-        "@tezos//src/lib_crypto:Tezos_crypto",
-        "@tezos//src/lib_error_monad:Tezos_error_monad",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
-)
-
-ocaml_module(
-    name = "storage_sig",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_error_monad.TzLwtreslib",
-    ],
-    struct = ":storage_sig.ml",
-    deps = DEPS_OPAM + [
-        ":core",
-        "@tezos//src/lib_crypto:Tezos_crypto",
-        "@tezos//src/lib_error_monad:Tezos_error_monad",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
+    ]
 )
 
 ocaml_signature(
-    name = "forge__sig",
-    src = ":forge.mli",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_error_monad.TzLwtreslib",
-    ],
-    deps = DEPS_OPAM + [
-        ":core",
-        ":storage",
-        "@tezos//src/lib_crypto:Tezos_crypto",
-        "@tezos//src/lib_error_monad:Tezos_error_monad",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
+    name     = "Rustzcash_cmi",
+    src      = "rustzcash.mli",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+       ":Rustzcash_sig",
+    ]
 )
 
 ocaml_module(
-    name = "forge",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_error_monad.TzLwtreslib",
-    ],
-    sig = ":forge__sig",
-    struct = ":forge.ml",
-    deps = DEPS_OPAM + [
-        ":core",
-        ":storage",
-        "@tezos//src/lib_crypto:Tezos_crypto",
-        "@tezos//src/lib_error_monad:Tezos_error_monad",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
+    name     = "Rustzcash_sig",
+    struct   = "rustzcash_sig.ml",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+    ]
 )
 
-# okapi:auto
-# okapi:public_name tezos-sapling
-ocaml_ns_archive(
-#ocaml_ns_library(
-    name = "Tezos_sapling",
-    submodules = [
-        ":core",
-        ":core_sig",
-        ":forge",
-        ":rustzcash",
-        ":rustzcash_sig",
-        ":storage",
-        ":storage_sig",
-    ],
-    visibility = ["//visibility:public"],
+ocaml_module(
+    name     = "Storage",
+    struct   = "storage.ml",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+       ":Storage_sig",
+       ":Core_sig",
+       ":Core",
+    ]
 )
+
+ocaml_module(
+    name     = "Storage_sig",
+    struct   = "storage_sig.ml",
+    opts     = TEZOS_SAPLING_OPTS,
+    deps     = TEZOS_SAPLING_DEPS + [
+       ":Core",
+    ]
+)
+

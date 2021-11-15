@@ -24,7 +24,7 @@ ocaml_signature(
 )
 
 ocaml_module(
-    name = "lmdb",
+    name = "tezos-lmdb",
     opts = ["-linkall"],
     deps = [
         "@rresult//:rresult",

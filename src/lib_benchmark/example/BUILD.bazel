@@ -1,24 +1,41 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-benchmark-examples ########
+TEZOS_BENCHMARK_EXAMPLES_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+]
+
+TEZOS_BENCHMARK_EXAMPLES_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_benchmark:tezos-benchmark",
+    "//src/lib_crypto:tezos-crypto",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-benchmark-examples",
+    ns         = "Tezos_benchmark_examples",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Blake2b",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
 
 ocaml_module(
-    name = "blake2b",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    struct = ":blake2b.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_crypto:Tezos_crypto",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
+    name     = "Blake2b",
+    struct   = "blake2b.ml",
+    opts     = TEZOS_BENCHMARK_EXAMPLES_OPTS,
+    deps     = TEZOS_BENCHMARK_EXAMPLES_DEPS + [
+    ]
 )
 
-# okapi:auto
-# okapi:public_name tezos-benchmark-examples
-ocaml_ns_library(
-    name = "Tezos_benchmark_examples",
-    submodules = [":blake2b"],
-    visibility = ["//visibility:public"],
-)

@@ -1,171 +1,90 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl",
-     "ocaml_module",
-     "ocaml_ns_library",
-     "ocaml_signature")
-
-ocaml_signature(
-    name = "registered_protocol__sig",
-    src = ":registered_protocol.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_context",
-    ],
-    deps = [
-        "@ocaml//dynlink",
-        "@lwt-exit//:lwt-exit",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_compiler:Tezos_protocol_compiler_native",
-        "@tezos//src/lib_protocol_compiler:Tezos_protocol_registerer",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
 )
 
-ocaml_module(
-    name = "registered_protocol",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_context",
-    ],
-    sig = ":registered_protocol__sig",
-    struct = ":registered_protocol.ml",
-    deps = [
-        "@ocaml//dynlink",
-        "@lwt-exit//:lwt-exit",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_compiler:Tezos_protocol_compiler_native",
-        "@tezos//src/lib_protocol_compiler:Tezos_protocol_registerer",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_signature(
-    name = "updater__sig",
-    src = ":updater.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_context",
-    ],
-    deps = [
-        ":updater_events",
-        "@ocaml//dynlink",
-        "@lwt-exit//:lwt-exit",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_compiler:Tezos_protocol_compiler_native",
-        "@tezos//src/lib_protocol_compiler:Tezos_protocol_registerer",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+######## tezos-protocol-updater ########
+TEZOS_PROTOCOL_UPDATER_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_context",
+    "-open", "Tezos_micheline",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib_unix",
+]
 
-ocaml_module(
-    name = "updater",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_context",
-    ],
-    sig = ":updater__sig",
-    struct = ":updater.ml",
-    deps = [
-        ":updater_events",
-        "@ocaml//dynlink",
-        "@lwt-exit//:lwt-exit",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_compiler:Tezos_protocol_compiler_native",
-        "@tezos//src/lib_protocol_compiler:Tezos_protocol_registerer",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
+TEZOS_PROTOCOL_UPDATER_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_context:tezos-context",
+    "//src/lib_micheline:tezos-micheline",
+    "//src/lib_protocol_compiler:tezos-protocol-compiler.native",
+    "//src/lib_protocol_compiler:tezos-protocol-compiler.registerer",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_protocol_environment:tezos-shell-context",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "@lwt-exit//:lwt-exit",
+    "@ocaml//dynlink",
+]
 
-ocaml_module(
-    name = "updater_events",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_context",
-    ],
-    struct = ":updater_events.ml",
-    deps = [
-        "@ocaml//dynlink",
-        "@lwt-exit//:lwt-exit",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_micheline:Tezos_micheline",
-        "@tezos//src/lib_protocol_compiler:Tezos_protocol_compiler_native",
-        "@tezos//src/lib_protocol_compiler:Tezos_protocol_registerer",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-# okapi:auto
-# okapi:public_name tezos-protocol-updater
-# ocaml_ns_library(
-ocaml_ns_library(
-    name = "Tezos_protocol_updater",
-    submodules = [
-        ":registered_protocol",
-        ":updater",
-        ":updater_events",
-    ],
+ocaml_ns_archive(
+    name       = "tezos-protocol-updater",
+    ns         = "Tezos_protocol_updater",
     visibility = ["//visibility:public"],
+    submodules = [
+        ":Registered_protocol",
+        ":Updater",
+        ":Updater_events",
+    ],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Registered_protocol",
+    struct   = "registered_protocol.ml",
+    sig      = ":Registered_protocol_cmi",
+    opts     = TEZOS_PROTOCOL_UPDATER_OPTS,
+    deps     = TEZOS_PROTOCOL_UPDATER_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Registered_protocol_cmi",
+    src      = "registered_protocol.mli",
+    opts     = TEZOS_PROTOCOL_UPDATER_OPTS,
+    deps     = TEZOS_PROTOCOL_UPDATER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Updater",
+    struct   = "updater.ml",
+    sig      = ":Updater_cmi",
+    opts     = TEZOS_PROTOCOL_UPDATER_OPTS,
+    deps     = TEZOS_PROTOCOL_UPDATER_DEPS + [
+       ":Updater_events",
+    ]
+)
+
+ocaml_signature(
+    name     = "Updater_cmi",
+    src      = "updater.mli",
+    opts     = TEZOS_PROTOCOL_UPDATER_OPTS,
+    deps     = TEZOS_PROTOCOL_UPDATER_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Updater_events",
+    struct   = "updater_events.ml",
+    opts     = TEZOS_PROTOCOL_UPDATER_OPTS,
+    deps     = TEZOS_PROTOCOL_UPDATER_DEPS + [
+    ]
+)
+

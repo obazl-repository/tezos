@@ -1,71 +1,255 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl",
-     "ocaml_module",
-     "ocaml_ns_library")
-
-# load("@obazl_rules_ocaml//dsl:library.bzl", "lib", "mod", "sig")
-load("//src/lib_protocol_environment/s_packer:pack.bzl", "pack")
-load("//src/lib_protocol_environment/structs:srcs.bzl", "v0_srcs", "v1_srcs", "v2_srcs", "v3_srcs")
-
-pack("structs", 0, v0_srcs)
-
-pack("structs", 1, v1_srcs)
-
-pack("structs", 2, v2_srcs)
-
-pack("structs", 3, v3_srcs)
-
-ocaml_module(
-    name = "v0",
-    struct = ":v0.ml",
-    deps = [
-        "//src/lib_crypto:Tezos_crypto",
-        "//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "//src/lib_stdlib:Tezos_stdlib",
-        "@data-encoding//:data-encoding",
-    ],
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
 )
 
-ocaml_module(
-    name = "v1",
-    struct = ":v1.ml",
-    deps = [
-        "//src/lib_crypto:Tezos_crypto",
-        "//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "//src/lib_stdlib:Tezos_stdlib",
-        "@data-encoding//:data-encoding",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_module(
-    name = "v2",
-    struct = ":v2.ml",
-    deps = [
-        "//src/lib_crypto:Tezos_crypto",
-        "//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "//src/lib_stdlib:Tezos_stdlib",
-        "@data-encoding//:data-encoding",
-    ],
-)
+######## tezos-protocol-environment-structs ########
+TEZOS_PROTOCOL_ENVIRONMENT_STRUCTS_OPTS = [
+    ##FIXME dune (:standard)
+]
 
-ocaml_module(
-    name = "v3",
-    struct = ":v3.ml",
-    deps = [
-        "//src/lib_crypto:Tezos_crypto",
-        "//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "//src/lib_stdlib:Tezos_stdlib",
-        "@data-encoding//:data-encoding",
-    ],
-)
+TEZOS_PROTOCOL_ENVIRONMENT_STRUCTS_DEPS = [
+    "//src/lib_crypto:tezos-crypto",
+    "//src/lib_lwt_result_stdlib:tezos-lwt-result-stdlib",
+    "//src/lib_stdlib:tezos-stdlib",
+    "@data-encoding//:data-encoding",
+]
 
-# okapi:public_name tezos-protocol-environment-structs
-ocaml_ns_library(
-    name = "Tezos_protocol_environment_structs",
-    submodules = [
-        ":v0",
-        ":v1",
-        ":v2",
-        ":v3",
-    ],
+ocaml_ns_archive(
+    name       = "tezos-protocol-environment-structs",
+    ns         = "Tezos_protocol_environment_structs",
     visibility = ["//visibility:public"],
+    submodules = [
+        ":V0",
+        ":V1",
+        ":V2",
+        ":V3",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "V3",
+    struct   = "v3.ml",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_STRUCTS_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_STRUCTS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "V2",
+    struct   = "v2.ml",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_STRUCTS_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_STRUCTS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "V1",
+    struct   = "v1.ml",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_STRUCTS_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_STRUCTS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "V0",
+    struct   = "v0.ml",
+    opts     = TEZOS_PROTOCOL_ENVIRONMENT_STRUCTS_OPTS,
+    deps     = TEZOS_PROTOCOL_ENVIRONMENT_STRUCTS_DEPS + [
+    ]
+)
+
+########################
+####  Rule Targets  ####
+
+######## with-stdout-to ########
+genrule(
+    name = "__v0.ml",
+    outs  = [
+        "v0.ml"
+    ],
+    tools  = ["//src/lib_protocol_environment/s_packer:s_packer.exe"],
+    cmd  = " ".join([
+        "$(execpath //src/lib_protocol_environment/s_packer:s_packer.exe) ",
+        "structs",
+        "$(location //src/lib_protocol_environment/structs/v0:s.ml)",
+        "$(location //src/lib_protocol_environment/structs/v0:option.ml)",
+        "$(location //src/lib_protocol_environment/structs/v0:mBytes.ml)",
+        "$(location //src/lib_protocol_environment/structs/v0:blake2B.ml)",
+        "$(location //src/lib_protocol_environment/structs/v0:ed25519.ml)",
+        "$(location //src/lib_protocol_environment/structs/v0:secp256k1.ml)",
+        "$(location //src/lib_protocol_environment/structs/v0:p256.ml)",
+        "$(location //src/lib_protocol_environment/structs/v0:signature.ml)",
+        "$(location //src/lib_protocol_environment/structs/v0:chain_id.ml)",
+        "$(location //src/lib_protocol_environment/structs/v0:block_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v0:operation_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v0:operation_list_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v0:operation_list_list_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v0:protocol_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v0:context_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v0:error_monad_traversors.ml)",
+        "$(location //src/lib_protocol_environment/structs/v0:data_encoding.ml)",
+        "> $@"
+        ]),
+    srcs  = [
+        "//src/lib_protocol_environment/structs/v0:s.ml",
+        "//src/lib_protocol_environment/structs/v0:option.ml",
+        "//src/lib_protocol_environment/structs/v0:mBytes.ml",
+        "//src/lib_protocol_environment/structs/v0:blake2B.ml",
+        "//src/lib_protocol_environment/structs/v0:ed25519.ml",
+        "//src/lib_protocol_environment/structs/v0:secp256k1.ml",
+        "//src/lib_protocol_environment/structs/v0:p256.ml",
+        "//src/lib_protocol_environment/structs/v0:signature.ml",
+        "//src/lib_protocol_environment/structs/v0:chain_id.ml",
+        "//src/lib_protocol_environment/structs/v0:block_hash.ml",
+        "//src/lib_protocol_environment/structs/v0:operation_hash.ml",
+        "//src/lib_protocol_environment/structs/v0:operation_list_hash.ml",
+        "//src/lib_protocol_environment/structs/v0:operation_list_list_hash.ml",
+        "//src/lib_protocol_environment/structs/v0:protocol_hash.ml",
+        "//src/lib_protocol_environment/structs/v0:context_hash.ml",
+        "//src/lib_protocol_environment/structs/v0:error_monad_traversors.ml",
+        "//src/lib_protocol_environment/structs/v0:data_encoding.ml",
+    ],
+)
+######## with-stdout-to ########
+genrule(
+    name = "__v1.ml",
+    outs  = [
+        "v1.ml"
+    ],
+    tools  = ["//src/lib_protocol_environment/s_packer:s_packer.exe"],
+    cmd  = " ".join([
+        "$(execpath //src/lib_protocol_environment/s_packer:s_packer.exe) ",
+        "structs",
+        "$(location //src/lib_protocol_environment/structs/v1:s.ml)",
+        "$(location //src/lib_protocol_environment/structs/v1:blake2B.ml)",
+        "$(location //src/lib_protocol_environment/structs/v1:ed25519.ml)",
+        "$(location //src/lib_protocol_environment/structs/v1:secp256k1.ml)",
+        "$(location //src/lib_protocol_environment/structs/v1:p256.ml)",
+        "$(location //src/lib_protocol_environment/structs/v1:signature.ml)",
+        "$(location //src/lib_protocol_environment/structs/v1:chain_id.ml)",
+        "$(location //src/lib_protocol_environment/structs/v1:block_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v1:operation_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v1:operation_list_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v1:operation_list_list_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v1:protocol_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v1:context_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v1:error_monad_traversors.ml)",
+        "$(location //src/lib_protocol_environment/structs/v1:option.ml)",
+        "$(location //src/lib_protocol_environment/structs/v1:data_encoding.ml)",
+        "> $@"
+        ]),
+    srcs  = [
+        "//src/lib_protocol_environment/structs/v1:s.ml",
+        "//src/lib_protocol_environment/structs/v1:blake2B.ml",
+        "//src/lib_protocol_environment/structs/v1:ed25519.ml",
+        "//src/lib_protocol_environment/structs/v1:secp256k1.ml",
+        "//src/lib_protocol_environment/structs/v1:p256.ml",
+        "//src/lib_protocol_environment/structs/v1:signature.ml",
+        "//src/lib_protocol_environment/structs/v1:chain_id.ml",
+        "//src/lib_protocol_environment/structs/v1:block_hash.ml",
+        "//src/lib_protocol_environment/structs/v1:operation_hash.ml",
+        "//src/lib_protocol_environment/structs/v1:operation_list_hash.ml",
+        "//src/lib_protocol_environment/structs/v1:operation_list_list_hash.ml",
+        "//src/lib_protocol_environment/structs/v1:protocol_hash.ml",
+        "//src/lib_protocol_environment/structs/v1:context_hash.ml",
+        "//src/lib_protocol_environment/structs/v1:error_monad_traversors.ml",
+        "//src/lib_protocol_environment/structs/v1:option.ml",
+        "//src/lib_protocol_environment/structs/v1:data_encoding.ml",
+    ],
+)
+######## with-stdout-to ########
+genrule(
+    name = "__v2.ml",
+    outs  = [
+        "v2.ml"
+    ],
+    tools  = ["//src/lib_protocol_environment/s_packer:s_packer.exe"],
+    cmd  = " ".join([
+        "$(execpath //src/lib_protocol_environment/s_packer:s_packer.exe) ",
+        "structs",
+        "$(location //src/lib_protocol_environment/structs/v2:s.ml)",
+        "$(location //src/lib_protocol_environment/structs/v2:blake2B.ml)",
+        "$(location //src/lib_protocol_environment/structs/v2:ed25519.ml)",
+        "$(location //src/lib_protocol_environment/structs/v2:secp256k1.ml)",
+        "$(location //src/lib_protocol_environment/structs/v2:p256.ml)",
+        "$(location //src/lib_protocol_environment/structs/v2:signature.ml)",
+        "$(location //src/lib_protocol_environment/structs/v2:chain_id.ml)",
+        "$(location //src/lib_protocol_environment/structs/v2:block_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v2:operation_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v2:operation_list_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v2:operation_list_list_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v2:protocol_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v2:context_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v2:error_monad_traversors.ml)",
+        "$(location //src/lib_protocol_environment/structs/v2:data_encoding.ml)",
+        "> $@"
+        ]),
+    srcs  = [
+        "//src/lib_protocol_environment/structs/v2:s.ml",
+        "//src/lib_protocol_environment/structs/v2:blake2B.ml",
+        "//src/lib_protocol_environment/structs/v2:ed25519.ml",
+        "//src/lib_protocol_environment/structs/v2:secp256k1.ml",
+        "//src/lib_protocol_environment/structs/v2:p256.ml",
+        "//src/lib_protocol_environment/structs/v2:signature.ml",
+        "//src/lib_protocol_environment/structs/v2:chain_id.ml",
+        "//src/lib_protocol_environment/structs/v2:block_hash.ml",
+        "//src/lib_protocol_environment/structs/v2:operation_hash.ml",
+        "//src/lib_protocol_environment/structs/v2:operation_list_hash.ml",
+        "//src/lib_protocol_environment/structs/v2:operation_list_list_hash.ml",
+        "//src/lib_protocol_environment/structs/v2:protocol_hash.ml",
+        "//src/lib_protocol_environment/structs/v2:context_hash.ml",
+        "//src/lib_protocol_environment/structs/v2:error_monad_traversors.ml",
+        "//src/lib_protocol_environment/structs/v2:data_encoding.ml",
+    ],
+)
+######## with-stdout-to ########
+genrule(
+    name = "__v3.ml",
+    outs  = [
+        "v3.ml"
+    ],
+    tools  = ["//src/lib_protocol_environment/s_packer:s_packer.exe"],
+    cmd  = " ".join([
+        "$(execpath //src/lib_protocol_environment/s_packer:s_packer.exe) ",
+        "structs",
+        "$(location //src/lib_protocol_environment/structs/v3:s.ml)",
+        "$(location //src/lib_protocol_environment/structs/v3:blake2B.ml)",
+        "$(location //src/lib_protocol_environment/structs/v3:ed25519.ml)",
+        "$(location //src/lib_protocol_environment/structs/v3:secp256k1.ml)",
+        "$(location //src/lib_protocol_environment/structs/v3:p256.ml)",
+        "$(location //src/lib_protocol_environment/structs/v3:signature.ml)",
+        "$(location //src/lib_protocol_environment/structs/v3:chain_id.ml)",
+        "$(location //src/lib_protocol_environment/structs/v3:block_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v3:operation_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v3:operation_list_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v3:operation_list_list_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v3:protocol_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v3:context_hash.ml)",
+        "$(location //src/lib_protocol_environment/structs/v3:error_monad_traversors.ml)",
+        "> $@"
+        ]),
+    srcs  = [
+        "//src/lib_protocol_environment/structs/v3:s.ml",
+        "//src/lib_protocol_environment/structs/v3:blake2B.ml",
+        "//src/lib_protocol_environment/structs/v3:ed25519.ml",
+        "//src/lib_protocol_environment/structs/v3:secp256k1.ml",
+        "//src/lib_protocol_environment/structs/v3:p256.ml",
+        "//src/lib_protocol_environment/structs/v3:signature.ml",
+        "//src/lib_protocol_environment/structs/v3:chain_id.ml",
+        "//src/lib_protocol_environment/structs/v3:block_hash.ml",
+        "//src/lib_protocol_environment/structs/v3:operation_hash.ml",
+        "//src/lib_protocol_environment/structs/v3:operation_list_hash.ml",
+        "//src/lib_protocol_environment/structs/v3:operation_list_list_hash.ml",
+        "//src/lib_protocol_environment/structs/v3:protocol_hash.ml",
+        "//src/lib_protocol_environment/structs/v3:context_hash.ml",
+        "//src/lib_protocol_environment/structs/v3:error_monad_traversors.ml",
+    ],
 )

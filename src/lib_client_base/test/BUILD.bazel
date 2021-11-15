@@ -1,47 +1,68 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+BIP39_TESTS_OPTS = [
+    "-open", "Tezos_client_base",
+]
+
+BIP39_TESTS_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "@alcotest//:alcotest",
+]
+
+#################
+ocaml_executable(
+    name    = "bip39_tests.exe",
+    visibility = ["//visibility:public"],
+    exe     = "bip39_tests",
+    main    = ":Bip39_tests",
+    deps = BIP39_TESTS_DEPS + [
+    ],
+)
+
+PBKDF_TESTS_OPTS = [
+    "-open", "Tezos_client_base",
+]
+
+PBKDF_TESTS_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "@alcotest//:alcotest",
+]
+
+#################
+ocaml_executable(
+    name    = "pbkdf_tests.exe",
+    visibility = ["//visibility:public"],
+    exe     = "pbkdf_tests",
+    main    = ":Pbkdf_tests",
+    deps = PBKDF_TESTS_DEPS + [
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
 
 ocaml_module(
-    name = "bip39_tests",
-    opts = [
-        "-open",
-        "Tezos_client_base",
-    ],
-    struct = ":bip39_tests.ml",
-    deps = [
-        "@alcotest//:alcotest",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_base/unix:Tezos_base_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-    ],
-)
-
-# okapi:public_name bip39_tests
-ocaml_executable(
-    name = "exe-bip39_tests",
-    main = "bip39_tests",
-    visibility = ["//visibility:public"],
-    deps = [":bip39_tests"],
+    name     = "Bip39_tests",
+    struct   = "bip39_tests.ml",
+    opts     = BIP39_TESTS_OPTS,
+    deps     = BIP39_TESTS_DEPS + [
+    ]
 )
 
 ocaml_module(
-    name = "pbkdf_tests",
-    opts = [
-        "-open",
-        "Tezos_client_base",
-    ],
-    struct = ":pbkdf_tests.ml",
-    deps = [
-        "@alcotest//:alcotest",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_base/unix:Tezos_base_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-    ],
+    name     = "Pbkdf_tests",
+    struct   = "pbkdf_tests.ml",
+    opts     = PBKDF_TESTS_OPTS,
+    deps     = PBKDF_TESTS_DEPS + [
+    ]
 )
 
-# okapi:public_name pbkdf_tests
-ocaml_executable(
-    name = "exe-pbkdf_tests",
-    main = "pbkdf_tests",
-    visibility = ["//visibility:public"],
-    deps = [":pbkdf_tests"],
-)

@@ -1,21 +1,39 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-context.sigs ########
+TEZOS_CONTEXT_SIGS_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_stdlib",
+]
+
+TEZOS_CONTEXT_SIGS_DEPS = [
+    "//src/lib_base:tezos-base",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-context.sigs",
+    ns         = "Tezos_context_sigs",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Context",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
 
 ocaml_module(
-    name = "context",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_stdlib",
-    ],
-    struct = ":context.ml",
-    deps = ["@tezos//src/lib_base:Tezos_base"],
+    name     = "Context",
+    struct   = "context.ml",
+    opts     = TEZOS_CONTEXT_SIGS_OPTS,
+    deps     = TEZOS_CONTEXT_SIGS_DEPS + [
+    ]
 )
 
-# okapi:auto
-# okapi:public_name tezos-context.sigs
-ocaml_ns_library(
-    name = "Tezos_context_sigs",
-    submodules = [":context"],
-    visibility = ["//visibility:public"],
-)

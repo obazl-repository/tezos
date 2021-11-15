@@ -1,81 +1,91 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl",
-     "ocaml_executable",
-     "ocaml_module",
-     "ocaml_ns_library")
-
-ocaml_module(
-    name = "validator",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_shell",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_protocol_updater",
-        "-open",
-        "Tezos_shell_context",
-    ],
-    struct = ":validator.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_base/unix:Tezos_base_unix",
-        "@tezos//src/lib_context:Tezos_context",
-        "@tezos//src/lib_protocol_environment:Tezos_shell_context",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_protocol_updater:Tezos_protocol_updater",
-        "@tezos//src/lib_shell:Tezos_shell",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/lib_validation:Tezos_validation",
-    ],
+    "ocaml_archive",
+    "ocaml_executable",
+    "ocaml_module",
+    "ocaml_ns_archive",
 )
 
-# okapi:public_name tezos-validator
-ocaml_ns_library(
-    name = "Tezos_validator",
-    submodules = [":validator"],
-    visibility = ["//visibility:public"],
-)
+##############################
+####  Executable Targets  ####
+TEZOS_VALIDATOR_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_context",
+    "-open", "Tezos_protocol_updater",
+    "-open", "Tezos_shell",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_validation",
+    "-open", "Tezos_validator",
+]
 
-ocaml_module(
-    name = "main_validator",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_context",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_shell",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_validation",
-        "-open",
-        "Tezos_protocol_updater",
-        "-open",
-        "Tezos_validator",
-        "-linkall",
-    ],
-    struct = ":main_validator.ml",
-    deps = [
-        ":validator",
-        "@tezos_validator//:tezos_validator",
-    ],
-)
+TEZOS_VALIDATOR_DEPS = [
+    "//src/bin_validation:tezos-validator",
+]
 
-# okapi:public_name tezos-validator
+#################
 ocaml_executable(
-    name = "exe-tezos-validator",
-    main = "main_validator",
+    name    = "tezos-validator.exe",
     visibility = ["//visibility:public"],
-    deps = [":main_validator"],
+    exe     = "main_validator",
+    main    = ":Main_validator",
+    deps = TEZOS_VALIDATOR_DEPS + [
+    ],
 )
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-validator ########
+TEZOS_VALIDATOR_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_context",
+    "-open", "Tezos_protocol_updater",
+    "-open", "Tezos_shell",
+    "-open", "Tezos_shell_context",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib_unix",
+    "-open", "Tezos_validation",
+]
+
+TEZOS_VALIDATOR_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_context:tezos-context",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_protocol_environment:tezos-shell-context",
+    "//src/lib_protocol_updater:tezos-protocol-updater",
+    "//src/lib_shell:tezos-shell",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/lib_validation:tezos-validation",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-validator",
+    ns         = "Tezos_validator",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Validator",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Main_validator",
+    struct   = "main_validator.ml",
+    opts     = TEZOS_VALIDATOR_OPTS,
+    deps     = TEZOS_VALIDATOR_DEPS + [
+       ":Validator",
+    ]
+)
+
+ocaml_module(
+    name     = "Validator",
+    struct   = "validator.ml",
+    opts     = TEZOS_VALIDATOR_OPTS,
+    deps     = TEZOS_VALIDATOR_DEPS + [
+    ]
+)
+

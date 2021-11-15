@@ -1,36 +1,44 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEZOS_ENDORSER_ALPHA_OPTS = [
+    "-open", "Tezos_baking_alpha_commands",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_alpha",
+    "-open", "Tezos_client_base_unix",
+    "-open", "Tezos_client_commands",
+    "-open", "Tezos_protocol_alpha",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_ENDORSER_ALPHA_DEPS = [
+    "//src/lib_client_base_unix:tezos-client-base-unix",
+    "//src/lib_client_commands:tezos-client-commands",
+    "//src/proto_alpha/lib_delegate:tezos-baking-alpha-commands",
+]
+
+#################
+ocaml_executable(
+    name    = "tezos-endorser-alpha.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main_endorser_alpha",
+    main    = ":Main_endorser_alpha",
+    deps = TEZOS_ENDORSER_ALPHA_DEPS + [
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
 
 ocaml_module(
-    name = "main_endorser_alpha",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_client_commands",
-        "-open",
-        "Tezos_baking_alpha_commands",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_client_base_unix",
-    ],
-    struct = ":main_endorser_alpha.ml",
-    deps = [
-        "@tezos//src/lib_client_base_unix:Tezos_client_base_unix",
-        "@tezos//src/lib_client_commands:Tezos_client_commands",
-        "@tezos//src/proto_alpha/lib_delegate:Tezos_baking_alpha_commands",
-    ],
+    name     = "Main_endorser_alpha",
+    struct   = "main_endorser_alpha.ml",
+    opts     = TEZOS_ENDORSER_ALPHA_OPTS,
+    deps     = TEZOS_ENDORSER_ALPHA_DEPS + [
+    ]
 )
 
-# okapi:auto
-# okapi:public_name tezos-endorser-alpha
-ocaml_executable(
-    name = "exe-tezos-endorser-alpha",
-    main = "main_endorser_alpha",
-    visibility = ["//visibility:public"],
-    deps = [":main_endorser_alpha"],
-)

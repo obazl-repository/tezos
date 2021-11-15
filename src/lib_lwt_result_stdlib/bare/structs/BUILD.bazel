@@ -1,312 +1,236 @@
 load("@obazl_rules_ocaml//ocaml:rules.bzl",
-     "ocaml_module",
-     "ocaml_ns_archive",
-     "ocaml_ns_library",
-     "ocaml_signature")
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
 
-OPTS = [
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-lwt-result-stdlib.bare.structs ########
+TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS = [
+    "//src/lib_lwt_result_stdlib/bare/sigs:tezos-lwt-result-stdlib.bare.sigs",
+    "@lwt//:lwt",
 ]
 
-ocaml_signature(
-    name = "hashtbl__sig",
-    src = ":hashtbl.mli",
-    opts = OPTS,
-    deps = [
-        ":monad",
-        ":seq",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_module(
-    name = "hashtbl",
-    sig = ":hashtbl__sig",
-    struct = ":hashtbl.ml",
-    opts = OPTS,
-    deps = [
-        ":monad",
-        ":seq",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_signature(
-    name = "list__sig",
-    src = ":list.mli",
-    opts = OPTS,
-    deps = [
-        ":monad",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_module(
-    name = "list",
-    sig = ":list__sig",
-    struct = ":list.ml",
-    opts = OPTS,
-    deps = [
-        ":monad",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_signature(
-    name = "map__sig",
-    src = ":map.mli",
-    opts = OPTS,
-    deps = [
-        ":seq",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_module(
-    name = "map",
-    sig = ":map__sig",
-    struct = ":map.ml",
-    opts = OPTS,
-    deps = [
-        ":seq",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_signature(
-    name = "monad__sig",
-    src = ":monad.mli",
-    opts = OPTS,
-    deps = [
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_module(
-    name = "monad",
-    sig = ":monad__sig",
-    struct = ":monad.ml",
-    opts = OPTS,
-    deps = [
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_signature(
-    name = "option__sig",
-    src = ":option.mli",
-    opts = OPTS,
-    deps = [
-        ":monad",
-        ":result",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_module(
-    name = "option",
-    sig = ":option__sig",
-    struct = ":option.ml",
-    opts = OPTS,
-    deps = [
-        ":monad",
-        ":result",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_signature(
-    name = "result__sig",
-    src = ":result.mli",
-    opts = OPTS,
-    deps = [
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_module(
-    name = "result",
-    sig = ":result__sig",
-    struct = ":result.ml",
-    opts = OPTS,
-    deps = [
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_signature(
-    name = "seq__sig",
-    src = ":seq.mli",
-    opts = OPTS,
-    deps = [
-        ":monad",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_module(
-    name = "seq",
-    sig = ":seq__sig",
-    struct = ":seq.ml",
-    opts = OPTS,
-    deps = [
-        ":monad",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_signature(
-    name = "seq_e__sig",
-    src = ":seq_e.mli",
-    opts = OPTS,
-    deps = [
-        ":monad",
-        ":result",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_module(
-    name = "seq_e",
-    sig = ":seq_e__sig",
-    struct = ":seq_e.ml",
-    opts = OPTS,
-    deps = [
-        ":monad",
-        ":result",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_signature(
-    name = "seq_es__sig",
-    src = ":seq_es.mli",
-    opts = OPTS,
-    deps = [
-        ":monad",
-        ":seq_e",
-        ":seq_s",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_module(
-    name = "seq_es",
-    sig = ":seq_es__sig",
-    struct = ":seq_es.ml",
-    opts = OPTS,
-    deps = [
-        ":monad",
-        ":seq_e",
-        ":seq_s",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_signature(
-    name = "seq_s__sig",
-    src = ":seq_s.mli",
-    opts = OPTS,
-    deps = [
-        ":monad",
-        ":result",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_module(
-    name = "seq_s",
-    sig = ":seq_s__sig",
-    struct = ":seq_s.ml",
-    opts = OPTS,
-    deps = [
-        ":monad",
-        ":result",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_signature(
-    name = "set__sig",
-    src = ":set.mli",
-    opts = OPTS,
-    deps = [
-        ":seq",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_module(
-    name = "set",
-    sig = ":set__sig",
-    struct = ":set.ml",
-    opts = OPTS,
-    deps = [
-        ":seq",
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_signature(
-    name = "withExceptions__sig",
-    src = ":withExceptions.mli",
-    opts = OPTS,
-    deps = [
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-ocaml_module(
-    name = "withExceptions",
-    sig = ":withExceptions__sig",
-    struct = ":withExceptions.ml",
-    opts = OPTS,
-    deps = [
-        "@lwt//:lwt",
-        "@tezos//src/lib_lwt_result_stdlib/bare/sigs:Bare_sigs",
-    ],
-)
-
-# okapi:auto
-# okapi:public_name tezos-lwt-result-stdlib.bare.structs
 ocaml_ns_archive(
-#ocaml_ns_library(
-    name = "Bare_structs",
-    submodules = [
-        ":hashtbl",
-        ":list",
-        ":map",
-        ":monad",
-        ":option",
-        ":result",
-        ":seq",
-        ":seq_e",
-        ":seq_es",
-        ":seq_s",
-        ":set",
-        ":withExceptions",
-    ],
+    name       = "tezos-lwt-result-stdlib.bare.structs",
+    ns         = "Bare_structs",
     visibility = ["//visibility:public"],
+    submodules = [
+        ":Hashtbl",
+        ":List",
+        ":Map",
+        ":Monad",
+        ":Option",
+        ":Result",
+        ":Seq",
+        ":Seq_e",
+        ":Seq_es",
+        ":Seq_s",
+        ":Set",
+        ":WithExceptions",
+    ],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Hashtbl",
+    struct   = "hashtbl.ml",
+    sig      = ":Hashtbl_cmi",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+       ":Seq",
+       ":Monad",
+    ]
+)
+
+ocaml_signature(
+    name     = "Hashtbl_cmi",
+    src      = "hashtbl.mli",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "List",
+    struct   = "list.ml",
+    sig      = ":List_cmi",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+       ":Monad",
+    ]
+)
+
+ocaml_signature(
+    name     = "List_cmi",
+    src      = "list.mli",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Map",
+    struct   = "map.ml",
+    sig      = ":Map_cmi",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+       ":Seq",
+    ]
+)
+
+ocaml_signature(
+    name     = "Map_cmi",
+    src      = "map.mli",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Monad",
+    struct   = "monad.ml",
+    sig      = ":Monad_cmi",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Monad_cmi",
+    src      = "monad.mli",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Option",
+    struct   = "option.ml",
+    sig      = ":Option_cmi",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+       ":Result",
+       ":Monad",
+    ]
+)
+
+ocaml_signature(
+    name     = "Option_cmi",
+    src      = "option.mli",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Result",
+    struct   = "result.ml",
+    sig      = ":Result_cmi",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Result_cmi",
+    src      = "result.mli",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Seq",
+    struct   = "seq.ml",
+    sig      = ":Seq_cmi",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+       ":Monad",
+    ]
+)
+
+ocaml_signature(
+    name     = "Seq_cmi",
+    src      = "seq.mli",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Seq_e",
+    struct   = "seq_e.ml",
+    sig      = ":Seq_e_cmi",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+       ":Result",
+       ":Monad",
+    ]
+)
+
+ocaml_signature(
+    name     = "Seq_e_cmi",
+    src      = "seq_e.mli",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Seq_es",
+    struct   = "seq_es.ml",
+    sig      = ":Seq_es_cmi",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+       ":Seq_s",
+       ":Seq_e",
+       ":Monad",
+    ]
+)
+
+ocaml_signature(
+    name     = "Seq_es_cmi",
+    src      = "seq_es.mli",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+       ":Seq_s",
+       ":Seq_e",
+    ]
+)
+
+ocaml_module(
+    name     = "Seq_s",
+    struct   = "seq_s.ml",
+    sig      = ":Seq_s_cmi",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+       ":Result",
+       ":Monad",
+    ]
+)
+
+ocaml_signature(
+    name     = "Seq_s_cmi",
+    src      = "seq_s.mli",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Set",
+    struct   = "set.ml",
+    sig      = ":Set_cmi",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+       ":Seq",
+    ]
+)
+
+ocaml_signature(
+    name     = "Set_cmi",
+    src      = "set.mli",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "WithExceptions",
+    struct   = "withExceptions.ml",
+    sig      = ":WithExceptions_cmi",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "WithExceptions_cmi",
+    src      = "withExceptions.mli",
+    deps     = TEZOS_LWT_RESULT_STDLIB_BARE_STRUCTS_DEPS + [
+    ]
+)
+

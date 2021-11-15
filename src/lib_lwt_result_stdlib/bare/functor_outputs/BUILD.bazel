@@ -25,7 +25,8 @@ ocaml_module(
 # okapi:public_name tezos-lwt-result-stdlib.bare.functor-outputs
 ocaml_ns_archive(
 #ocaml_ns_library(
-    name = "Bare_functor_outputs",
+    name = "tezos-lwt-result-stdlib.bare.functor-outputs",
+    ns         = "Bare_functor_outputs",
     submodules = [
         ":hashtbl",
         ":map",

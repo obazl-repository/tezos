@@ -1,711 +1,250 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
-
-ocaml_signature(
-    name = "account__sig",
-    src = ":account.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    deps = [
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
 )
 
-ocaml_module(
-    name = "account",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    sig = ":account__sig",
-    struct = ":account.ml",
-    deps = [
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_module(
-    name = "assert",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    struct = ":assert.ml",
-    deps = [
-        ":context",
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
+######## tezos-alpha-test-helpers ########
+TEZOS_ALPHA_TEST_HELPERS_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_alpha",
+    "-open", "Tezos_micheline",
+    "-open", "Tezos_protocol_alpha",
+    "-open", "Tezos_protocol_environment_alpha",
+    "-open", "Tezos_protocol_plugin_alpha",
+    "-open", "Tezos_shell_services",
+    "-open", "Tezos_stdlib_unix",
+]
 
-ocaml_signature(
-    name = "block__sig",
-    src = ":block.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    deps = [
-        ":account",
-        ":nonce",
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
+TEZOS_ALPHA_TEST_HELPERS_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/proto_alpha/lib_client:tezos-client-alpha",
+    "//src/proto_alpha/lib_parameters:tezos-protocol-alpha-parameters",
+    "//src/proto_alpha/lib_plugin:tezos-protocol-plugin-alpha",
+    "//src/proto_alpha/lib_protocol:tezos-protocol-alpha",
+    "@alcotest-lwt//:alcotest-lwt",
+]
 
-ocaml_module(
-    name = "block",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    sig = ":block__sig",
-    struct = ":block.ml",
-    deps = [
-        ":account",
-        ":nonce",
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
-
-ocaml_signature(
-    name = "context__sig",
-    src = ":context.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    deps = [
-        ":account",
-        ":block",
-        ":incremental",
-        ":test_tez",
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
-
-ocaml_module(
-    name = "context",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    sig = ":context__sig",
-    struct = ":context.ml",
-    deps = [
-        ":account",
-        ":block",
-        ":incremental",
-        ":test_tez",
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
-
-ocaml_module(
-    name = "contract_helpers",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    struct = ":contract_helpers.ml",
-    deps = [
-        ":block",
-        ":context",
-        ":incremental",
-        ":op",
-        ":test_tez",
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
-
-ocaml_module(
-    name = "expr",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    struct = ":expr.ml",
-    deps = [
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
-
-ocaml_signature(
-    name = "incremental__sig",
-    src = ":incremental.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    deps = [
-        ":account",
-        ":block",
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
-
-ocaml_module(
-    name = "incremental",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    sig = ":incremental__sig",
-    struct = ":incremental.ml",
-    deps = [
-        ":account",
-        ":block",
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
-
-ocaml_signature(
-    name = "nonce__sig",
-    src = ":nonce.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    deps = [
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
-
-ocaml_module(
-    name = "nonce",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    sig = ":nonce__sig",
-    struct = ":nonce.ml",
-    deps = [
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
-
-ocaml_signature(
-    name = "op__sig",
-    src = ":op.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    deps = [
-        ":account",
-        ":context",
-        ":nonce",
-        ":test_tez",
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
-
-ocaml_module(
-    name = "op",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    sig = ":op__sig",
-    struct = ":op.ml",
-    deps = [
-        ":account",
-        ":context",
-        ":nonce",
-        ":test_tez",
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
-
-ocaml_module(
-    name = "rewards",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    struct = ":rewards.ml",
-    deps = [
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
-
-ocaml_module(
-    name = "sapling_helpers",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    struct = ":sapling_helpers.ml",
-    deps = [
-        ":block",
-        ":context",
-        ":contract_helpers",
-        ":incremental",
-        ":op",
-        ":test_tez",
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
-
-ocaml_module(
-    name = "test_tez",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    struct = ":test_tez.ml",
-    deps = [
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
-
-ocaml_module(
-    name = "testable",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_protocol_plugin_alpha",
-        "-open",
-        "Tezos_protocol_environment_alpha",
-        "-open",
-        "Tezos_shell_services",
-    ],
-    struct = ":testable.ml",
-    deps = [
-        "@alcotest//:alcotest-lwt",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-        "@tezos//src/proto_alpha/lib_client:Tezos_client_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_plugin:Tezos_protocol_plugin_alpha",
-    ],
-)
-
-# okapi:auto
-# okapi:public_name tezos-alpha-test-helpers
-ocaml_ns_library(
-    name = "Tezos_alpha_test_helpers",
-    submodules = [
-        ":account",
-        ":assert",
-        ":block",
-        ":context",
-        ":contract_helpers",
-        ":expr",
-        ":incremental",
-        ":nonce",
-        ":op",
-        ":rewards",
-        ":sapling_helpers",
-        ":test_tez",
-        ":testable",
-    ],
+ocaml_ns_archive(
+    name       = "tezos-alpha-test-helpers",
+    ns         = "Tezos_alpha_test_helpers",
     visibility = ["//visibility:public"],
+    submodules = [
+        ":Account",
+        ":Assert",
+        ":Block",
+        ":Context",
+        ":Contract_helpers",
+        ":Expr",
+        ":Incremental",
+        ":Nonce",
+        ":Op",
+        ":Rewards",
+        ":Sapling_helpers",
+        ":Test_tez",
+        ":Testable",
+    ],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Account",
+    struct   = "account.ml",
+    sig      = ":Account_cmi",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Account_cmi",
+    src      = "account.mli",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Assert",
+    struct   = "assert.ml",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+       ":Context",
+    ]
+)
+
+ocaml_module(
+    name     = "Block",
+    struct   = "block.ml",
+    sig      = ":Block_cmi",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+       ":Nonce",
+       ":Context",
+       ":Account",
+    ]
+)
+
+ocaml_signature(
+    name     = "Block_cmi",
+    src      = "block.mli",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+       ":Context",
+       ":Account",
+    ]
+)
+
+ocaml_module(
+    name     = "Context",
+    struct   = "context.ml",
+    sig      = ":Context_cmi",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+       ":Test_tez",
+       ":Incremental",
+       ":Context",
+       ":Block",
+       ":Account",
+    ]
+)
+
+ocaml_signature(
+    name     = "Context_cmi",
+    src      = "context.mli",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+       ":Incremental",
+       ":Block",
+       ":Account",
+    ]
+)
+
+ocaml_module(
+    name     = "Contract_helpers",
+    struct   = "contract_helpers.ml",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+       ":Test_tez",
+       ":Op",
+       ":Incremental",
+       ":Context",
+       ":Block",
+    ]
+)
+
+ocaml_module(
+    name     = "Expr",
+    struct   = "expr.ml",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Incremental",
+    struct   = "incremental.ml",
+    sig      = ":Incremental_cmi",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+       ":Block",
+       ":Account",
+    ]
+)
+
+ocaml_signature(
+    name     = "Incremental_cmi",
+    src      = "incremental.mli",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+       ":Block",
+    ]
+)
+
+ocaml_module(
+    name     = "Nonce",
+    struct   = "nonce.ml",
+    sig      = ":Nonce_cmi",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Nonce_cmi",
+    src      = "nonce.mli",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Op",
+    struct   = "op.ml",
+    sig      = ":Op_cmi",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+       ":Test_tez",
+       ":Context",
+       ":Account",
+    ]
+)
+
+ocaml_signature(
+    name     = "Op_cmi",
+    src      = "op.mli",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+       ":Test_tez",
+       ":Nonce",
+       ":Context",
+    ]
+)
+
+ocaml_module(
+    name     = "Rewards",
+    struct   = "rewards.ml",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Sapling_helpers",
+    struct   = "sapling_helpers.ml",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+       ":Test_tez",
+       ":Op",
+       ":Incremental",
+       ":Contract_helpers",
+       ":Context",
+       ":Block",
+    ]
+)
+
+ocaml_module(
+    name     = "Test_tez",
+    struct   = "test_tez.ml",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Testable",
+    struct   = "testable.ml",
+    opts     = TEZOS_ALPHA_TEST_HELPERS_OPTS,
+    deps     = TEZOS_ALPHA_TEST_HELPERS_DEPS + [
+    ]
+)
+

@@ -1,125 +1,79 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
+
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-client-genesis ########
+TEZOS_CLIENT_GENESIS_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_client_commands",
+    "-open", "Tezos_protocol_genesis",
+    "-open", "Tezos_shell_services",
+]
+
+TEZOS_CLIENT_GENESIS_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_client_commands:tezos-client-commands",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_proxy:tezos-proxy",
+    "//src/lib_shell_services:tezos-shell-services",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "//src/proto_genesis/lib_protocol:tezos-protocol-genesis",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-client-genesis",
+    ns         = "Tezos_client_genesis",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Client_proto_main",
+        ":Protocol_client_context",
+        ":Proxy",
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Client_proto_main",
+    struct   = "client_proto_main.ml",
+    sig      = ":Client_proto_main_cmi",
+    opts     = TEZOS_CLIENT_GENESIS_OPTS,
+    deps     = TEZOS_CLIENT_GENESIS_DEPS + [
+       ":Protocol_client_context",
+    ]
+)
 
 ocaml_signature(
-    name = "client_proto_main__sig",
-    src = ":client_proto_main.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_protocol_genesis",
-        "-open",
-        "Tezos_client_commands",
-    ],
-    deps = [
-        ":protocol_client_context",
-        "@ocaml//lib/tezos-protocol-genesis",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_client_commands:Tezos_client_commands",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_proxy:Tezos_proxy",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
+    name     = "Client_proto_main_cmi",
+    src      = "client_proto_main.mli",
+    opts     = TEZOS_CLIENT_GENESIS_OPTS,
+    deps     = TEZOS_CLIENT_GENESIS_DEPS + [
+    ]
 )
 
 ocaml_module(
-    name = "client_proto_main",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_protocol_genesis",
-        "-open",
-        "Tezos_client_commands",
-    ],
-    sig = ":client_proto_main__sig",
-    struct = ":client_proto_main.ml",
-    deps = [
-        ":protocol_client_context",
-        "@ocaml//lib/tezos-protocol-genesis",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_client_commands:Tezos_client_commands",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_proxy:Tezos_proxy",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
+    name     = "Protocol_client_context",
+    struct   = "protocol_client_context.ml",
+    opts     = TEZOS_CLIENT_GENESIS_OPTS,
+    deps     = TEZOS_CLIENT_GENESIS_DEPS + [
+    ]
 )
 
 ocaml_module(
-    name = "protocol_client_context",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_protocol_genesis",
-        "-open",
-        "Tezos_client_commands",
-    ],
-    struct = ":protocol_client_context.ml",
-    deps = [
-        "@ocaml//lib/tezos-protocol-genesis",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_client_commands:Tezos_client_commands",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_proxy:Tezos_proxy",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
+    name     = "Proxy",
+    struct   = "proxy.ml",
+    opts     = TEZOS_CLIENT_GENESIS_OPTS,
+    deps     = TEZOS_CLIENT_GENESIS_DEPS + [
+       ":Protocol_client_context",
+    ]
 )
 
-ocaml_module(
-    name = "proxy",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_shell_services",
-        "-open",
-        "Tezos_client_base",
-        "-open",
-        "Tezos_protocol_genesis",
-        "-open",
-        "Tezos_client_commands",
-    ],
-    struct = ":proxy.ml",
-    deps = [
-        ":protocol_client_context",
-        "@ocaml//lib/tezos-protocol-genesis",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_client_commands:Tezos_client_commands",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_proxy:Tezos_proxy",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-# okapi:auto
-# okapi:public_name tezos-client-genesis
-ocaml_ns_library(
-    name = "Tezos_client_genesis",
-    submodules = [
-        ":client_proto_main",
-        ":protocol_client_context",
-        ":proxy",
-    ],
-    visibility = ["//visibility:public"],
-)

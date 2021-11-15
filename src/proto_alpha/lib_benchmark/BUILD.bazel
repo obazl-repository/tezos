@@ -1,514 +1,179 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library")
-
-ocaml_module(
-    name = "autocomp",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_micheline_rewriting",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_benchmark_type_inference_alpha",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_alpha_test_helpers",
-    ],
-    struct = ":autocomp.ml",
-    deps = [
-        ":kernel",
-        ":michelson_samplers_base",
-        ":michelson_samplers_parameters",
-        ":sampling_helpers",
-        "@ocaml//lib/benchmark-utils",
-        "@ocaml//lib/hashcons",
-        "@ocaml//lib/staTz",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_benchmark/lib_micheline_rewriting:Tezos_micheline_rewriting",
-        "@tezos//src/proto_alpha/lib_benchmark/lib_benchmark_type_inference:Tezos_benchmark_type_inference_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_protocol/test/helpers:Tezos_alpha_test_helpers",
-    ],
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
 )
 
-ocaml_module(
-    name = "execution_context",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_micheline_rewriting",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_benchmark_type_inference_alpha",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_alpha_test_helpers",
-    ],
-    struct = ":execution_context.ml",
-    deps = [
-        "@ocaml//lib/benchmark-utils",
-        "@ocaml//lib/hashcons",
-        "@ocaml//lib/staTz",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_benchmark/lib_micheline_rewriting:Tezos_micheline_rewriting",
-        "@tezos//src/proto_alpha/lib_benchmark/lib_benchmark_type_inference:Tezos_benchmark_type_inference_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_protocol/test/helpers:Tezos_alpha_test_helpers",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_module(
-    name = "generators",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_micheline_rewriting",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_benchmark_type_inference_alpha",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_alpha_test_helpers",
-    ],
-    struct = ":generators.ml",
-    deps = [
-        ":autocomp",
-        ":michelson",
-        ":michelson_samplers_base",
-        ":rules",
-        ":sampler",
-        ":state_space",
-        "@ocaml//lib/benchmark-utils",
-        "@ocaml//lib/hashcons",
-        "@ocaml//lib/staTz",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_benchmark/lib_micheline_rewriting:Tezos_micheline_rewriting",
-        "@tezos//src/proto_alpha/lib_benchmark/lib_benchmark_type_inference:Tezos_benchmark_type_inference_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_protocol/test/helpers:Tezos_alpha_test_helpers",
-    ],
-)
+######## tezos-benchmark-alpha ########
+TEZOS_BENCHMARK_ALPHA_OPTS = [
+    "-open", "Tezos_alpha_test_helpers",
+    "-open", "Tezos_base",
+    "-open", "Tezos_benchmark",
+    "-open", "Tezos_benchmark_type_inference_alpha",
+    "-open", "Tezos_crypto",
+    "-open", "Tezos_error_monad",
+    "-open", "Tezos_micheline",
+    "-open", "Tezos_micheline_rewriting",
+    "-open", "Tezos_protocol_alpha",
+    "-open", "Tezos_stdlib",
+]
 
-ocaml_module(
-    name = "kernel",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_micheline_rewriting",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_benchmark_type_inference_alpha",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_alpha_test_helpers",
-    ],
-    struct = ":kernel.ml",
-    deps = [
-        "@ocaml//lib/benchmark-utils",
-        "@ocaml//lib/hashcons",
-        "@ocaml//lib/staTz",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_benchmark/lib_micheline_rewriting:Tezos_micheline_rewriting",
-        "@tezos//src/proto_alpha/lib_benchmark/lib_benchmark_type_inference:Tezos_benchmark_type_inference_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_protocol/test/helpers:Tezos_alpha_test_helpers",
-    ],
-)
+TEZOS_BENCHMARK_ALPHA_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_benchmark/lib_micheline_rewriting:tezos-micheline-rewriting",
+    "//src/lib_benchmark:tezos-benchmark",
+    "//src/proto_alpha/lib_benchmark/lib_benchmark_type_inference:tezos-benchmark-type-inference-alpha",
+    "//src/proto_alpha/lib_parameters:tezos-protocol-alpha-parameters",
+    "//src/proto_alpha/lib_protocol/test/helpers:tezos-alpha-test-helpers",
+    "//src/proto_alpha/lib_protocol:tezos-protocol-alpha",
+    "//vendors/benchmark-utils:benchmark-utils",
+    "//vendors/statz/lib:staTz",
+    "@hashcons//:hashcons",
+]
 
-ocaml_module(
-    name = "michelson",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_micheline_rewriting",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_benchmark_type_inference_alpha",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_alpha_test_helpers",
-    ],
-    struct = ":michelson.ml",
-    deps = [
-        ":autocomp",
-        ":kernel",
-        "@ocaml//lib/benchmark-utils",
-        "@ocaml//lib/hashcons",
-        "@ocaml//lib/staTz",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_benchmark/lib_micheline_rewriting:Tezos_micheline_rewriting",
-        "@tezos//src/proto_alpha/lib_benchmark/lib_benchmark_type_inference:Tezos_benchmark_type_inference_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_protocol/test/helpers:Tezos_alpha_test_helpers",
-    ],
-)
-
-ocaml_module(
-    name = "michelson_samplers",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_micheline_rewriting",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_benchmark_type_inference_alpha",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_alpha_test_helpers",
-    ],
-    struct = ":michelson_samplers.ml",
-    deps = [
-        ":execution_context",
-        ":michelson_samplers_base",
-        ":michelson_samplers_parameters",
-        ":sampling_helpers",
-        "@ocaml//lib/benchmark-utils",
-        "@ocaml//lib/hashcons",
-        "@ocaml//lib/staTz",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_benchmark/lib_micheline_rewriting:Tezos_micheline_rewriting",
-        "@tezos//src/proto_alpha/lib_benchmark/lib_benchmark_type_inference:Tezos_benchmark_type_inference_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_protocol/test/helpers:Tezos_alpha_test_helpers",
-    ],
-)
-
-ocaml_module(
-    name = "michelson_samplers_base",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_micheline_rewriting",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_benchmark_type_inference_alpha",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_alpha_test_helpers",
-    ],
-    struct = ":michelson_samplers_base.ml",
-    deps = [
-        ":michelson_samplers_parameters",
-        ":sampling_helpers",
-        "@ocaml//lib/benchmark-utils",
-        "@ocaml//lib/hashcons",
-        "@ocaml//lib/staTz",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_benchmark/lib_micheline_rewriting:Tezos_micheline_rewriting",
-        "@tezos//src/proto_alpha/lib_benchmark/lib_benchmark_type_inference:Tezos_benchmark_type_inference_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_protocol/test/helpers:Tezos_alpha_test_helpers",
-    ],
-)
-
-ocaml_module(
-    name = "michelson_samplers_parameters",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_micheline_rewriting",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_benchmark_type_inference_alpha",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_alpha_test_helpers",
-    ],
-    struct = ":michelson_samplers_parameters.ml",
-    deps = [
-        "@ocaml//lib/benchmark-utils",
-        "@ocaml//lib/hashcons",
-        "@ocaml//lib/staTz",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_benchmark/lib_micheline_rewriting:Tezos_micheline_rewriting",
-        "@tezos//src/proto_alpha/lib_benchmark/lib_benchmark_type_inference:Tezos_benchmark_type_inference_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_protocol/test/helpers:Tezos_alpha_test_helpers",
-    ],
-)
-
-ocaml_module(
-    name = "rules",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_micheline_rewriting",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_benchmark_type_inference_alpha",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_alpha_test_helpers",
-    ],
-    struct = ":rules.ml",
-    deps = [
-        ":kernel",
-        ":michelson_samplers_base",
-        ":state_space",
-        "@ocaml//lib/benchmark-utils",
-        "@ocaml//lib/hashcons",
-        "@ocaml//lib/staTz",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_benchmark/lib_micheline_rewriting:Tezos_micheline_rewriting",
-        "@tezos//src/proto_alpha/lib_benchmark/lib_benchmark_type_inference:Tezos_benchmark_type_inference_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_protocol/test/helpers:Tezos_alpha_test_helpers",
-    ],
-)
-
-ocaml_module(
-    name = "sampler",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_micheline_rewriting",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_benchmark_type_inference_alpha",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_alpha_test_helpers",
-    ],
-    struct = ":sampler.ml",
-    deps = [
-        ":kernel",
-        ":rules",
-        ":state_space",
-        "@ocaml//lib/benchmark-utils",
-        "@ocaml//lib/hashcons",
-        "@ocaml//lib/staTz",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_benchmark/lib_micheline_rewriting:Tezos_micheline_rewriting",
-        "@tezos//src/proto_alpha/lib_benchmark/lib_benchmark_type_inference:Tezos_benchmark_type_inference_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_protocol/test/helpers:Tezos_alpha_test_helpers",
-    ],
-)
-
-ocaml_module(
-    name = "sampling_helpers",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_micheline_rewriting",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_benchmark_type_inference_alpha",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_alpha_test_helpers",
-    ],
-    struct = ":sampling_helpers.ml",
-    deps = [
-        "@ocaml//lib/benchmark-utils",
-        "@ocaml//lib/hashcons",
-        "@ocaml//lib/staTz",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_benchmark/lib_micheline_rewriting:Tezos_micheline_rewriting",
-        "@tezos//src/proto_alpha/lib_benchmark/lib_benchmark_type_inference:Tezos_benchmark_type_inference_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_protocol/test/helpers:Tezos_alpha_test_helpers",
-    ],
-)
-
-ocaml_module(
-    name = "state_space",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_micheline",
-        "-open",
-        "Tezos_micheline_rewriting",
-        "-open",
-        "Tezos_benchmark",
-        "-open",
-        "Tezos_benchmark_type_inference_alpha",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_crypto",
-        "-open",
-        "Tezos_alpha_test_helpers",
-    ],
-    struct = ":state_space.ml",
-    deps = [
-        "@ocaml//lib/benchmark-utils",
-        "@ocaml//lib/hashcons",
-        "@ocaml//lib/staTz",
-        "@tezos-protocol-alpha//:tezos-protocol-alpha",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_benchmark:Tezos_benchmark",
-        "@tezos//src/lib_benchmark/lib_micheline_rewriting:Tezos_micheline_rewriting",
-        "@tezos//src/proto_alpha/lib_benchmark/lib_benchmark_type_inference:Tezos_benchmark_type_inference_alpha",
-        "@tezos//src/proto_alpha/lib_parameters:Tezos_protocol_alpha_parameters",
-        "@tezos//src/proto_alpha/lib_protocol/test/helpers:Tezos_alpha_test_helpers",
-    ],
-)
-
-# okapi:auto
-# okapi:public_name tezos-benchmark-alpha
-ocaml_ns_library(
-    name = "Tezos_benchmark_alpha",
-    submodules = [
-        ":autocomp",
-        ":execution_context",
-        ":generators",
-        ":kernel",
-        ":michelson",
-        ":michelson_samplers",
-        ":michelson_samplers_base",
-        ":michelson_samplers_parameters",
-        ":rules",
-        ":sampler",
-        ":sampling_helpers",
-        ":state_space",
-    ],
+ocaml_ns_archive(
+    name       = "tezos-benchmark-alpha",
+    ns         = "Tezos_benchmark_alpha",
     visibility = ["//visibility:public"],
+    submodules = [
+        ":Autocomp",
+        ":Execution_context",
+        ":Generators",
+        ":Kernel",
+        ":Michelson",
+        ":Michelson_samplers",
+        ":Michelson_samplers_base",
+        ":Michelson_samplers_parameters",
+        ":Rules",
+        ":Sampler",
+        ":Sampling_helpers",
+        ":State_space",
+    ],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Autocomp",
+    struct   = "autocomp.ml",
+    opts     = TEZOS_BENCHMARK_ALPHA_OPTS,
+    deps     = TEZOS_BENCHMARK_ALPHA_DEPS + [
+       ":Sampling_helpers",
+       ":Michelson_samplers_parameters",
+       ":Michelson_samplers_base",
+       ":Kernel",
+    ]
+)
+
+ocaml_module(
+    name     = "Execution_context",
+    struct   = "execution_context.ml",
+    opts     = TEZOS_BENCHMARK_ALPHA_OPTS,
+    deps     = TEZOS_BENCHMARK_ALPHA_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Generators",
+    struct   = "generators.ml",
+    opts     = TEZOS_BENCHMARK_ALPHA_OPTS,
+    deps     = TEZOS_BENCHMARK_ALPHA_DEPS + [
+       ":State_space",
+       ":Sampler",
+       ":Rules",
+       ":Michelson_samplers_base",
+       ":Michelson",
+       ":Autocomp",
+    ]
+)
+
+ocaml_module(
+    name     = "Kernel",
+    struct   = "kernel.ml",
+    opts     = TEZOS_BENCHMARK_ALPHA_OPTS,
+    deps     = TEZOS_BENCHMARK_ALPHA_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson",
+    struct   = "michelson.ml",
+    opts     = TEZOS_BENCHMARK_ALPHA_OPTS,
+    deps     = TEZOS_BENCHMARK_ALPHA_DEPS + [
+       ":Kernel",
+       ":Autocomp",
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_samplers",
+    struct   = "michelson_samplers.ml",
+    opts     = TEZOS_BENCHMARK_ALPHA_OPTS,
+    deps     = TEZOS_BENCHMARK_ALPHA_DEPS + [
+       ":Sampling_helpers",
+       ":Michelson_samplers_parameters",
+       ":Michelson_samplers_base",
+       ":Execution_context",
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_samplers_base",
+    struct   = "michelson_samplers_base.ml",
+    opts     = TEZOS_BENCHMARK_ALPHA_OPTS,
+    deps     = TEZOS_BENCHMARK_ALPHA_DEPS + [
+       ":Sampling_helpers",
+       ":Michelson_samplers_parameters",
+    ]
+)
+
+ocaml_module(
+    name     = "Michelson_samplers_parameters",
+    struct   = "michelson_samplers_parameters.ml",
+    opts     = TEZOS_BENCHMARK_ALPHA_OPTS,
+    deps     = TEZOS_BENCHMARK_ALPHA_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Rules",
+    struct   = "rules.ml",
+    opts     = TEZOS_BENCHMARK_ALPHA_OPTS,
+    deps     = TEZOS_BENCHMARK_ALPHA_DEPS + [
+       ":State_space",
+       ":Michelson_samplers_base",
+       ":Kernel",
+    ]
+)
+
+ocaml_module(
+    name     = "Sampler",
+    struct   = "sampler.ml",
+    opts     = TEZOS_BENCHMARK_ALPHA_OPTS,
+    deps     = TEZOS_BENCHMARK_ALPHA_DEPS + [
+       ":State_space",
+       ":Rules",
+       ":Kernel",
+    ]
+)
+
+ocaml_module(
+    name     = "Sampling_helpers",
+    struct   = "sampling_helpers.ml",
+    opts     = TEZOS_BENCHMARK_ALPHA_OPTS,
+    deps     = TEZOS_BENCHMARK_ALPHA_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "State_space",
+    struct   = "state_space.ml",
+    opts     = TEZOS_BENCHMARK_ALPHA_OPTS,
+    deps     = TEZOS_BENCHMARK_ALPHA_DEPS + [
+    ]
+)
+

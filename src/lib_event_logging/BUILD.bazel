@@ -1,54 +1,55 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
 
-ocaml_signature(
-    name = "internal_event__sig",
-    src = ":internal_event.mli",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_error_monad.TzLwtreslib",
-    ],
-    deps = [
-        "@data-encoding//:data-encoding",
-        "@lwt_log//core",
-        "@tezos//src/lib_error_monad:Tezos_error_monad",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-event-logging ########
+TEZOS_EVENT_LOGGING_OPTS = [
+    "-open", "Data_encoding",
+    "-open", "Tezos_error_monad",
+    "-open", "Tezos_error_monad.TzLwtreslib",
+    "-open", "Tezos_stdlib",
+]
+
+TEZOS_EVENT_LOGGING_DEPS = [
+    "//src/lib_error_monad:tezos-error-monad",
+    "//src/lib_lwt_result_stdlib:tezos-lwt-result-stdlib",
+    "//src/lib_stdlib:tezos-stdlib",
+    "@data-encoding//:data-encoding",
+    "@lwt_log//core",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-event-logging",
+    ns         = "Tezos_event_logging",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Internal_event",
     ],
 )
+
+#############################
+####  Singleton Targets  ####
 
 ocaml_module(
-    name = "internal_event",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Data_encoding",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_error_monad.TzLwtreslib",
-    ],
-    sig = ":internal_event__sig",
-    struct = ":internal_event.ml",
-    deps = [
-        "@data-encoding//:data-encoding",
-        "@lwt_log//core",
-        "@tezos//src/lib_error_monad:Tezos_error_monad",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib:Tezos_stdlib",
-    ],
+    name     = "Internal_event",
+    struct   = "internal_event.ml",
+    sig      = ":Internal_event_cmi",
+    opts     = TEZOS_EVENT_LOGGING_OPTS,
+    deps     = TEZOS_EVENT_LOGGING_DEPS + [
+    ]
 )
 
-# okapi:auto
-# okapi:public_name tezos-event-logging
-ocaml_ns_library(
-    name = "Tezos_event_logging",
-    submodules = [":internal_event"],
-    visibility = ["//visibility:public"],
+ocaml_signature(
+    name     = "Internal_event_cmi",
+    src      = "internal_event.mli",
+    opts     = TEZOS_EVENT_LOGGING_OPTS,
+    deps     = TEZOS_EVENT_LOGGING_DEPS + [
+    ]
 )
+

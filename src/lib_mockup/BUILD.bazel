@@ -1,456 +1,265 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
-
-ocaml_signature(
-    name = "mockup_args__sig",
-    src = ":mockup_args.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-    ],
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
 )
 
-ocaml_module(
-    name = "mockup_args",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":mockup_args__sig",
-    struct = ":mockup_args.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_signature(
-    name = "registration__sig",
-    src = ":registration.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = [
-        ":registration_intf",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-    ],
-)
+######## tezos-mockup-registration ########
+TEZOS_MOCKUP_REGISTRATION_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+]
 
-ocaml_module(
-    name = "registration",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":registration__sig",
-    struct = ":registration.ml",
-    deps = [
-        ":registration_intf",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-    ],
-)
+TEZOS_MOCKUP_REGISTRATION_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_shell_services:tezos-shell-services",
+]
 
-ocaml_module(
-    name = "registration_intf",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    struct = ":registration_intf.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-    ],
-)
-
-# okapi:public_name tezos-mockup-registration
-ocaml_ns_library(
-    name = "Tezos_mockup_registration",
-    submodules = [
-        ":mockup_args",
-        ":registration",
-        ":registration_intf",
-    ],
+ocaml_ns_archive(
+    name       = "tezos-mockup-registration",
+    ns         = "Tezos_mockup_registration",
     visibility = ["//visibility:public"],
-)
-
-ocaml_module(
-    name = "RPC_client",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_mockup_registration",
-    ],
-    struct = ":RPC_client.ml",
-    deps = [
-        ":local_services",
-        "@resto-cohttp-self-serving-client//:resto-cohttp-self-serving-client",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_base/unix:Tezos_base_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-        "@tezos//src/lib_mockup_proxy:Tezos_mockup_proxy",
-        "@tezos//src/lib_p2p:Tezos_p2p",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "files__sig",
-    src = ":files.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_mockup_registration",
-    ],
-    deps = [
-        "@resto-cohttp-self-serving-client//:resto-cohttp-self-serving-client",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_base/unix:Tezos_base_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-        "@tezos//src/lib_mockup_proxy:Tezos_mockup_proxy",
-        "@tezos//src/lib_p2p:Tezos_p2p",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "files",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_mockup_registration",
-    ],
-    sig = ":files__sig",
-    struct = ":files.ml",
-    deps = [
-        "@resto-cohttp-self-serving-client//:resto-cohttp-self-serving-client",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_base/unix:Tezos_base_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-        "@tezos//src/lib_mockup_proxy:Tezos_mockup_proxy",
-        "@tezos//src/lib_p2p:Tezos_p2p",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "local_services",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_mockup_registration",
-    ],
-    struct = ":local_services.ml",
-    deps = [
-        ":files",
-        ":persistence",
-        ":registration",
-        ":registration_intf",
-        "@resto-cohttp-self-serving-client//:resto-cohttp-self-serving-client",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_base/unix:Tezos_base_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-        "@tezos//src/lib_mockup_proxy:Tezos_mockup_proxy",
-        "@tezos//src/lib_p2p:Tezos_p2p",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "migration__sig",
-    src = ":migration.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_mockup_registration",
-    ],
-    deps = [
-        ":persistence",
-        "@resto-cohttp-self-serving-client//:resto-cohttp-self-serving-client",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_base/unix:Tezos_base_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-        "@tezos//src/lib_mockup_proxy:Tezos_mockup_proxy",
-        "@tezos//src/lib_p2p:Tezos_p2p",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "migration",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_mockup_registration",
-    ],
-    sig = ":migration__sig",
-    struct = ":migration.ml",
-    deps = [
-        ":persistence",
-        "@resto-cohttp-self-serving-client//:resto-cohttp-self-serving-client",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_base/unix:Tezos_base_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-        "@tezos//src/lib_mockup_proxy:Tezos_mockup_proxy",
-        "@tezos//src/lib_p2p:Tezos_p2p",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_signature(
-    name = "persistence__sig",
-    src = ":persistence.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_mockup_registration",
-    ],
-    deps = [
-        ":files",
-        ":persistence_intf",
-        ":registration",
-        ":registration_intf",
-        "@resto-cohttp-self-serving-client//:resto-cohttp-self-serving-client",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_base/unix:Tezos_base_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-        "@tezos//src/lib_mockup_proxy:Tezos_mockup_proxy",
-        "@tezos//src/lib_p2p:Tezos_p2p",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "persistence",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_mockup_registration",
-    ],
-    sig = ":persistence__sig",
-    struct = ":persistence.ml",
-    deps = [
-        ":files",
-        ":persistence_intf",
-        ":registration",
-        ":registration_intf",
-        "@resto-cohttp-self-serving-client//:resto-cohttp-self-serving-client",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_base/unix:Tezos_base_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-        "@tezos//src/lib_mockup_proxy:Tezos_mockup_proxy",
-        "@tezos//src/lib_p2p:Tezos_p2p",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-ocaml_module(
-    name = "persistence_intf",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_mockup_registration",
-    ],
-    struct = ":persistence_intf.ml",
-    deps = [
-        ":registration",
-        "@resto-cohttp-self-serving-client//:resto-cohttp-self-serving-client",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_base/unix:Tezos_base_unix",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-        "@tezos//src/lib_mockup_proxy:Tezos_mockup_proxy",
-        "@tezos//src/lib_p2p:Tezos_p2p",
-        "@tezos//src/lib_p2p_services:Tezos_p2p_services",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
-)
-
-# okapi:public_name tezos-mockup
-ocaml_ns_library(
-    name = "Tezos_mockup",
     submodules = [
+        ":Mockup_args",
+        ":Registration",
+        ":Registration_intf",
+    ],
+)
+
+######## tezos-mockup ########
+TEZOS_MOCKUP_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_mockup_registration",
+]
+
+TEZOS_MOCKUP_DEPS = [
+    "//src/lib_base/unix:tezos-base.unix",
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_mockup:tezos-mockup-registration",
+    "//src/lib_mockup_proxy:tezos-mockup-proxy",
+    "//src/lib_p2p:tezos-p2p",
+    "//src/lib_p2p_services:tezos-p2p-services",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_rpc:tezos-rpc",
+    "//src/lib_rpc_http:tezos-rpc-http",
+    "//src/lib_rpc_http:tezos-rpc-http-client",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "@resto-cohttp-self-serving-client//:resto-cohttp-self-serving-client",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-mockup",
+    ns         = "Tezos_mockup",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Files",
+        ":Local_services",
+        ":Migration",
+        ":Persistence",
+        ":Persistence_intf",
         ":RPC_client",
-        ":files",
-        ":local_services",
-        ":migration",
-        ":persistence",
-        ":persistence_intf",
     ],
+)
+
+######## tezos-mockup-commands ########
+TEZOS_MOCKUP_COMMANDS_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_mockup",
+    "-open", "Tezos_mockup_registration",
+]
+
+TEZOS_MOCKUP_COMMANDS_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_client_commands:tezos-client-commands",
+    "//src/lib_mockup:tezos-mockup",
+    "//src/lib_mockup:tezos-mockup-registration",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-mockup-commands",
+    ns         = "Tezos_mockup_commands",
     visibility = ["//visibility:public"],
-)
-
-ocaml_signature(
-    name = "mockup_commands__sig",
-    src = ":mockup_commands.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_mockup",
-        "-open",
-        "Tezos_mockup_registration",
-    ],
-    deps = [
-        ":migration",
-        ":registration",
-        ":registration_intf",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_client_commands:Tezos_client_commands",
-        "@tezos//src/lib_mockup:Tezos_mockup",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-    ],
-)
-
-ocaml_module(
-    name = "mockup_commands",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_mockup",
-        "-open",
-        "Tezos_mockup_registration",
-    ],
-    sig = ":mockup_commands__sig",
-    struct = ":mockup_commands.ml",
-    deps = [
-        ":migration",
-        ":registration",
-        ":registration_intf",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_client_commands:Tezos_client_commands",
-        "@tezos//src/lib_mockup:Tezos_mockup",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-    ],
-)
-
-ocaml_signature(
-    name = "mockup_wallet__sig",
-    src = ":mockup_wallet.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_mockup",
-        "-open",
-        "Tezos_mockup_registration",
-    ],
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_client_commands:Tezos_client_commands",
-        "@tezos//src/lib_mockup:Tezos_mockup",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-    ],
-)
-
-ocaml_module(
-    name = "mockup_wallet",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_mockup",
-        "-open",
-        "Tezos_mockup_registration",
-    ],
-    sig = ":mockup_wallet__sig",
-    struct = ":mockup_wallet.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_client_commands:Tezos_client_commands",
-        "@tezos//src/lib_mockup:Tezos_mockup",
-        "@tezos//src/lib_mockup:Tezos_mockup_registration",
-    ],
-)
-
-# okapi:public_name tezos-mockup-commands
-ocaml_ns_library(
-    name = "Tezos_mockup_commands",
     submodules = [
-        ":mockup_commands",
-        ":mockup_wallet",
+        ":Mockup_commands",
+        ":Mockup_wallet",
     ],
-    visibility = ["//visibility:public"],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "RPC_client",
+    struct   = "RPC_client.ml",
+    opts     = TEZOS_MOCKUP_OPTS,
+    deps     = TEZOS_MOCKUP_DEPS + [
+       ":Local_services",
+    ]
+)
+
+ocaml_module(
+    name     = "Files",
+    struct   = "files.ml",
+    sig      = ":Files_cmi",
+    opts     = TEZOS_MOCKUP_OPTS,
+    deps     = TEZOS_MOCKUP_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Files_cmi",
+    src      = "files.mli",
+    opts     = TEZOS_MOCKUP_OPTS,
+    deps     = TEZOS_MOCKUP_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Local_services",
+    struct   = "local_services.ml",
+    opts     = TEZOS_MOCKUP_OPTS,
+    deps     = TEZOS_MOCKUP_DEPS + [
+       ":Registration_intf",
+       ":Registration",
+       ":Persistence",
+       ":Files",
+    ]
+)
+
+ocaml_module(
+    name     = "Migration",
+    struct   = "migration.ml",
+    sig      = ":Migration_cmi",
+    opts     = TEZOS_MOCKUP_OPTS,
+    deps     = TEZOS_MOCKUP_DEPS + [
+       ":Persistence",
+    ]
+)
+
+ocaml_signature(
+    name     = "Migration_cmi",
+    src      = "migration.mli",
+    opts     = TEZOS_MOCKUP_OPTS,
+    deps     = TEZOS_MOCKUP_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Mockup_args",
+    struct   = "mockup_args.ml",
+    sig      = ":Mockup_args_cmi",
+    opts     = TEZOS_MOCKUP_REGISTRATION_OPTS,
+    deps     = TEZOS_MOCKUP_REGISTRATION_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Mockup_args_cmi",
+    src      = "mockup_args.mli",
+    opts     = TEZOS_MOCKUP_REGISTRATION_OPTS,
+    deps     = TEZOS_MOCKUP_REGISTRATION_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Mockup_commands",
+    struct   = "mockup_commands.ml",
+    sig      = ":Mockup_commands_cmi",
+    opts     = TEZOS_MOCKUP_COMMANDS_OPTS,
+    deps     = TEZOS_MOCKUP_COMMANDS_DEPS + [
+       ":Registration_intf",
+       ":Registration",
+       ":Migration",
+    ]
+)
+
+ocaml_signature(
+    name     = "Mockup_commands_cmi",
+    src      = "mockup_commands.mli",
+    opts     = TEZOS_MOCKUP_COMMANDS_OPTS,
+    deps     = TEZOS_MOCKUP_COMMANDS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Mockup_wallet",
+    struct   = "mockup_wallet.ml",
+    sig      = ":Mockup_wallet_cmi",
+    opts     = TEZOS_MOCKUP_COMMANDS_OPTS,
+    deps     = TEZOS_MOCKUP_COMMANDS_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Mockup_wallet_cmi",
+    src      = "mockup_wallet.mli",
+    opts     = TEZOS_MOCKUP_COMMANDS_OPTS,
+    deps     = TEZOS_MOCKUP_COMMANDS_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Persistence",
+    struct   = "persistence.ml",
+    sig      = ":Persistence_cmi",
+    opts     = TEZOS_MOCKUP_OPTS,
+    deps     = TEZOS_MOCKUP_DEPS + [
+       ":Registration_intf",
+       ":Registration",
+       ":Files",
+    ]
+)
+
+ocaml_signature(
+    name     = "Persistence_cmi",
+    src      = "persistence.mli",
+    opts     = TEZOS_MOCKUP_OPTS,
+    deps     = TEZOS_MOCKUP_DEPS + [
+       ":Registration_intf",
+       ":Persistence_intf",
+    ]
+)
+
+ocaml_module(
+    name     = "Persistence_intf",
+    struct   = "persistence_intf.ml",
+    opts     = TEZOS_MOCKUP_OPTS,
+    deps     = TEZOS_MOCKUP_DEPS + [
+       ":Registration",
+    ]
+)
+
+ocaml_module(
+    name     = "Registration",
+    struct   = "registration.ml",
+    sig      = ":Registration_cmi",
+    opts     = TEZOS_MOCKUP_REGISTRATION_OPTS,
+    deps     = TEZOS_MOCKUP_REGISTRATION_DEPS + [
+       ":Registration_intf",
+    ]
+)
+
+ocaml_signature(
+    name     = "Registration_cmi",
+    src      = "registration.mli",
+    opts     = TEZOS_MOCKUP_REGISTRATION_OPTS,
+    deps     = TEZOS_MOCKUP_REGISTRATION_DEPS + [
+       ":Registration_intf",
+    ]
+)
+
+ocaml_module(
+    name     = "Registration_intf",
+    struct   = "registration_intf.ml",
+    opts     = TEZOS_MOCKUP_REGISTRATION_OPTS,
+    deps     = TEZOS_MOCKUP_REGISTRATION_DEPS + [
+    ]
+)
+

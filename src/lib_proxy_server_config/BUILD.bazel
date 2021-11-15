@@ -1,36 +1,49 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
 
-ocaml_signature(
-    name = "proxy_server_config__sig",
-    src = ":proxy_server_config.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-proxy-server-config ########
+TEZOS_PROXY_SERVER_CONFIG_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+]
+
+TEZOS_PROXY_SERVER_CONFIG_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-proxy-server-config",
+    ns         = "Tezos_proxy_server_config",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Proxy_server_config",
     ],
 )
+
+#############################
+####  Singleton Targets  ####
 
 ocaml_module(
-    name = "proxy_server_config",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":proxy_server_config__sig",
-    struct = ":proxy_server_config.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
+    name     = "Proxy_server_config",
+    struct   = "proxy_server_config.ml",
+    sig      = ":Proxy_server_config_cmi",
+    opts     = TEZOS_PROXY_SERVER_CONFIG_OPTS,
+    deps     = TEZOS_PROXY_SERVER_CONFIG_DEPS + [
+    ]
 )
 
-# okapi:auto
-# okapi:public_name tezos-proxy-server-config
-ocaml_ns_library(
-    name = "Tezos_proxy_server_config",
-    submodules = [":proxy_server_config"],
-    visibility = ["//visibility:public"],
+ocaml_signature(
+    name     = "Proxy_server_config_cmi",
+    src      = "proxy_server_config.mli",
+    opts     = TEZOS_PROXY_SERVER_CONFIG_OPTS,
+    deps     = TEZOS_PROXY_SERVER_CONFIG_DEPS + [
+    ]
 )
+

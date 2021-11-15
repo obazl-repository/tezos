@@ -1,52 +1,54 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
 
-ocaml_signature(
-    name = "scriptable__sig",
-    src = ":scriptable.mli",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_clic",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_error_monad.TzLwtreslib",
-    ],
-    deps = [
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_error_monad:Tezos_error_monad",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-clic.unix ########
+TEZOS_CLIC_UNIX_OPTS = [
+    "-open", "Tezos_clic",
+    "-open", "Tezos_error_monad",
+    "-open", "Tezos_error_monad.TzLwtreslib",
+    "-open", "Tezos_stdlib",
+]
+
+TEZOS_CLIC_UNIX_DEPS = [
+    "//src/lib_clic:tezos-clic",
+    "//src/lib_error_monad:tezos-error-monad",
+    "//src/lib_lwt_result_stdlib:tezos-lwt-result-stdlib",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-clic.unix",
+    ns         = "Tezos_clic_unix",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Scriptable",
     ],
 )
+
+#############################
+####  Singleton Targets  ####
 
 ocaml_module(
-    name = "scriptable",
-    opts = [
-        "-open",
-        "Tezos_stdlib",
-        "-open",
-        "Tezos_clic",
-        "-open",
-        "Tezos_error_monad",
-        "-open",
-        "Tezos_error_monad.TzLwtreslib",
-    ],
-    sig = ":scriptable__sig",
-    struct = ":scriptable.ml",
-    deps = [
-        "@tezos//src/lib_clic:Tezos_clic",
-        "@tezos//src/lib_error_monad:Tezos_error_monad",
-        "@tezos//src/lib_lwt_result_stdlib:Tezos_lwt_result_stdlib",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
+    name     = "Scriptable",
+    struct   = "scriptable.ml",
+    sig      = ":Scriptable_cmi",
+    opts     = TEZOS_CLIC_UNIX_OPTS,
+    deps     = TEZOS_CLIC_UNIX_DEPS + [
+    ]
 )
 
-# okapi:auto
-# okapi:public_name tezos-clic.unix
-ocaml_ns_library(
-    name = "Tezos_clic_unix",
-    submodules = [":scriptable"],
-    visibility = ["//visibility:public"],
+ocaml_signature(
+    name     = "Scriptable_cmi",
+    src      = "scriptable.mli",
+    opts     = TEZOS_CLIC_UNIX_OPTS,
+    deps     = TEZOS_CLIC_UNIX_DEPS + [
+    ]
 )
+

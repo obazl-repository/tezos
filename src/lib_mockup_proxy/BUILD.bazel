@@ -1,45 +1,54 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
 
-ocaml_signature(
-    name = "RPC_client__sig",
-    src = ":RPC_client.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    deps = [
-        "@resto-cohttp-self-serving-client//:resto-cohttp-self-serving-client",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-mockup-proxy ########
+TEZOS_MOCKUP_PROXY_OPTS = [
+    "-open", "Tezos_base__TzPervasives",
+]
+
+TEZOS_MOCKUP_PROXY_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_protocol_environment:tezos-protocol-environment",
+    "//src/lib_rpc_http:tezos-rpc-http",
+    "//src/lib_rpc_http:tezos-rpc-http-client",
+    "//src/lib_shell_services:tezos-shell-services",
+    "@resto-cohttp-self-serving-client//:resto-cohttp-self-serving-client",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-mockup-proxy",
+    ns         = "Tezos_mockup_proxy",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":RPC_client",
     ],
 )
+
+#############################
+####  Singleton Targets  ####
 
 ocaml_module(
-    name = "RPC_client",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-    ],
-    sig = ":RPC_client__sig",
-    struct = ":RPC_client.ml",
-    deps = [
-        "@resto-cohttp-self-serving-client//:resto-cohttp-self-serving-client",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_protocol_environment:lib-tezos_protocol_environment",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http",
-        "@tezos//src/lib_rpc_http:Tezos_rpc_http_client",
-        "@tezos//src/lib_shell_services:Tezos_shell_services",
-    ],
+    name     = "RPC_client",
+    struct   = "RPC_client.ml",
+    sig      = ":RPC_client_cmi",
+    opts     = TEZOS_MOCKUP_PROXY_OPTS,
+    deps     = TEZOS_MOCKUP_PROXY_DEPS + [
+    ]
 )
 
-# okapi:public_name tezos-mockup-proxy
-ocaml_ns_library(
-    name = "Tezos_mockup_proxy",
-    submodules = [":RPC_client"],
-    visibility = ["//visibility:public"],
+ocaml_signature(
+    name     = "RPC_client_cmi",
+    src      = "RPC_client.mli",
+    opts     = TEZOS_MOCKUP_PROXY_OPTS,
+    deps     = TEZOS_MOCKUP_PROXY_DEPS + [
+    ]
 )
+

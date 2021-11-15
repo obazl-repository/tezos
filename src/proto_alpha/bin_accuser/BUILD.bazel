@@ -1,36 +1,44 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
+
+##############################
+####  Executable Targets  ####
+TEZOS_ACCUSER_ALPHA_OPTS = [
+    "-open", "Tezos_baking_alpha_commands",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_alpha",
+    "-open", "Tezos_client_base_unix",
+    "-open", "Tezos_client_commands",
+    "-open", "Tezos_protocol_alpha",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_ACCUSER_ALPHA_DEPS = [
+    "//src/lib_client_base_unix:tezos-client-base-unix",
+    "//src/lib_client_commands:tezos-client-commands",
+    "//src/proto_alpha/lib_delegate:tezos-baking-alpha-commands",
+]
+
+#################
+ocaml_executable(
+    name    = "tezos-accuser-alpha.exe",
+    visibility = ["//visibility:public"],
+    exe     = "main_accuser_alpha",
+    main    = ":Main_accuser_alpha",
+    deps = TEZOS_ACCUSER_ALPHA_DEPS + [
+    ],
+)
+
+#############################
+####  Singleton Targets  ####
 
 ocaml_module(
-    name = "main_accuser_alpha",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_protocol_alpha",
-        "-open",
-        "Tezos_client_alpha",
-        "-open",
-        "Tezos_client_commands",
-        "-open",
-        "Tezos_baking_alpha_commands",
-        "-open",
-        "Tezos_stdlib_unix",
-        "-open",
-        "Tezos_client_base_unix",
-    ],
-    struct = ":main_accuser_alpha.ml",
-    deps = [
-        "@tezos//src/lib_client_base_unix:Tezos_client_base_unix",
-        "@tezos//src/lib_client_commands:Tezos_client_commands",
-        "@tezos//src/proto_alpha/lib_delegate:Tezos_baking_alpha_commands",
-    ],
+    name     = "Main_accuser_alpha",
+    struct   = "main_accuser_alpha.ml",
+    opts     = TEZOS_ACCUSER_ALPHA_OPTS,
+    deps     = TEZOS_ACCUSER_ALPHA_DEPS + [
+    ]
 )
 
-# okapi:auto
-# okapi:public_name tezos-accuser-alpha
-ocaml_executable(
-    name = "exe-tezos-accuser-alpha",
-    main = "main_accuser_alpha",
-    visibility = ["//visibility:public"],
-    deps = [":main_accuser_alpha"],
-)

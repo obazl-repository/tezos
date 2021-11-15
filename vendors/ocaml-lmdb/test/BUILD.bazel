@@ -1,21 +1,51 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_executable", "ocaml_module")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_executable",
+    "ocaml_module",
+)
 
-ocaml_module(
-    name = "test",
-    struct = ":test.ml",
-    deps = [
-        "@alcotest//:alcotest",
-        "@cstruct//:cstruct",
-        "@rresult//:rresult",
-        "@tezos//vendors/ocaml-lmdb/src:lib-tezos-lmdb",
+##############################
+####  Executable Targets  ####
+TEST_DEPS = [
+    "//vendors/ocaml-lmdb/src:tezos-lmdb",
+    "@alcotest//:alcotest",
+    "@cstruct//:cstruct",
+    "@rresult//:rresult",
+]
+
+#################
+ocaml_executable(
+    name    = "test.exe",
+    visibility = ["//visibility:public"],
+    exe     = "test",
+    main    = ":Test",
+    deps = TEST_DEPS + [
     ],
 )
 
-# okapi:auto
-# okapi:public_name test
-ocaml_executable(
-    name = "exe-test",
-    main = "test",
-    visibility = ["//visibility:public"],
-    deps = [":test"],
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Test",
+    struct   = "test.ml",
+    deps     = TEST_DEPS + [
+    ]
 )
+
+######## run cmd ########
+genrule(
+    name = "__runtest",
+    outs  = [
+        "runtest"
+    ],
+    tools  = ["////vendors/ocaml-lmdb/test:test.exe"],
+    cmd  = (),
+    srcs  = [
+    ],
+)
+## (
+##   (:out runtest)
+##   (:cmd ((:tool %{exe:test.exe}) (:deps ()) (:args ()) (:foo #t) (:raw ((run %{exe:test.exe})))))
+##   (:vars #f)
+##   (:raw (rule (targets runtest) (package tezos-lmdb) (action (run %{exe:test.exe}))))
+## )

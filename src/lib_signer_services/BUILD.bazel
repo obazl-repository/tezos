@@ -1,90 +1,71 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
-
-ocaml_signature(
-    name = "signer_messages__sig",
-    src = ":signer_messages.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_client_base",
-        "-linkall",
-    ],
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-    ],
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
 )
 
-ocaml_module(
-    name = "signer_messages",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_client_base",
-        "-linkall",
-    ],
-    sig = ":signer_messages__sig",
-    struct = ":signer_messages.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-    ],
-)
+###############################################
+########### Archive/Library Targets ###########
 
-ocaml_signature(
-    name = "signer_services__sig",
-    src = ":signer_services.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_client_base",
-        "-linkall",
-    ],
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-    ],
-)
+######## tezos-signer-services ########
+TEZOS_SIGNER_SERVICES_OPTS = [
+    "-linkall",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_client_base",
+    "-open", "Tezos_rpc",
+]
 
-ocaml_module(
-    name = "signer_services",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_rpc",
-        "-open",
-        "Tezos_client_base",
-        "-linkall",
-    ],
-    sig = ":signer_services__sig",
-    struct = ":signer_services.ml",
-    deps = [
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_client_base:Tezos_client_base",
-        "@tezos//src/lib_rpc:Tezos_rpc",
-    ],
-)
+TEZOS_SIGNER_SERVICES_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_client_base:tezos-client-base",
+    "//src/lib_rpc:tezos-rpc",
+]
 
-# okapi:auto
-# okapi:public_name tezos-signer-services
-ocaml_ns_library(
-    name = "Tezos_signer_services",
-    submodules = [
-        ":signer_messages",
-        ":signer_services",
-    ],
+ocaml_ns_archive(
+    name       = "tezos-signer-services",
+    ns         = "Tezos_signer_services",
     visibility = ["//visibility:public"],
+    submodules = [
+        ":Signer_messages",
+        ":Signer_services",
+    ],
 )
+
+#############################
+####  Singleton Targets  ####
+
+ocaml_module(
+    name     = "Signer_messages",
+    struct   = "signer_messages.ml",
+    sig      = ":Signer_messages_cmi",
+    opts     = TEZOS_SIGNER_SERVICES_OPTS,
+    deps     = TEZOS_SIGNER_SERVICES_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Signer_messages_cmi",
+    src      = "signer_messages.mli",
+    opts     = TEZOS_SIGNER_SERVICES_OPTS,
+    deps     = TEZOS_SIGNER_SERVICES_DEPS + [
+    ]
+)
+
+ocaml_module(
+    name     = "Signer_services",
+    struct   = "signer_services.ml",
+    sig      = ":Signer_services_cmi",
+    opts     = TEZOS_SIGNER_SERVICES_OPTS,
+    deps     = TEZOS_SIGNER_SERVICES_DEPS + [
+    ]
+)
+
+ocaml_signature(
+    name     = "Signer_services_cmi",
+    src      = "signer_services.mli",
+    opts     = TEZOS_SIGNER_SERVICES_OPTS,
+    deps     = TEZOS_SIGNER_SERVICES_DEPS + [
+    ]
+)
+

@@ -1,46 +1,52 @@
-load("@obazl_rules_ocaml//ocaml:rules.bzl", "ocaml_module", "ocaml_ns_library", "ocaml_signature")
+load("@obazl_rules_ocaml//ocaml:rules.bzl",
+    "ocaml_archive",
+    "ocaml_module",
+    "ocaml_ns_archive",
+    "ocaml_signature",
+)
 
-ocaml_signature(
-    name = "worker__sig",
-    src = ":worker.mli",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    deps = [
-        "@ringo//:ringo",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
+###############################################
+########### Archive/Library Targets ###########
+
+######## tezos-workers ########
+TEZOS_WORKERS_OPTS = [
+    "-open", "Tezos_base",
+    "-open", "Tezos_base__TzPervasives",
+    "-open", "Tezos_stdlib_unix",
+]
+
+TEZOS_WORKERS_DEPS = [
+    "//src/lib_base:tezos-base",
+    "//src/lib_stdlib_unix:tezos-stdlib-unix",
+    "@ringo//:ringo",
+]
+
+ocaml_ns_archive(
+    name       = "tezos-workers",
+    ns         = "Tezos_workers",
+    visibility = ["//visibility:public"],
+    submodules = [
+        ":Worker",
     ],
 )
+
+#############################
+####  Singleton Targets  ####
 
 ocaml_module(
-    name = "worker",
-    opts = [
-        "-open",
-        "Tezos_base__TzPervasives",
-        "-open",
-        "Tezos_base",
-        "-open",
-        "Tezos_stdlib_unix",
-    ],
-    sig = ":worker__sig",
-    struct = ":worker.ml",
-    deps = [
-        "@ringo//:ringo",
-        "@tezos//src/lib_base:Tezos_base",
-        "@tezos//src/lib_stdlib_unix:Tezos_stdlib_unix",
-    ],
+    name     = "Worker",
+    struct   = "worker.ml",
+    sig      = ":Worker_cmi",
+    opts     = TEZOS_WORKERS_OPTS,
+    deps     = TEZOS_WORKERS_DEPS + [
+    ]
 )
 
-# okapi:auto
-# okapi:public_name tezos-workers
-ocaml_ns_library(
-    name = "Tezos_workers",
-    submodules = [":worker"],
-    visibility = ["//visibility:public"],
+ocaml_signature(
+    name     = "Worker_cmi",
+    src      = "worker.mli",
+    opts     = TEZOS_WORKERS_OPTS,
+    deps     = TEZOS_WORKERS_DEPS + [
+    ]
 )
+
