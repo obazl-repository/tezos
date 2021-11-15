@@ -63,8 +63,8 @@ new_local_pkg_repository(
     build_file = "@//bzl:tezos-rust-libs.BUILD"
 )
 
-## local opam pkg repos. enable this after running
-## bazel run @opam//update
+## local opam pkg repos.
+## enable this AFTER running 'bazel run @opam//update'
 
-load("//.opam:opam_repos.bzl", "fetch")
+load("//.opam.d:opam_repos.bzl", "fetch")
 fetch()
